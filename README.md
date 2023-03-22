@@ -11,11 +11,10 @@ npm install react-native-datetime-picker
 ## Usage
 
 ```js
-import { multiply } from 'react-native-datetime-picker';
+import DateTimePicker from 'react-native-datetime-picker';
 
 // ...
 
-const result = await multiply(3, 7);
 ```
 
 ## Contributing
