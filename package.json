@@ -1,7 +1,7 @@
 {
   "name": "react-native-datetime-picker",
-  "version": "0.1.0",
-  "description": "test",
+  "version": "1.0.0",
+  "description": "Customizable datetime picker for React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/index.d.ts",
