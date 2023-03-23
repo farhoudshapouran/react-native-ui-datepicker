@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "react-native-datetime-picker": ["./src/index"]
+      "react-native-ui-datepicker": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

@@ -1,17 +1,17 @@
-# react-native-datetime-picker
+# rreact-native-ui-datepicker
 
 Customizable datetime picker for React Native
 
 ## Installation
 
 ```sh
-npm install react-native-datetime-picker
+npm install react-native-ui-datepicker
 ```
 
 ## Usage
 
 ```js
-import DateTimePicker from 'react-native-datetime-picker';
+import DateTimePicker from 'react-native-ui-datepicker';
 
 // ...
 

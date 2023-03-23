@@ -1,5 +1,5 @@
 {
-  "name": "react-native-datetime-picker",
+  "name": "react-native-ui-datepicker",
   "version": "1.0.0",
   "description": "Customizable datetime picker for React Native",
   "main": "lib/commonjs/index",
@@ -40,13 +40,13 @@
     "ios",
     "android"
   ],
-  "repository": "https://github.com/farhoodme/react-native-datetime-picker",
+  "repository": "https://github.com/farhoodme/react-native-ui-datepicker",
   "author": "Farhood Shapouran <shapouran@gmail.com> (https://github.com/farhoodme)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/farhoodme/react-native-datetime-picker/issues"
+    "url": "https://github.com/farhoodme/react-native-ui-datepicker/issues"
   },
-  "homepage": "https://github.com/farhoodme/react-native-datetime-picker#readme",
+  "homepage": "https://github.com/farhoodme/react-native-ui-datepicker#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },

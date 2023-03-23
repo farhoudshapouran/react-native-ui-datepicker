@@ -20,10 +20,8 @@ const DaySelector = () => {
     <View style={styles.container}>
       <View style={[styles.weekDaysContainer, theme?.weekDaysContainerStyle]}>
         {utils.getWeekdaysMin().map((item, index) => (
-          <View style={styles.weekDayCell}>
-            <Text key={index} style={theme?.weekDaysTextStyle}>
-              {item}
-            </Text>
+          <View key={index} style={styles.weekDayCell}>
+            <Text style={theme?.weekDaysTextStyle}>{item}</Text>
           </View>
         ))}
       </View>
