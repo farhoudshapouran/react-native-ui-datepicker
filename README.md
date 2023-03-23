@@ -12,6 +12,12 @@ A UI DatePicker component for React Native that allows you creating customizable
 npm install react-native-ui-datepicker
 ```
 
+Or
+
+```sh
+yarn add react-native-ui-datepicker
+```
+
 ## Usage
 
 ```js
