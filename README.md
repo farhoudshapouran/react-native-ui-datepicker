@@ -59,7 +59,12 @@ For more, take a look at the `/example` directory.
 | maximumDate              | `DateType`      | `null`          | Defines DatePicker maximum selectable date                                             |
 | displayFullDays          | `boolean`       | `false`         | Defines show prev and next month days in current month view                            |
 | headerContainerStyle     | `ViewStyle`     | `null`          | Defines calendar header container style                                                |
-| headerButtonsPosition    | `string`        | `'around'`      | Defines the DatePicker prev and next buttons positions `['around', 'right', 'left']`   |
+| headerTextContainerStyle | `ViewStyle`     | `null`          | Defines calendar header texts (Month, Year, Time) containers style                     |
+| headerTextStyle          | `ViewStyle`     | `null`          | Defines calendar header texts styles (Month, Year, Time)                               |
+| headerButtonStyle        | `ViewStyle`     | `null`          | Defines calendar header "prev and next buttons" containers style                       |
+| headerButtonColor        | `string`        | `null`          | Defines calendar header "prev and next buttons" icon color                             |
+| headerButtonSize         | `number`        | `18`            | Defines calendar header "prev and next buttons" icon size                              |
+| headerButtonsPosition    | `string`        | `'around'`      | Defines calendar header "prev and next buttons" positions `['around', 'right', 'left']`|
 
 
 ## Contributing
