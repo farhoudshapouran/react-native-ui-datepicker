@@ -9,7 +9,7 @@
 UI DatePicker component for React Native that allows you creating customizable date and time picker. The component use [Day.js](https://day.js.org/) library and it contains a set of style props that allows you to change every items of calendar based on your own ui design.
 
 <p align="center">
-![react-native-ui-datepicker-example](https://user-images.githubusercontent.com/7857656/227256561-c065780b-f446-42b5-895f-c4853388a03b.gif)
+<img src="/.github/images/react-native-ui-datepicker-example.gif" height="500" />
 </p>
 
 ## Installation
