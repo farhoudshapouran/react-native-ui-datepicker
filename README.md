@@ -45,19 +45,16 @@ const styles = StyleSheet.create({
 });
 ```
 
-## A complete example
-
-```js
-```
-
 For more, take a look at the `/example` directory.
 
 ## Available props
 
-| Name                  | Type                                      | Required | Default value | Description                                            |
-| --------------------- | ----------------------------------------- | -------- | ------------- | ------------------------------------------------------ |
-| value                 | `string` or `number` or `Date` or `Dayjs` | yes      | `Dayjs`       | DateTimePicker value to display selected date          |
-| onValueChange         | `func`                                    | no       | `() => {}`    | Called when the new date selected from DatePicker      |
+| Name                 | Type                                      |   Default    | Description                                                         |
+| -------------------- | ----------------------------------------- | ------------ | ------------------------------------------------------------------- |
+| value                | `string` or `number` or `Date` or `Dayjs` | `Dayjs`      | DateTimePicker value to display selected date                       |
+| onValueChange        | `func`                                    | `() => {}`   | Called when the new date selected from DatePicker                   |
+| mode                 | `string`                                  | `'datetime'` | Defines the DatePicker mode `['datetime', 'date', 'time']`          |
+| locale               | `string`                                  | `'en'`       | Defines the DatePicker locale                                       |
 
 
 ## Contributing
