@@ -79,9 +79,14 @@ For more, take a look at the `/example` directory.
 | timePickerTextStyle      | `TextStyle`     | `null`          | Defines time picker (Hours, Minutes) texts style  |
 
 
+
 ## Contributing
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
+
+## Consider supporting with a ⭐️ [Star on GitHub](https://github.com/farhoodme/react-native-ui-datepicker)
+
+If you are using the library in one of your projects, please consider supporting with a star.
 
 ## License
 
