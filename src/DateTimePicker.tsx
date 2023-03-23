@@ -29,6 +29,8 @@ const DateTimePicker = ({
   maximumDate = null,
   onValueChange = () => {},
   displayFullDays = false,
+  headerButtonsPosition = 'around',
+  headerContainerStyle,
   headerTextContainerStyle,
   headerTextStyle,
   headerButtonStyle,
@@ -53,6 +55,8 @@ const DateTimePicker = ({
     displayFullDays,
   });
   const theme = {
+    headerButtonsPosition,
+    headerContainerStyle,
     headerTextContainerStyle,
     headerTextStyle,
     headerButtonStyle,

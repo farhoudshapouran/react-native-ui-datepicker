@@ -6,6 +6,8 @@ export type DateType = string | number | Date | Dayjs | null;
 
 export type CalendarModes = 'datetime' | 'date' | 'time';
 
+export type HeaderButtonPositions = 'around' | 'right' | 'left';
+
 export type CalendarState = {
   calendarView: CalendarViews;
   selectedDate: DateType;
@@ -19,6 +21,8 @@ export type CalendarAction = {
 };
 
 export type CalendarTheme = {
+  headerButtonsPosition?: HeaderButtonPositions;
+  headerContainerStyle?: ViewStyle;
   headerTextContainerStyle?: ViewStyle;
   headerTextStyle?: TextStyle;
   headerButtonStyle?: ViewStyle;

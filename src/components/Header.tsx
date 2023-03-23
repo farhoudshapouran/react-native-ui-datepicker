@@ -19,8 +19,8 @@ const Header = () => {
     theme,
   } = useCalendarContext();
 
-  return (
-    <View style={styles.container}>
+  const renderPrevButton = () => {
+    return (
       <TouchableOpacity
         onPress={() =>
           calendarView === CalendarViews.day
@@ -30,7 +30,9 @@ const Header = () => {
             : calendarView === CalendarViews.year && onChangeYear(-12)
         }
       >
-        <View style={[styles.iconContainer, theme?.headerButtonStyle]}>
+        <View
+          style={[styles.iconContainer, styles.prev, theme?.headerButtonStyle]}
+        >
           <Image
             source={arrow_left}
             style={{
@@ -41,58 +43,11 @@ const Header = () => {
           />
         </View>
       </TouchableOpacity>
-      <View style={styles.selectorContainer}>
-        <TouchableOpacity
-          onPress={() =>
-            setCalendarView(
-              calendarView === CalendarViews.month
-                ? CalendarViews.day
-                : CalendarViews.month
-            )
-          }
-        >
-          <View style={[styles.textContainer, theme?.headerTextContainerStyle]}>
-            <Text style={[styles.text, theme?.headerTextStyle]}>
-              {dayjs(currentDate).format('MMMM')}
-            </Text>
-          </View>
-        </TouchableOpacity>
+    );
+  };
 
-        <TouchableOpacity
-          onPress={() =>
-            setCalendarView(
-              calendarView === CalendarViews.year
-                ? CalendarViews.day
-                : CalendarViews.year
-            )
-          }
-        >
-          <View style={[styles.textContainer, theme?.headerTextContainerStyle]}>
-            <Text style={[styles.text, theme?.headerTextStyle]}>
-              {calendarView === CalendarViews.year
-                ? dayjs(selectedDate).format('YYYY')
-                : dayjs(currentDate).format('YYYY')}
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-      {mode === 'datetime' ? (
-        <TouchableOpacity
-          onPress={() =>
-            setCalendarView(
-              calendarView === CalendarViews.time
-                ? CalendarViews.day
-                : CalendarViews.time
-            )
-          }
-        >
-          <View style={[styles.textContainer, theme?.headerTextContainerStyle]}>
-            <Text style={[styles.text, theme?.headerTextStyle]}>
-              {dayjs(selectedDate).format('HH:mm')}
-            </Text>
-          </View>
-        </TouchableOpacity>
-      ) : null}
+  const renderNextButton = () => {
+    return (
       <TouchableOpacity
         onPress={() =>
           calendarView === CalendarViews.day
@@ -102,7 +57,9 @@ const Header = () => {
             : calendarView === CalendarViews.year && onChangeYear(12)
         }
       >
-        <View style={[styles.iconContainer, theme?.headerButtonStyle]}>
+        <View
+          style={[styles.iconContainer, styles.next, theme?.headerButtonStyle]}
+        >
           <Image
             source={arrow_right}
             style={{
@@ -113,14 +70,109 @@ const Header = () => {
           />
         </View>
       </TouchableOpacity>
+    );
+  };
+
+  const renderSelectors = () => {
+    return (
+      <>
+        <View style={styles.selectorContainer}>
+          <TouchableOpacity
+            onPress={() =>
+              setCalendarView(
+                calendarView === CalendarViews.month
+                  ? CalendarViews.day
+                  : CalendarViews.month
+              )
+            }
+          >
+            <View
+              style={[styles.textContainer, theme?.headerTextContainerStyle]}
+            >
+              <Text style={[styles.text, theme?.headerTextStyle]}>
+                {dayjs(currentDate).format('MMMM')}
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() =>
+              setCalendarView(
+                calendarView === CalendarViews.year
+                  ? CalendarViews.day
+                  : CalendarViews.year
+              )
+            }
+          >
+            <View
+              style={[styles.textContainer, theme?.headerTextContainerStyle]}
+            >
+              <Text style={[styles.text, theme?.headerTextStyle]}>
+                {calendarView === CalendarViews.year
+                  ? dayjs(selectedDate).format('YYYY')
+                  : dayjs(currentDate).format('YYYY')}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+        {mode === 'datetime' ? (
+          <TouchableOpacity
+            onPress={() =>
+              setCalendarView(
+                calendarView === CalendarViews.time
+                  ? CalendarViews.day
+                  : CalendarViews.time
+              )
+            }
+          >
+            <View
+              style={[styles.textContainer, theme?.headerTextContainerStyle]}
+            >
+              <Text style={[styles.text, theme?.headerTextStyle]}>
+                {dayjs(selectedDate).format('HH:mm')}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        ) : null}
+      </>
+    );
+  };
+
+  return (
+    <View style={[styles.headerContainer, theme?.headerContainerStyle]}>
+      {theme?.headerButtonsPosition === 'left' ? (
+        <View style={styles.container}>
+          <View style={styles.row}>
+            {renderPrevButton()}
+            {renderNextButton()}
+          </View>
+          {renderSelectors()}
+        </View>
+      ) : theme?.headerButtonsPosition === 'right' ? (
+        <View style={styles.container}>
+          {renderSelectors()}
+          <View style={styles.row}>
+            {renderPrevButton()}
+            {renderNextButton()}
+          </View>
+        </View>
+      ) : (
+        <View style={styles.container}>
+          {renderPrevButton()}
+          {renderSelectors()}
+          {renderNextButton()}
+        </View>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  headerContainer: {
+    marginBottom: 5,
+  },
   container: {
     padding: 5,
-    marginBottom: 5,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -141,6 +193,15 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     padding: 4,
+  },
+  prev: {
+    marginRight: 3,
+  },
+  next: {
+    marginLeft: 3,
+  },
+  row: {
+    flexDirection: 'row',
   },
 });
 

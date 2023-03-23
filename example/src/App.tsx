@@ -28,7 +28,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>React Native DateTime Picker</Text>
+        <Text style={styles.title}>React Native UI DatePicker</Text>
       </View>
       <View style={styles.themeContainer}>
         {Themes.map((item, index) => (
@@ -57,7 +57,7 @@ export default function App() {
             }}
             mode="datetime"
           />
-          <View style={styles.footerContainer}>
+          {/*<View style={styles.footerContainer}>
             <Text>
               {dayjs(value).locale(locale).format('MMMM, DD, YYYY - HH:mm')}
             </Text>
@@ -82,7 +82,7 @@ export default function App() {
                 </Text>
               </View>
             </TouchableOpacity>
-          </View>
+                </View>*/}
         </View>
       </View>
     </View>
