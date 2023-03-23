@@ -45,6 +45,12 @@ const styles = StyleSheet.create({
 });
 ```
 
+## DateTimePicker Props
+
+| Property                     |           Type           | Description                       |           Default           |
+| ---------------------------- | :----------------------: | :-------------------------------- | :-------------------------: |
+
+
 ## Contributing
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
