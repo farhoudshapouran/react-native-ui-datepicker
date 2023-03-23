@@ -19,7 +19,7 @@ import DateTimePicker from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
 
 export default function App() {
-  const [value, setValue] = useState<DateType>(dayjs());
+  const [value, setValue] = useState(dayjs());
   
   return (
     <View style={styles.container}>
