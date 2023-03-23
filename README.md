@@ -57,7 +57,10 @@ For more, take a look at the `/example` directory.
 | locale                   | `string`        | `'en'`          | Defines the DatePicker locale                                                          |
 | minimumDate              | `DateType`      | `null`          | Defines DatePicker minimum selectable date                                             |
 | maximumDate              | `DateType`      | `null`          | Defines DatePicker maximum selectable date                                             |
-| displayFullDays          | `boolean`       | `false`         | Defines show prev and next month days in current month view                            |
+| displayFullDays          | `boolean`       | `false`         | Defines show prev and next month days in current calendar view                         |
+| calendarTextStyle        | `TextStyle`     | `null`          | Defines all texts styles inside calendar (Days, Months, Years, Hours and Minutes)      |
+| selectedTextStyle        | `TextStyle`     | `null`          | Defines selected (Day, Month, Year) text styles                                        |
+| selectedItemColor        | `string`        | `#0047FF`       | Defines selected (Day, Month, Year) background and border colors                       |
 | headerContainerStyle     | `ViewStyle`     | `null`          | Defines calendar header container style                                                |
 | headerTextContainerStyle | `ViewStyle`     | `null`          | Defines calendar header texts (Month, Year, Time) containers style                     |
 | headerTextStyle          | `ViewStyle`     | `null`          | Defines calendar header texts styles (Month, Year, Time)                               |
@@ -65,6 +68,13 @@ For more, take a look at the `/example` directory.
 | headerButtonColor        | `string`        | `null`          | Defines calendar header "prev and next buttons" icon color                             |
 | headerButtonSize         | `number`        | `18`            | Defines calendar header "prev and next buttons" icon size                              |
 | headerButtonsPosition    | `string`        | `'around'`      | Defines calendar header "prev and next buttons" positions `['around', 'right', 'left']`|
+| dayContainerStyle        | `ViewStyle`     | `null`          | Defines days containers style  |
+| monthContainerStyle      | `ViewStyle`     | `null`          | Defines months containers style  |
+| yearContainerStyle       | `ViewStyle`     | `null`          | Defines years containers style  |
+| weekDaysContainerStyle   | `ViewStyle`     | `null`          | Defines weekdays container style  |
+| weekDaysTextStyle        | `TextStyle`     | `null`          | Defines weekdays texts style  |
+| timePickerContainerStyle | `ViewStyle`     | `null`          | Defines time picker container style  |
+| timePickerTextStyle      | `TextStyle`     | `null`          | Defines time picker (Hours, Minutes) texts style  |
 
 
 ## Contributing
