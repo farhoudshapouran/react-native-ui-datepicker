@@ -49,16 +49,17 @@ For more, take a look at the `/example` directory.
 
 ## Available props
 
-| Name                     | Type                  |   Default           | Description                                                                |
-| ------------------------ | --------------------- | ------------------- | ---------------------------------------------------------------------------- |
-| value                    | `DateType`            | `Dayjs`             | DatePicker value to display selected date                                    |
-| onValueChange            | `func`                | `() => {}`          | Called when the new date selected from DatePicker                            |
-| mode                     | `string`              | `'datetime'`        | Defines the DatePicker mode `['datetime', 'date', 'time']`                   |
-| locale                   | `string`              | `'en'`              | Defines the DatePicker locale                                                |
-| minimumDate              | `DateType`            | `null`              | Defines DatePicker minimum selectable date                                   |
-| maximumDate              | `DateType`            | `null`              | Defines DatePicker maximum selectable date                                   |
-| displayFullDays          | `boolean`             | `false`             | Defines show prev and next month days in current month view                  |
-| headerContainerStyle     | `ViewStyle`           | `null`              | Defines calendar header container style                                      |
+| Name                     | Type            |   Default       | Description                                                                            |
+| ------------------------ | --------------- | --------------- | -------------------------------------------------------------------------------------- |
+| value                    | `DateType`      | `Dayjs`         | DatePicker value to display selected date                                              |
+| onValueChange            | `func`          | `() => {}`      | Called when the new date selected from DatePicker                                      |
+| mode                     | `string`        | `'datetime'`    | Defines the DatePicker mode `['datetime', 'date', 'time']`                             |
+| locale                   | `string`        | `'en'`          | Defines the DatePicker locale                                                          |
+| minimumDate              | `DateType`      | `null`          | Defines DatePicker minimum selectable date                                             |
+| maximumDate              | `DateType`      | `null`          | Defines DatePicker maximum selectable date                                             |
+| displayFullDays          | `boolean`       | `false`         | Defines show prev and next month days in current month view                            |
+| headerContainerStyle     | `ViewStyle`     | `null`          | Defines calendar header container style                                                |
+| headerButtonsPosition    | `string`        | `'around'`      | Defines the DatePicker prev and next buttons positions `['around', 'right', 'left']`   |
 
 
 ## Contributing
