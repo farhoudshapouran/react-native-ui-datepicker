@@ -60,7 +60,7 @@ For more, take a look at the `/example` directory.
 | displayFullDays          | `boolean`       | `false`         | Defines show prev and next month days in current calendar view                         |
 | calendarTextStyle        | `TextStyle`     | `null`          | Defines all texts styles inside calendar (Days, Months, Years, Hours and Minutes)      |
 | selectedTextStyle        | `TextStyle`     | `null`          | Defines selected (Day, Month, Year) text styles                                        |
-| selectedItemColor        | `string`        | `#0047FF`       | Defines selected (Day, Month, Year) background and border colors                       |
+| selectedItemColor        | `string`        | `'#0047FF'`     | Defines selected (Day, Month, Year) background and border colors                       |
 | headerContainerStyle     | `ViewStyle`     | `null`          | Defines calendar header container style                                                |
 | headerTextContainerStyle | `ViewStyle`     | `null`          | Defines calendar header texts (Month, Year, Time) containers style                     |
 | headerTextStyle          | `ViewStyle`     | `null`          | Defines calendar header texts styles (Month, Year, Time)                               |
