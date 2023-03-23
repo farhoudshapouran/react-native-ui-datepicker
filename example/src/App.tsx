@@ -34,7 +34,13 @@ export default function App() {
         {Themes.map((item, index) => (
           <TouchableOpacity
             key={index}
-            style={[styles.themeButton, { backgroundColor: item.mainColor }]}
+            style={[
+              styles.themeButton,
+              {
+                borderColor: item.activeTextColor,
+                backgroundColor: item.mainColor,
+              },
+            ]}
             onPress={() => setTheme(item)}
           />
         ))}
@@ -57,7 +63,7 @@ export default function App() {
             }}
             mode="datetime"
           />
-          {/*<View style={styles.footerContainer}>
+          <View style={styles.footerContainer}>
             <Text>
               {dayjs(value).locale(locale).format('MMMM, DD, YYYY - HH:mm')}
             </Text>
@@ -82,7 +88,7 @@ export default function App() {
                 </Text>
               </View>
             </TouchableOpacity>
-                </View>*/}
+          </View>
         </View>
       </View>
     </View>
@@ -114,7 +120,6 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   themeButton: {
-    borderColor: '#fff',
     borderWidth: 4,
     width: 32,
     height: 32,
