@@ -50,6 +50,11 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-native": "^0.68.0",
+    "dayjs": "^1.11.7"
+  },
   "devDependencies": {
     "@commitlint/config-conventional": "^17.0.2",
     "@evilmartians/lefthook": "^1.2.2",
@@ -66,8 +71,6 @@
     "jest": "^28.1.1",
     "pod-install": "^0.1.0",
     "prettier": "^2.0.5",
-    "react": "17.0.2",
-    "react-native": "^0.68.0",
     "react-native-builder-bob": "^0.20.0",
     "release-it": "^15.0.0",
     "typescript": "^4.5.2"
@@ -76,9 +79,9 @@
     "@types/react": "17.0.21"
   },
   "peerDependencies": {
+    "dayjs": "*",
     "react": "*",
-    "react-native": "*",
-    "dayjs": "*"
+    "react-native": "*"
   },
   "engines": {
     "node": ">= 16.0.0"
