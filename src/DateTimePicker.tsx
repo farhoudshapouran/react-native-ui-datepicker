@@ -18,6 +18,7 @@ interface PropTypes extends CalendarTheme {
   minimumDate?: DateType;
   maximumDate?: DateType;
   onValueChange?: (value: DateType) => void;
+  displayFullDays?: boolean;
 }
 
 const DateTimePicker = ({
@@ -27,6 +28,7 @@ const DateTimePicker = ({
   minimumDate = null,
   maximumDate = null,
   onValueChange = () => {},
+  displayFullDays = false,
   headerTextContainerStyle,
   headerTextStyle,
   headerButtonStyle,
@@ -43,7 +45,13 @@ const DateTimePicker = ({
   timePickerContainerStyle,
   timePickerTextStyle,
 }: PropTypes) => {
-  const utils = new calendarUtils({ mode, locale, minimumDate, maximumDate });
+  const utils = new calendarUtils({
+    mode,
+    locale,
+    minimumDate,
+    maximumDate,
+    displayFullDays,
+  });
   const theme = {
     headerTextContainerStyle,
     headerTextStyle,

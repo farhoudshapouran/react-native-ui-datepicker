@@ -20,20 +20,22 @@ const DaySelector = () => {
     <View style={styles.container}>
       <View style={[styles.weekDaysContainer, theme?.weekDaysContainerStyle]}>
         {utils.getWeekdaysMin().map((item, index) => (
-          <Text key={index} style={theme?.weekDaysTextStyle}>
-            {item}
-          </Text>
+          <View style={styles.weekDayCell}>
+            <Text key={index} style={theme?.weekDaysTextStyle}>
+              {item}
+            </Text>
+          </View>
         ))}
       </View>
       <View style={styles.daysContainer}>
         {days.map((day, index) => {
-          const dayContainerStyle = {
-            opacity: day.isCurrentMonth ? 1 : 0.2,
-            ...theme?.dayContainerStyle,
-          };
+          const dayContainerStyle =
+            day && day.isCurrentMonth
+              ? theme?.dayContainerStyle
+              : { opacity: 0.3 };
 
           const todayItemStyle =
-            day.date === utils.getToday()
+            day && day.date === utils.getToday()
               ? {
                   borderWidth: 2,
                   borderColor: theme?.selectedItemColor || '#0047FF',
@@ -41,6 +43,7 @@ const DaySelector = () => {
               : null;
 
           const activeItemStyle =
+            day &&
             day.date === utils.getFormatedDate(selectedDate, 'YYYY/MM/DD')
               ? {
                   borderColor: theme?.selectedItemColor || '#0047FF',
@@ -49,9 +52,10 @@ const DaySelector = () => {
               : null;
 
           const textStyle =
+            day &&
             day.date === utils.getFormatedDate(selectedDate, 'YYYY/MM/DD')
               ? { color: '#fff', ...theme?.selectedTextStyle }
-              : day.date === utils.getToday()
+              : day && day.date === utils.getToday()
               ? {
                   ...theme?.calendarTextStyle,
                   color: theme?.selectedItemColor || '#0047FF',
@@ -60,7 +64,21 @@ const DaySelector = () => {
 
           return (
             <View key={index} style={styles.dayCell}>
-              {day && (
+              {day && day.disabled ? (
+                <View
+                  style={[
+                    styles.dayContainer,
+                    dayContainerStyle,
+                    todayItemStyle,
+                    activeItemStyle,
+                    styles.disabledDay,
+                  ]}
+                >
+                  <View style={styles.dayTextContainer}>
+                    <Text style={textStyle}>{day.text}</Text>
+                  </View>
+                </View>
+              ) : day ? (
                 <TouchableOpacity
                   onPress={() => handleSelectDate(day.date)}
                   style={[
@@ -74,7 +92,7 @@ const DaySelector = () => {
                     <Text style={textStyle}>{day.text}</Text>
                   </View>
                 </TouchableOpacity>
-              )}
+              ) : null}
             </View>
           );
         })}
@@ -89,14 +107,19 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   weekDaysContainer: {
+    width: '100%',
     flexDirection: 'row',
     paddingBottom: 10,
     paddingTop: 5,
     marginBottom: 10,
     alignItems: 'center',
-    justifyContent: 'space-around',
     borderBottomWidth: 1,
     borderColor: '#E5E5E5',
+  },
+  weekDayCell: {
+    width: '14.2%',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   daysContainer: {
     width: '100%',
@@ -118,6 +141,9 @@ const styles = StyleSheet.create({
   dayTextContainer: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  disabledDay: {
+    opacity: 0.3,
   },
 });
 

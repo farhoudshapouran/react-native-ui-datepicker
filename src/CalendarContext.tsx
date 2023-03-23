@@ -24,6 +24,7 @@ const CalendarContext = createContext<CalendarContextType>({
     locale: 'en',
     minimumDate: null,
     maximumDate: null,
+    displayFullDays: false,
   }),
   calendarView: CalendarViews.day,
   selectedDate: Date.now(),
