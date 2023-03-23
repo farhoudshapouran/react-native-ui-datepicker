@@ -53,6 +53,9 @@ const styles = StyleSheet.create({
 
 For more, take a look at the `/example` directory.
 
+![react-native-ui-datepicker-styles](https://user-images.githubusercontent.com/7857656/227260476-30ee8c25-f809-4dcf-bccf-cd1ffab8795a.jpg)
+
+
 ## Available props
 
 | Name                     | Type            |   Default       | Description                                                                            |
