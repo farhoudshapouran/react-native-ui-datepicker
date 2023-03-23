@@ -45,10 +45,19 @@ const styles = StyleSheet.create({
 });
 ```
 
-## DateTimePicker Props
+# DateTimePicker Props
 
-| Property                     |           Type           | Description                       |           Default           |
-| ---------------------------- | :----------------------: | :-------------------------------- | :-------------------------: |
+## value
+
+| Type                                  |    Required    |
+| --------------------------------------|:--------------:|
+| string | number | Date | Dayjs | null |      yes       |
+
+## onValueChange
+
+| Type                                  |    Required    |
+| --------------------------------------|:--------------:|
+| function                              |       no       |
 
 
 ## Contributing
