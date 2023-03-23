@@ -54,10 +54,10 @@ For more, take a look at the `/example` directory.
 
 ## Available props
 
-| Name                     | Type                                      | Default        | Description                                                |
-| ------------------------ | ----------------------------------------- | -------------- | ---------------------------------------------------------- |
-| value                    | `string` or `number` or `Date` or `Dayjs` | `Dayjs`        | DateTimePicker value to display selected date              |
-| onValueChange            | `func`                                    | `() => {}`     | Called when the new date selected from DatePicker          |
+| Name                     | Type                                      | Required | Default        | Description                                        |
+| ------------------------ | ----------------------------------------- | -------- | -------------- | -------------------------------------------------- |
+| value                    | `string` or `number` or `Date` or `Dayjs` | yes      | `Dayjs`        | DateTimePicker value to display selected date      |
+| onValueChange            | `func`                                    | no       | `() => {}`     | Called when the new date selected from DatePicker  |
 
 
 ## Contributing
