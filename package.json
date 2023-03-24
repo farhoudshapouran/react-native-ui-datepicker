@@ -39,6 +39,7 @@
     "react-native",
     "ios",
     "android",
+    "react-native-ui-datetpicker",
     "react-native-datetime",
     "react-native-datetime-picker",
     "react-native-datetpicker",
