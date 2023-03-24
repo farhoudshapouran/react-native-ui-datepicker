@@ -38,7 +38,19 @@
   "keywords": [
     "react-native",
     "ios",
-    "android"
+    "android",
+    "react-native-datetime",
+    "react-native-datetime-picker",
+    "react-native-datetpicker",
+    "react-native-datet-picker",
+    "react-native-timepicker",
+    "react-native-time-picker",
+    "datetime",
+    "datetime-picker",
+    "datetpicker",
+    "datet-picker",
+    "timepicker",
+    "time-picker"
   ],
   "repository": "https://github.com/farhoodme/react-native-ui-datepicker",
   "author": "Farhood Shapouran <shapouran@gmail.com> (https://github.com/farhoodme)",
