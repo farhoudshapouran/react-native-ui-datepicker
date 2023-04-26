@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
+import type { IDayObject } from '../utils';
 
-const DaySelector = () => {
+const DaySelector = ({ days }: { days: IDayObject[] }) => {
   const { utils, currentDate, selectedDate, onSelectDate, theme } =
     useCalendarContext();
-  const days = utils.getMonthDays(currentDate);
 
   const handleSelectDate = (date: string) => {
     const newDate = utils
@@ -145,4 +145,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DaySelector;
+export default memo(DaySelector);

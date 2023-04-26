@@ -1,17 +1,16 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
 
-const MonthSelector = () => {
-  const { utils, currentDate, onSelectMonth, theme } = useCalendarContext();
-  const currentMonth = utils.getDateMonth(currentDate);
+const MonthSelector = ({ month }: { month: number }) => {
+  const { utils, onSelectMonth, theme } = useCalendarContext();
 
   return (
     <View style={styles.container}>
       <View style={styles.monthsContainer}>
         {utils.getMonths().map((item, index) => {
           const activeItemStyle =
-            index === currentMonth
+            index === month
               ? {
                   borderColor: theme?.selectedItemColor || '#0047FF',
                   backgroundColor: theme?.selectedItemColor || '#0047FF',
@@ -19,7 +18,7 @@ const MonthSelector = () => {
               : null;
 
           const textStyle =
-            index === currentMonth
+            index === month
               ? { color: '#fff', ...theme?.selectedTextStyle }
               : theme?.calendarTextStyle;
 
@@ -73,4 +72,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MonthSelector;
+export default memo(MonthSelector);

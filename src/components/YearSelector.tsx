@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
 
-const YearSelector = () => {
-  const { utils, currentDate, selectedDate, onSelectYear, theme } =
-    useCalendarContext();
+type Props = {
+  currentYear: number;
+  selectedYear: number;
+};
+
+const YearSelector = ({ currentYear, selectedYear }: Props) => {
+  const { onSelectYear, theme } = useCalendarContext();
   const rowArray = [1, 2, 3];
   const colArray = [1, 2, 3, 4];
-  const currentYear = utils.getDateYear(currentDate);
-  const selectedYear = utils.getDateYear(selectedDate);
+
   let year = 12 * Math.ceil(currentYear / 12) - 12;
   if (year < 0) year = 0;
 
@@ -82,4 +85,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default YearSelector;
+export default memo(YearSelector);

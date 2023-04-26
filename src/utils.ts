@@ -20,7 +20,7 @@ type ConfigTypes = {
   timeFormat: string;
 };
 
-interface IDayObject {
+export interface IDayObject {
   text: string;
   day: number;
   date: string;
@@ -102,6 +102,12 @@ export default class utils {
 
   getDate = (date: DateType) => dayjs(date, this.config.calendarFormat);
 
+  /**
+   * Calculate month days array based on current date
+   *
+   * @param {DateType} datetime The current date that selected
+   * @returns {IDayObject[]} days array based on current date
+   */
   getMonthDays = (datetime: DateType): IDayObject[] => {
     let date = this.getDate(datetime);
     const currentMonthDays = date.daysInMonth();

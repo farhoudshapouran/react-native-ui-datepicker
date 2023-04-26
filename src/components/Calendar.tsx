@@ -9,18 +9,23 @@ import DaySelector from './DaySelector';
 import TimeSelector from './TimeSelector';
 
 const Calendar = () => {
-  const { calendarView, mode } = useCalendarContext();
+  const { utils, currentDate, selectedDate, calendarView, mode } =
+    useCalendarContext();
+  const days = utils.getMonthDays(currentDate);
+  const currentMonth = utils.getDateMonth(currentDate);
+  const currentYear = utils.getDateYear(currentDate);
+  const selectedYear = utils.getDateYear(selectedDate);
 
   return (
     <View style={styles.container}>
       {mode !== 'time' ? <Header /> : null}
       <View style={styles.calendarContainer}>
         {calendarView === CalendarViews.year ? (
-          <YearSelector />
+          <YearSelector currentYear={currentYear} selectedYear={selectedYear} />
         ) : calendarView === CalendarViews.month ? (
-          <MonthSelector />
+          <MonthSelector month={currentMonth} />
         ) : calendarView === CalendarViews.day ? (
-          <DaySelector />
+          <DaySelector days={days} />
         ) : (
           <TimeSelector />
         )}
