@@ -7,10 +7,10 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { sin } from './AnimatedMath';
 
-const Value = Animated.createAnimatedComponent(Text);
+const TimeValue = Animated.createAnimatedComponent(Text);
 
 export interface WheelStyleProps {
   containerStyle?: ViewStyle;
@@ -42,34 +42,33 @@ export default function Wheel<T>({
   wheelHeight,
   displayCount = 5,
 }: WheelProps): React.ReactElement {
-  const translateY = useRef(new Animated.Value(0));
+  const translateY = useRef(new Animated.Value(0)).current;
   const renderCount =
     displayCount * 2 < items.length
       ? displayCount * 4 + 1
       : displayCount * 2 - 1;
   const circular = items.length >= displayCount;
-  const [height, setHeight] = useState(
-    typeof containerStyle?.height === 'number' ? containerStyle.height : 100
-  );
+  const height =
+    typeof containerStyle?.height === 'number' ? containerStyle.height : 130;
   const radius = wheelHeight != null ? wheelHeight / 2 : height / 2;
 
   const valueIndex = useMemo(() => items.indexOf(value), [items, value]);
 
-  const panResponder = React.useMemo(() => {
+  const panResponder = useMemo(() => {
     return PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
       onStartShouldSetPanResponderCapture: () => true,
       onPanResponderGrant: () => {
-        translateY.current.setValue(0);
+        translateY.setValue(0);
         onScroll && onScroll(true);
       },
       onPanResponderMove: (evt, gestureState) => {
-        translateY.current.setValue(gestureState.dy);
+        translateY.setValue(gestureState.dy);
         evt.stopPropagation();
       },
       onPanResponderRelease: (_, gestureState) => {
         onScroll && onScroll(false);
-        translateY.current.extractOffset();
+        translateY.extractOffset();
         let newValueIndex =
           valueIndex -
           Math.round(gestureState.dy / ((radius * 2) / displayCount));
@@ -82,8 +81,8 @@ export default function Wheel<T>({
         }
         const newValue = items[newValueIndex];
         if (newValue === value) {
-          translateY.current.setOffset(0);
-          translateY.current.setValue(0);
+          translateY.setOffset(0);
+          translateY.setValue(0);
         } else setValue(newValue);
       },
     });
@@ -114,11 +113,11 @@ export default function Wheel<T>({
   }, [renderCount, valueIndex, items, circular]);
 
   const animatedAngles = useMemo(() => {
-    translateY.current.setValue(0);
-    translateY.current.setOffset(0);
+    translateY.setValue(0);
+    translateY.setOffset(0);
     const currentIndex = displayValues.indexOf(value);
     return displayValues.map((_, index) =>
-      translateY.current
+      translateY
         .interpolate({
           inputRange: [-radius, radius],
           outputRange: [
@@ -138,14 +137,13 @@ export default function Wheel<T>({
   return (
     <View
       style={[styles.container, containerStyle]}
-      onLayout={(evt) => setHeight(evt.nativeEvent.layout.height)}
       {...panResponder.panHandlers}
     >
       {displayValues.map(
         (displayValue: T | null | undefined, index: number) => {
           const animatedAngle = animatedAngles[index];
           return (
-            <Value
+            <TimeValue
               style={[
                 textStyle,
                 // eslint-disable-next-line react-native/no-inline-styles
@@ -163,7 +161,7 @@ export default function Wheel<T>({
                         {
                           rotateX: animatedAngle.interpolate({
                             inputRange: [-Math.PI / 2, Math.PI / 2],
-                            outputRange: ['-90deg', '90deg'],
+                            outputRange: ['-89deg', '89deg'],
                             extrapolate: 'clamp',
                           }),
                         },
@@ -176,12 +174,10 @@ export default function Wheel<T>({
                 index > displayValues.length / 2 ? 'Post' : 'Before'
               }${displayValue ?? 'null' + index}`}
             >
-              {displayValue !== undefined &&
-              displayValue !== null &&
-              displayValue < 10
+              {typeof displayValue == 'number' && displayValue < 10
                 ? `0${displayValue}`
                 : `${displayValue}`}
-            </Value>
+            </TimeValue>
           );
         }
       )}
