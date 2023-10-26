@@ -1,35 +1,27 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
-import { CalendarViews } from '../enums';
+import type { CalendarViews } from '../enums';
 import Header from './Header';
 import YearSelector from './YearSelector';
 import MonthSelector from './MonthSelector';
 import DaySelector from './DaySelector';
 import TimeSelector from './TimeSelector';
 
+const CalendarView: Record<CalendarViews, ReactElement> = {
+  year: <YearSelector />,
+  month: <MonthSelector />,
+  day: <DaySelector />,
+  time: <TimeSelector />,
+};
+
 const Calendar = () => {
-  const { utils, currentDate, selectedDate, calendarView, mode } =
-    useCalendarContext();
-  const days = utils.getMonthDays(currentDate);
-  const currentMonth = utils.getDateMonth(currentDate);
-  const currentYear = utils.getDateYear(currentDate);
-  const selectedYear = utils.getDateYear(selectedDate);
+  const { calendarView, mode } = useCalendarContext();
 
   return (
     <View style={styles.container}>
       {mode !== 'time' ? <Header /> : null}
-      <View style={styles.calendarContainer}>
-        {calendarView === CalendarViews.year ? (
-          <YearSelector currentYear={currentYear} selectedYear={selectedYear} />
-        ) : calendarView === CalendarViews.month ? (
-          <MonthSelector month={currentMonth} />
-        ) : calendarView === CalendarViews.day ? (
-          <DaySelector days={days} />
-        ) : (
-          <TimeSelector />
-        )}
-      </View>
+      <View style={styles.calendarContainer}>{CalendarView[calendarView]}</View>
     </View>
   );
 };
