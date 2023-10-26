@@ -16,9 +16,9 @@ const DaySelector = () => {
   const handleSelectDate = (date: string) => {
     const newDate = utils
       .getDate(date)
-      .year(utils.getDateYear(currentDate))
       .hour(utils.getDateHour(currentDate))
       .minute(utils.getDateMinute(currentDate));
+
     onSelectDate(utils.getFormated(newDate));
   };
 
