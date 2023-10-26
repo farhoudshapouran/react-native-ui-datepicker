@@ -101,7 +101,7 @@ export default function Wheel({
   const displayValues = useMemo(() => {
     const centerIndex = Math.floor(renderCount / 2);
 
-    return new Array(renderCount).fill('').map((_, index) => {
+    return [...Array(renderCount).keys()].map((_, index) => {
       let targetIndex = valueIndex + index - centerIndex;
       if (targetIndex < 0 || targetIndex >= items.length) {
         targetIndex = (targetIndex + items.length) % items.length;
@@ -137,7 +137,7 @@ export default function Wheel({
       style={[styles.container, containerStyle]}
       {...panResponder.panHandlers}
     >
-      {displayValues.map((displayValue, index: number) => {
+      {displayValues.map((displayValue, index) => {
         const animatedAngle = animatedAngles[index];
         return (
           <TimeValue
