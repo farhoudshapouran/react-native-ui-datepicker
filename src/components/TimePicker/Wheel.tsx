@@ -104,14 +104,11 @@ export default function Wheel({
     return new Array(renderCount).fill('').map((_, index) => {
       let targetIndex = valueIndex + index - centerIndex;
       if (targetIndex < 0 || targetIndex >= items.length) {
-        if (!circular) {
-          return null;
-        }
         targetIndex = (targetIndex + items.length) % items.length;
       }
       return items[targetIndex];
     });
-  }, [renderCount, valueIndex, items, circular]);
+  }, [renderCount, valueIndex, items]);
 
   const animatedAngles = useMemo(() => {
     translateY.setValue(0);
@@ -144,6 +141,7 @@ export default function Wheel({
         const animatedAngle = animatedAngles[index];
         return (
           <TimeValue
+            key={index}
             style={[
               textStyle,
               // eslint-disable-next-line react-native/no-inline-styles
@@ -170,9 +168,6 @@ export default function Wheel({
                 color: displayValue === value ? selectedColor : disabledColor,
               },
             ]}
-            key={`${value}${
-              index > displayValues.length / 2 ? 'Post' : 'Before'
-            }${displayValue ?? 'null' + index}`}
           >
             {typeof displayValue === 'number' && displayValue < 10
               ? `0${displayValue}`
