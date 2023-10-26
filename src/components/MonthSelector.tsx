@@ -2,8 +2,9 @@ import React, { memo } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
 
-const MonthSelector = ({ month }: { month: number }) => {
-  const { utils, onSelectMonth, theme } = useCalendarContext();
+const MonthSelector = () => {
+  const { utils, currentDate, onSelectMonth, theme } = useCalendarContext();
+  const month = utils.getDateMonth(currentDate);
 
   return (
     <View style={styles.container}>

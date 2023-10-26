@@ -1,35 +1,35 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
-import { CalendarViews } from '../enums';
+import type { CalendarViews } from '../enums';
+import type { HeaderProps } from '../types';
 import Header from './Header';
 import YearSelector from './YearSelector';
 import MonthSelector from './MonthSelector';
 import DaySelector from './DaySelector';
 import TimeSelector from './TimeSelector';
 
-const Calendar = () => {
-  const { utils, currentDate, selectedDate, calendarView, mode } =
-    useCalendarContext();
-  const days = utils.getMonthDays(currentDate);
-  const currentMonth = utils.getDateMonth(currentDate);
-  const currentYear = utils.getDateYear(currentDate);
-  const selectedYear = utils.getDateYear(selectedDate);
+const CalendarView: Record<CalendarViews, ReactNode> = {
+  year: <YearSelector />,
+  month: <MonthSelector />,
+  day: <DaySelector />,
+  time: <TimeSelector />,
+};
+
+interface PropTypes extends HeaderProps {}
+
+const Calendar = ({ buttonLeftIcon, buttonRightIcon }: PropTypes) => {
+  const { calendarView, mode } = useCalendarContext();
 
   return (
     <View style={styles.container}>
-      {mode !== 'time' ? <Header /> : null}
-      <View style={styles.calendarContainer}>
-        {calendarView === CalendarViews.year ? (
-          <YearSelector currentYear={currentYear} selectedYear={selectedYear} />
-        ) : calendarView === CalendarViews.month ? (
-          <MonthSelector month={currentMonth} />
-        ) : calendarView === CalendarViews.day ? (
-          <DaySelector days={days} />
-        ) : (
-          <TimeSelector />
-        )}
-      </View>
+      {mode !== 'time' ? (
+        <Header
+          buttonLeftIcon={buttonLeftIcon}
+          buttonRightIcon={buttonRightIcon}
+        />
+      ) : null}
+      <View style={styles.calendarContainer}>{CalendarView[calendarView]}</View>
     </View>
   );
 };

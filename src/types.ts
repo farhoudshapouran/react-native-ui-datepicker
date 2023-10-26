@@ -1,6 +1,7 @@
 import type { Dayjs } from 'dayjs';
 import type { CalendarActionKind, CalendarViews } from './enums';
 import type { TextStyle, ViewStyle } from 'react-native';
+import type { ReactNode } from 'react';
 
 export type DateType = string | number | Date | Dayjs | null;
 
@@ -38,4 +39,9 @@ export type CalendarTheme = {
   selectedItemColor?: string;
   timePickerContainerStyle?: ViewStyle;
   timePickerTextStyle?: TextStyle;
+};
+
+export type HeaderProps = {
+  buttonLeftIcon?: ReactNode;
+  buttonRightIcon?: ReactNode;
 };

@@ -2,13 +2,11 @@ import React, { memo } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
 
-type Props = {
-  currentYear: number;
-  selectedYear: number;
-};
-
-const YearSelector = ({ currentYear, selectedYear }: Props) => {
-  const { onSelectYear, theme } = useCalendarContext();
+const YearSelector = () => {
+  const { utils, currentDate, selectedDate, onSelectYear, theme } =
+    useCalendarContext();
+  const currentYear = utils.getDateYear(currentDate);
+  const selectedYear = utils.getDateYear(selectedDate);
   const rowArray = [1, 2, 3];
   const colArray = [1, 2, 3, 4];
 
