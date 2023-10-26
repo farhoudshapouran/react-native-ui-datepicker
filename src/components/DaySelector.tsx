@@ -1,11 +1,17 @@
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
 
 const DaySelector = () => {
   const { utils, currentDate, selectedDate, onSelectDate, theme } =
     useCalendarContext();
-  const days = utils.getMonthDays(currentDate);
+  const month = utils.getDateMonth(currentDate);
+  const year = utils.getDateYear(currentDate);
+  const days = useMemo(
+    () => utils.getMonthDays(currentDate),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [month, year]
+  );
 
   const handleSelectDate = (date: string) => {
     const newDate = utils

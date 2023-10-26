@@ -8,10 +8,11 @@ import type {
   CalendarAction,
   CalendarState,
   CalendarTheme,
+  HeaderProps,
 } from './types';
 import Calendar from './components/Calendar';
 
-interface PropTypes extends CalendarTheme {
+interface PropTypes extends CalendarTheme, HeaderProps {
   value: DateType;
   mode?: CalendarModes;
   locale?: string | ILocale;
@@ -46,6 +47,8 @@ const DateTimePicker = ({
   selectedItemColor,
   timePickerContainerStyle,
   timePickerTextStyle,
+  buttonLeftIcon,
+  buttonRightIcon,
 }: PropTypes) => {
   const utils = new calendarUtils({
     mode,
@@ -173,7 +176,10 @@ const DateTimePicker = ({
 
   return (
     <CalendarContext.Provider value={{ ...state, ...actions, utils, theme }}>
-      <Calendar />
+      <Calendar
+        buttonLeftIcon={buttonLeftIcon}
+        buttonRightIcon={buttonRightIcon}
+      />
     </CalendarContext.Provider>
   );
 };
