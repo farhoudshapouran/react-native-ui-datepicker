@@ -23,13 +23,13 @@ export interface WheelStyleProps {
 }
 
 export interface WheelProps extends WheelStyleProps {
-  value: any;
-  setValue: (value: any) => void;
-  items: any[];
+  value: number;
+  setValue: (value: number) => void;
+  items: number[];
   onScroll?: (scrollState: boolean) => void;
 }
 
-export default function Wheel<T>({
+export default function Wheel({
   value,
   setValue,
   onScroll,
@@ -41,7 +41,7 @@ export default function Wheel<T>({
   disabledColor = 'gray',
   wheelHeight,
   displayCount = 5,
-}: WheelProps): React.ReactElement {
+}: WheelProps) {
   const translateY = useRef(new Animated.Value(0)).current;
   const renderCount =
     displayCount * 2 < items.length
@@ -79,7 +79,7 @@ export default function Wheel<T>({
           else if (newValueIndex >= items.length)
             newValueIndex = items.length - 1;
         }
-        const newValue = items[newValueIndex];
+        const newValue = items[newValueIndex] || 0;
         if (newValue === value) {
           translateY.setOffset(0);
           translateY.setValue(0);
@@ -95,6 +95,7 @@ export default function Wheel<T>({
     value,
     valueIndex,
     items,
+    translateY,
   ]);
 
   const displayValues = useMemo(() => {
@@ -132,55 +133,53 @@ export default function Wheel<T>({
           extrapolate: 'clamp',
         })
     );
-  }, [displayValues, radius, value, displayCount]);
+  }, [displayValues, radius, value, displayCount, translateY]);
 
   return (
     <View
       style={[styles.container, containerStyle]}
       {...panResponder.panHandlers}
     >
-      {displayValues.map(
-        (displayValue: T | null | undefined, index: number) => {
-          const animatedAngle = animatedAngles[index];
-          return (
-            <TimeValue
-              style={[
-                textStyle,
-                // eslint-disable-next-line react-native/no-inline-styles
-                {
-                  position: 'absolute',
-                  height: itemHeight,
-                  transform: animatedAngle
-                    ? [
-                        {
-                          translateY: Animated.multiply(
-                            radius,
-                            sin(animatedAngle)
-                          ),
-                        },
-                        {
-                          rotateX: animatedAngle.interpolate({
-                            inputRange: [-Math.PI / 2, Math.PI / 2],
-                            outputRange: ['-89deg', '89deg'],
-                            extrapolate: 'clamp',
-                          }),
-                        },
-                      ]
-                    : [],
-                  color: displayValue === value ? selectedColor : disabledColor,
-                },
-              ]}
-              key={`${value}${
-                index > displayValues.length / 2 ? 'Post' : 'Before'
-              }${displayValue ?? 'null' + index}`}
-            >
-              {typeof displayValue == 'number' && displayValue < 10
-                ? `0${displayValue}`
-                : `${displayValue}`}
-            </TimeValue>
-          );
-        }
-      )}
+      {displayValues.map((displayValue, index: number) => {
+        const animatedAngle = animatedAngles[index];
+        return (
+          <TimeValue
+            style={[
+              textStyle,
+              // eslint-disable-next-line react-native/no-inline-styles
+              {
+                position: 'absolute',
+                height: itemHeight,
+                transform: animatedAngle
+                  ? [
+                      {
+                        translateY: Animated.multiply(
+                          radius,
+                          sin(animatedAngle)
+                        ),
+                      },
+                      {
+                        rotateX: animatedAngle.interpolate({
+                          inputRange: [-Math.PI / 2, Math.PI / 2],
+                          outputRange: ['-89deg', '89deg'],
+                          extrapolate: 'clamp',
+                        }),
+                      },
+                    ]
+                  : [],
+                color: displayValue === value ? selectedColor : disabledColor,
+              },
+            ]}
+            key={`${value}${
+              index > displayValues.length / 2 ? 'Post' : 'Before'
+            }${displayValue ?? 'null' + index}`}
+          >
+            {typeof displayValue === 'number' && displayValue < 10
+              ? `0${displayValue}`
+              : `${displayValue}`}
+          </TimeValue>
+        );
+      })}
     </View>
   );
 }
