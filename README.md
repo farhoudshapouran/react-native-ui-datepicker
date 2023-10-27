@@ -77,6 +77,8 @@ For more, take a look at the `/example` directory.
 | headerButtonColor        | `string`        | `null`          | Defines calendar header "prev and next buttons" icon color                             |
 | headerButtonSize         | `number`        | `18`            | Defines calendar header "prev and next buttons" icon size                              |
 | headerButtonsPosition    | `string`        | `'around'`      | Defines calendar header "prev and next buttons" positions `['around', 'right', 'left']`|
+| buttonPrevIcon           | `ReactNode`     | `undefined`     | Defines calendar header "prev button" custom icon |
+| buttonNextIcon           | `ReactNode`     | `undefined`     | Defines calendar header "next button" custom icon |
 | dayContainerStyle        | `ViewStyle`     | `null`          | Defines days containers style  |
 | monthContainerStyle      | `ViewStyle`     | `null`          | Defines months containers style  |
 | yearContainerStyle       | `ViewStyle`     | `null`          | Defines years containers style  |
