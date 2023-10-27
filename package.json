@@ -53,13 +53,13 @@
     "timepicker",
     "time-picker"
   ],
-  "repository": "https://github.com/farhoodme/react-native-ui-datepicker",
-  "author": "Farhood Shapouran <shapouran@gmail.com> (https://github.com/farhoodme)",
+  "repository": "https://github.com/farhoudshapouran/react-native-ui-datepicker",
+  "author": "Farhoud Shapouran <shapouran@gmail.com> (https://github.com/farhoudshapouran)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/farhoodme/react-native-ui-datepicker/issues"
+    "url": "https://github.com/farhoudshapouran/react-native-ui-datepicker/issues"
   },
-  "homepage": "https://github.com/farhoodme/react-native-ui-datepicker#readme",
+  "homepage": "https://github.com/farhoudshapouran/react-native-ui-datepicker#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
