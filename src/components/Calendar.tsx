@@ -18,15 +18,15 @@ const CalendarView: Record<CalendarViews, ReactNode> = {
 
 interface PropTypes extends HeaderProps {}
 
-const Calendar = ({ buttonLeftIcon, buttonRightIcon }: PropTypes) => {
+const Calendar = ({ buttonPrevIcon, buttonNextIcon }: PropTypes) => {
   const { calendarView, mode } = useCalendarContext();
 
   return (
     <View style={styles.container}>
       {mode !== 'time' ? (
         <Header
-          buttonLeftIcon={buttonLeftIcon}
-          buttonRightIcon={buttonRightIcon}
+          buttonPrevIcon={buttonPrevIcon}
+          buttonNextIcon={buttonNextIcon}
         />
       ) : null}
       <View style={styles.calendarContainer}>{CalendarView[calendarView]}</View>
