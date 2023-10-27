@@ -2,15 +2,12 @@ import {
   Animated,
   PanResponder,
   StyleSheet,
-  Text,
   TextStyle,
   View,
   ViewStyle,
 } from 'react-native';
 import React, { useMemo, useRef } from 'react';
 import { sin } from './AnimatedMath';
-
-const TimeValue = Animated.createAnimatedComponent(Text);
 
 export interface WheelStyleProps {
   containerStyle?: ViewStyle;
@@ -41,7 +38,7 @@ export default function Wheel({
   disabledColor = 'gray',
   wheelHeight,
   displayCount = 5,
-}: WheelProps) {
+}: WheelProps): React.ReactElement {
   const translateY = useRef(new Animated.Value(0)).current;
   const renderCount =
     displayCount * 2 < items.length
@@ -140,7 +137,7 @@ export default function Wheel({
       {displayValues.map((displayValue, index) => {
         const animatedAngle = animatedAngles[index];
         return (
-          <TimeValue
+          <Animated.Text
             key={`${value}${
               index > displayValues.length / 2 ? 'Post' : 'Before'
             }${displayValue + index}`}
@@ -174,7 +171,7 @@ export default function Wheel({
             {typeof displayValue === 'number' && displayValue < 10
               ? `0${displayValue}`
               : `${displayValue}`}
-          </TimeValue>
+          </Animated.Text>
         );
       })}
     </View>
