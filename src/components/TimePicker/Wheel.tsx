@@ -106,7 +106,7 @@ export default function Wheel({
       if (targetIndex < 0 || targetIndex >= items.length) {
         targetIndex = (targetIndex + items.length) % items.length;
       }
-      return items[targetIndex];
+      return items[targetIndex] || 0;
     });
   }, [renderCount, valueIndex, items]);
 
@@ -141,7 +141,9 @@ export default function Wheel({
         const animatedAngle = animatedAngles[index];
         return (
           <TimeValue
-            key={index}
+            key={`${value}${
+              index > displayValues.length / 2 ? 'Post' : 'Before'
+            }${displayValue + index}`}
             style={[
               textStyle,
               // eslint-disable-next-line react-native/no-inline-styles
