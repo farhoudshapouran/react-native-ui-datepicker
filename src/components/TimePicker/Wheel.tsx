@@ -33,12 +33,12 @@ export default function Wheel({
   items,
   containerStyle,
   textStyle,
-  itemHeight = 24,
+  itemHeight,
   selectedColor = 'black',
   disabledColor = 'gray',
   wheelHeight,
   displayCount = 5,
-}: WheelProps): React.ReactElement {
+}: WheelProps) {
   const translateY = useRef(new Animated.Value(0)).current;
   const renderCount =
     displayCount * 2 < items.length
