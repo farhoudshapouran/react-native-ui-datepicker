@@ -2,15 +2,12 @@ import {
   Animated,
   PanResponder,
   StyleSheet,
-  Text,
   TextStyle,
   View,
   ViewStyle,
 } from 'react-native';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { sin } from './AnimatedMath';
-
-const Value = Animated.createAnimatedComponent(Text);
 
 export interface WheelStyleProps {
   containerStyle?: ViewStyle;
@@ -23,53 +20,52 @@ export interface WheelStyleProps {
 }
 
 export interface WheelProps extends WheelStyleProps {
-  value: any;
-  setValue: (value: any) => void;
-  items: any[];
+  value: number;
+  setValue: (value: number) => void;
+  items: number[];
   onScroll?: (scrollState: boolean) => void;
 }
 
-export default function Wheel<T>({
+export default function Wheel({
   value,
   setValue,
   onScroll,
   items,
   containerStyle,
   textStyle,
-  itemHeight = 24,
+  itemHeight,
   selectedColor = 'black',
   disabledColor = 'gray',
   wheelHeight,
   displayCount = 5,
-}: WheelProps): React.ReactElement {
-  const translateY = useRef(new Animated.Value(0));
+}: WheelProps) {
+  const translateY = useRef(new Animated.Value(0)).current;
   const renderCount =
     displayCount * 2 < items.length
       ? displayCount * 4 + 1
       : displayCount * 2 - 1;
   const circular = items.length >= displayCount;
-  const [height, setHeight] = useState(
-    typeof containerStyle?.height === 'number' ? containerStyle.height : 100
-  );
+  const height =
+    typeof containerStyle?.height === 'number' ? containerStyle.height : 130;
   const radius = wheelHeight != null ? wheelHeight / 2 : height / 2;
 
   const valueIndex = useMemo(() => items.indexOf(value), [items, value]);
 
-  const panResponder = React.useMemo(() => {
+  const panResponder = useMemo(() => {
     return PanResponder.create({
       onMoveShouldSetPanResponder: () => true,
       onStartShouldSetPanResponderCapture: () => true,
       onPanResponderGrant: () => {
-        translateY.current.setValue(0);
+        translateY.setValue(0);
         onScroll && onScroll(true);
       },
       onPanResponderMove: (evt, gestureState) => {
-        translateY.current.setValue(gestureState.dy);
+        translateY.setValue(gestureState.dy);
         evt.stopPropagation();
       },
       onPanResponderRelease: (_, gestureState) => {
         onScroll && onScroll(false);
-        translateY.current.extractOffset();
+        translateY.extractOffset();
         let newValueIndex =
           valueIndex -
           Math.round(gestureState.dy / ((radius * 2) / displayCount));
@@ -80,10 +76,10 @@ export default function Wheel<T>({
           else if (newValueIndex >= items.length)
             newValueIndex = items.length - 1;
         }
-        const newValue = items[newValueIndex];
+        const newValue = items[newValueIndex] || 0;
         if (newValue === value) {
-          translateY.current.setOffset(0);
-          translateY.current.setValue(0);
+          translateY.setOffset(0);
+          translateY.setValue(0);
         } else setValue(newValue);
       },
     });
@@ -96,29 +92,27 @@ export default function Wheel<T>({
     value,
     valueIndex,
     items,
+    translateY,
   ]);
 
   const displayValues = useMemo(() => {
     const centerIndex = Math.floor(renderCount / 2);
 
-    return new Array(renderCount).fill('').map((_, index) => {
+    return [...Array(renderCount).keys()].map((_, index) => {
       let targetIndex = valueIndex + index - centerIndex;
       if (targetIndex < 0 || targetIndex >= items.length) {
-        if (!circular) {
-          return null;
-        }
         targetIndex = (targetIndex + items.length) % items.length;
       }
-      return items[targetIndex];
+      return items[targetIndex] || 0;
     });
-  }, [renderCount, valueIndex, items, circular]);
+  }, [renderCount, valueIndex, items]);
 
   const animatedAngles = useMemo(() => {
-    translateY.current.setValue(0);
-    translateY.current.setOffset(0);
+    translateY.setValue(0);
+    translateY.setOffset(0);
     const currentIndex = displayValues.indexOf(value);
     return displayValues.map((_, index) =>
-      translateY.current
+      translateY
         .interpolate({
           inputRange: [-radius, radius],
           outputRange: [
@@ -133,58 +127,53 @@ export default function Wheel<T>({
           extrapolate: 'clamp',
         })
     );
-  }, [displayValues, radius, value, displayCount]);
+  }, [displayValues, radius, value, displayCount, translateY]);
 
   return (
     <View
       style={[styles.container, containerStyle]}
-      onLayout={(evt) => setHeight(evt.nativeEvent.layout.height)}
       {...panResponder.panHandlers}
     >
-      {displayValues.map(
-        (displayValue: T | null | undefined, index: number) => {
-          const animatedAngle = animatedAngles[index];
-          return (
-            <Value
-              style={[
-                textStyle,
-                // eslint-disable-next-line react-native/no-inline-styles
-                {
-                  position: 'absolute',
-                  height: itemHeight,
-                  transform: animatedAngle
-                    ? [
-                        {
-                          translateY: Animated.multiply(
-                            radius,
-                            sin(animatedAngle)
-                          ),
-                        },
-                        {
-                          rotateX: animatedAngle.interpolate({
-                            inputRange: [-Math.PI / 2, Math.PI / 2],
-                            outputRange: ['-90deg', '90deg'],
-                            extrapolate: 'clamp',
-                          }),
-                        },
-                      ]
-                    : [],
-                  color: displayValue === value ? selectedColor : disabledColor,
-                },
-              ]}
-              key={`${value}${
-                index > displayValues.length / 2 ? 'Post' : 'Before'
-              }${displayValue ?? 'null' + index}`}
-            >
-              {displayValue !== undefined &&
-              displayValue !== null &&
-              displayValue < 10
-                ? `0${displayValue}`
-                : `${displayValue}`}
-            </Value>
-          );
-        }
-      )}
+      {displayValues.map((displayValue, index) => {
+        const animatedAngle = animatedAngles[index];
+        return (
+          <Animated.Text
+            key={`${value}${
+              index > displayValues.length / 2 ? 'Post' : 'Before'
+            }${displayValue + index}`}
+            style={[
+              textStyle,
+              // eslint-disable-next-line react-native/no-inline-styles
+              {
+                position: 'absolute',
+                height: itemHeight,
+                transform: animatedAngle
+                  ? [
+                      {
+                        translateY: Animated.multiply(
+                          radius,
+                          sin(animatedAngle)
+                        ),
+                      },
+                      {
+                        rotateX: animatedAngle.interpolate({
+                          inputRange: [-Math.PI / 2, Math.PI / 2],
+                          outputRange: ['-89deg', '89deg'],
+                          extrapolate: 'clamp',
+                        }),
+                      },
+                    ]
+                  : [],
+                color: displayValue === value ? selectedColor : disabledColor,
+              },
+            ]}
+          >
+            {typeof displayValue === 'number' && displayValue < 10
+              ? `0${displayValue}`
+              : `${displayValue}`}
+          </Animated.Text>
+        );
+      })}
     </View>
   );
 }

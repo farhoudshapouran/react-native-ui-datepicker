@@ -3,7 +3,7 @@ import type { CalendarActionKind, CalendarViews } from './enums';
 import type { TextStyle, ViewStyle } from 'react-native';
 import type { ReactNode } from 'react';
 
-export type DateType = string | number | Date | Dayjs | null;
+export type DateType = string | number | Dayjs | Date | null | undefined;
 
 export type CalendarModes = 'datetime' | 'date' | 'time';
 
