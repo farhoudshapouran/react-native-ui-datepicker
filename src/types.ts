@@ -42,6 +42,6 @@ export type CalendarTheme = {
 };
 
 export type HeaderProps = {
-  buttonLeftIcon?: ReactNode;
-  buttonRightIcon?: ReactNode;
+  buttonPrevIcon?: ReactNode;
+  buttonNextIcon?: ReactNode;
 };

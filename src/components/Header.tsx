@@ -8,7 +8,7 @@ import type { HeaderProps } from '../types';
 const arrow_left = require('../assets/images/arrow_left.png');
 const arrow_right = require('../assets/images/arrow_right.png');
 
-const Header = ({ buttonLeftIcon, buttonRightIcon }: HeaderProps) => {
+const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
   const {
     currentDate,
     selectedDate,
@@ -33,7 +33,7 @@ const Header = ({ buttonLeftIcon, buttonRightIcon }: HeaderProps) => {
       <View
         style={[styles.iconContainer, styles.prev, theme?.headerButtonStyle]}
       >
-        {buttonLeftIcon || (
+        {buttonPrevIcon || (
           <Image
             source={arrow_left}
             style={{
@@ -60,7 +60,7 @@ const Header = ({ buttonLeftIcon, buttonRightIcon }: HeaderProps) => {
       <View
         style={[styles.iconContainer, styles.next, theme?.headerButtonStyle]}
       >
-        {buttonRightIcon || (
+        {buttonNextIcon || (
           <Image
             source={arrow_right}
             style={{

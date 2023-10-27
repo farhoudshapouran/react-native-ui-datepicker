@@ -47,8 +47,8 @@ const DateTimePicker = ({
   selectedItemColor,
   timePickerContainerStyle,
   timePickerTextStyle,
-  buttonLeftIcon,
-  buttonRightIcon,
+  buttonPrevIcon,
+  buttonNextIcon,
 }: PropTypes) => {
   const utils = new calendarUtils({
     mode,
@@ -177,8 +177,8 @@ const DateTimePicker = ({
   return (
     <CalendarContext.Provider value={{ ...state, ...actions, utils, theme }}>
       <Calendar
-        buttonLeftIcon={buttonLeftIcon}
-        buttonRightIcon={buttonRightIcon}
+        buttonPrevIcon={buttonPrevIcon}
+        buttonNextIcon={buttonNextIcon}
       />
     </CalendarContext.Provider>
   );
