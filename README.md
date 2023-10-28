@@ -72,7 +72,7 @@ For more, take a look at the `/example` directory.
 | selectedItemColor        | `string`        | `'#0047FF'`     | Defines selected (Day, Month, Year) background and border colors                       |
 | headerContainerStyle     | `ViewStyle`     | `null`          | Defines calendar header container style                                                |
 | headerTextContainerStyle | `ViewStyle`     | `null`          | Defines calendar header texts (Month, Year, Time) containers style                     |
-| headerTextStyle          | `ViewStyle`     | `null`          | Defines calendar header texts styles (Month, Year, Time)                               |
+| headerTextStyle          | `TextStyle`     | `null`          | Defines calendar header texts styles (Month, Year, Time)                               |
 | headerButtonStyle        | `ViewStyle`     | `null`          | Defines calendar header "prev and next buttons" containers style                       |
 | headerButtonColor        | `string`        | `null`          | Defines calendar header "prev and next buttons" icon color                             |
 | headerButtonSize         | `number`        | `18`            | Defines calendar header "prev and next buttons" icon size                              |
