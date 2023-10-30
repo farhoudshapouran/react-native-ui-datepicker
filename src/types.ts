@@ -30,6 +30,8 @@ export type CalendarTheme = {
   headerButtonColor?: string;
   headerButtonSize?: number;
   dayContainerStyle?: ViewStyle;
+  todayContainerStyle?: ViewStyle;
+  todayTextStyle?: TextStyle;
   monthContainerStyle?: ViewStyle;
   yearContainerStyle?: ViewStyle;
   weekDaysContainerStyle?: ViewStyle;
