@@ -10,7 +10,7 @@ const DaySelector = () => {
   const days = useMemo(
     () => utils.getMonthDays(currentDate),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [month, year]
+    [month, year, utils.displayFullDays]
   );
 
   const handleSelectDate = (date: string) => {
