@@ -80,6 +80,8 @@ For more, take a look at the `/example` directory.
 | buttonPrevIcon           | `ReactNode`     | `undefined`     | Defines calendar header "prev button" custom icon |
 | buttonNextIcon           | `ReactNode`     | `undefined`     | Defines calendar header "next button" custom icon |
 | dayContainerStyle        | `ViewStyle`     | `null`          | Defines days containers style  |
+| todayContainerStyle      | `ViewStyle`     | `null`          | Defines today container style  |
+| todayTextStyle           | `TextStyle`     | `null`          | Defines today text style  |
 | monthContainerStyle      | `ViewStyle`     | `null`          | Defines months containers style  |
 | yearContainerStyle       | `ViewStyle`     | `null`          | Defines years containers style  |
 | weekDaysContainerStyle   | `ViewStyle`     | `null`          | Defines weekdays container style  |

@@ -43,6 +43,7 @@ const DaySelector = () => {
               ? {
                   borderWidth: 2,
                   borderColor: theme?.selectedItemColor || '#0047FF',
+                  ...theme?.todayContainerStyle,
                 }
               : null;
 
@@ -63,6 +64,7 @@ const DaySelector = () => {
               ? {
                   ...theme?.calendarTextStyle,
                   color: theme?.selectedItemColor || '#0047FF',
+                  ...theme?.todayTextStyle,
                 }
               : theme?.calendarTextStyle;
 

@@ -61,6 +61,9 @@ export default function App() {
               fontWeight: 'bold',
               color: theme?.activeTextColor,
             }}
+            todayContainerStyle={{
+              borderWidth: 1,
+            }}
             mode="datetime"
           />
           <View style={styles.footerContainer}>
