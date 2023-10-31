@@ -7,7 +7,7 @@ import {
   ViewStyle,
   Platform,
 } from 'react-native';
-import React, { useMemo, useRef } from 'react';
+import React, { memo, useMemo, useRef } from 'react';
 import { sin } from './AnimatedMath';
 import { CALENDAR_HEIGHT } from '../../enums';
 
@@ -28,7 +28,7 @@ export interface WheelProps extends WheelStyleProps {
   onScroll?: (scrollState: boolean) => void;
 }
 
-export default function Wheel({
+const Wheel = ({
   value,
   setValue,
   onScroll,
@@ -40,7 +40,7 @@ export default function Wheel({
   disabledColor = 'gray',
   wheelHeight,
   displayCount = 5,
-}: WheelProps) {
+}: WheelProps) => {
   const translateY = useRef(new Animated.Value(0)).current;
   const renderCount =
     displayCount * 2 < items.length
@@ -100,7 +100,7 @@ export default function Wheel({
   const displayValues = useMemo(() => {
     const centerIndex = Math.floor(renderCount / 2);
 
-    return [...Array(renderCount).keys()].map((_, index) => {
+    return Array.from({ length: renderCount }, (_, index) => {
       let targetIndex = valueIndex + index - centerIndex;
       if (targetIndex < 0 || targetIndex >= items.length) {
         targetIndex = (targetIndex + items.length) % items.length;
@@ -136,7 +136,7 @@ export default function Wheel({
       style={[styles.container, containerStyle]}
       {...panResponder.panHandlers}
     >
-      {displayValues.map((displayValue, index) => {
+      {displayValues?.map((displayValue, index) => {
         const animatedAngle = animatedAngles[index];
         return (
           <Animated.Text
@@ -178,7 +178,7 @@ export default function Wheel({
       })}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -199,3 +199,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+export default memo(Wheel);
