@@ -5,9 +5,11 @@ import {
   TextStyle,
   View,
   ViewStyle,
+  Platform,
 } from 'react-native';
 import React, { useMemo, useRef } from 'react';
 import { sin } from './AnimatedMath';
+import { CALENDAR_HEIGHT } from '../../enums';
 
 export interface WheelStyleProps {
   containerStyle?: ViewStyle;
@@ -180,11 +182,17 @@ export default function Wheel({
 
 const styles = StyleSheet.create({
   container: {
-    height: '100%',
     minWidth: 30,
     overflow: 'hidden',
     alignItems: 'center',
     justifyContent: 'center',
+    height: CALENDAR_HEIGHT / 2,
+    ...Platform.select({
+      web: {
+        cursor: 'pointer',
+        userSelect: 'none',
+      },
+    }),
   },
   contentContainer: {
     justifyContent: 'space-between',
