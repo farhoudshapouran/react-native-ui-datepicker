@@ -65,12 +65,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     margin: 5,
+    width: '100%',
   },
   yearCell: {
     width: '33.3%',
   },
   yearsRow: {
     flexDirection: 'row',
+    width: '100%',
   },
   year: {
     paddingVertical: 15,

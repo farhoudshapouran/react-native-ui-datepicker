@@ -1,6 +1,7 @@
 import React, { memo, useMemo } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
+import { CALENDAR_HEIGHT } from '../enums';
 
 const DaySelector = () => {
   const { utils, currentDate, selectedDate, onSelectDate, theme } =
@@ -111,6 +112,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 5,
+    width: '100%',
   },
   weekDaysContainer: {
     width: '100%',
@@ -128,14 +130,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   daysContainer: {
+    flex: 1,
     width: '100%',
     height: '100%',
     flexWrap: 'wrap',
     flexDirection: 'row',
+    justifyContent: 'center',
+    alignContent: 'flex-start',
   },
   dayCell: {
     width: '14.2%',
-    height: '14.2%',
+    height: CALENDAR_HEIGHT / 7 - 1,
   },
   dayContainer: {
     flex: 1,
