@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
 import Wheel from './TimePicker/Wheel';
+import { CALENDAR_HEIGHT } from '../enums';
 
 function createNumberList(num: number) {
   return new Array(num).fill(0).map((_, index) => index);
@@ -83,11 +84,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 140,
-    height: '50%',
+    width: CALENDAR_HEIGHT / 2,
+    height: CALENDAR_HEIGHT / 2,
   },
   timePickerText: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: 'bold',
   },
 });
