@@ -57,7 +57,6 @@ const styles = StyleSheet.create({
   monthsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    margin: 5,
   },
   monthCell: {
     width: '33.3%',
