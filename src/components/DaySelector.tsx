@@ -9,9 +9,11 @@ const DaySelector = () => {
   const month = utils.getDateMonth(currentDate);
   const year = utils.getDateYear(currentDate);
   const days = useMemo(
-    () => utils.getMonthDays(currentDate),
+    () => {
+      return utils.getMonthDays(currentDate);
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [month, year, utils.displayFullDays]
+    [month, year, utils.displayFullDays, utils.minimumDate, utils.maximumDate]
   );
 
   const handleSelectDate = (date: string) => {
@@ -135,7 +137,6 @@ const styles = StyleSheet.create({
     height: '100%',
     flexWrap: 'wrap',
     flexDirection: 'row',
-    justifyContent: 'center',
     alignContent: 'flex-start',
   },
   dayCell: {
