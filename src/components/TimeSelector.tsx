@@ -3,13 +3,14 @@ import { Text, View, StyleSheet } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
 import Wheel from './TimePicker/Wheel';
 import { CALENDAR_HEIGHT } from '../enums';
+import utils from '../utils';
 
 function createNumberList(num: number) {
   return new Array(num).fill(0).map((_, index) => index);
 }
 
 const TimeSelector = () => {
-  const { utils, selectedDate, currentDate, onSelectDate, theme } =
+  const { selectedDate, currentDate, onSelectDate, theme } =
     useCalendarContext();
   const [time, setTime] = useState({
     minute: utils.getDateMinute(selectedDate),

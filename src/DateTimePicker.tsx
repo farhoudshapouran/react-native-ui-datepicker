@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
-import calendarUtils from './utils';
+import utils from './utils';
 import CalendarContext from './CalendarContext';
 import { CalendarViews, CalendarActionKind } from './enums';
 import type {
@@ -11,6 +11,12 @@ import type {
   HeaderProps,
 } from './types';
 import Calendar from './components/Calendar';
+import dayjs from 'dayjs';
+import localeData from 'dayjs/plugin/localeData';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+dayjs.extend(localeData);
+dayjs.extend(relativeTime);
 
 interface PropTypes extends CalendarTheme, HeaderProps {
   value: DateType;
@@ -52,13 +58,8 @@ const DateTimePicker = ({
   buttonPrevIcon,
   buttonNextIcon,
 }: PropTypes) => {
-  const utils = new calendarUtils({
-    mode,
-    locale,
-    minimumDate,
-    maximumDate,
-    displayFullDays,
-  });
+  dayjs.locale(locale);
+
   const theme = {
     headerButtonsPosition,
     headerContainerStyle,
@@ -103,9 +104,8 @@ const DateTimePicker = ({
     },
     {
       calendarView: mode === 'time' ? CalendarViews.time : CalendarViews.day,
-      selectedDate: value ? utils.getFormatedValue(value) : utils.getNow(),
-      currentDate: value ? utils.getFormatedValue(value) : utils.getNow(),
-      mode: mode,
+      selectedDate: value ? utils.getFormated(value) : utils.getNow(),
+      currentDate: value ? utils.getFormated(value) : utils.getNow(),
     }
   );
 
@@ -119,6 +119,13 @@ const DateTimePicker = ({
       payload: value,
     });
   }, [value]);
+
+  useEffect(() => {
+    dispatch({
+      type: CalendarActionKind.SET_CALENDAR_VIEW,
+      payload: mode === 'time' ? CalendarViews.time : CalendarViews.day,
+    });
+  }, [mode]);
 
   const actions = {
     setCalendarView: (view: CalendarViews) =>
@@ -173,7 +180,18 @@ const DateTimePicker = ({
   };
 
   return (
-    <CalendarContext.Provider value={{ ...state, ...actions, utils, theme }}>
+    <CalendarContext.Provider
+      value={{
+        ...state,
+        ...actions,
+        locale,
+        mode,
+        displayFullDays,
+        minimumDate,
+        maximumDate,
+        theme,
+      }}
+    >
       <Calendar
         buttonPrevIcon={buttonPrevIcon}
         buttonNextIcon={buttonNextIcon}
