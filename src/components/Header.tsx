@@ -22,6 +22,7 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
 
   const renderPrevButton = (
     <TouchableOpacity
+      disabled={calendarView === CalendarViews.time}
       onPress={() =>
         calendarView === CalendarViews.day
           ? onChangeMonth(-1)
@@ -49,6 +50,7 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
 
   const renderNextButton = (
     <TouchableOpacity
+      disabled={calendarView === CalendarViews.time}
       onPress={() =>
         calendarView === CalendarViews.day
           ? onChangeMonth(1)
