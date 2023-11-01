@@ -22,7 +22,7 @@ const TimeSelector = () => {
       minute: utils.getDateMinute(selectedDate),
       hour: utils.getDateHour(selectedDate),
     });
-  }, [selectedDate, utils]);
+  }, [selectedDate]);
 
   return (
     <View style={styles.container}>
