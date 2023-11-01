@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Linking,
+} from 'react-native';
 import DateTimePicker, { DateType } from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
 import 'dayjs/locale/en';
@@ -94,6 +101,22 @@ export default function App() {
           </View>
         </View>
       </View>
+      <View style={styles.githubContainer}>
+        <TouchableOpacity
+          style={styles.githubLink}
+          onPress={() =>
+            Linking.openURL(
+              'https://github.com/farhoudshapouran/react-native-ui-datepicker'
+            )
+          }
+        >
+          <Image
+            source={require('../assets/github-logo.png')}
+            style={styles.githubLogo}
+          />
+          <Text style={styles.githubText}>Check repository on GitHub</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -102,6 +125,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F5FCFF',
+    alignItems: 'center',
   },
   titleContainer: {
     paddingTop: 100,
@@ -113,6 +137,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 0 },
+    width: '100%',
   },
   title: { fontSize: 20, fontWeight: 'bold' },
   themeContainer: {
@@ -121,6 +146,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     marginBottom: 30,
+    width: 330,
   },
   themeButton: {
     borderWidth: 4,
@@ -160,5 +186,19 @@ const styles = StyleSheet.create({
   },
   todayButtonText: {
     fontWeight: 'bold',
+  },
+  githubContainer: {
+    paddingVertical: 25,
+  },
+  githubLink: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  githubLogo: {
+    width: 24,
+    height: 24,
+  },
+  githubText: {
+    marginLeft: 8,
   },
 });

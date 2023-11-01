@@ -1,26 +1,29 @@
 {
-  "name": "example",
+  "name": "react-native-ui-datepicker-example",
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
+  "homepage": "https://farhoudshapouran.github.io/react-native-ui-datepicker/example",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "deploy": "gh-pages -d web-build"
   },
   "dependencies": {
     "expo": "^49.0.16",
-    "expo-status-bar": "~1.4.4",
+    "expo-status-bar": "~1.6.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native": "0.71.4",
-    "react-native-web": "~0.18.10"
+    "react-native": "0.72.6",
+    "react-native-web": "~0.19.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@expo/webpack-config": "^18.1.3",
+    "@expo/webpack-config": "^19.0.0",
     "babel-loader": "^8.1.0",
-    "babel-plugin-module-resolver": "^5.0.0"
+    "babel-plugin-module-resolver": "^5.0.0",
+    "gh-pages": "^6.0.0"
   },
   "private": true
 }
