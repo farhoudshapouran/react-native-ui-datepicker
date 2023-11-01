@@ -2,12 +2,13 @@
   "name": "react-native-ui-datepicker-example",
   "version": "1.0.0",
   "main": "node_modules/expo/AppEntry.js",
-  "homepage": "https://farhoudshapouran.github.io/react-native-ui-datepicker/example",
+  "homepage": "https://farhoudshapouran.github.io/react-native-ui-datepicker",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
+    "export": "expo export:web",
     "deploy": "gh-pages -d web-build"
   },
   "dependencies": {
