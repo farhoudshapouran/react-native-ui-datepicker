@@ -13,7 +13,6 @@ export type CalendarState = {
   calendarView: CalendarViews;
   selectedDate: DateType;
   currentDate: DateType;
-  mode: CalendarModes;
 };
 
 export type CalendarAction = {

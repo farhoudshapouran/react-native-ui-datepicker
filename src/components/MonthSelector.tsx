@@ -1,9 +1,10 @@
 import React, { memo } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
+import utils from '../utils';
 
 const MonthSelector = () => {
-  const { utils, currentDate, onSelectMonth, theme } = useCalendarContext();
+  const { currentDate, onSelectMonth, theme } = useCalendarContext();
   const month = utils.getDateMonth(currentDate);
 
   return (

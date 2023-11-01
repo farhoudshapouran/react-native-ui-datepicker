@@ -2,18 +2,31 @@ import React, { memo, useMemo } from 'react';
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
 import { CALENDAR_HEIGHT } from '../enums';
+import utils from '../utils';
 
 const DaySelector = () => {
-  const { utils, currentDate, selectedDate, onSelectDate, theme } =
-    useCalendarContext();
+  const {
+    currentDate,
+    selectedDate,
+    onSelectDate,
+    displayFullDays,
+    minimumDate,
+    maximumDate,
+    theme,
+  } = useCalendarContext();
   const month = utils.getDateMonth(currentDate);
   const year = utils.getDateYear(currentDate);
   const days = useMemo(
     () => {
-      return utils.getMonthDays(currentDate);
+      return utils.getMonthDays(
+        currentDate,
+        displayFullDays,
+        minimumDate,
+        maximumDate
+      );
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [month, year, utils.displayFullDays, utils.minimumDate, utils.maximumDate]
+    [month, year, displayFullDays, minimumDate, maximumDate]
   );
 
   const handleSelectDate = (date: string) => {
