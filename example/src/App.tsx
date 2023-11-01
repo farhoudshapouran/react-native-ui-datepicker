@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   Linking,
+  SafeAreaView,
 } from 'react-native';
 import DateTimePicker, { DateType } from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
@@ -33,92 +34,94 @@ export default function App() {
   const locale = 'en';
 
   return (
-    <View style={styles.container}>
-      <View style={styles.titleContainer}>
-        <Text style={styles.title}>React Native UI DatePicker</Text>
-      </View>
-      <View style={styles.themeContainer}>
-        {Themes.map((item, index) => (
-          <TouchableOpacity
-            key={index}
-            style={[
-              styles.themeButton,
-              {
-                borderColor: item.activeTextColor,
-                backgroundColor: item.mainColor,
-              },
-            ]}
-            onPress={() => setTheme(item)}
-          />
-        ))}
-      </View>
-      <View style={styles.datePickerContainer}>
-        <View style={styles.datePicker}>
-          <DateTimePicker
-            value={value}
-            //minimumDate={dayjs().startOf('day')}
-            //maximumDate={dayjs().add(3, 'day').endOf('day')}
-            displayFullDays={true}
-            locale={locale}
-            onValueChange={(date) => setValue(date)}
-            headerButtonColor={theme?.mainColor}
-            selectedItemColor={theme?.mainColor}
-            // eslint-disable-next-line react-native/no-inline-styles
-            selectedTextStyle={{
-              fontWeight: 'bold',
-              color: theme?.activeTextColor,
-            }}
-            // eslint-disable-next-line react-native/no-inline-styles
-            todayContainerStyle={{
-              borderWidth: 1,
-            }}
-            mode="datetime"
-          />
-          <View style={styles.footerContainer}>
-            <Text>
-              {dayjs(value).locale(locale).format('MMMM, DD, YYYY - HH:mm')}
-            </Text>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.body}>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>React Native UI DatePicker</Text>
+        </View>
+        <View style={styles.themeContainer}>
+          {Themes.map((item, index) => (
             <TouchableOpacity
-              onPress={() => {
-                setValue(dayjs());
+              key={index}
+              style={[
+                styles.themeButton,
+                {
+                  borderColor: item.activeTextColor,
+                  backgroundColor: item.mainColor,
+                },
+              ]}
+              onPress={() => setTheme(item)}
+            />
+          ))}
+        </View>
+        <View style={styles.datePickerContainer}>
+          <View style={styles.datePicker}>
+            <DateTimePicker
+              value={value}
+              //minimumDate={dayjs().startOf('day')}
+              //maximumDate={dayjs().add(3, 'day').endOf('day')}
+              displayFullDays={true}
+              locale={locale}
+              onValueChange={(date) => setValue(date)}
+              headerButtonColor={theme?.mainColor}
+              selectedItemColor={theme?.mainColor}
+              // eslint-disable-next-line react-native/no-inline-styles
+              selectedTextStyle={{
+                fontWeight: 'bold',
+                color: theme?.activeTextColor,
               }}
-            >
-              <View
-                style={[
-                  styles.todayButton,
-                  { backgroundColor: theme?.mainColor },
-                ]}
+              // eslint-disable-next-line react-native/no-inline-styles
+              todayContainerStyle={{
+                borderWidth: 1,
+              }}
+              mode="datetime"
+            />
+            <View style={styles.footerContainer}>
+              <Text>
+                {dayjs(value).locale(locale).format('MMMM, DD, YYYY - HH:mm')}
+              </Text>
+              <TouchableOpacity
+                onPress={() => {
+                  setValue(dayjs());
+                }}
               >
-                <Text
+                <View
                   style={[
-                    styles.todayButtonText,
-                    { color: theme?.activeTextColor },
+                    styles.todayButton,
+                    { backgroundColor: theme?.mainColor },
                   ]}
                 >
-                  Today
-                </Text>
-              </View>
-            </TouchableOpacity>
+                  <Text
+                    style={[
+                      styles.todayButtonText,
+                      { color: theme?.activeTextColor },
+                    ]}
+                  >
+                    Today
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
+        <View style={styles.githubContainer}>
+          <TouchableOpacity
+            style={styles.githubLink}
+            onPress={() =>
+              Linking.openURL(
+                'https://github.com/farhoudshapouran/react-native-ui-datepicker'
+              )
+            }
+          >
+            <Image
+              source={require('../assets/github-logo.png')}
+              style={styles.githubLogo}
+            />
+            <Text style={styles.githubText}>Check repository on GitHub</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={styles.githubContainer}>
-        <TouchableOpacity
-          style={styles.githubLink}
-          onPress={() =>
-            Linking.openURL(
-              'https://github.com/farhoudshapouran/react-native-ui-datepicker'
-            )
-          }
-        >
-          <Image
-            source={require('../assets/github-logo.png')}
-            style={styles.githubLogo}
-          />
-          <Text style={styles.githubText}>Check repository on GitHub</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
@@ -126,27 +129,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F5FCFF',
+  },
+  body: {
+    flex: 1,
+    backgroundColor: '#F5FCFF',
     alignItems: 'center',
   },
   titleContainer: {
-    paddingTop: 100,
-    paddingBottom: 30,
+    paddingVertical: 20,
     alignItems: 'center',
     backgroundColor: '#fff',
-    marginBottom: 30,
-    shadowRadius: 20,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 0 },
+    marginBottom: 20,
     width: '100%',
   },
-  title: { fontSize: 20, fontWeight: 'bold' },
+  title: { fontSize: 18, fontWeight: 'bold' },
   themeContainer: {
-    paddingHorizontal: 20,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    marginBottom: 30,
+    marginBottom: 20,
     width: 330,
   },
   themeButton: {
@@ -189,15 +190,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   githubContainer: {
-    paddingVertical: 25,
+    paddingVertical: 20,
   },
   githubLink: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   githubLogo: {
-    width: 24,
-    height: 24,
+    width: 22,
+    height: 22,
   },
   githubText: {
     marginLeft: 8,
