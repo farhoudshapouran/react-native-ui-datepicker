@@ -1,0 +1,9 @@
+{
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "lang": "en",
+  "name": "React Native UI DatePicker",
+  "short_name": "React Native UI DatePicker",
+  "start_url": "/?utm_source=web_app_manifest",
+  "orientation": "portrait"
+}

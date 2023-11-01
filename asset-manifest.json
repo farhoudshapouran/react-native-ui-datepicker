@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.js": "/react-native-ui-datepicker/example/static/js/main.2ef24ae2.js",
+    "static/js/443.9b5589a3.js": "/react-native-ui-datepicker/example/static/js/443.9b5589a3.js",
+    "favicon.ico": "/react-native-ui-datepicker/example/favicon.ico",
+    "index.html": "/react-native-ui-datepicker/example/index.html",
+    "static/media/arrow_right.png": "/react-native-ui-datepicker/example/static/media/arrow_right.e8676896fba657b8737b.png",
+    "static/media/arrow_left.png": "/react-native-ui-datepicker/example/static/media/arrow_left.d30e48edaec517fafb76.png",
+    "static/media/github-logo.png": "/react-native-ui-datepicker/example/static/media/github-logo.096a1105a4175bc5cb97.png",
+    "favicon-32.png": "/react-native-ui-datepicker/example/favicon-32.png",
+    "favicon-16.png": "/react-native-ui-datepicker/example/favicon-16.png",
+    "manifest.json": "/react-native-ui-datepicker/example/manifest.json",
+    "serve.json": "/react-native-ui-datepicker/example/serve.json",
+    "main.2ef24ae2.js.map": "/react-native-ui-datepicker/example/static/js/main.2ef24ae2.js.map",
+    "443.9b5589a3.js.map": "/react-native-ui-datepicker/example/static/js/443.9b5589a3.js.map"
+  },
+  "entrypoints": [
+    "static/js/443.9b5589a3.js",
+    "static/js/main.2ef24ae2.js"
+  ]
+}
