@@ -124,13 +124,7 @@ const DateTimePicker = ({
     setCalendarView: (view: CalendarViews) =>
       dispatch({ type: CalendarActionKind.SET_CALENDAR_VIEW, payload: view }),
     onSelectDate: (date: DateType) => {
-      onValueChange(
-        state.mode === 'time'
-          ? utils.getTimeFormated(date)
-          : state.mode === 'date'
-          ? utils.getDateFormated(date)
-          : date
-      );
+      onValueChange(date);
       dispatch({
         type: CalendarActionKind.CHANGE_SELECTED_DATE,
         payload: date,
