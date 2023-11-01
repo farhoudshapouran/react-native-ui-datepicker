@@ -28,14 +28,14 @@ const DaySelector = () => {
   return (
     <View style={styles.container}>
       <View style={[styles.weekDaysContainer, theme?.weekDaysContainerStyle]}>
-        {utils.getWeekdaysMin().map((item, index) => (
+        {utils.getWeekdaysMin()?.map((item, index) => (
           <View key={index} style={styles.weekDayCell}>
             <Text style={theme?.weekDaysTextStyle}>{item}</Text>
           </View>
         ))}
       </View>
       <View style={styles.daysContainer}>
-        {days.map((day, index) => {
+        {days?.map((day, index) => {
           const dayContainerStyle =
             day && day.isCurrentMonth
               ? theme?.dayContainerStyle

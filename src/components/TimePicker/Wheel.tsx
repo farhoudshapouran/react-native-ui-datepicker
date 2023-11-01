@@ -113,22 +113,25 @@ const Wheel = ({
     translateY.setValue(0);
     translateY.setOffset(0);
     const currentIndex = displayValues.indexOf(value);
-    return displayValues.map((_, index) =>
-      translateY
-        .interpolate({
-          inputRange: [-radius, radius],
-          outputRange: [
-            -radius + ((radius * 2) / displayCount) * (index - currentIndex),
-            radius + ((radius * 2) / displayCount) * (index - currentIndex),
-          ],
-          extrapolate: 'extend',
-        })
-        .interpolate({
-          inputRange: [-radius, radius],
-          outputRange: [-Math.PI / 2, Math.PI / 2],
-          extrapolate: 'clamp',
-        })
-    );
+    return displayValues && displayValues.length > 0
+      ? displayValues.map((_, index) =>
+          translateY
+            .interpolate({
+              inputRange: [-radius, radius],
+              outputRange: [
+                -radius +
+                  ((radius * 2) / displayCount) * (index - currentIndex),
+                radius + ((radius * 2) / displayCount) * (index - currentIndex),
+              ],
+              extrapolate: 'extend',
+            })
+            .interpolate({
+              inputRange: [-radius, radius],
+              outputRange: [-Math.PI / 2, Math.PI / 2],
+              extrapolate: 'clamp',
+            })
+        )
+      : [];
   }, [displayValues, radius, value, displayCount, translateY]);
 
   return (

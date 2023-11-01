@@ -126,62 +126,63 @@ export default class utils {
         : 35 - monthDaysOffset
       : 0;
 
-    const prevDays = this.displayFullDays
-      ? prevDaysArray.map((day) => {
-          const thisDay = date.add(-1, 'month').date(day);
-          let disabled = false;
-          if (this.minimumDate) {
-            disabled = thisDay < this.getDate(this.minimumDate);
-          }
-          if (this.maximumDate && !disabled) {
-            disabled = thisDay > this.getDate(this.maximumDate);
-          }
-          return {
-            text: day.toString(),
-            day,
-            date: this.getFormatedDate(thisDay, 'YYYY/MM/DD'),
-            disabled,
-            isCurrentMonth: false,
-          };
-        })
-      : new Array(dayOfMonth);
+    const prevDays =
+      this.displayFullDays && prevDaysArray && prevDaysArray.length > 0
+        ? prevDaysArray.map((day) => {
+            const thisDay = date.add(-1, 'month').date(day);
+            let disabled = false;
+            if (this.minimumDate) {
+              disabled = thisDay < this.getDate(this.minimumDate);
+            }
+            if (this.maximumDate && !disabled) {
+              disabled = thisDay > this.getDate(this.maximumDate);
+            }
+            return {
+              text: day.toString(),
+              day,
+              date: this.getFormatedDate(thisDay, 'YYYY/MM/DD'),
+              disabled,
+              isCurrentMonth: false,
+            };
+          })
+        : new Array(dayOfMonth);
 
-    return [
-      ...prevDays,
-      ...Array.from({ length: currentMonthDays }, (_, i) => {
-        const thisDay = date.date(i + 1);
-        let disabled = false;
-        if (this.minimumDate) {
-          disabled = thisDay < this.getDate(this.minimumDate);
-        }
-        if (this.maximumDate && !disabled) {
-          disabled = thisDay > this.getDate(this.maximumDate);
-        }
-        return {
-          text: (i + 1).toString(),
-          day: i + 1,
-          date: this.getFormatedDate(thisDay, 'YYYY/MM/DD'),
-          disabled,
-          isCurrentMonth: true,
-        };
-      }),
-      ...Array.from({ length: nextMonthDays }, (_, i) => {
-        const thisDay = date.add(1, 'month').date(i + 1);
-        let disabled = false;
-        if (this.minimumDate) {
-          disabled = thisDay < this.getDate(this.minimumDate);
-        }
-        if (this.maximumDate && !disabled) {
-          disabled = thisDay > this.getDate(this.maximumDate);
-        }
-        return {
-          text: (i + 1).toString(),
-          day: i + 1,
-          date: this.getFormatedDate(thisDay, 'YYYY/MM/DD'),
-          disabled,
-          isCurrentMonth: false,
-        };
-      }),
-    ];
+    const currentDays = Array.from({ length: currentMonthDays }, (_, i) => {
+      const thisDay = date.date(i + 1);
+      let disabled = false;
+      if (this.minimumDate) {
+        disabled = thisDay < this.getDate(this.minimumDate);
+      }
+      if (this.maximumDate && !disabled) {
+        disabled = thisDay > this.getDate(this.maximumDate);
+      }
+      return {
+        text: (i + 1).toString(),
+        day: i + 1,
+        date: this.getFormatedDate(thisDay, 'YYYY/MM/DD'),
+        disabled,
+        isCurrentMonth: true,
+      };
+    });
+
+    const nextDays = Array.from({ length: nextMonthDays }, (_, i) => {
+      const thisDay = date.add(1, 'month').date(i + 1);
+      let disabled = false;
+      if (this.minimumDate) {
+        disabled = thisDay < this.getDate(this.minimumDate);
+      }
+      if (this.maximumDate && !disabled) {
+        disabled = thisDay > this.getDate(this.maximumDate);
+      }
+      return {
+        text: (i + 1).toString(),
+        day: i + 1,
+        date: this.getFormatedDate(thisDay, 'YYYY/MM/DD'),
+        disabled,
+        isCurrentMonth: false,
+      };
+    });
+
+    return [...prevDays, ...currentDays, ...nextDays];
   };
 }

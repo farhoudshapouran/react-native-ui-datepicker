@@ -9,7 +9,7 @@ const MonthSelector = () => {
   return (
     <View style={styles.container}>
       <View style={styles.monthsContainer}>
-        {utils.getMonths().map((item, index) => {
+        {utils.getMonths()?.map((item, index) => {
           const activeItemStyle =
             index === month
               ? {
