@@ -14,9 +14,11 @@ import Calendar from './components/Calendar';
 import dayjs from 'dayjs';
 import localeData from 'dayjs/plugin/localeData';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
 
 dayjs.extend(localeData);
 dayjs.extend(relativeTime);
+dayjs.extend(localizedFormat);
 
 interface PropTypes extends CalendarTheme, HeaderProps {
   value: DateType;

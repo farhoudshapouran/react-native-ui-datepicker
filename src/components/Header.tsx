@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, Pressable, StyleSheet, Image } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
 import dayjs from 'dayjs';
 import { CalendarViews } from '../enums';
@@ -18,10 +18,11 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
     setCalendarView,
     mode,
     theme,
+    locale,
   } = useCalendarContext();
 
   const renderPrevButton = (
-    <TouchableOpacity
+    <Pressable
       disabled={calendarView === CalendarViews.time}
       onPress={() =>
         calendarView === CalendarViews.day
@@ -45,11 +46,11 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
           />
         )}
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 
   const renderNextButton = (
-    <TouchableOpacity
+    <Pressable
       disabled={calendarView === CalendarViews.time}
       onPress={() =>
         calendarView === CalendarViews.day
@@ -73,13 +74,13 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
           />
         )}
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 
   const renderSelectors = (
     <>
       <View style={styles.selectorContainer}>
-        <TouchableOpacity
+        <Pressable
           onPress={() =>
             setCalendarView(
               calendarView === CalendarViews.month
@@ -90,12 +91,12 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
         >
           <View style={[styles.textContainer, theme?.headerTextContainerStyle]}>
             <Text style={[styles.text, theme?.headerTextStyle]}>
-              {dayjs(currentDate).format('MMMM')}
+              {dayjs(currentDate).locale(locale).format('MMMM')}
             </Text>
           </View>
-        </TouchableOpacity>
+        </Pressable>
 
-        <TouchableOpacity
+        <Pressable
           onPress={() =>
             setCalendarView(
               calendarView === CalendarViews.year
@@ -111,10 +112,10 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
                 : dayjs(currentDate).format('YYYY')}
             </Text>
           </View>
-        </TouchableOpacity>
+        </Pressable>
       </View>
       {mode === 'datetime' ? (
-        <TouchableOpacity
+        <Pressable
           onPress={() =>
             setCalendarView(
               calendarView === CalendarViews.time
@@ -128,7 +129,7 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
               {dayjs(selectedDate).format('HH:mm')}
             </Text>
           </View>
-        </TouchableOpacity>
+        </Pressable>
       ) : null}
     </>
   );

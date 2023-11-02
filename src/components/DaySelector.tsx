@@ -1,5 +1,5 @@
 import React, { memo, useMemo } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, Pressable, StyleSheet } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
 import { CALENDAR_HEIGHT } from '../enums';
 import utils from '../utils';
@@ -86,34 +86,22 @@ const DaySelector = () => {
 
           return (
             <View key={index} style={styles.dayCell}>
-              {day && day.disabled ? (
-                <View
-                  style={[
-                    styles.dayContainer,
-                    dayContainerStyle,
-                    todayItemStyle,
-                    activeItemStyle,
-                    styles.disabledDay,
-                  ]}
-                >
-                  <View style={styles.dayTextContainer}>
-                    <Text style={textStyle}>{day.text}</Text>
-                  </View>
-                </View>
-              ) : day ? (
-                <TouchableOpacity
+              {day ? (
+                <Pressable
+                  disabled={day.disabled}
                   onPress={() => handleSelectDate(day.date)}
                   style={[
                     styles.dayContainer,
                     dayContainerStyle,
                     todayItemStyle,
                     activeItemStyle,
+                    day.disabled && styles.disabledDay,
                   ]}
                 >
                   <View style={styles.dayTextContainer}>
                     <Text style={textStyle}>{day.text}</Text>
                   </View>
-                </TouchableOpacity>
+                </Pressable>
               ) : null}
             </View>
           );

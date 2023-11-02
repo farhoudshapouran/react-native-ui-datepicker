@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, Pressable, StyleSheet } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
 import utils from '../utils';
 
@@ -25,7 +25,7 @@ const MonthSelector = () => {
               : theme?.calendarTextStyle;
 
           return (
-            <TouchableOpacity
+            <Pressable
               key={index}
               style={styles.monthCell}
               onPress={() => onSelectMonth(index)}
@@ -41,7 +41,7 @@ const MonthSelector = () => {
                   {item}
                 </Text>
               </View>
-            </TouchableOpacity>
+            </Pressable>
           );
         })}
       </View>

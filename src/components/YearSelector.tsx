@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, View, Pressable, StyleSheet } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
 import utils from '../utils';
 
@@ -31,7 +31,7 @@ const YearSelector = () => {
           : theme?.calendarTextStyle;
 
       return (
-        <TouchableOpacity
+        <Pressable
           key={cellYear}
           onPress={() => onSelectYear(cellYear)}
           style={styles.yearCell}
@@ -43,7 +43,7 @@ const YearSelector = () => {
               {cellYear}
             </Text>
           </View>
-        </TouchableOpacity>
+        </Pressable>
       );
     });
     return column;

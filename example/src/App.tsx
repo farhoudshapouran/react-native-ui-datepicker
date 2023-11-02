@@ -3,7 +3,7 @@ import {
   StyleSheet,
   View,
   Text,
-  TouchableOpacity,
+  Pressable,
   Image,
   Linking,
   SafeAreaView,
@@ -11,6 +11,10 @@ import {
 import DateTimePicker, { DateType } from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
 import 'dayjs/locale/en';
+import 'dayjs/locale/de';
+import 'dayjs/locale/es';
+import 'dayjs/locale/fr';
+import 'dayjs/locale/tr';
 
 interface ITheme {
   mainColor: string;
@@ -28,10 +32,12 @@ const Themes: ITheme[] = [
   { mainColor: '#FAD7DD', activeTextColor: '#932338' },
 ];
 
+const Locales = ['en', 'de', 'es', 'fr', 'tr'];
+
 export default function App() {
   const [value, setValue] = useState<DateType>(dayjs());
   const [theme, setTheme] = useState<ITheme | undefined>(Themes[0]);
-  const locale = 'en';
+  const [locale, setLocale] = useState('en');
 
   return (
     <SafeAreaView style={styles.container}>
@@ -41,7 +47,7 @@ export default function App() {
         </View>
         <View style={styles.themeContainer}>
           {Themes.map((item, index) => (
-            <TouchableOpacity
+            <Pressable
               key={index}
               style={[
                 styles.themeButton,
@@ -52,6 +58,32 @@ export default function App() {
               ]}
               onPress={() => setTheme(item)}
             />
+          ))}
+        </View>
+        <View style={styles.localeContainer}>
+          {Locales.map((item, index) => (
+            <Pressable
+              key={index}
+              style={[
+                styles.localeButton,
+                item === locale && {
+                  backgroundColor: theme?.mainColor,
+                },
+              ]}
+              onPress={() => setLocale(item)}
+            >
+              <Text
+                style={[
+                  styles.localeButtonText,
+                  item === locale && {
+                    fontWeight: 'bold',
+                    color: theme?.activeTextColor,
+                  },
+                ]}
+              >
+                {item.toUpperCase()}
+              </Text>
+            </Pressable>
           ))}
         </View>
         <View style={styles.datePickerContainer}>
@@ -80,7 +112,7 @@ export default function App() {
               <Text>
                 {dayjs(value).locale(locale).format('MMMM, DD, YYYY - HH:mm')}
               </Text>
-              <TouchableOpacity
+              <Pressable
                 onPress={() => {
                   setValue(dayjs());
                 }}
@@ -100,12 +132,12 @@ export default function App() {
                     Today
                   </Text>
                 </View>
-              </TouchableOpacity>
+              </Pressable>
             </View>
           </View>
         </View>
         <View style={styles.githubContainer}>
-          <TouchableOpacity
+          <Pressable
             style={styles.githubLink}
             onPress={() =>
               Linking.openURL(
@@ -118,7 +150,7 @@ export default function App() {
               style={styles.githubLogo}
             />
             <Text style={styles.githubText}>Check repository on GitHub</Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </View>
     </SafeAreaView>
@@ -147,7 +179,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-around',
-    marginBottom: 20,
+    marginBottom: 10,
     width: 330,
   },
   themeButton: {
@@ -160,6 +192,22 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 0 },
+  },
+  localeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  localeButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 36,
+    height: 36,
+    borderRadius: 36,
+    margin: 2,
+  },
+  localeButtonText: {
+    fontSize: 15,
   },
   datePickerContainer: {
     alignItems: 'center',
