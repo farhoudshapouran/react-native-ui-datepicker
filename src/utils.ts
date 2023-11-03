@@ -31,16 +31,26 @@ export default class utils {
 
   static getDateYear = (date: DateType) => dayjs(date).year();
 
-  static getDateHour = (date: DateType) => dayjs(date).hour();
-
-  static getDateMinute = (date: DateType) => dayjs(date).minute();
-
   static getToday = () => dayjs().format(dateFormat);
 
   static getFormatedDate = (date: DateType, format: string) =>
     dayjs(date).format(format);
 
   static getDate = (date: DateType) => dayjs(date, calendarFormat);
+
+  /**
+   * Get detailed date object
+   * @param date Get detailed date object
+   * @returns 
+   */
+  static getParsedDate = (date: DateType) => {
+    return {
+      year: dayjs(date).year(),
+      month: dayjs(date).month(),
+      hour: dayjs(date).hour(),
+      minute: dayjs(date).minute()
+    }
+  }
 
   /**
    * Calculate month days array based on current date

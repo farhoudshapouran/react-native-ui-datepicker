@@ -5,7 +5,7 @@ import utils from '../utils';
 
 const MonthSelector = () => {
   const { currentDate, onSelectMonth, theme } = useCalendarContext();
-  const month = utils.getDateMonth(currentDate);
+  const { month } = utils.getParsedDate(currentDate);
 
   return (
     <View style={styles.container}>

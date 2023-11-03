@@ -14,8 +14,7 @@ const DaySelector = () => {
     maximumDate,
     theme,
   } = useCalendarContext();
-  const month = utils.getDateMonth(currentDate);
-  const year = utils.getDateYear(currentDate);
+  const { year, month, hour, minute } = utils.getParsedDate(currentDate);
   const days = useMemo(
     () => {
       return utils.getMonthDays(
@@ -30,10 +29,7 @@ const DaySelector = () => {
   );
 
   const handleSelectDate = (date: string) => {
-    const newDate = utils
-      .getDate(date)
-      .hour(utils.getDateHour(currentDate))
-      .minute(utils.getDateMinute(currentDate));
+    const newDate = utils.getDate(date).hour(hour).minute(minute);
 
     onSelectDate(utils.getFormated(newDate));
   };
