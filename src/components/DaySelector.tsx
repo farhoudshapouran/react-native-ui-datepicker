@@ -1,8 +1,16 @@
-import React, { memo, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Text, View, Pressable, StyleSheet } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
 import { CALENDAR_HEIGHT } from '../enums';
-import utils from '../utils';
+import {
+  getParsedDate,
+  getMonthDays,
+  getDate,
+  getFormated,
+  getWeekdaysMin,
+  getToday,
+  getFormatedDate,
+} from '../utils';
 
 const DaySelector = () => {
   const {
@@ -14,10 +22,10 @@ const DaySelector = () => {
     maximumDate,
     theme,
   } = useCalendarContext();
-  const { year, month, hour, minute } = utils.getParsedDate(currentDate);
+  const { year, month, hour, minute } = getParsedDate(currentDate);
   const days = useMemo(
     () => {
-      return utils.getMonthDays(
+      return getMonthDays(
         currentDate,
         displayFullDays,
         minimumDate,
@@ -29,21 +37,24 @@ const DaySelector = () => {
   );
 
   const handleSelectDate = (date: string) => {
-    const newDate = utils.getDate(date).hour(hour).minute(minute);
+    const newDate = getDate(date).hour(hour).minute(minute);
 
-    onSelectDate(utils.getFormated(newDate));
+    onSelectDate(getFormated(newDate));
   };
 
   return (
-    <View style={styles.container}>
-      <View style={[styles.weekDaysContainer, theme?.weekDaysContainerStyle]}>
-        {utils.getWeekdaysMin()?.map((item, index) => (
+    <View style={styles.container} testID="day-selector">
+      <View
+        style={[styles.weekDaysContainer, theme?.weekDaysContainerStyle]}
+        testID="week-days"
+      >
+        {getWeekdaysMin()?.map((item, index) => (
           <View key={index} style={styles.weekDayCell}>
             <Text style={theme?.weekDaysTextStyle}>{item}</Text>
           </View>
         ))}
       </View>
-      <View style={styles.daysContainer}>
+      <View style={styles.daysContainer} testID="days">
         {days?.map((day, index) => {
           const dayContainerStyle =
             day && day.isCurrentMonth
@@ -51,7 +62,7 @@ const DaySelector = () => {
               : { opacity: 0.3 };
 
           const todayItemStyle =
-            day && day.date === utils.getToday()
+            day && day.date === getToday()
               ? {
                   borderWidth: 2,
                   borderColor: theme?.selectedItemColor || '#0047FF',
@@ -60,8 +71,7 @@ const DaySelector = () => {
               : null;
 
           const activeItemStyle =
-            day &&
-            day.date === utils.getFormatedDate(selectedDate, 'YYYY/MM/DD')
+            day && day.date === getFormatedDate(selectedDate, 'YYYY/MM/DD')
               ? {
                   borderColor: theme?.selectedItemColor || '#0047FF',
                   backgroundColor: theme?.selectedItemColor || '#0047FF',
@@ -69,10 +79,9 @@ const DaySelector = () => {
               : null;
 
           const textStyle =
-            day &&
-            day.date === utils.getFormatedDate(selectedDate, 'YYYY/MM/DD')
+            day && day.date === getFormatedDate(selectedDate, 'YYYY/MM/DD')
               ? { color: '#fff', ...theme?.selectedTextStyle }
-              : day && day.date === utils.getToday()
+              : day && day.date === getToday()
               ? {
                   ...theme?.calendarTextStyle,
                   color: theme?.selectedItemColor || '#0047FF',
@@ -156,4 +165,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(DaySelector);
+export default DaySelector;

@@ -3,7 +3,7 @@ import { Text, View, StyleSheet } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
 import Wheel from './TimePicker/Wheel';
 import { CALENDAR_HEIGHT } from '../enums';
-import utils from '../utils';
+import { getParsedDate, getDate, getFormated } from '../utils';
 
 function createNumberList(num: number) {
   return new Array(num).fill(0).map((_, index) => index);
@@ -12,10 +12,10 @@ function createNumberList(num: number) {
 const TimeSelector = () => {
   const { selectedDate, currentDate, onSelectDate, theme } =
     useCalendarContext();
-  const { hour, minute } = utils.getParsedDate(selectedDate);
+  const { hour, minute } = getParsedDate(selectedDate);
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="time-selector">
       <View
         style={[styles.timePickerContainer, theme?.timePickerContainerStyle]}
       >
@@ -28,9 +28,8 @@ const TimeSelector = () => {
               ...theme?.timePickerTextStyle,
             }}
             setValue={(hour) => {
-              //setTime({ hour, minute });
-              const newDate = utils.getDate(currentDate).hour(hour);
-              onSelectDate(utils.getFormated(newDate));
+              const newDate = getDate(currentDate).hour(hour);
+              onSelectDate(getFormated(newDate));
             }}
           />
         </View>
@@ -51,9 +50,8 @@ const TimeSelector = () => {
               ...theme?.timePickerTextStyle,
             }}
             setValue={(minute) => {
-              //setTime({ hour, minute });
-              const newDate = utils.getDate(currentDate).minute(minute);
-              onSelectDate(utils.getFormated(newDate));
+              const newDate = getDate(currentDate).minute(minute);
+              onSelectDate(getFormated(newDate));
             }}
           />
         </View>

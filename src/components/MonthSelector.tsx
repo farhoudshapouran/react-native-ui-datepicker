@@ -1,16 +1,16 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { Text, View, Pressable, StyleSheet } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
-import utils from '../utils';
+import { getParsedDate, getMonths } from '../utils';
 
 const MonthSelector = () => {
   const { currentDate, onSelectMonth, theme } = useCalendarContext();
-  const { month } = utils.getParsedDate(currentDate);
+  const { month } = getParsedDate(currentDate);
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="month-selector">
       <View style={styles.monthsContainer}>
-        {utils.getMonths()?.map((item, index) => {
+        {getMonths()?.map((item, index) => {
           const activeItemStyle =
             index === month
               ? {
@@ -73,4 +73,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(MonthSelector);
+export default MonthSelector;

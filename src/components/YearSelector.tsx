@@ -1,13 +1,13 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { Text, View, Pressable, StyleSheet } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
-import utils from '../utils';
+import { getDateYear } from '../utils';
 
 const YearSelector = () => {
   const { currentDate, selectedDate, onSelectYear, theme } =
     useCalendarContext();
-  const currentYear = utils.getDateYear(currentDate);
-  const selectedYear = utils.getDateYear(selectedDate);
+  const currentYear = getDateYear(currentDate);
+  const selectedYear = getDateYear(selectedDate);
   const rowArray = [1, 2, 3];
   const colArray = [1, 2, 3, 4];
 
@@ -50,7 +50,7 @@ const YearSelector = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="year-selector">
       {colArray.map((index) => (
         <View key={index} style={styles.yearsRow}>
           {generateColumns()}
@@ -86,4 +86,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(YearSelector);
+export default YearSelector;
