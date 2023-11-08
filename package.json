@@ -102,16 +102,6 @@
     "node": ">= 16.0.0"
   },
   "packageManager": "^yarn@1.22.15",
-  "jest": {
-    "preset": "@testing-library/react-native",
-    "setupFilesAfterEnv": [
-      "<rootDir>/jest.setup.ts"
-    ],
-    "modulePathIgnorePatterns": [
-      "<rootDir>/example/node_modules",
-      "<rootDir>/lib/"
-    ]
-  },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
