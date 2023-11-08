@@ -105,7 +105,7 @@
   "jest": {
     "preset": "react-native",
     "setupFilesAfterEnv": [
-      "<rootDir>/node_modules/@testing-library/jest-native/extend-expect"
+      "<rootDir>/jest.setup.ts"
     ],
     "modulePathIgnorePatterns": [
       "<rootDir>/example/node_modules",

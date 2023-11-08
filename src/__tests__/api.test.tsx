@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react-native';
 import DateTimePicker from '../DateTimePicker';
-import dayjs from 'dayjs';
+//import dayjs from 'dayjs';
 import 'dayjs/locale/en';
 import 'dayjs/locale/de';
 import 'dayjs/locale/es';
@@ -16,4 +16,13 @@ describe('API TESTS', () => {
     render(<DateTimePicker value={selectedDate} />);
     expect(screen.getByText(month)).toBeVisible();
   });
+
+  // test('minimumDate should be applied after init', () => {
+  //   const minimumDate = new Date();
+
+  //   render(<DateTimePicker minimumDate={minimumDate} />);
+  //   expect(
+  //     screen.getByTestId(dayjs(minimumDate).add(-1, 'day').format('YYYY/MM/DD'))
+  //   ).toBeDisabled();
+  // });
 });

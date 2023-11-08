@@ -102,6 +102,7 @@ const DaySelector = () => {
                     activeItemStyle,
                     day.disabled && styles.disabledDay,
                   ]}
+                  testID={day.date}
                 >
                   <View style={styles.dayTextContainer}>
                     <Text style={textStyle}>{day.text}</Text>
