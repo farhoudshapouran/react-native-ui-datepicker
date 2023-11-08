@@ -27,8 +27,8 @@ const TimeSelector = () => {
               ...styles.timePickerText,
               ...theme?.timePickerTextStyle,
             }}
-            setValue={(hour) => {
-              const newDate = getDate(currentDate).hour(hour);
+            setValue={(value) => {
+              const newDate = getDate(currentDate).hour(value);
               onSelectDate(getFormated(newDate));
             }}
           />
@@ -49,8 +49,8 @@ const TimeSelector = () => {
               ...styles.timePickerText,
               ...theme?.timePickerTextStyle,
             }}
-            setValue={(minute) => {
-              const newDate = getDate(currentDate).minute(minute);
+            setValue={(value) => {
+              const newDate = getDate(currentDate).minute(value);
               onSelectDate(getFormated(newDate));
             }}
           />

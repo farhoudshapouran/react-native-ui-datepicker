@@ -75,6 +75,7 @@ export default function App() {
               <Text
                 style={[
                   styles.localeButtonText,
+                  // eslint-disable-next-line react-native/no-inline-styles
                   item === locale && {
                     fontWeight: 'bold',
                     color: theme?.activeTextColor,

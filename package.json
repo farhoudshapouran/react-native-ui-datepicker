@@ -103,7 +103,7 @@
   },
   "packageManager": "^yarn@1.22.15",
   "jest": {
-    "preset": "react-native",
+    "preset": "@testing-library/react-native",
     "setupFilesAfterEnv": [
       "<rootDir>/jest.setup.ts"
     ],
