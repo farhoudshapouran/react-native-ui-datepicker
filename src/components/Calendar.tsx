@@ -23,7 +23,7 @@ const Calendar = ({ buttonPrevIcon, buttonNextIcon }: PropTypes) => {
   const { calendarView, mode } = useCalendarContext();
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="calendar">
       {mode !== 'time' ? (
         <Header
           buttonPrevIcon={buttonPrevIcon}

@@ -25,13 +25,11 @@ export interface WheelProps extends WheelStyleProps {
   value: number;
   setValue: (value: number) => void;
   items: number[];
-  onScroll?: (scrollState: boolean) => void;
 }
 
 const Wheel = ({
   value,
   setValue,
-  onScroll,
   items,
   containerStyle,
   textStyle,
@@ -51,7 +49,7 @@ const Wheel = ({
     typeof containerStyle?.height === 'number' ? containerStyle.height : 130;
   const radius = wheelHeight != null ? wheelHeight / 2 : height / 2;
 
-  const valueIndex = useMemo(() => items.indexOf(value), [items, value]);
+  const valueIndex = items.indexOf(value);
 
   const panResponder = useMemo(() => {
     return PanResponder.create({
@@ -59,14 +57,12 @@ const Wheel = ({
       onStartShouldSetPanResponderCapture: () => true,
       onPanResponderGrant: () => {
         translateY.setValue(0);
-        onScroll && onScroll(true);
       },
       onPanResponderMove: (evt, gestureState) => {
         translateY.setValue(gestureState.dy);
         evt.stopPropagation();
       },
       onPanResponderRelease: (_, gestureState) => {
-        onScroll && onScroll(false);
         translateY.extractOffset();
         let newValueIndex =
           valueIndex -
@@ -88,7 +84,6 @@ const Wheel = ({
   }, [
     circular,
     displayCount,
-    onScroll,
     radius,
     setValue,
     value,
@@ -110,7 +105,7 @@ const Wheel = ({
   }, [renderCount, valueIndex, items]);
 
   const animatedAngles = useMemo(() => {
-    translateY.setValue(0);
+    //translateY.setValue(0);
     translateY.setOffset(0);
     const currentIndex = displayValues.indexOf(value);
     return displayValues && displayValues.length > 0

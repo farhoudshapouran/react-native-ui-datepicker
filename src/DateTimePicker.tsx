@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
-import utils from './utils';
+import { getNow, getFormated, getDate } from './utils';
 import CalendarContext from './CalendarContext';
 import { CalendarViews, CalendarActionKind } from './enums';
 import type {
@@ -31,7 +31,7 @@ interface PropTypes extends CalendarTheme, HeaderProps {
 }
 
 const DateTimePicker = ({
-  value,
+  value = getNow(),
   mode = 'datetime',
   locale = 'en',
   minimumDate = null,
@@ -59,7 +59,7 @@ const DateTimePicker = ({
   timePickerTextStyle,
   buttonPrevIcon,
   buttonNextIcon,
-}: PropTypes) => {
+}: Partial<PropTypes>) => {
   dayjs.locale(locale);
 
   const theme = {
@@ -106,8 +106,8 @@ const DateTimePicker = ({
     },
     {
       calendarView: mode === 'time' ? CalendarViews.time : CalendarViews.day,
-      selectedDate: value ? utils.getFormated(value) : utils.getNow(),
-      currentDate: value ? utils.getFormated(value) : utils.getNow(),
+      selectedDate: value ? getFormated(value) : getNow(),
+      currentDate: value ? getFormated(value) : getNow(),
     }
   );
 
@@ -144,10 +144,10 @@ const DateTimePicker = ({
       });
     },
     onSelectMonth: (month: number) => {
-      const newDate = utils.getDate(state.currentDate).month(month);
+      const newDate = getDate(state.currentDate).month(month);
       dispatch({
         type: CalendarActionKind.CHANGE_CURRENT_DATE,
-        payload: utils.getFormated(newDate),
+        payload: getFormated(newDate),
       });
       dispatch({
         type: CalendarActionKind.SET_CALENDAR_VIEW,
@@ -155,10 +155,10 @@ const DateTimePicker = ({
       });
     },
     onSelectYear: (year: number) => {
-      const newDate = utils.getDate(state.currentDate).year(year);
+      const newDate = getDate(state.currentDate).year(year);
       dispatch({
         type: CalendarActionKind.CHANGE_CURRENT_DATE,
-        payload: utils.getFormated(newDate),
+        payload: getFormated(newDate),
       });
       dispatch({
         type: CalendarActionKind.SET_CALENDAR_VIEW,
@@ -166,17 +166,17 @@ const DateTimePicker = ({
       });
     },
     onChangeMonth: (month: number) => {
-      const newDate = utils.getDate(state.currentDate).add(month, 'month');
+      const newDate = getDate(state.currentDate).add(month, 'month');
       dispatch({
         type: CalendarActionKind.CHANGE_CURRENT_DATE,
-        payload: utils.getFormated(newDate),
+        payload: getFormated(newDate),
       });
     },
     onChangeYear: (year: number) => {
-      const newDate = utils.getDate(state.currentDate).add(year, 'year');
+      const newDate = getDate(state.currentDate).add(year, 'year');
       dispatch({
         type: CalendarActionKind.CHANGE_CURRENT_DATE,
-        payload: utils.getFormated(newDate),
+        payload: getFormated(newDate),
       });
     },
   };

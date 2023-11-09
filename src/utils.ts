@@ -12,125 +12,134 @@ export interface IDayObject {
 const calendarFormat = 'YYYY/MM/DD HH:mm';
 const dateFormat = 'YYYY/MM/DD';
 
-export default class utils {
-  static getMonths = () => dayjs.months();
+export const getMonths = () => dayjs.months();
 
-  static getMonthName = (month: number) => dayjs.months()[month];
+export const getMonthName = (month: number) => dayjs.months()[month];
 
-  static getWeekdays = () => dayjs.weekdays();
+export const getWeekdays = () => dayjs.weekdays();
 
-  static getWeekdaysShort = () => dayjs.weekdaysShort();
+export const getWeekdaysShort = () => dayjs.weekdaysShort();
 
-  static getWeekdaysMin = () => dayjs.weekdaysMin();
+export const getWeekdaysMin = () => dayjs.weekdaysMin();
 
-  static getFormated = (date: DateType) => dayjs(date).format(calendarFormat);
+export const getFormated = (date: DateType) =>
+  dayjs(date).format(calendarFormat);
 
-  static getNow = () => dayjs().format(calendarFormat);
+export const getNow = () => dayjs().format(calendarFormat);
 
-  static getDateMonth = (date: DateType) => dayjs(date).month();
+export const getDateMonth = (date: DateType) => dayjs(date).month();
 
-  static getDateYear = (date: DateType) => dayjs(date).year();
+export const getDateYear = (date: DateType) => dayjs(date).year();
 
-  static getDateHour = (date: DateType) => dayjs(date).hour();
+export const getToday = () => dayjs().format(dateFormat);
 
-  static getDateMinute = (date: DateType) => dayjs(date).minute();
+export const getFormatedDate = (date: DateType, format: string) =>
+  dayjs(date).format(format);
 
-  static getToday = () => dayjs().format(dateFormat);
+export const getDate = (date: DateType) => dayjs(date, calendarFormat);
 
-  static getFormatedDate = (date: DateType, format: string) =>
-    dayjs(date).format(format);
-
-  static getDate = (date: DateType) => dayjs(date, calendarFormat);
-
-  /**
-   * Calculate month days array based on current date
-   *
-   * @param {DateType} datetime - The current date that selected
-   * @param {boolean} displayFullDays
-   * @param {DateType} minimumDate
-   * @param {DateType} maximumDate
-   * @returns {IDayObject[]} days array based on current date
-   */
-  static getMonthDays = (
-    datetime: DateType = dayjs(),
-    displayFullDays: boolean,
-    minimumDate: DateType,
-    maximumDate: DateType
-  ): IDayObject[] => {
-    const date = this.getDate(datetime);
-    const currentMonthDays = date.daysInMonth();
-    const prevMonthDays = date.add(-1, 'month').daysInMonth();
-    const firstDay = date.date(1);
-    const dayOfMonth = firstDay.day() % 7;
-
-    const prevDaysArray = Array.from(
-      { length: dayOfMonth },
-      (_, i) => i + (prevMonthDays - dayOfMonth + 1)
-    );
-    const monthDaysOffset = dayOfMonth + currentMonthDays;
-    const nextMonthDays = displayFullDays
-      ? monthDaysOffset > 35
-        ? 42 - monthDaysOffset
-        : 35 - monthDaysOffset
-      : 0;
-
-    const prevDays =
-      displayFullDays && prevDaysArray && prevDaysArray.length > 0
-        ? prevDaysArray?.map((day) => {
-            const thisDay = date.add(-1, 'month').date(day);
-            let disabled = false;
-            if (minimumDate) {
-              disabled = thisDay < this.getDate(minimumDate);
-            }
-            if (maximumDate && !disabled) {
-              disabled = thisDay > this.getDate(maximumDate);
-            }
-            return {
-              text: day.toString(),
-              day,
-              date: this.getFormatedDate(thisDay, 'YYYY/MM/DD'),
-              disabled,
-              isCurrentMonth: false,
-            };
-          })
-        : new Array(dayOfMonth);
-
-    const currentDays = Array.from({ length: currentMonthDays }, (_, i) => {
-      const thisDay = date.date(i + 1);
-      let disabled = false;
-      if (minimumDate) {
-        disabled = thisDay < this.getDate(minimumDate);
-      }
-      if (maximumDate && !disabled) {
-        disabled = thisDay > this.getDate(maximumDate);
-      }
-      return {
-        text: (i + 1).toString(),
-        day: i + 1,
-        date: this.getFormatedDate(thisDay, 'YYYY/MM/DD'),
-        disabled,
-        isCurrentMonth: true,
-      };
-    });
-
-    const nextDays = Array.from({ length: nextMonthDays }, (_, i) => {
-      const thisDay = date.add(1, 'month').date(i + 1);
-      let disabled = false;
-      if (minimumDate) {
-        disabled = thisDay < this.getDate(minimumDate);
-      }
-      if (maximumDate && !disabled) {
-        disabled = thisDay > this.getDate(maximumDate);
-      }
-      return {
-        text: (i + 1).toString(),
-        day: i + 1,
-        date: this.getFormatedDate(thisDay, 'YYYY/MM/DD'),
-        disabled,
-        isCurrentMonth: false,
-      };
-    });
-
-    return [...prevDays, ...currentDays, ...nextDays];
+/**
+ * Get detailed date object
+ * @param date Get detailed date object
+ * @returns
+ */
+export const getParsedDate = (date: DateType) => {
+  return {
+    year: dayjs(date).year(),
+    month: dayjs(date).month(),
+    hour: dayjs(date).hour(),
+    minute: dayjs(date).minute(),
   };
-}
+};
+
+/**
+ * Calculate month days array based on current date
+ *
+ * @param {DateType} datetime - The current date that selected
+ * @param {boolean} displayFullDays
+ * @param {DateType} minimumDate - min selectable date
+ * @param {DateType} maximumDate - max selectable date
+ * @returns {IDayObject[]} days array based on current date
+ */
+export const getMonthDays = (
+  datetime: DateType = dayjs(),
+  displayFullDays: boolean,
+  minimumDate: DateType,
+  maximumDate: DateType
+): IDayObject[] => {
+  const date = getDate(datetime);
+  const currentMonthDays = date.daysInMonth();
+  const prevMonthDays = date.add(-1, 'month').daysInMonth();
+  const firstDay = date.date(1);
+  const dayOfMonth = firstDay.day() % 7;
+
+  const prevDaysArray = Array.from(
+    { length: dayOfMonth },
+    (_, i) => i + (prevMonthDays - dayOfMonth + 1)
+  );
+  const monthDaysOffset = dayOfMonth + currentMonthDays;
+  const nextMonthDays = displayFullDays
+    ? monthDaysOffset > 35
+      ? 42 - monthDaysOffset
+      : 35 - monthDaysOffset
+    : 0;
+
+  const prevDays =
+    displayFullDays && prevDaysArray && prevDaysArray.length > 0
+      ? prevDaysArray?.map((day) => {
+          const thisDay = date.add(-1, 'month').date(day);
+          let disabled = false;
+          if (minimumDate) {
+            disabled = thisDay < getDate(minimumDate);
+          }
+          if (maximumDate && !disabled) {
+            disabled = thisDay > getDate(maximumDate);
+          }
+          return {
+            text: day.toString(),
+            day,
+            date: getFormatedDate(thisDay, 'YYYY/MM/DD'),
+            disabled,
+            isCurrentMonth: false,
+          };
+        })
+      : new Array(dayOfMonth);
+
+  const currentDays = Array.from({ length: currentMonthDays }, (_, i) => {
+    const thisDay = date.date(i + 1);
+    let disabled = false;
+    if (minimumDate) {
+      disabled = thisDay < getDate(minimumDate);
+    }
+    if (maximumDate && !disabled) {
+      disabled = thisDay > getDate(maximumDate);
+    }
+    return {
+      text: (i + 1).toString(),
+      day: i + 1,
+      date: getFormatedDate(thisDay, 'YYYY/MM/DD'),
+      disabled,
+      isCurrentMonth: true,
+    };
+  });
+
+  const nextDays = Array.from({ length: nextMonthDays }, (_, i) => {
+    const thisDay = date.add(1, 'month').date(i + 1);
+    let disabled = false;
+    if (minimumDate) {
+      disabled = thisDay < getDate(minimumDate);
+    }
+    if (maximumDate && !disabled) {
+      disabled = thisDay > getDate(maximumDate);
+    }
+    return {
+      text: (i + 1).toString(),
+      day: i + 1,
+      date: getFormatedDate(thisDay, 'YYYY/MM/DD'),
+      disabled,
+      isCurrentMonth: false,
+    };
+  });
+
+  return [...prevDays, ...currentDays, ...nextDays];
+};
