@@ -9,8 +9,8 @@ export interface IDayObject {
   isCurrentMonth: boolean;
 }
 
-const calendarFormat = 'YYYY/MM/DD HH:mm';
-const dateFormat = 'YYYY/MM/DD';
+export const calendarFormat = 'YYYY-MM-DD HH:mm';
+export const dateFormat = 'YYYY-MM-DD';
 
 export const getMonths = () => dayjs.months();
 
@@ -68,78 +68,69 @@ export const getMonthDays = (
   maximumDate: DateType
 ): IDayObject[] => {
   const date = getDate(datetime);
-  const currentMonthDays = date.daysInMonth();
+  const daysInMonth = date.daysInMonth();
   const prevMonthDays = date.add(-1, 'month').daysInMonth();
   const firstDay = date.date(1);
   const dayOfMonth = firstDay.day() % 7;
 
-  const prevDaysArray = Array.from(
-    { length: dayOfMonth },
-    (_, i) => i + (prevMonthDays - dayOfMonth + 1)
-  );
-  const monthDaysOffset = dayOfMonth + currentMonthDays;
+  const prevDays = displayFullDays
+    ? Array.from({ length: dayOfMonth }, (_, i) => {
+        const day = i + (prevMonthDays - dayOfMonth + 1);
+        const thisDay = date.add(-1, 'month').date(day);
+        return generateDayObject(day, thisDay, minimumDate, maximumDate, false);
+      })
+    : Array(dayOfMonth).fill(null);
+
+  const monthDaysOffset = dayOfMonth + daysInMonth;
   const nextMonthDays = displayFullDays
     ? monthDaysOffset > 35
       ? 42 - monthDaysOffset
       : 35 - monthDaysOffset
     : 0;
 
-  const prevDays =
-    displayFullDays && prevDaysArray && prevDaysArray.length > 0
-      ? prevDaysArray?.map((day) => {
-          const thisDay = date.add(-1, 'month').date(day);
-          let disabled = false;
-          if (minimumDate) {
-            disabled = thisDay < getDate(minimumDate);
-          }
-          if (maximumDate && !disabled) {
-            disabled = thisDay > getDate(maximumDate);
-          }
-          return {
-            text: day.toString(),
-            day,
-            date: getFormatedDate(thisDay, 'YYYY/MM/DD'),
-            disabled,
-            isCurrentMonth: false,
-          };
-        })
-      : new Array(dayOfMonth);
-
-  const currentDays = Array.from({ length: currentMonthDays }, (_, i) => {
-    const thisDay = date.date(i + 1);
-    let disabled = false;
-    if (minimumDate) {
-      disabled = thisDay < getDate(minimumDate);
-    }
-    if (maximumDate && !disabled) {
-      disabled = thisDay > getDate(maximumDate);
-    }
-    return {
-      text: (i + 1).toString(),
-      day: i + 1,
-      date: getFormatedDate(thisDay, 'YYYY/MM/DD'),
-      disabled,
-      isCurrentMonth: true,
-    };
+  const currentDays = Array.from({ length: daysInMonth }, (_, i) => {
+    const day = i + 1;
+    const thisDay = date.date(day);
+    return generateDayObject(day, thisDay, minimumDate, maximumDate, true);
   });
 
   const nextDays = Array.from({ length: nextMonthDays }, (_, i) => {
-    const thisDay = date.add(1, 'month').date(i + 1);
-    let disabled = false;
-    if (minimumDate) {
-      disabled = thisDay < getDate(minimumDate);
-    }
-    if (maximumDate && !disabled) {
-      disabled = thisDay > getDate(maximumDate);
-    }
-    return {
-      text: (i + 1).toString(),
-      day: i + 1,
-      date: getFormatedDate(thisDay, 'YYYY/MM/DD'),
-      disabled,
-      isCurrentMonth: false,
-    };
+    const day = i + 1;
+    const thisDay = date.add(1, 'month').date(day);
+    return generateDayObject(day, thisDay, minimumDate, maximumDate, false);
   });
 
   return [...prevDays, ...currentDays, ...nextDays];
+};
+
+/**
+ * Generate day object for displaying inside day cell
+ *
+ * @param {number} day - number of day
+ * @param {dayjs.Dayjs} date - calculated date based on day, month, and year
+ * @param {DateType} minDate - min selectable date
+ * @param {DateType} maxDate - max selectable date
+ * @returns {IDayObject} days object based on current date
+ */
+const generateDayObject = (
+  day: number,
+  date: dayjs.Dayjs,
+  minDate: DateType,
+  maxDate: DateType,
+  isCurrentMonth: boolean
+) => {
+  let disabled = false;
+  if (minDate) {
+    disabled = date < getDate(minDate);
+  }
+  if (maxDate && !disabled) {
+    disabled = date > getDate(maxDate);
+  }
+  return {
+    text: day.toString(),
+    day: day,
+    date: getFormatedDate(date, dateFormat),
+    disabled,
+    isCurrentMonth,
+  };
 };

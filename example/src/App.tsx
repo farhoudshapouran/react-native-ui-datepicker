@@ -57,6 +57,7 @@ export default function App() {
                 },
               ]}
               onPress={() => setTheme(item)}
+              accessibilityRole="button"
             />
           ))}
         </View>
@@ -71,6 +72,7 @@ export default function App() {
                 },
               ]}
               onPress={() => setLocale(item)}
+              accessibilityRole="button"
             >
               <Text
                 style={[
@@ -117,6 +119,7 @@ export default function App() {
                 onPress={() => {
                   setValue(dayjs());
                 }}
+                accessibilityRole="button"
               >
                 <View
                   style={[
@@ -145,6 +148,7 @@ export default function App() {
                 'https://github.com/farhoudshapouran/react-native-ui-datepicker'
               )
             }
+            accessibilityRole="button"
           >
             <Image
               source={require('../assets/github-logo.png')}
