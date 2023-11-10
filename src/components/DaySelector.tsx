@@ -10,6 +10,7 @@ import {
   getWeekdaysMin,
   getToday,
   getFormatedDate,
+  dateFormat,
 } from '../utils';
 
 const DaySelector = () => {
@@ -71,7 +72,7 @@ const DaySelector = () => {
               : null;
 
           const activeItemStyle =
-            day && day.date === getFormatedDate(selectedDate, 'YYYY/MM/DD')
+            day && day.date === getFormatedDate(selectedDate, dateFormat)
               ? {
                   borderColor: theme?.selectedItemColor || '#0047FF',
                   backgroundColor: theme?.selectedItemColor || '#0047FF',
@@ -79,7 +80,7 @@ const DaySelector = () => {
               : null;
 
           const textStyle =
-            day && day.date === getFormatedDate(selectedDate, 'YYYY/MM/DD')
+            day && day.date === getFormatedDate(selectedDate, dateFormat)
               ? { color: '#fff', ...theme?.selectedTextStyle }
               : day && day.date === getToday()
               ? {
@@ -103,6 +104,7 @@ const DaySelector = () => {
                     day.disabled && styles.disabledDay,
                   ]}
                   testID={day.date}
+                  accessibilityRole="button"
                 >
                   <View style={styles.dayTextContainer}>
                     <Text style={textStyle}>{day.text}</Text>

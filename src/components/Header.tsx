@@ -32,6 +32,7 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
           : calendarView === CalendarViews.year && onChangeYear(-12)
       }
       testID="btn-prev"
+      accessibilityRole="button"
     >
       <View
         style={[styles.iconContainer, styles.prev, theme?.headerButtonStyle]}
@@ -61,6 +62,7 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
           : calendarView === CalendarViews.year && onChangeYear(12)
       }
       testID="btn-next"
+      accessibilityRole="button"
     >
       <View
         style={[styles.iconContainer, styles.next, theme?.headerButtonStyle]}
@@ -91,6 +93,7 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
             )
           }
           testID="btn-month"
+          accessibilityRole="button"
         >
           <View style={[styles.textContainer, theme?.headerTextContainerStyle]}>
             <Text style={[styles.text, theme?.headerTextStyle]}>
@@ -108,6 +111,7 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
             )
           }
           testID="btn-year"
+          accessibilityRole="button"
         >
           <View style={[styles.textContainer, theme?.headerTextContainerStyle]}>
             <Text style={[styles.text, theme?.headerTextStyle]}>
@@ -127,6 +131,7 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
                 : CalendarViews.time
             )
           }
+          accessibilityRole="button"
         >
           <View style={[styles.textContainer, theme?.headerTextContainerStyle]}>
             <Text style={[styles.text, theme?.headerTextStyle]}>
@@ -141,7 +146,7 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
   return (
     <View
       style={[styles.headerContainer, theme?.headerContainerStyle]}
-      testID="header"
+      accessibilityRole="header"
     >
       {theme?.headerButtonsPosition === 'left' ? (
         <View style={styles.container}>

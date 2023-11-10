@@ -29,6 +29,7 @@ const MonthSelector = () => {
               key={index}
               style={styles.monthCell}
               onPress={() => onSelectMonth(index)}
+              accessibilityRole="button"
             >
               <View
                 style={[
