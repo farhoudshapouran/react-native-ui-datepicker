@@ -110,6 +110,7 @@ export const getMonthDays = (
  * @param {dayjs.Dayjs} date - calculated date based on day, month, and year
  * @param {DateType} minDate - min selectable date
  * @param {DateType} maxDate - max selectable date
+ * @param {boolean} isCurrentMonth - define the day is in the current month
  * @returns {IDayObject} days object based on current date
  */
 const generateDayObject = (
