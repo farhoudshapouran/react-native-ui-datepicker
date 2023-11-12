@@ -12,7 +12,8 @@ export type HeaderButtonPositions = 'around' | 'right' | 'left';
 export type CalendarState = {
   calendarView: CalendarViews;
   selectedDate: DateType;
-  currentDate: DateType;
+  currentDate: DateType; // used for latest state of calendar based on Month and Year
+  currentYear: number; // used for pagination in YearSelector
 };
 
 export type CalendarAction = {

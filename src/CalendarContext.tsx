@@ -24,8 +24,9 @@ export interface CalendarContextType extends CalendarState {
 
 const CalendarContext = createContext<CalendarContextType>({
   calendarView: CalendarViews.day,
-  selectedDate: Date.now(),
-  currentDate: Date.now(),
+  selectedDate: new Date(),
+  currentDate: new Date(),
+  currentYear: new Date().getFullYear(),
   mode: 'datetime',
   locale: 'en',
   minimumDate: null,

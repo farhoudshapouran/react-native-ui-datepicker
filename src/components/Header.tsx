@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { View, Text, Pressable, StyleSheet, Image } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
 import dayjs from 'dayjs';
 import { CalendarViews } from '../enums';
 import type { HeaderProps } from '../types';
+import { getDateYear, getYearRange, YEAR_PAGE_SIZE } from '../utils';
 
 const arrow_left = require('../assets/images/arrow_left.png');
 const arrow_right = require('../assets/images/arrow_right.png');
@@ -12,6 +13,7 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
   const {
     currentDate,
     selectedDate,
+    currentYear,
     onChangeMonth,
     onChangeYear,
     calendarView,
@@ -28,8 +30,9 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
         calendarView === CalendarViews.day
           ? onChangeMonth(-1)
           : calendarView === CalendarViews.month
-          ? onChangeYear(-1)
-          : calendarView === CalendarViews.year && onChangeYear(-12)
+          ? onChangeYear(currentYear - 1)
+          : calendarView === CalendarViews.year &&
+            onChangeYear(currentYear - YEAR_PAGE_SIZE)
       }
       testID="btn-prev"
       accessibilityRole="button"
@@ -58,8 +61,9 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
         calendarView === CalendarViews.day
           ? onChangeMonth(1)
           : calendarView === CalendarViews.month
-          ? onChangeYear(1)
-          : calendarView === CalendarViews.year && onChangeYear(12)
+          ? onChangeYear(currentYear + 1)
+          : calendarView === CalendarViews.year &&
+            onChangeYear(currentYear + YEAR_PAGE_SIZE)
       }
       testID="btn-next"
       accessibilityRole="button"
@@ -81,48 +85,66 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
     </Pressable>
   );
 
+  const yearSelector = useCallback(() => {
+    const years = getYearRange(currentYear);
+    return (
+      <Pressable
+        onPress={() => {
+          setCalendarView(
+            calendarView === CalendarViews.year
+              ? CalendarViews.day
+              : CalendarViews.year
+          );
+          onChangeYear(getDateYear(currentDate));
+        }}
+        testID="btn-year"
+        accessibilityRole="button"
+      >
+        <View style={[styles.textContainer, theme?.headerTextContainerStyle]}>
+          <Text style={[styles.text, theme?.headerTextStyle]}>
+            {calendarView === CalendarViews.year
+              ? `${years.at(0)} - ${years.at(-1)}`
+              : dayjs(currentDate).format('YYYY')}
+          </Text>
+        </View>
+      </Pressable>
+    );
+  }, [
+    calendarView,
+    currentDate,
+    currentYear,
+    setCalendarView,
+    onChangeYear,
+    theme,
+  ]);
+
+  const monthSelector = (
+    <Pressable
+      onPress={() =>
+        setCalendarView(
+          calendarView === CalendarViews.month
+            ? CalendarViews.day
+            : CalendarViews.month
+        )
+      }
+      testID="btn-month"
+      accessibilityRole="button"
+    >
+      <View style={[styles.textContainer, theme?.headerTextContainerStyle]}>
+        <Text style={[styles.text, theme?.headerTextStyle]}>
+          {dayjs(currentDate).locale(locale).format('MMMM')}
+        </Text>
+      </View>
+    </Pressable>
+  );
+
   const renderSelectors = (
     <>
       <View style={styles.selectorContainer}>
-        <Pressable
-          onPress={() =>
-            setCalendarView(
-              calendarView === CalendarViews.month
-                ? CalendarViews.day
-                : CalendarViews.month
-            )
-          }
-          testID="btn-month"
-          accessibilityRole="button"
-        >
-          <View style={[styles.textContainer, theme?.headerTextContainerStyle]}>
-            <Text style={[styles.text, theme?.headerTextStyle]}>
-              {dayjs(currentDate).locale(locale).format('MMMM')}
-            </Text>
-          </View>
-        </Pressable>
-
-        <Pressable
-          onPress={() =>
-            setCalendarView(
-              calendarView === CalendarViews.year
-                ? CalendarViews.day
-                : CalendarViews.year
-            )
-          }
-          testID="btn-year"
-          accessibilityRole="button"
-        >
-          <View style={[styles.textContainer, theme?.headerTextContainerStyle]}>
-            <Text style={[styles.text, theme?.headerTextStyle]}>
-              {calendarView === CalendarViews.year
-                ? dayjs(selectedDate).format('YYYY')
-                : dayjs(currentDate).format('YYYY')}
-            </Text>
-          </View>
-        </Pressable>
+        {calendarView !== CalendarViews.year ? monthSelector : null}
+        {yearSelector()}
       </View>
-      {mode === 'datetime' ? (
+      {mode === 'datetime' && calendarView !== CalendarViews.year ? (
         <Pressable
           onPress={() =>
             setCalendarView(
