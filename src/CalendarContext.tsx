@@ -1,11 +1,13 @@
 import { createContext, useContext } from 'react';
 import { CalendarViews } from './enums';
-import type { DateType, CalendarTheme, CalendarModes } from './types';
+import type {
+  DateType,
+  CalendarTheme,
+  CalendarModes,
+  CalendarState,
+} from './types';
 
-export interface CalendarContextType {
-  calendarView: CalendarViews;
-  selectedDate: DateType;
-  currentDate: DateType;
+export interface CalendarContextType extends CalendarState {
   mode: CalendarModes;
   locale: string | ILocale;
   displayFullDays: boolean;
@@ -22,8 +24,9 @@ export interface CalendarContextType {
 
 const CalendarContext = createContext<CalendarContextType>({
   calendarView: CalendarViews.day,
-  selectedDate: Date.now(),
-  currentDate: Date.now(),
+  selectedDate: new Date(),
+  currentDate: new Date(),
+  currentYear: new Date().getFullYear(),
   mode: 'datetime',
   locale: 'en',
   minimumDate: null,

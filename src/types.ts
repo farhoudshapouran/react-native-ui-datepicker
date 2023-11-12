@@ -12,7 +12,8 @@ export type HeaderButtonPositions = 'around' | 'right' | 'left';
 export type CalendarState = {
   calendarView: CalendarViews;
   selectedDate: DateType;
-  currentDate: DateType;
+  currentDate: DateType; // used for latest state of calendar based on Month and Year
+  currentYear: number; // used for pagination in YearSelector
 };
 
 export type CalendarAction = {
@@ -46,3 +47,11 @@ export type HeaderProps = {
   buttonPrevIcon?: ReactNode;
   buttonNextIcon?: ReactNode;
 };
+
+export interface IDayObject {
+  text: string;
+  day: number;
+  date: string;
+  disabled: boolean;
+  isCurrentMonth: boolean;
+}

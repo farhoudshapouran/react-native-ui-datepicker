@@ -58,6 +58,7 @@ export default function App() {
               ]}
               onPress={() => setTheme(item)}
               accessibilityRole="button"
+              accessibilityLabel="Set Active Theme"
             />
           ))}
         </View>
@@ -73,6 +74,7 @@ export default function App() {
               ]}
               onPress={() => setLocale(item)}
               accessibilityRole="button"
+              accessibilityLabel={item.toUpperCase()}
             >
               <Text
                 style={[
@@ -120,6 +122,7 @@ export default function App() {
                   setValue(dayjs());
                 }}
                 accessibilityRole="button"
+                accessibilityLabel="Today"
               >
                 <View
                   style={[
@@ -149,6 +152,7 @@ export default function App() {
               )
             }
             accessibilityRole="button"
+            accessibilityLabel="Check repository on GitHub"
           >
             <Image
               source={require('../assets/github-logo.png')}

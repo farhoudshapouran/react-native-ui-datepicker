@@ -1,16 +1,9 @@
 import dayjs from 'dayjs';
-import type { DateType } from './types';
+import type { DateType, IDayObject } from './types';
 
-export interface IDayObject {
-  text: string;
-  day: number;
-  date: string;
-  disabled: boolean;
-  isCurrentMonth: boolean;
-}
-
-export const calendarFormat = 'YYYY-MM-DD HH:mm';
-export const dateFormat = 'YYYY-MM-DD';
+export const CALENDAR_FORMAT = 'YYYY-MM-DD HH:mm';
+export const DATE_FORMAT = 'YYYY-MM-DD';
+export const YEAR_PAGE_SIZE = 12;
 
 export const getMonths = () => dayjs.months();
 
@@ -23,25 +16,44 @@ export const getWeekdaysShort = () => dayjs.weekdaysShort();
 export const getWeekdaysMin = () => dayjs.weekdaysMin();
 
 export const getFormated = (date: DateType) =>
-  dayjs(date).format(calendarFormat);
-
-export const getNow = () => dayjs().format(calendarFormat);
+  dayjs(date).format(CALENDAR_FORMAT);
 
 export const getDateMonth = (date: DateType) => dayjs(date).month();
 
 export const getDateYear = (date: DateType) => dayjs(date).year();
 
-export const getToday = () => dayjs().format(dateFormat);
+export const getToday = () => dayjs().format(DATE_FORMAT);
+
+export function areDatesOnSameDay(a: DateType, b: DateType) {
+  if (!a || !b) {
+    return false;
+  }
+
+  const date_a = dayjs(a).format(DATE_FORMAT);
+  const date_b = dayjs(b).format(DATE_FORMAT);
+
+  return date_a === date_b;
+}
 
 export const getFormatedDate = (date: DateType, format: string) =>
   dayjs(date).format(format);
 
-export const getDate = (date: DateType) => dayjs(date, calendarFormat);
+export const getDate = (date: DateType) => dayjs(date, CALENDAR_FORMAT);
+
+export const getYearRange = (year: number) => {
+  const endYear = YEAR_PAGE_SIZE * Math.ceil(year / YEAR_PAGE_SIZE);
+  let startYear = endYear === year ? endYear : endYear - YEAR_PAGE_SIZE;
+
+  if (startYear < 0) startYear = 0;
+  return Array.from({ length: YEAR_PAGE_SIZE }, (_, i) => startYear + i);
+};
 
 /**
  * Get detailed date object
+ *
  * @param date Get detailed date object
- * @returns
+ *
+ * @returns parsed date object
  */
 export const getParsedDate = (date: DateType) => {
   return {
@@ -55,11 +67,12 @@ export const getParsedDate = (date: DateType) => {
 /**
  * Calculate month days array based on current date
  *
- * @param {DateType} datetime - The current date that selected
- * @param {boolean} displayFullDays
- * @param {DateType} minimumDate - min selectable date
- * @param {DateType} maximumDate - max selectable date
- * @returns {IDayObject[]} days array based on current date
+ * @param datetime - The current date that selected
+ * @param displayFullDays
+ * @param minimumDate - min selectable date
+ * @param maximumDate - max selectable date
+ *
+ * @returns days array based on current date
  */
 export const getMonthDays = (
   datetime: DateType = dayjs(),
@@ -106,12 +119,13 @@ export const getMonthDays = (
 /**
  * Generate day object for displaying inside day cell
  *
- * @param {number} day - number of day
- * @param {dayjs.Dayjs} date - calculated date based on day, month, and year
- * @param {DateType} minDate - min selectable date
- * @param {DateType} maxDate - max selectable date
- * @param {boolean} isCurrentMonth - define the day is in the current month
- * @returns {IDayObject} days object based on current date
+ * @param day - number of day
+ * @param date - calculated date based on day, month, and year
+ * @param minDate - min selectable date
+ * @param maxDate - max selectable date
+ * @param isCurrentMonth - define the day is in the current month
+ *
+ * @returns days object based on current date
  */
 const generateDayObject = (
   day: number,
@@ -130,7 +144,7 @@ const generateDayObject = (
   return {
     text: day.toString(),
     day: day,
-    date: getFormatedDate(date, dateFormat),
+    date: getFormatedDate(date, DATE_FORMAT),
     disabled,
     isCurrentMonth,
   };

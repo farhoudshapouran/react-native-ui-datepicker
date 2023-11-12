@@ -1,62 +1,70 @@
-import React from 'react';
-import { Text, View, Pressable, StyleSheet } from 'react-native';
+import React, { useCallback } from 'react';
+import {
+  Text,
+  View,
+  Pressable,
+  StyleSheet,
+  TextStyle,
+  ViewStyle,
+} from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
-import { getDateYear } from '../utils';
+import { getDateYear, getYearRange } from '../utils';
 
 const YearSelector = () => {
-  const { currentDate, selectedDate, onSelectYear, theme } =
+  const { currentDate, currentYear, selectedDate, onSelectYear, theme } =
     useCalendarContext();
-  const currentYear = getDateYear(currentDate);
   const selectedYear = getDateYear(selectedDate);
-  const rowArray = [1, 2, 3];
-  const colArray = [1, 2, 3, 4];
 
-  let year = 12 * Math.ceil(currentYear / 12) - 12;
-  if (year < 0) year = 0;
-
-  function generateColumns() {
-    const column = rowArray.map(() => {
-      const cellYear = year++;
-      const activeItemStyle =
-        cellYear === selectedYear
+  const generateCells = useCallback(() => {
+    const years = getYearRange(currentYear);
+    const activeYear = getDateYear(currentDate);
+    const column = years.map((year) => {
+      const activeItemStyle: ViewStyle =
+        year === selectedYear
           ? {
               borderColor: theme?.selectedItemColor || '#0047FF',
               backgroundColor: theme?.selectedItemColor || '#0047FF',
             }
-          : null;
+          : year === activeYear
+          ? {
+              borderColor: theme?.selectedItemColor || '#0047FF',
+            }
+          : {};
 
-      const textStyle =
-        cellYear === selectedYear
+      const textStyle: TextStyle =
+        year === selectedYear
           ? { color: '#fff', ...theme?.selectedTextStyle }
-          : theme?.calendarTextStyle;
+          : year === activeYear
+          ? {
+              color: theme?.selectedItemColor || '#0047FF',
+              fontWeight: 'bold',
+            }
+          : { ...theme?.calendarTextStyle };
 
       return (
         <Pressable
-          key={cellYear}
-          onPress={() => onSelectYear(cellYear)}
+          key={year}
+          onPress={() => onSelectYear(year)}
           style={styles.yearCell}
           accessibilityRole="button"
+          accessibilityLabel={year.toString()}
         >
           <View
             style={[styles.year, theme?.yearContainerStyle, activeItemStyle]}
           >
-            <Text key={cellYear} style={textStyle}>
-              {cellYear}
+            <Text key={year} style={textStyle}>
+              {year}
             </Text>
           </View>
         </Pressable>
       );
     });
     return column;
-  }
+  }, [onSelectYear, selectedYear, currentYear, currentDate, theme]);
 
   return (
     <View style={styles.container} testID="year-selector">
-      {colArray.map((index) => (
-        <View key={index} style={styles.yearsRow}>
-          {generateColumns()}
-        </View>
-      ))}
+      <View style={styles.years}>{generateCells()}</View>
     </View>
   );
 };
@@ -72,8 +80,9 @@ const styles = StyleSheet.create({
   yearCell: {
     width: '33.3%',
   },
-  yearsRow: {
+  years: {
     flexDirection: 'row',
+    flexWrap: 'wrap',
     width: '100%',
   },
   year: {

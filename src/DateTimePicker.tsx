@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
-import { getNow, getFormated, getDate } from './utils';
+import { getFormated, getDate, getDateYear } from './utils';
 import CalendarContext from './CalendarContext';
 import { CalendarViews, CalendarActionKind } from './enums';
 import type {
@@ -31,7 +31,7 @@ interface PropTypes extends CalendarTheme, HeaderProps {
 }
 
 const DateTimePicker = ({
-  value = getNow(),
+  value,
   mode = 'datetime',
   locale = 'en',
   minimumDate = null,
@@ -97,6 +97,11 @@ const DateTimePicker = ({
             ...prevState,
             currentDate: action.payload,
           };
+        case CalendarActionKind.CHANGE_CURRENT_YEAR:
+          return {
+            ...prevState,
+            currentYear: action.payload,
+          };
         case CalendarActionKind.CHANGE_SELECTED_DATE:
           return {
             ...prevState,
@@ -106,8 +111,9 @@ const DateTimePicker = ({
     },
     {
       calendarView: mode === 'time' ? CalendarViews.time : CalendarViews.day,
-      selectedDate: value ? getFormated(value) : getNow(),
-      currentDate: value ? getFormated(value) : getNow(),
+      selectedDate: value ? getFormated(value) : new Date(),
+      currentDate: value ? getFormated(value) : new Date(),
+      currentYear: value ? getDateYear(value) : new Date().getFullYear(),
     }
   );
 
@@ -119,6 +125,10 @@ const DateTimePicker = ({
     dispatch({
       type: CalendarActionKind.CHANGE_CURRENT_DATE,
       payload: value,
+    });
+    dispatch({
+      type: CalendarActionKind.CHANGE_CURRENT_YEAR,
+      payload: getDateYear(value),
     });
   }, [value]);
 
@@ -173,10 +183,9 @@ const DateTimePicker = ({
       });
     },
     onChangeYear: (year: number) => {
-      const newDate = getDate(state.currentDate).add(year, 'year');
       dispatch({
-        type: CalendarActionKind.CHANGE_CURRENT_DATE,
-        payload: getFormated(newDate),
+        type: CalendarActionKind.CHANGE_CURRENT_YEAR,
+        payload: year,
       });
     },
   };

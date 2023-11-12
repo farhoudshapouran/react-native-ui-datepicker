@@ -2,7 +2,9 @@
   "expo": {
     "name": "React Native UI DatePicker",
     "slug": "react-native-ui-datepicker-example",
+    "description": "Customizable React Native DateTime Picker component for Android, iOS, and Web. It includes date, time, and datetime modes and supports different locales.",
     "version": "1.0.0",
+    "githubUrl": "https://github.com/farhoudshapouran/react-native-ui-datepicker",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -22,7 +24,9 @@
       }
     },
     "web": {
-      "favicon": "./assets/calendar.png"
+      "favicon": "./assets/calendar.png",
+      "themeColor": "#FFFFFF",
+      "display": "fullscreen"
     }
   }
 }
