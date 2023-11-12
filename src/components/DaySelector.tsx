@@ -1,16 +1,12 @@
 import React, { useMemo } from 'react';
-import { Text, View, Pressable, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
-import { CALENDAR_HEIGHT } from '../enums';
+import Day from './Day';
 import {
   getParsedDate,
   getMonthDays,
-  getDate,
-  getFormated,
   getWeekdaysMin,
-  getToday,
-  getFormatedDate,
-  dateFormat,
+  areDatesOnSameDay,
 } from '../utils';
 
 const DaySelector = () => {
@@ -23,6 +19,7 @@ const DaySelector = () => {
     maximumDate,
     theme,
   } = useCalendarContext();
+  const today = new Date();
   const { year, month, hour, minute } = getParsedDate(currentDate);
   const days = useMemo(
     () => {
@@ -36,12 +33,6 @@ const DaySelector = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [month, year, displayFullDays, minimumDate, maximumDate]
   );
-
-  const handleSelectDate = (date: string) => {
-    const newDate = getDate(date).hour(hour).minute(minute);
-
-    onSelectDate(getFormated(newDate));
-  };
 
   return (
     <View style={styles.container} testID="day-selector">
@@ -57,61 +48,19 @@ const DaySelector = () => {
       </View>
       <View style={styles.daysContainer} testID="days">
         {days?.map((day, index) => {
-          const dayContainerStyle =
-            day && day.isCurrentMonth
-              ? theme?.dayContainerStyle
-              : { opacity: 0.3 };
-
-          const todayItemStyle =
-            day && day.date === getToday()
-              ? {
-                  borderWidth: 2,
-                  borderColor: theme?.selectedItemColor || '#0047FF',
-                  ...theme?.todayContainerStyle,
-                }
-              : null;
-
-          const activeItemStyle =
-            day && day.date === getFormatedDate(selectedDate, dateFormat)
-              ? {
-                  borderColor: theme?.selectedItemColor || '#0047FF',
-                  backgroundColor: theme?.selectedItemColor || '#0047FF',
-                }
-              : null;
-
-          const textStyle =
-            day && day.date === getFormatedDate(selectedDate, dateFormat)
-              ? { color: '#fff', ...theme?.selectedTextStyle }
-              : day && day.date === getToday()
-              ? {
-                  ...theme?.calendarTextStyle,
-                  color: theme?.selectedItemColor || '#0047FF',
-                  ...theme?.todayTextStyle,
-                }
-              : theme?.calendarTextStyle;
-
+          const isToday = areDatesOnSameDay(day?.date, today);
+          const selected = areDatesOnSameDay(day?.date, selectedDate);
           return (
-            <View key={index} style={styles.dayCell}>
-              {day ? (
-                <Pressable
-                  disabled={day.disabled}
-                  onPress={() => handleSelectDate(day.date)}
-                  style={[
-                    styles.dayContainer,
-                    dayContainerStyle,
-                    todayItemStyle,
-                    activeItemStyle,
-                    day.disabled && styles.disabledDay,
-                  ]}
-                  testID={day.date}
-                  accessibilityRole="button"
-                >
-                  <View style={styles.dayTextContainer}>
-                    <Text style={textStyle}>{day.text}</Text>
-                  </View>
-                </Pressable>
-              ) : null}
-            </View>
+            <Day
+              key={index}
+              day={day}
+              hour={hour}
+              minute={minute}
+              theme={theme}
+              isToday={isToday}
+              selected={selected}
+              onSelectDate={onSelectDate}
+            />
           );
         })}
       </View>
@@ -147,24 +96,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexDirection: 'row',
     alignContent: 'flex-start',
-  },
-  dayCell: {
-    width: '14.2%',
-    height: CALENDAR_HEIGHT / 7 - 1,
-  },
-  dayContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 1.5,
-    borderRadius: 100,
-  },
-  dayTextContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  disabledDay: {
-    opacity: 0.3,
   },
 });
 

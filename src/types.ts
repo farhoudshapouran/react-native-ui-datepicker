@@ -46,3 +46,11 @@ export type HeaderProps = {
   buttonPrevIcon?: ReactNode;
   buttonNextIcon?: ReactNode;
 };
+
+export interface IDayObject {
+  text: string;
+  day: number;
+  date: string;
+  disabled: boolean;
+  isCurrentMonth: boolean;
+}

@@ -1,13 +1,5 @@
 import dayjs from 'dayjs';
-import type { DateType } from './types';
-
-export interface IDayObject {
-  text: string;
-  day: number;
-  date: string;
-  disabled: boolean;
-  isCurrentMonth: boolean;
-}
+import type { DateType, IDayObject } from './types';
 
 export const calendarFormat = 'YYYY-MM-DD HH:mm';
 export const dateFormat = 'YYYY-MM-DD';
@@ -33,6 +25,20 @@ export const getDateYear = (date: DateType) => dayjs(date).year();
 
 export const getToday = () => dayjs().format(dateFormat);
 
+export const areDatesOnSameDay = (a: DateType, b: DateType) => {
+  if (!a || !b) {
+    return false;
+  }
+
+  const date_a = dayjs(a);
+  const date_b = dayjs(b);
+  return (
+    date_a.isSame(date_b, 'year') &&
+    date_a.isSame(date_b, 'month') &&
+    date_a.isSame(date_b, 'day')
+  );
+};
+
 export const getFormatedDate = (date: DateType, format: string) =>
   dayjs(date).format(format);
 
@@ -40,8 +46,10 @@ export const getDate = (date: DateType) => dayjs(date, calendarFormat);
 
 /**
  * Get detailed date object
+ * 
  * @param date Get detailed date object
- * @returns
+ * 
+ * @returns parsed date object
  */
 export const getParsedDate = (date: DateType) => {
   return {
@@ -55,11 +63,12 @@ export const getParsedDate = (date: DateType) => {
 /**
  * Calculate month days array based on current date
  *
- * @param {DateType} datetime - The current date that selected
- * @param {boolean} displayFullDays
- * @param {DateType} minimumDate - min selectable date
- * @param {DateType} maximumDate - max selectable date
- * @returns {IDayObject[]} days array based on current date
+ * @param datetime - The current date that selected
+ * @param displayFullDays
+ * @param minimumDate - min selectable date
+ * @param maximumDate - max selectable date
+ * 
+ * @returns days array based on current date
  */
 export const getMonthDays = (
   datetime: DateType = dayjs(),
@@ -106,12 +115,13 @@ export const getMonthDays = (
 /**
  * Generate day object for displaying inside day cell
  *
- * @param {number} day - number of day
- * @param {dayjs.Dayjs} date - calculated date based on day, month, and year
- * @param {DateType} minDate - min selectable date
- * @param {DateType} maxDate - max selectable date
- * @param {boolean} isCurrentMonth - define the day is in the current month
- * @returns {IDayObject} days object based on current date
+ * @param day - number of day
+ * @param date - calculated date based on day, month, and year
+ * @param minDate - min selectable date
+ * @param maxDate - max selectable date
+ * @param isCurrentMonth - define the day is in the current month
+ * 
+ * @returns days object based on current date
  */
 const generateDayObject = (
   day: number,
