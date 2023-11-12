@@ -1,28 +1,17 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
-import { CalendarTheme, IDayObject, DateType } from '../types';
+import { CalendarTheme, IDayObject } from '../types';
 import { CALENDAR_HEIGHT } from '../enums';
-import { getDate, getFormated } from '../utils';
 
 type Props = {
   day?: IDayObject;
-  hour: number;
-  minute: number;
   theme?: CalendarTheme;
   isToday: boolean;
   selected: boolean;
-  onSelectDate: (date: DateType) => void;
+  onSelectDate: (date: string) => void;
 };
 
-const Day = ({
-  day,
-  hour,
-  minute,
-  theme,
-  isToday,
-  selected,
-  onSelectDate,
-}: Props) => {
+const Day = ({ day, theme, isToday, selected, onSelectDate }: Props) => {
   const dayContainerStyle =
     day && day.isCurrentMonth ? theme?.dayContainerStyle : { opacity: 0.3 };
 
@@ -51,21 +40,12 @@ const Day = ({
       }
     : theme?.calendarTextStyle;
 
-  const handleSelectDate = useCallback(
-    (date: string) => {
-      const newDate = getDate(date).hour(hour).minute(minute);
-
-      onSelectDate(getFormated(newDate));
-    },
-    [onSelectDate, hour, minute]
-  );
-
   return (
     <View style={styles.dayCell}>
       {day ? (
         <Pressable
           disabled={day.disabled}
-          onPress={() => handleSelectDate(day.date)}
+          onPress={() => onSelectDate(day.date)}
           style={[
             styles.dayContainer,
             dayContainerStyle,
@@ -75,6 +55,7 @@ const Day = ({
           ]}
           testID={day.date}
           accessibilityRole="button"
+          accessibilityLabel={day.date}
         >
           <View style={styles.dayTextContainer}>
             <Text style={textStyle}>{day.text}</Text>

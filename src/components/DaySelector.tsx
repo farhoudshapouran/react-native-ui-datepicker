@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
 import Day from './Day';
@@ -7,6 +7,8 @@ import {
   getMonthDays,
   getWeekdaysMin,
   areDatesOnSameDay,
+  getDate,
+  getFormated,
 } from '../utils';
 
 const DaySelector = () => {
@@ -19,19 +21,37 @@ const DaySelector = () => {
     maximumDate,
     theme,
   } = useCalendarContext();
-  const today = new Date();
   const { year, month, hour, minute } = getParsedDate(currentDate);
-  const days = useMemo(
+
+  const daysGrid = useMemo(
     () => {
+      const today = new Date();
       return getMonthDays(
         currentDate,
         displayFullDays,
         minimumDate,
         maximumDate
-      );
+      ).map((day) => {
+        const isToday = areDatesOnSameDay(day?.date, today);
+        const selected = areDatesOnSameDay(day?.date, selectedDate);
+        return {
+          ...day,
+          isToday,
+          selected,
+        };
+      });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [month, year, displayFullDays, minimumDate, maximumDate]
+    [month, year, displayFullDays, minimumDate, maximumDate, selectedDate]
+  );
+
+  const handleSelectDate = useCallback(
+    (date: string) => {
+      const newDate = getDate(date).hour(hour).minute(minute);
+
+      onSelectDate(getFormated(newDate));
+    },
+    [onSelectDate, hour, minute]
   );
 
   return (
@@ -47,19 +67,15 @@ const DaySelector = () => {
         ))}
       </View>
       <View style={styles.daysContainer} testID="days">
-        {days?.map((day, index) => {
-          const isToday = areDatesOnSameDay(day?.date, today);
-          const selected = areDatesOnSameDay(day?.date, selectedDate);
+        {daysGrid?.map((day, index) => {
           return (
             <Day
               key={index}
               day={day}
-              hour={hour}
-              minute={minute}
               theme={theme}
-              isToday={isToday}
-              selected={selected}
-              onSelectDate={onSelectDate}
+              isToday={day.isToday}
+              selected={day.selected}
+              onSelectDate={handleSelectDate}
             />
           );
         })}

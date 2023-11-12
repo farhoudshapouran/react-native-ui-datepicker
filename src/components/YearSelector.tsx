@@ -47,6 +47,7 @@ const YearSelector = () => {
           onPress={() => onSelectYear(year)}
           style={styles.yearCell}
           accessibilityRole="button"
+          accessibilityLabel={year.toString()}
         >
           <View
             style={[styles.year, theme?.yearContainerStyle, activeItemStyle]}

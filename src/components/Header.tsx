@@ -23,6 +23,9 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
     locale,
   } = useCalendarContext();
 
+  const currentMonthText = dayjs(currentDate).locale(locale).format('MMMM');
+  const currentYearText = dayjs(currentDate).format('YYYY');
+
   const renderPrevButton = (
     <Pressable
       disabled={calendarView === CalendarViews.time}
@@ -36,6 +39,7 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
       }
       testID="btn-prev"
       accessibilityRole="button"
+      accessibilityLabel="Prev"
     >
       <View
         style={[styles.iconContainer, styles.prev, theme?.headerButtonStyle]}
@@ -67,6 +71,7 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
       }
       testID="btn-next"
       accessibilityRole="button"
+      accessibilityLabel="Next"
     >
       <View
         style={[styles.iconContainer, styles.next, theme?.headerButtonStyle]}
@@ -99,12 +104,13 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
         }}
         testID="btn-year"
         accessibilityRole="button"
+        accessibilityLabel={currentYearText}
       >
         <View style={[styles.textContainer, theme?.headerTextContainerStyle]}>
           <Text style={[styles.text, theme?.headerTextStyle]}>
             {calendarView === CalendarViews.year
               ? `${years.at(0)} - ${years.at(-1)}`
-              : dayjs(currentDate).format('YYYY')}
+              : currentYearText}
           </Text>
         </View>
       </Pressable>
@@ -129,10 +135,11 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
       }
       testID="btn-month"
       accessibilityRole="button"
+      accessibilityLabel={currentMonthText}
     >
       <View style={[styles.textContainer, theme?.headerTextContainerStyle]}>
         <Text style={[styles.text, theme?.headerTextStyle]}>
-          {dayjs(currentDate).locale(locale).format('MMMM')}
+          {currentMonthText}
         </Text>
       </View>
     </Pressable>
@@ -154,6 +161,7 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
             )
           }
           accessibilityRole="button"
+          accessibilityLabel={dayjs(selectedDate).format('HH:mm')}
         >
           <View style={[styles.textContainer, theme?.headerTextContainerStyle]}>
             <Text style={[styles.text, theme?.headerTextStyle]}>
