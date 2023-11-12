@@ -24,7 +24,6 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
   } = useCalendarContext();
 
   const currentMonthText = dayjs(currentDate).locale(locale).format('MMMM');
-  const currentYearText = dayjs(currentDate).format('YYYY');
 
   const renderPrevButton = (
     <Pressable
@@ -104,13 +103,13 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
         }}
         testID="btn-year"
         accessibilityRole="button"
-        accessibilityLabel={currentYearText}
+        accessibilityLabel={dayjs(currentDate).format('YYYY')}
       >
         <View style={[styles.textContainer, theme?.headerTextContainerStyle]}>
           <Text style={[styles.text, theme?.headerTextStyle]}>
             {calendarView === CalendarViews.year
               ? `${years.at(0)} - ${years.at(-1)}`
-              : currentYearText}
+              : dayjs(currentDate).format('YYYY')}
           </Text>
         </View>
       </Pressable>

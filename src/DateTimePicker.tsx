@@ -31,7 +31,7 @@ interface PropTypes extends CalendarTheme, HeaderProps {
 }
 
 const DateTimePicker = ({
-  value = new Date(),
+  value,
   mode = 'datetime',
   locale = 'en',
   minimumDate = null,
