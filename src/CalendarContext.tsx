@@ -22,23 +22,7 @@ export interface CalendarContextType extends CalendarState {
   onChangeYear: (value: number) => void;
 }
 
-const CalendarContext = createContext<CalendarContextType>({
-  calendarView: CalendarViews.day,
-  selectedDate: new Date(),
-  currentDate: new Date(),
-  currentYear: new Date().getFullYear(),
-  mode: 'datetime',
-  locale: 'en',
-  minimumDate: null,
-  maximumDate: null,
-  displayFullDays: false,
-  setCalendarView: () => {},
-  onSelectDate: () => {},
-  onSelectMonth: () => {},
-  onSelectYear: () => {},
-  onChangeMonth: () => {},
-  onChangeYear: () => {},
-});
+const CalendarContext = createContext({} as CalendarContextType);
 
 export const useCalendarContext = () => useContext(CalendarContext);
 
