@@ -5,6 +5,6 @@ import DateTimePicker from '../DateTimePicker';
 describe('COMMON TESTS', () => {
   test('should render with default options', () => {
     render(<DateTimePicker />);
-    expect(screen.getByTestId('calendar')).toBeVisible();
+    expect(screen.toJSON()).toMatchSnapshot();
   });
 });

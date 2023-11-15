@@ -1,7 +1,7 @@
 import React, { useMemo, useCallback } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
-import Day from './Day';
+import Day, { EmptyDay } from './Day';
 import {
   getParsedDate,
   getMonthDays,
@@ -32,13 +32,13 @@ const DaySelector = () => {
         minimumDate,
         maximumDate
       ).map((day) => {
-        const isToday = areDatesOnSameDay(day?.date, today);
-        const selected = areDatesOnSameDay(day?.date, selectedDate);
-        return {
-          ...day,
-          isToday,
-          selected,
-        };
+        return day
+          ? {
+              ...day,
+              isToday: areDatesOnSameDay(day.date, today),
+              isSelected: areDatesOnSameDay(day.date, selectedDate),
+            }
+          : null;
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -68,15 +68,20 @@ const DaySelector = () => {
       </View>
       <View style={styles.daysContainer} testID="days">
         {daysGrid?.map((day, index) => {
-          return (
+          return day ? (
             <Day
               key={index}
-              day={day}
+              date={day.date}
+              text={day.text}
+              disabled={day.disabled}
+              isCurrentMonth={day.isCurrentMonth}
               theme={theme}
               isToday={day.isToday}
-              selected={day.selected}
+              isSelected={day.isSelected}
               onSelectDate={handleSelectDate}
             />
+          ) : (
+            <EmptyDay key={index} />
           );
         })}
       </View>
