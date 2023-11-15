@@ -227,7 +227,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         </View>
       </View>
       <View
-        accessibilityLabel="23:19"
+        accessibilityLabel="00:12"
         accessibilityRole="button"
         accessibilityState={
           Object {
@@ -283,7 +283,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
               ]
             }
           >
-            23:19
+            00:12
           </Text>
         </View>
       </View>
@@ -1561,10 +1561,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
                   "margin": 1.5,
                 },
                 undefined,
-                Object {
-                  "borderColor": "#0047FF",
-                  "borderWidth": 2,
-                },
+                null,
                 null,
                 false,
               ]
@@ -1579,13 +1576,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 }
               }
             >
-              <Text
-                style={
-                  Object {
-                    "color": "#0047FF",
-                  }
-                }
-              >
+              <Text>
                 15
               </Text>
             </View>
@@ -1641,7 +1632,10 @@ exports[`COMMON TESTS should render with default options 1`] = `
                   "margin": 1.5,
                 },
                 undefined,
-                null,
+                Object {
+                  "borderColor": "#0047FF",
+                  "borderWidth": 2,
+                },
                 null,
                 false,
               ]
@@ -1656,7 +1650,13 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 }
               }
             >
-              <Text>
+              <Text
+                style={
+                  Object {
+                    "color": "#0047FF",
+                  }
+                }
+              >
                 16
               </Text>
             </View>
