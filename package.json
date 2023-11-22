@@ -102,7 +102,7 @@
   "engines": {
     "node": ">= 16.0.0"
   },
-  "packageManager": "^yarn@1.22.15",
+  "packageManager": "^yarn@1.22.21",
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
