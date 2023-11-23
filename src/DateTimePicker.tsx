@@ -120,11 +120,11 @@ const DateTimePicker = ({
   useEffect(() => {
     dispatch({
       type: CalendarActionKind.CHANGE_SELECTED_DATE,
-      payload: value,
+      payload: value ? getFormated(value) : new Date(),
     });
     dispatch({
       type: CalendarActionKind.CHANGE_CURRENT_DATE,
-      payload: value,
+      payload: value ? getFormated(value) : new Date(),
     });
     dispatch({
       type: CalendarActionKind.CHANGE_CURRENT_YEAR,
