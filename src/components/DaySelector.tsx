@@ -19,6 +19,7 @@ const DaySelector = () => {
     displayFullDays,
     minimumDate,
     maximumDate,
+    firstDayOfWeek,
     theme,
   } = useCalendarContext();
   const { year, month, hour, minute } = getParsedDate(currentDate);
@@ -30,7 +31,8 @@ const DaySelector = () => {
         currentDate,
         displayFullDays,
         minimumDate,
-        maximumDate
+        maximumDate,
+        firstDayOfWeek
       ).map((day) => {
         return day
           ? {
@@ -60,7 +62,7 @@ const DaySelector = () => {
         style={[styles.weekDaysContainer, theme?.weekDaysContainerStyle]}
         testID="week-days"
       >
-        {getWeekdaysMin()?.map((item, index) => (
+        {getWeekdaysMin(firstDayOfWeek)?.map((item, index) => (
           <View key={index} style={styles.weekDayCell}>
             <Text style={theme?.weekDaysTextStyle}>{item}</Text>
           </View>
