@@ -97,6 +97,7 @@ export default function App() {
               value={value}
               //minimumDate={dayjs().startOf('day')}
               //maximumDate={dayjs().add(3, 'day').endOf('day')}
+              //firstDayOfWeek={1}
               displayFullDays={true}
               locale={locale}
               onValueChange={(date) => setValue(date)}

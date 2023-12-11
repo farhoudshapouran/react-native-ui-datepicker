@@ -13,7 +13,16 @@ export const getWeekdays = () => dayjs.weekdays();
 
 export const getWeekdaysShort = () => dayjs.weekdaysShort();
 
-export const getWeekdaysMin = () => dayjs.weekdaysMin();
+export const getWeekdaysMin = (firstDayOfWeek: number) => {
+  let days = dayjs.weekdaysMin();
+  if (firstDayOfWeek > 0) {
+    days = [
+      ...days.slice(firstDayOfWeek, days.length),
+      ...days.slice(0, firstDayOfWeek),
+    ] as dayjs.WeekdayNames;
+  }
+  return days;
+};
 
 export const getFormated = (date: DateType) =>
   dayjs(date).format(CALENDAR_FORMAT);
@@ -71,6 +80,7 @@ export const getParsedDate = (date: DateType) => {
  * @param displayFullDays
  * @param minimumDate - min selectable date
  * @param maximumDate - max selectable date
+ * @param firstDayOfWeek - first day of week, number 0-6, 0 – Sunday, 6 – Saturday
  *
  * @returns days array based on current date
  */
@@ -78,12 +88,13 @@ export const getMonthDays = (
   datetime: DateType = dayjs(),
   displayFullDays: boolean,
   minimumDate: DateType,
-  maximumDate: DateType
+  maximumDate: DateType,
+  firstDayOfWeek: number
 ): IDayObject[] => {
   const date = getDate(datetime);
   const daysInMonth = date.daysInMonth();
   const prevMonthDays = date.add(-1, 'month').daysInMonth();
-  const firstDay = date.date(1);
+  const firstDay = date.date(1 - firstDayOfWeek);
   const dayOfMonth = firstDay.day() % 7;
 
   const prevDays = displayFullDays

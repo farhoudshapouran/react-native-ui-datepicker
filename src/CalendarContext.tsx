@@ -13,6 +13,7 @@ export interface CalendarContextType extends CalendarState {
   displayFullDays: boolean;
   minimumDate: DateType;
   maximumDate: DateType;
+  firstDayOfWeek: number;
   theme?: CalendarTheme;
   setCalendarView: (value: CalendarViews) => void;
   onSelectDate: (date: DateType) => void;

@@ -66,6 +66,7 @@ For more, take a look at the `/example` directory.
 | locale                   | `string`        | `'en'`          | Defines the DatePicker locale                                                          |
 | minimumDate              | `DateType`      | `null`          | Defines DatePicker minimum selectable date                                             |
 | maximumDate              | `DateType`      | `null`          | Defines DatePicker maximum selectable date                                             |
+| firstDayOfWeek           | `number`        | `0`             | Defines the starting day of week, number 0-6, 0 - Sunday, 6 - Saturday                 |
 | displayFullDays          | `boolean`       | `false`         | Defines show previous and next month's days in the current calendar view               |
 | calendarTextStyle        | `TextStyle`     | `null`          | Defines all text styles inside the calendar (Days, Months, Years, Hours, and Minutes)  |
 | selectedTextStyle        | `TextStyle`     | `null`          | Defines selected (Day, Month, Year) text styles                                        |
