@@ -11,10 +11,9 @@ import { useCalendarContext } from '../CalendarContext';
 import { getDateYear, getYearRange } from '../utils';
 
 const YearSelector = () => {
-  const { currentDate, currentYear, selectedDate, onSelectYear, theme } =
+  const { currentDate, currentYear, onSelectYear, theme } =
     useCalendarContext();
-  const selectedYear = getDateYear(selectedDate);
-
+  const selectedYear = getDateYear(currentDate);
   const generateCells = useCallback(() => {
     const years = getYearRange(currentYear);
     const activeYear = getDateYear(currentDate);

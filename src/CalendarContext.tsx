@@ -16,8 +16,9 @@ export interface CalendarContextType extends CalendarState {
   firstDayOfWeek: number;
   theme?: CalendarTheme;
   setCalendarView: (value: CalendarViews) => void;
-  onSelectDate: (date: DateType) => void;
   onSelectMonth: (month: number) => void;
+  onSelectDate: (date: DateType) => void;
+  onSelectDateTo: (date: DateType , from : DateType) => void;
   onSelectYear: (year: number) => void;
   onChangeMonth: (value: number) => void;
   onChangeYear: (value: number) => void;

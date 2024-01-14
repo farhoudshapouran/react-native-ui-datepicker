@@ -10,9 +10,17 @@ function createNumberList(num: number) {
 }
 
 const TimeSelector = () => {
-  const { selectedDate, currentDate, onSelectDate, theme } =
-    useCalendarContext();
-  const { hour, minute } = getParsedDate(selectedDate);
+  const {
+    selectedDateTo,
+    selectedDate,
+    currentDate,
+    onSelectDateTo,
+    onSelectDate,
+    theme,
+  } = useCalendarContext();
+  const { hour, minute } = getParsedDate(
+    selectedDateTo ? selectedDateTo : selectedDate
+  );
 
   return (
     <View style={styles.container} testID="time-selector">
@@ -30,6 +38,7 @@ const TimeSelector = () => {
             setValue={(value) => {
               const newDate = getDate(currentDate).hour(value);
               onSelectDate(getFormated(newDate));
+              onSelectDateTo(getFormated(newDate), selectedDate);
             }}
           />
         </View>
@@ -52,6 +61,7 @@ const TimeSelector = () => {
             setValue={(value) => {
               const newDate = getDate(currentDate).minute(value);
               onSelectDate(getFormated(newDate));
+              onSelectDateTo(getFormated(newDate), selectedDate);
             }}
           />
         </View>

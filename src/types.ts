@@ -12,6 +12,7 @@ export type HeaderButtonPositions = 'around' | 'right' | 'left';
 export type CalendarState = {
   calendarView: CalendarViews;
   selectedDate: DateType;
+  selectedDateTo: DateType;
   currentDate: DateType; // used for latest state of calendar based on Month and Year
   currentYear: number; // used for pagination in YearSelector
 };
@@ -44,6 +45,10 @@ export type CalendarTheme = {
 };
 
 export type HeaderProps = {
+  buttonPrevIcon?: ReactNode;
+  buttonNextIcon?: ReactNode;
+};
+export type FooterProps = {
   buttonPrevIcon?: ReactNode;
   buttonNextIcon?: ReactNode;
 };

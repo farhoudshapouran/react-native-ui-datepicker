@@ -21,13 +21,13 @@ dayjs.extend(relativeTime);
 dayjs.extend(localizedFormat);
 
 interface PropTypes extends CalendarTheme, HeaderProps {
-  value: DateType;
+  value: DateType ;
   mode?: CalendarModes;
   locale?: string | ILocale;
   minimumDate?: DateType;
   maximumDate?: DateType;
   firstDayOfWeek?: number;
-  onValueChange?: (value: DateType) => void;
+  onValueChange?: (value: object) => void;
   displayFullDays?: boolean;
 }
 
@@ -109,30 +109,40 @@ const DateTimePicker = ({
             ...prevState,
             selectedDate: action.payload,
           };
+        case CalendarActionKind.CHANGE_SELECTED_DATE_TO:
+          return {
+            ...prevState,
+            selectedDateTo: action.payload,
+          };
       }
     },
     {
       calendarView: mode === 'time' ? CalendarViews.time : CalendarViews.day,
-      selectedDate: value ? getFormated(value) : new Date(),
+      selectedDate: null,
+      selectedDateTo: null,
       currentDate: value ? getFormated(value) : new Date(),
       currentYear: value ? getDateYear(value) : new Date().getFullYear(),
     }
   );
 
-  useEffect(() => {
-    dispatch({
-      type: CalendarActionKind.CHANGE_SELECTED_DATE,
-      payload: value ? getFormated(value) : new Date(),
-    });
-    dispatch({
-      type: CalendarActionKind.CHANGE_CURRENT_DATE,
-      payload: value ? getFormated(value) : new Date(),
-    });
-    dispatch({
-      type: CalendarActionKind.CHANGE_CURRENT_YEAR,
-      payload: getDateYear(value),
-    });
-  }, [value]);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: CalendarActionKind.CHANGE_SELECTED_DATE,
+  //     payload:  twoDaysAgo,
+  //   });
+  //   dispatch({
+  //     type: CalendarActionKind.CHANGE_SELECTED_DATE_TO,
+  //     payload: today,
+  //   });
+  //   dispatch({
+  //     type: CalendarActionKind.CHANGE_CURRENT_DATE,
+  //     payload: value ? getFormated(value) : new Date(),
+  //   });
+  //   dispatch({
+  //     type: CalendarActionKind.CHANGE_CURRENT_YEAR,
+  //     payload: getDateYear(value),
+  //   });
+  // }, [value]);
 
   useEffect(() => {
     dispatch({
@@ -145,15 +155,35 @@ const DateTimePicker = ({
     setCalendarView: (view: CalendarViews) =>
       dispatch({ type: CalendarActionKind.SET_CALENDAR_VIEW, payload: view }),
     onSelectDate: (date: DateType) => {
-      onValueChange(date);
       dispatch({
         type: CalendarActionKind.CHANGE_SELECTED_DATE,
         payload: date,
       });
+      // eslint-disable-next-line no-lone-blocks
+      {
+        date != null &&
+          dispatch({
+            type: CalendarActionKind.CHANGE_CURRENT_DATE,
+            payload: date,
+          });
+      }
+    },
+    onSelectDateTo: (date: DateType, from: DateType) => {
+      if (from != null) {
+        onValueChange({ from, date });
+      }
       dispatch({
-        type: CalendarActionKind.CHANGE_CURRENT_DATE,
+        type: CalendarActionKind.CHANGE_SELECTED_DATE_TO,
         payload: date,
       });
+      // eslint-disable-next-line no-lone-blocks
+      {
+        date != null &&
+          dispatch({
+            type: CalendarActionKind.CHANGE_CURRENT_DATE,
+            payload: date,
+          });
+      }
     },
     onSelectMonth: (month: number) => {
       const newDate = getDate(state.currentDate).month(month);

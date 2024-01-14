@@ -24,6 +24,29 @@ export const getWeekdaysMin = (firstDayOfWeek: number) => {
   return days;
 };
 
+export function formatTimeWithAmPm(
+  time: string | number | Date | dayjs.Dayjs | null | undefined
+) {
+  const formattedTime = dayjs(time ? time : getFormated(new Date())).format(
+    'HH:MM'
+  );
+  const formattedHour = dayjs(time ? time : getFormated(new Date())).format(
+    'HH'
+  );
+  const hour = parseInt(formattedHour, 10);
+  if (hour >= 12) {
+    return `${formattedTime} PM`;
+  } else {
+    return `${formattedTime} AM`;
+  }
+}
+
+export function getDateWithOffset(offset: number) {
+  const currentDate = new Date();
+  currentDate.setDate(currentDate.getDate() + offset);
+  return currentDate;
+}
+
 export const getFormated = (date: DateType) =>
   dayjs(date).format(CALENDAR_FORMAT);
 

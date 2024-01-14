@@ -1,0 +1,6 @@
+# .prettierignore
+
+node_modules/
+build/
+dist/
+src/

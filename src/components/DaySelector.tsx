@@ -15,7 +15,9 @@ const DaySelector = () => {
   const {
     currentDate,
     selectedDate,
+    selectedDateTo,
     onSelectDate,
+    onSelectDateTo,
     displayFullDays,
     minimumDate,
     maximumDate,
@@ -39,21 +41,49 @@ const DaySelector = () => {
               ...day,
               isToday: areDatesOnSameDay(day.date, today),
               isSelected: areDatesOnSameDay(day.date, selectedDate),
+              isSelectedTo: areDatesOnSameDay(day.date, selectedDateTo),
             }
           : null;
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [month, year, displayFullDays, minimumDate, maximumDate, selectedDate]
+    [
+      month,
+      year,
+      displayFullDays,
+      minimumDate,
+      maximumDate,
+      selectedDate,
+      selectedDateTo,
+    ]
   );
 
   const handleSelectDate = useCallback(
     (date: string) => {
       const newDate = getDate(date).hour(hour).minute(minute);
-
-      onSelectDate(getFormated(newDate));
+      if (selectedDate === null && selectedDateTo === null) {
+        onSelectDate(getFormated(newDate));
+      } else if (selectedDate != null && selectedDateTo === null) {
+        if (newDate.isBefore(selectedDate)) {
+          onSelectDate(getFormated(newDate));
+          onSelectDateTo(getFormated(selectedDate), getFormated(newDate));
+        } else {
+          onSelectDateTo(getFormated(newDate), selectedDate);
+        }
+      } else if (
+        selectedDate != null &&
+        selectedDateTo != null &&
+        selectedDate !== selectedDateTo
+      ) {
+        onSelectDate(getFormated(newDate));
+        onSelectDateTo(null, null);
+      } else if (getFormated(selectedDate) === getFormated(selectedDateTo)) {
+        onSelectDate(getFormated(newDate));
+        onSelectDateTo(null, null);
+      } else {
+      }
     },
-    [onSelectDate, hour, minute]
+    [onSelectDate, onSelectDateTo, hour, minute, selectedDate, selectedDateTo]
   );
 
   return (
@@ -80,6 +110,7 @@ const DaySelector = () => {
               theme={theme}
               isToday={day.isToday}
               isSelected={day.isSelected}
+              isSelectedTo={day.isSelectedTo}
               onSelectDate={handleSelectDate}
             />
           ) : (
@@ -96,16 +127,17 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 5,
     width: '100%',
+    // backgroundColor: 'green',
   },
   weekDaysContainer: {
     width: '100%',
     flexDirection: 'row',
-    paddingBottom: 10,
-    paddingTop: 5,
-    marginBottom: 10,
+    paddingBottom: 15,
+    paddingTop: 15,
     alignItems: 'center',
-    borderBottomWidth: 1,
-    borderColor: '#E5E5E5',
+    // marginBottom: 10,
+    // borderBottomWidth: 1,
+    // borderColor: '#E5E5E5',
   },
   weekDayCell: {
     width: '14.2%',
@@ -119,6 +151,8 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexDirection: 'row',
     alignContent: 'flex-start',
+    borderBottomWidth: 1,
+    borderColor: '#E5E5E5',
   },
 });
 

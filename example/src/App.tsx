@@ -8,7 +8,7 @@ import {
   Linking,
   SafeAreaView,
 } from 'react-native';
-import DateTimePicker, { DateType } from 'react-native-ui-datepicker';
+import DateTimePicker from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
 import 'dayjs/locale/en';
 import 'dayjs/locale/de';
@@ -35,7 +35,7 @@ const Themes: ITheme[] = [
 const Locales = ['en', 'de', 'es', 'fr', 'tr'];
 
 export default function App() {
-  const [value, setValue] = useState<DateType>(dayjs());
+  // const [value, setValue] = useState<DateType >(dayjs());
   const [theme, setTheme] = useState<ITheme | undefined>(Themes[0]);
   const [locale, setLocale] = useState('en');
 
@@ -94,13 +94,17 @@ export default function App() {
         <View style={styles.datePickerContainer}>
           <View style={styles.datePicker}>
             <DateTimePicker
-              value={value}
+              value={dayjs()}
               //minimumDate={dayjs().startOf('day')}
               //maximumDate={dayjs().add(3, 'day').endOf('day')}
               //firstDayOfWeek={1}
+              headerButtonsPosition="right"
               displayFullDays={true}
               locale={locale}
-              onValueChange={(date) => setValue(date)}
+              onValueChange={(date) => {
+                console.log('date range', date);
+                // setValue(date);
+              }}
               headerButtonColor={theme?.mainColor}
               selectedItemColor={theme?.mainColor}
               // eslint-disable-next-line react-native/no-inline-styles
@@ -114,7 +118,7 @@ export default function App() {
               }}
               mode="datetime"
             />
-            <View style={styles.footerContainer}>
+            {/* <View style={styles.footerContainer}>
               <Text>
                 {dayjs(value).locale(locale).format('MMMM, DD, YYYY - HH:mm')}
               </Text>
@@ -141,7 +145,7 @@ export default function App() {
                   </Text>
                 </View>
               </Pressable>
-            </View>
+            </View> */}
           </View>
         </View>
         <View style={styles.githubContainer}>
