@@ -48,6 +48,10 @@ export type HeaderProps = {
   buttonPrevIcon?: ReactNode;
   buttonNextIcon?: ReactNode;
 };
+export type FooterProps = {
+  buttonPrevIcon?: ReactNode;
+  buttonNextIcon?: ReactNode;
+};
 
 export interface IDayObject {
   text: string;

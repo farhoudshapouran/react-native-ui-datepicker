@@ -13,4 +13,4 @@ export enum CalendarActionKind {
   CHANGE_SELECTED_DATE_TO = 'CHANGE_SELECTED_DATE_TO',
 }
 
-export const CALENDAR_HEIGHT = 300;
+export const CALENDAR_HEIGHT = 270;

@@ -8,7 +8,7 @@ import {
   Linking,
   SafeAreaView,
 } from 'react-native';
-import DateTimePicker, { DateType } from 'react-native-ui-datepicker';
+import DateTimePicker from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
 import 'dayjs/locale/en';
 import 'dayjs/locale/de';
@@ -35,7 +35,7 @@ const Themes: ITheme[] = [
 const Locales = ['en', 'de', 'es', 'fr', 'tr'];
 
 export default function App() {
-  const [value, setValue] = useState<DateType>(dayjs());
+  // const [value, setValue] = useState<DateType >(dayjs());
   const [theme, setTheme] = useState<ITheme | undefined>(Themes[0]);
   const [locale, setLocale] = useState('en');
 
@@ -94,7 +94,7 @@ export default function App() {
         <View style={styles.datePickerContainer}>
           <View style={styles.datePicker}>
             <DateTimePicker
-              value={value}
+              value={dayjs()}
               //minimumDate={dayjs().startOf('day')}
               //maximumDate={dayjs().add(3, 'day').endOf('day')}
               //firstDayOfWeek={1}
@@ -103,7 +103,7 @@ export default function App() {
               locale={locale}
               onValueChange={(date) => {
                 console.log('date range', date);
-                setValue(date);
+                // setValue(date);
               }}
               headerButtonColor={theme?.mainColor}
               selectedItemColor={theme?.mainColor}

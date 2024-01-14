@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
-import { getFormated, getDate, getDateYear, getDateWithOffset } from './utils';
+import { getFormated, getDate, getDateYear } from './utils';
 import CalendarContext from './CalendarContext';
 import { CalendarViews, CalendarActionKind } from './enums';
 import type {
@@ -21,7 +21,7 @@ dayjs.extend(relativeTime);
 dayjs.extend(localizedFormat);
 
 interface PropTypes extends CalendarTheme, HeaderProps {
-  value: DateType;
+  value: DateType ;
   mode?: CalendarModes;
   locale?: string | ILocale;
   minimumDate?: DateType;
@@ -86,12 +86,6 @@ const DateTimePicker = ({
     timePickerTextStyle,
   };
 
-  const twoDaysAgo = getDateWithOffset(-2);
-  const today = getDateWithOffset(0);
-
-//   console.log('Today:', today);
-// console.log('Two days ago:', twoDaysAgo);
-
   const [state, dispatch] = useReducer(
     (prevState: CalendarState, action: CalendarAction) => {
       switch (action.type) {
@@ -124,13 +118,12 @@ const DateTimePicker = ({
     },
     {
       calendarView: mode === 'time' ? CalendarViews.time : CalendarViews.day,
-      selectedDate: null, 
-      selectedDateTo: null,     
+      selectedDate: null,
+      selectedDateTo: null,
       currentDate: value ? getFormated(value) : new Date(),
       currentYear: value ? getDateYear(value) : new Date().getFullYear(),
     }
   );
-  
 
   // useEffect(() => {
   //   dispatch({
@@ -166,30 +159,31 @@ const DateTimePicker = ({
         type: CalendarActionKind.CHANGE_SELECTED_DATE,
         payload: date,
       });
-      {date != null &&  (
-        dispatch({
-          type: CalendarActionKind.CHANGE_CURRENT_DATE,
-          payload: date,
-        })
-      ) 
-    }
-      
+      // eslint-disable-next-line no-lone-blocks
+      {
+        date != null &&
+          dispatch({
+            type: CalendarActionKind.CHANGE_CURRENT_DATE,
+            payload: date,
+          });
+      }
     },
-    onSelectDateTo: (date: DateType , from : DateType ) => {
-      if(from != null){
-        onValueChange({from, date});
+    onSelectDateTo: (date: DateType, from: DateType) => {
+      if (from != null) {
+        onValueChange({ from, date });
       }
       dispatch({
         type: CalendarActionKind.CHANGE_SELECTED_DATE_TO,
         payload: date,
       });
-      {date != null && (
-        dispatch({
-          type: CalendarActionKind.CHANGE_CURRENT_DATE,
-          payload: date,
-        })
-      ) 
-    }
+      // eslint-disable-next-line no-lone-blocks
+      {
+        date != null &&
+          dispatch({
+            type: CalendarActionKind.CHANGE_CURRENT_DATE,
+            payload: date,
+          });
+      }
     },
     onSelectMonth: (month: number) => {
       const newDate = getDate(state.currentDate).month(month);
