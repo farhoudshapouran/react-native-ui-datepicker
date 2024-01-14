@@ -95,12 +95,16 @@ export default function App() {
           <View style={styles.datePicker}>
             <DateTimePicker
               value={value}
+
               //minimumDate={dayjs().startOf('day')}
               //maximumDate={dayjs().add(3, 'day').endOf('day')}
               //firstDayOfWeek={1}
+              headerButtonsPosition='right'
               displayFullDays={true}
               locale={locale}
-              onValueChange={(date) => setValue(date)}
+              onValueChange={(date) => {
+                console.log('date range',date)
+                setValue(date)}}
               headerButtonColor={theme?.mainColor}
               selectedItemColor={theme?.mainColor}
               // eslint-disable-next-line react-native/no-inline-styles

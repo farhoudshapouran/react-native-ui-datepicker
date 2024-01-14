@@ -12,7 +12,8 @@ function createNumberList(num: number) {
 const TimeSelector = () => {
   const { selectedDate, currentDate, onSelectDate, theme } =
     useCalendarContext();
-  const { hour, minute } = getParsedDate(selectedDate);
+  // const { hour, minute } = getParsedDate(selectedDate);
+  const { hour, minute } = getParsedDate(currentDate);
 
   return (
     <View style={styles.container} testID="time-selector">

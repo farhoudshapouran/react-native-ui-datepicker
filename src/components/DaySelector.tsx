@@ -14,8 +14,10 @@ import {
 const DaySelector = () => {
   const {
     currentDate,
-    selectedDate,
+    selectedDate, 
+    selectedDateTo, 
     onSelectDate,
+    onSelectDateTo,
     displayFullDays,
     minimumDate,
     maximumDate,
@@ -38,23 +40,50 @@ const DaySelector = () => {
           ? {
               ...day,
               isToday: areDatesOnSameDay(day.date, today),
-              isSelected: areDatesOnSameDay(day.date, selectedDate),
+              isSelected: areDatesOnSameDay(day.date, selectedDate ),
+              isSelectedTo: areDatesOnSameDay(day.date, selectedDateTo),
             }
           : null;
-      });
+      }); 
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [month, year, displayFullDays, minimumDate, maximumDate, selectedDate]
+    [month, year, displayFullDays, minimumDate, maximumDate, selectedDate,selectedDateTo]
   );
 
+
+     
   const handleSelectDate = useCallback(
     (date: string) => {
       const newDate = getDate(date).hour(hour).minute(minute);
+      if(selectedDate === null && selectedDateTo === null){
+        onSelectDate(getFormated(newDate));
+      }
+      else if (selectedDate != null && selectedDateTo === null){
+        if(newDate.isBefore(selectedDate)){
+          onSelectDate(getFormated(newDate));
+          onSelectDateTo(getFormated(selectedDate), getFormated(newDate));
+        }
+        else{
+          onSelectDateTo(getFormated(newDate), selectedDate);
+        }
+      }
+      else if (selectedDate != null && selectedDateTo != null &&  selectedDate != selectedDateTo) {
+        onSelectDate(getFormated(newDate));
+        onSelectDateTo(null, null);
+      }
+      else if (getFormated(selectedDate) === getFormated(selectedDateTo)){
+        onSelectDate(getFormated(newDate));
+        onSelectDateTo(null, null);
+      }
+      else {
 
-      onSelectDate(getFormated(newDate));
+      }
     },
-    [onSelectDate, hour, minute]
+    [onSelectDate, onSelectDateTo, hour, minute, selectedDate, selectedDateTo]
   );
+  
+
+
 
   return (
     <View style={styles.container} testID="day-selector">
@@ -80,6 +109,7 @@ const DaySelector = () => {
               theme={theme}
               isToday={day.isToday}
               isSelected={day.isSelected}
+              isSelectedTo={day.isSelectedTo}
               onSelectDate={handleSelectDate}
             />
           ) : (

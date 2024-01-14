@@ -92,27 +92,38 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
   const yearSelector = useCallback(() => {
     const years = getYearRange(currentYear);
     return (
+<>
       <Pressable
         onPress={() => {
           setCalendarView(
             calendarView === CalendarViews.year
-              ? CalendarViews.day
-              : CalendarViews.year
-          );
-          onChangeYear(getDateYear(currentDate));
-        }}
-        testID="btn-year"
-        accessibilityRole="button"
-        accessibilityLabel={dayjs(currentDate).format('YYYY')}
-      >
+            ? CalendarViews.day
+            : CalendarViews.year
+            );
+            onChangeYear(getDateYear(currentDate));
+          }}
+          testID="btn-year"
+          accessibilityRole="button"
+          accessibilityLabel={dayjs(currentDate).format('YYYY')}
+          >
         <View style={[styles.textContainer, theme?.headerTextContainerStyle]}>
           <Text style={[styles.text, theme?.headerTextStyle]}>
             {calendarView === CalendarViews.year
               ? `${years.at(0)} - ${years.at(-1)}`
               : dayjs(currentDate).format('YYYY')}
           </Text>
-        </View>
-      </Pressable>
+          </View>
+          </Pressable>
+        <Image
+        source={arrow_right}
+        style={{
+          marginLeft:-5,
+          width: theme?.headerButtonSize || 18,
+          height: theme?.headerButtonSize || 18,
+          tintColor: theme?.headerButtonColor,
+        }}
+        />
+        </>
     );
   }, [
     calendarView,
@@ -124,24 +135,27 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
   ]);
 
   const monthSelector = (
+    <>
     <Pressable
       onPress={() =>
         setCalendarView(
           calendarView === CalendarViews.month
-            ? CalendarViews.day
-            : CalendarViews.month
-        )
-      }
-      testID="btn-month"
-      accessibilityRole="button"
-      accessibilityLabel={currentMonthText}
-    >
+          ? CalendarViews.day
+          : CalendarViews.month
+          )
+        }
+        testID="btn-month"
+        accessibilityRole="button"
+        accessibilityLabel={currentMonthText}
+        >
       <View style={[styles.textContainer, theme?.headerTextContainerStyle]}>
         <Text style={[styles.text, theme?.headerTextStyle]}>
           {currentMonthText}
         </Text>
       </View>
     </Pressable>
+   
+      </>
   );
 
   const renderSelectors = (
@@ -150,6 +164,7 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
         {calendarView !== CalendarViews.year ? monthSelector : null}
         {yearSelector()}
       </View>
+      {/* 
       {mode === 'datetime' && calendarView !== CalendarViews.year ? (
         <Pressable
           onPress={() =>
@@ -160,15 +175,18 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
             )
           }
           accessibilityRole="button"
-          accessibilityLabel={dayjs(selectedDate).format('HH:mm')}
+          // accessibilityLabel={dayjs(selectedDate).format('HH:mm')}
+          accessibilityLabel={dayjs(currentDate).format('HH:mm')}
         >
           <View style={[styles.textContainer, theme?.headerTextContainerStyle]}>
             <Text style={[styles.text, theme?.headerTextStyle]}>
-              {dayjs(selectedDate).format('HH:mm')}
+              {/* {dayjs(selectedDate).format('HH:mm')} /// ecommented
+              {dayjs(currentDate).format('HH:mm')}
             </Text>
           </View>
         </Pressable>
-      ) : null}
+      ) : null}  
+    */}
     </>
   );
 

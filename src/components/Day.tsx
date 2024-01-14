@@ -6,6 +6,7 @@ import { CALENDAR_HEIGHT } from '../enums';
 interface Props extends Omit<IDayObject, 'day'> {
   isToday: boolean;
   isSelected: boolean;
+  isSelectedTo: boolean;
   onSelectDate: (date: string) => void;
   theme?: CalendarTheme;
 }
@@ -23,6 +24,7 @@ const Day = ({
   isCurrentMonth,
   isToday,
   isSelected,
+  isSelectedTo,
   onSelectDate,
   theme,
 }: Props) => {
@@ -38,14 +40,21 @@ const Day = ({
       }
     : null;
 
-  const activeItemStyle = isSelected
-    ? {
-        borderColor: theme?.selectedItemColor || '#0047FF',
-        backgroundColor: theme?.selectedItemColor || '#0047FF',
-      }
-    : null;
+  const selectedStyle = isSelected
+  ? {
+      borderColor: theme?.selectedItemColor || '#0047FF',
+      backgroundColor: theme?.selectedItemColor || '#0047FF',
+    }
+  : null;
 
-  const textStyle = isSelected
+const selectedToStyle = isSelectedTo
+  ? {
+      borderColor: theme?.selectedItemColor || '#0047FF',
+      backgroundColor: theme?.selectedItemColor || '#0047FF',
+    }
+  : null;
+
+  const textStyle = isSelected || isSelectedTo
     ? { color: '#fff', ...theme?.selectedTextStyle }
     : isToday
     ? {
@@ -54,6 +63,7 @@ const Day = ({
         ...theme?.todayTextStyle,
       }
     : theme?.calendarTextStyle;
+
 
   return (
     <View style={styles.dayCell}>
@@ -64,7 +74,8 @@ const Day = ({
           styles.dayContainer,
           dayContainerStyle,
           todayItemStyle,
-          activeItemStyle,
+          selectedStyle,
+          selectedToStyle,
           disabled && styles.disabledDay,
         ]}
         testID={date}

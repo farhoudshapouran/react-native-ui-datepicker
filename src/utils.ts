@@ -24,6 +24,12 @@ export const getWeekdaysMin = (firstDayOfWeek: number) => {
   return days;
 };
 
+export function getDateWithOffset(offset: number) {
+  const currentDate = new Date();
+  currentDate.setDate(currentDate.getDate() + offset);
+  return currentDate;
+}
+
 export const getFormated = (date: DateType) =>
   dayjs(date).format(CALENDAR_FORMAT);
 

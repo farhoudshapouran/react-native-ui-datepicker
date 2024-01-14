@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer } from 'react';
-import { getFormated, getDate, getDateYear } from './utils';
+import { getFormated, getDate, getDateYear, getDateWithOffset } from './utils';
 import CalendarContext from './CalendarContext';
 import { CalendarViews, CalendarActionKind } from './enums';
 import type {
@@ -27,7 +27,7 @@ interface PropTypes extends CalendarTheme, HeaderProps {
   minimumDate?: DateType;
   maximumDate?: DateType;
   firstDayOfWeek?: number;
-  onValueChange?: (value: DateType) => void;
+  onValueChange?: (value: object) => void;
   displayFullDays?: boolean;
 }
 
@@ -86,6 +86,12 @@ const DateTimePicker = ({
     timePickerTextStyle,
   };
 
+  const twoDaysAgo = getDateWithOffset(-2);
+  const today = getDateWithOffset(0);
+
+//   console.log('Today:', today);
+// console.log('Two days ago:', twoDaysAgo);
+
   const [state, dispatch] = useReducer(
     (prevState: CalendarState, action: CalendarAction) => {
       switch (action.type) {
@@ -109,30 +115,41 @@ const DateTimePicker = ({
             ...prevState,
             selectedDate: action.payload,
           };
+        case CalendarActionKind.CHANGE_SELECTED_DATE_TO:
+          return {
+            ...prevState,
+            selectedDateTo: action.payload,
+          };
       }
     },
     {
       calendarView: mode === 'time' ? CalendarViews.time : CalendarViews.day,
-      selectedDate: value ? getFormated(value) : new Date(),
+      selectedDate: null, 
+      selectedDateTo: null,     
       currentDate: value ? getFormated(value) : new Date(),
       currentYear: value ? getDateYear(value) : new Date().getFullYear(),
     }
   );
+  
 
-  useEffect(() => {
-    dispatch({
-      type: CalendarActionKind.CHANGE_SELECTED_DATE,
-      payload: value ? getFormated(value) : new Date(),
-    });
-    dispatch({
-      type: CalendarActionKind.CHANGE_CURRENT_DATE,
-      payload: value ? getFormated(value) : new Date(),
-    });
-    dispatch({
-      type: CalendarActionKind.CHANGE_CURRENT_YEAR,
-      payload: getDateYear(value),
-    });
-  }, [value]);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: CalendarActionKind.CHANGE_SELECTED_DATE,
+  //     payload:  twoDaysAgo,
+  //   });
+  //   dispatch({
+  //     type: CalendarActionKind.CHANGE_SELECTED_DATE_TO,
+  //     payload: today,
+  //   });
+  //   dispatch({
+  //     type: CalendarActionKind.CHANGE_CURRENT_DATE,
+  //     payload: value ? getFormated(value) : new Date(),
+  //   });
+  //   dispatch({
+  //     type: CalendarActionKind.CHANGE_CURRENT_YEAR,
+  //     payload: getDateYear(value),
+  //   });
+  // }, [value]);
 
   useEffect(() => {
     dispatch({
@@ -145,15 +162,34 @@ const DateTimePicker = ({
     setCalendarView: (view: CalendarViews) =>
       dispatch({ type: CalendarActionKind.SET_CALENDAR_VIEW, payload: view }),
     onSelectDate: (date: DateType) => {
-      onValueChange(date);
       dispatch({
         type: CalendarActionKind.CHANGE_SELECTED_DATE,
         payload: date,
       });
+      {date != null &&  (
+        dispatch({
+          type: CalendarActionKind.CHANGE_CURRENT_DATE,
+          payload: date,
+        })
+      ) 
+    }
+      
+    },
+    onSelectDateTo: (date: DateType , from : DateType ) => {
+      if(from != null){
+        onValueChange({from, date});
+      }
       dispatch({
-        type: CalendarActionKind.CHANGE_CURRENT_DATE,
+        type: CalendarActionKind.CHANGE_SELECTED_DATE_TO,
         payload: date,
       });
+      {date != null && (
+        dispatch({
+          type: CalendarActionKind.CHANGE_CURRENT_DATE,
+          payload: date,
+        })
+      ) 
+    }
     },
     onSelectMonth: (month: number) => {
       const newDate = getDate(state.currentDate).month(month);
