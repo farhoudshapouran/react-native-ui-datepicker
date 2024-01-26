@@ -97,6 +97,14 @@ export default function App() {
           ))}
         </View>
         <View style={styles.localeContainer}>
+          <Text
+            style={{
+              // eslint-disable-next-line react-native/no-inline-styles
+              marginRight: 8,
+            }}
+          >
+            Locale:
+          </Text>
           {Locales.map((item, index) => (
             <Pressable
               key={index}
@@ -132,7 +140,7 @@ export default function App() {
               marginRight: 8,
             }}
           >
-            Modes:
+            Mode:
           </Text>
           <TouchableOpacity
             style={[
@@ -405,9 +413,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   modeSelect: {
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
     paddingVertical: 8,
-    borderRadius: 8,
+    borderRadius: 20,
   },
   modeSelectText: {
     fontSize: 13,
