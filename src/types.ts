@@ -5,15 +5,18 @@ import type { ReactNode } from 'react';
 
 export type DateType = string | number | Dayjs | Date | null | undefined;
 
-export type CalendarModes = 'datetime' | 'date' | 'time';
+export type ModeType = 'single' | 'range' | 'multiple';
 
 export type HeaderButtonPositions = 'around' | 'right' | 'left';
 
-export type CalendarState = {
+export type LocalState = {
+  date: DateType;
+  startDate: DateType;
+  endDate: DateType;
+  dates: DateType[];
   calendarView: CalendarViews;
-  selectedDate: DateType;
   currentDate: DateType; // used for latest state of calendar based on Month and Year
-  currentYear: number; // used for pagination in YearSelector
+  currentYear: number;
 };
 
 export type CalendarAction = {
@@ -21,7 +24,7 @@ export type CalendarAction = {
   payload: any;
 };
 
-export type CalendarTheme = {
+export type CalendarThemeProps = {
   headerButtonsPosition?: HeaderButtonPositions;
   headerContainerStyle?: ViewStyle;
   headerTextContainerStyle?: ViewStyle;
@@ -54,4 +57,37 @@ export interface IDayObject {
   date: string;
   disabled: boolean;
   isCurrentMonth: boolean;
+  dayOfMonth?: number;
+  inRange: boolean;
+  leftCrop: boolean;
+  rightCrop: boolean;
+}
+
+export type SingleChange = (params: { date: DateType }) => void;
+
+export type RangeChange = (params: {
+  startDate: DateType;
+  endDate: DateType;
+}) => any;
+
+export type MultiChange = (params: {
+  dates: DateType[];
+  datePressed: Date;
+  change: 'added' | 'removed';
+}) => any;
+
+export interface DatePickerBaseProps {
+  mode?: ModeType;
+  locale?: string | ILocale;
+  startYear?: number;
+  endYear?: number;
+  minDate?: DateType;
+  maxDate?: DateType;
+  firstDayOfWeek?: number;
+  displayFullDays?: boolean;
+  date?: DateType;
+  dates?: DateType[];
+  startDate?: DateType;
+  endDate?: DateType;
+  onChange?: SingleChange | RangeChange | MultiChange;
 }

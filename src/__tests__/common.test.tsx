@@ -4,7 +4,7 @@ import DateTimePicker from '../DateTimePicker';
 
 describe('COMMON TESTS', () => {
   test('should render with default options', () => {
-    render(<DateTimePicker />);
+    render(<DateTimePicker mode="single" />);
     expect(screen.toJSON()).toMatchSnapshot();
   });
 });

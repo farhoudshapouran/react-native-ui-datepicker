@@ -11,19 +11,20 @@ const arrow_right = require('../assets/images/arrow_right.png');
 
 const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
   const {
+    date,
     currentDate,
-    selectedDate,
     currentYear,
     onChangeMonth,
     onChangeYear,
     calendarView,
     setCalendarView,
-    mode,
     theme,
     locale,
   } = useCalendarContext();
 
   const currentMonthText = dayjs(currentDate).locale(locale).format('MMMM');
+
+  const displayTime = false;
 
   const renderPrevButton = (
     <Pressable
@@ -150,7 +151,7 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
         {calendarView !== CalendarViews.year ? monthSelector : null}
         {yearSelector()}
       </View>
-      {mode === 'datetime' && calendarView !== CalendarViews.year ? (
+      {displayTime && calendarView !== CalendarViews.year ? (
         <Pressable
           onPress={() =>
             setCalendarView(
@@ -160,11 +161,11 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
             )
           }
           accessibilityRole="button"
-          accessibilityLabel={dayjs(selectedDate).format('HH:mm')}
+          accessibilityLabel={dayjs(date).format('HH:mm')}
         >
           <View style={[styles.textContainer, theme?.headerTextContainerStyle]}>
             <Text style={[styles.text, theme?.headerTextStyle]}>
-              {dayjs(selectedDate).format('HH:mm')}
+              {dayjs(date).format('HH:mm')}
             </Text>
           </View>
         </Pressable>

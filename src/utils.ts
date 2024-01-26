@@ -44,6 +44,23 @@ export function areDatesOnSameDay(a: DateType, b: DateType) {
   return date_a === date_b;
 }
 
+export function isDateBetween(
+  date: DateType,
+  {
+    startDate,
+    endDate,
+  }: {
+    startDate?: DateType;
+    endDate?: DateType;
+  }
+): boolean {
+  if (!startDate || !endDate) {
+    return false;
+  }
+
+  return dayjs(date) <= endDate && dayjs(date) >= startDate;
+}
+
 export const getFormatedDate = (date: DateType, format: string) =>
   dayjs(date).format(format);
 
@@ -53,9 +70,61 @@ export const getYearRange = (year: number) => {
   const endYear = YEAR_PAGE_SIZE * Math.ceil(year / YEAR_PAGE_SIZE);
   let startYear = endYear === year ? endYear : endYear - YEAR_PAGE_SIZE;
 
-  if (startYear < 0) startYear = 0;
+  if (startYear < 0) {
+    startYear = 0;
+  }
   return Array.from({ length: YEAR_PAGE_SIZE }, (_, i) => startYear + i);
 };
+
+export function getDaysInMonth(
+  date: DateType,
+  displayFullDays: boolean | undefined,
+  firstDayOfWeek: number
+) {
+  const daysInCurrentMonth = dayjs(date).daysInMonth();
+
+  const prevMonthDays = dayjs(date).add(-1, 'month').daysInMonth();
+  const firstDay = dayjs(date).date(1 - firstDayOfWeek);
+  const prevMonthOffset = firstDay.day() % 7;
+  const daysInPrevMonth = displayFullDays ? prevMonthOffset : 0;
+  const monthDaysOffset = prevMonthOffset + daysInCurrentMonth;
+  const daysInNextMonth = displayFullDays
+    ? monthDaysOffset > 35
+      ? 42 - monthDaysOffset
+      : 35 - monthDaysOffset
+    : 0;
+
+  const fullDaysInMonth =
+    daysInPrevMonth + daysInCurrentMonth + daysInNextMonth;
+
+  return {
+    prevMonthDays,
+    prevMonthOffset,
+    daysInCurrentMonth,
+    daysInNextMonth,
+    fullDaysInMonth,
+  };
+}
+
+export function getFirstDayOfMonth(
+  date: DateType,
+  firstDayOfWeek: number
+): number {
+  const d = getDate(date);
+  return d.date(1 - firstDayOfWeek).day();
+}
+
+export function getStartOfDay(date: DateType): DateType {
+  return dayjs(date).startOf('day');
+}
+
+export function getEndOfDay(date: DateType): DateType {
+  return dayjs(date).endOf('day');
+}
+
+export function dateToUnix(date: DateType): number {
+  return dayjs(date).unix();
+}
 
 /**
  * Get detailed date object
@@ -78,8 +147,8 @@ export const getParsedDate = (date: DateType) => {
  *
  * @param datetime - The current date that selected
  * @param displayFullDays
- * @param minimumDate - min selectable date
- * @param maximumDate - max selectable date
+ * @param minDate - min selectable date
+ * @param maxDate - max selectable date
  * @param firstDayOfWeek - first day of week, number 0-6, 0 – Sunday, 6 – Saturday
  *
  * @returns days array based on current date
@@ -87,41 +156,57 @@ export const getParsedDate = (date: DateType) => {
 export const getMonthDays = (
   datetime: DateType = dayjs(),
   displayFullDays: boolean,
-  minimumDate: DateType,
-  maximumDate: DateType,
+  minDate: DateType,
+  maxDate: DateType,
   firstDayOfWeek: number
 ): IDayObject[] => {
   const date = getDate(datetime);
-  const daysInMonth = date.daysInMonth();
-  const prevMonthDays = date.add(-1, 'month').daysInMonth();
-  const firstDay = date.date(1 - firstDayOfWeek);
-  const dayOfMonth = firstDay.day() % 7;
+  const {
+    prevMonthDays,
+    prevMonthOffset,
+    daysInCurrentMonth,
+    daysInNextMonth,
+  } = getDaysInMonth(datetime, displayFullDays, firstDayOfWeek);
 
   const prevDays = displayFullDays
-    ? Array.from({ length: dayOfMonth }, (_, i) => {
-        const day = i + (prevMonthDays - dayOfMonth + 1);
+    ? Array.from({ length: prevMonthOffset }, (_, index) => {
+        const day = index + (prevMonthDays - prevMonthOffset + 1);
         const thisDay = date.add(-1, 'month').date(day);
-        return generateDayObject(day, thisDay, minimumDate, maximumDate, false);
+        return generateDayObject(
+          day,
+          thisDay,
+          minDate,
+          maxDate,
+          false,
+          index + 1
+        );
       })
-    : Array(dayOfMonth).fill(null);
+    : Array(prevMonthOffset).fill(null);
 
-  const monthDaysOffset = dayOfMonth + daysInMonth;
-  const nextMonthDays = displayFullDays
-    ? monthDaysOffset > 35
-      ? 42 - monthDaysOffset
-      : 35 - monthDaysOffset
-    : 0;
-
-  const currentDays = Array.from({ length: daysInMonth }, (_, i) => {
-    const day = i + 1;
+  const currentDays = Array.from({ length: daysInCurrentMonth }, (_, index) => {
+    const day = index + 1;
     const thisDay = date.date(day);
-    return generateDayObject(day, thisDay, minimumDate, maximumDate, true);
+    return generateDayObject(
+      day,
+      thisDay,
+      minDate,
+      maxDate,
+      true,
+      prevMonthOffset + day
+    );
   });
 
-  const nextDays = Array.from({ length: nextMonthDays }, (_, i) => {
-    const day = i + 1;
+  const nextDays = Array.from({ length: daysInNextMonth }, (_, index) => {
+    const day = index + 1;
     const thisDay = date.add(1, 'month').date(day);
-    return generateDayObject(day, thisDay, minimumDate, maximumDate, false);
+    return generateDayObject(
+      day,
+      thisDay,
+      minDate,
+      maxDate,
+      false,
+      daysInCurrentMonth + prevMonthOffset + day
+    );
   });
 
   return [...prevDays, ...currentDays, ...nextDays];
@@ -143,7 +228,8 @@ const generateDayObject = (
   date: dayjs.Dayjs,
   minDate: DateType,
   maxDate: DateType,
-  isCurrentMonth: boolean
+  isCurrentMonth: boolean,
+  dayOfMonth: number
 ) => {
   let disabled = false;
   if (minDate) {
@@ -158,5 +244,28 @@ const generateDayObject = (
     date: getFormatedDate(date, DATE_FORMAT),
     disabled,
     isCurrentMonth,
+    dayOfMonth,
   };
 };
+
+export function addColorAlpha(color: string | undefined, opacity: number) {
+  //if it has an alpha, remove it
+  if (!color) {
+    color = '#000000';
+  }
+
+  if (color.length > 7) {
+    color = color.substring(0, color.length - 2);
+  }
+
+  // coerce values so ti is between 0 and 1.
+  const _opacity = Math.round(Math.min(Math.max(opacity, 0), 1) * 255);
+  let opacityHex = _opacity.toString(16).toUpperCase();
+
+  // opacities near 0 need a trailing 0
+  if (opacityHex.length === 1) {
+    opacityHex = '0' + opacityHex;
+  }
+
+  return color + opacityHex;
+}

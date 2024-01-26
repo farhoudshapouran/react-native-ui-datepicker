@@ -1,0 +1,4 @@
+{
+  "extends": "@react-native-community",
+  "ignorePatterns": [".*.js", ".*.ts", "node_modules/", "lib/", "example/"]
+}

@@ -10,9 +10,8 @@ function createNumberList(num: number) {
 }
 
 const TimeSelector = () => {
-  const { selectedDate, currentDate, onSelectDate, theme } =
-    useCalendarContext();
-  const { hour, minute } = getParsedDate(selectedDate);
+  const { date, currentDate, onSelectDate, theme } = useCalendarContext();
+  const { hour, minute } = getParsedDate(date);
 
   return (
     <View style={styles.container} testID="time-selector">

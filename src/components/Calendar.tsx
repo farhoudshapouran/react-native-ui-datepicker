@@ -20,16 +20,17 @@ const CalendarView: Record<CalendarViews, ReactNode> = {
 interface PropTypes extends HeaderProps {}
 
 const Calendar = ({ buttonPrevIcon, buttonNextIcon }: PropTypes) => {
-  const { calendarView, mode } = useCalendarContext();
+  const { calendarView } = useCalendarContext();
 
   return (
     <View style={styles.container} testID="calendar">
-      {mode !== 'time' ? (
+      {/* {mode !== 'time' ? (
         <Header
           buttonPrevIcon={buttonPrevIcon}
           buttonNextIcon={buttonNextIcon}
         />
-      ) : null}
+      ) : null} */}
+      <Header buttonPrevIcon={buttonPrevIcon} buttonNextIcon={buttonNextIcon} />
       <View style={styles.calendarContainer}>{CalendarView[calendarView]}</View>
     </View>
   );

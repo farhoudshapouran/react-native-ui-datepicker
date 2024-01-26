@@ -29,7 +29,7 @@
   "scripts": {
     "test": "jest -u",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint \"**/*.{js,ts,jsx,tsx}\"",
+    "lint": "eslint .",
     "prepack": "bob build",
     "release": "release-it",
     "example": "yarn --cwd example",

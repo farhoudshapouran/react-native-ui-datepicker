@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -7,8 +7,9 @@ import {
   Image,
   Linking,
   SafeAreaView,
+  TouchableOpacity,
 } from 'react-native';
-import DateTimePicker, { DateType } from 'react-native-ui-datepicker';
+import DateTimePicker, { DateType, ModeType } from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
 import 'dayjs/locale/en';
 import 'dayjs/locale/de';
@@ -35,9 +36,50 @@ const Themes: ITheme[] = [
 const Locales = ['en', 'de', 'es', 'fr', 'tr'];
 
 export default function App() {
-  const [value, setValue] = useState<DateType>(dayjs());
+  const [mode, setMode] = useState<ModeType>('single');
+
+  const [date, setDate] = useState<DateType>();
+  const [range, setRange] = React.useState<{
+    startDate: DateType;
+    endDate: DateType;
+  }>({ startDate: undefined, endDate: undefined });
+
   const [theme, setTheme] = useState<ITheme | undefined>(Themes[0]);
   const [locale, setLocale] = useState('en');
+
+  const onChangeSingle = useCallback(
+    (params: any) => {
+      setDate(params.date);
+    },
+    [setDate]
+  );
+
+  const onChaneRange = useCallback(
+    ({ startDate, endDate }: any) => {
+      setRange({ startDate, endDate });
+    },
+    [setRange]
+  );
+
+  const onChangeMode = useCallback(
+    (value: ModeType) => {
+      setDate(undefined);
+      setRange({ startDate: undefined, endDate: undefined });
+      setMode(value);
+    },
+    [setMode, setDate, setRange]
+  );
+
+  const onChange = useCallback(
+    (params) => {
+      if (mode === 'single') {
+        onChangeSingle(params);
+      } else if (mode === 'range') {
+        onChaneRange(params);
+      }
+    },
+    [mode]
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -91,16 +133,69 @@ export default function App() {
             </Pressable>
           ))}
         </View>
+        <View style={styles.modesContainer}>
+          <Text
+            style={{
+              // eslint-disable-next-line react-native/no-inline-styles
+              marginRight: 8,
+            }}
+          >
+            Modes:
+          </Text>
+          <TouchableOpacity
+            style={[
+              styles.modeSelect,
+              {
+                // eslint-disable-next-line react-native/no-inline-styles
+                backgroundColor:
+                  mode === 'single' ? theme?.mainColor : undefined,
+              },
+            ]}
+            onPress={() => onChangeMode('single')}
+          >
+            <Text
+              style={[
+                styles.modeSelectText,
+                mode === 'single' && { color: theme?.activeTextColor },
+              ]}
+            >
+              Single
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.modeSelect,
+              // eslint-disable-next-line react-native/no-inline-styles
+              {
+                backgroundColor:
+                  mode === 'range' ? theme?.mainColor : undefined,
+              },
+            ]}
+            onPress={() => onChangeMode('range')}
+          >
+            <Text
+              style={[
+                styles.modeSelectText,
+                mode === 'range' && { color: theme?.activeTextColor },
+              ]}
+            >
+              Range
+            </Text>
+          </TouchableOpacity>
+        </View>
         <View style={styles.datePickerContainer}>
           <View style={styles.datePicker}>
             <DateTimePicker
-              value={value}
-              //minimumDate={dayjs().startOf('day')}
-              //maximumDate={dayjs().add(3, 'day').endOf('day')}
+              mode={mode}
+              date={date}
+              startDate={range.startDate}
+              endDate={range.endDate}
+              //minDate={dayjs().startOf('day')}
+              //maxDate={dayjs().add(3, 'day').endOf('day')}
               //firstDayOfWeek={1}
               displayFullDays={true}
               locale={locale}
-              onValueChange={(date) => setValue(date)}
+              onChange={onChange}
               headerButtonColor={theme?.mainColor}
               selectedItemColor={theme?.mainColor}
               // eslint-disable-next-line react-native/no-inline-styles
@@ -112,35 +207,61 @@ export default function App() {
               todayContainerStyle={{
                 borderWidth: 1,
               }}
-              mode="datetime"
             />
-            <View style={styles.footerContainer}>
-              <Text>
-                {dayjs(value).locale(locale).format('MMMM, DD, YYYY - HH:mm')}
-              </Text>
-              <Pressable
-                onPress={() => {
-                  setValue(dayjs());
-                }}
-                accessibilityRole="button"
-                accessibilityLabel="Today"
-              >
-                <View
-                  style={[
-                    styles.todayButton,
-                    { backgroundColor: theme?.mainColor },
-                  ]}
-                >
-                  <Text
-                    style={[
-                      styles.todayButtonText,
-                      { color: theme?.activeTextColor },
-                    ]}
+            <View style={styles.footer}>
+              {mode === 'single' ? (
+                <View style={styles.footerContainer}>
+                  <Text>
+                    {dayjs(date)
+                      .locale(locale)
+                      .format('MMMM, DD, YYYY - HH:mm')}
+                  </Text>
+                  <Pressable
+                    onPress={() => onChangeSingle({ date: dayjs() })}
+                    accessibilityRole="button"
+                    accessibilityLabel="Today"
                   >
-                    Today
+                    <View
+                      style={[
+                        styles.todayButton,
+                        { backgroundColor: theme?.mainColor },
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.todayButtonText,
+                          { color: theme?.activeTextColor },
+                        ]}
+                      >
+                        Today
+                      </Text>
+                    </View>
+                  </Pressable>
+                </View>
+              ) : mode === 'range' ? (
+                <View style={{ gap: 3 }}>
+                  <Text>
+                    <Text style={{ marginRight: 5, fontWeight: 'bold' }}>
+                      Start Date:
+                    </Text>
+                    {range.startDate
+                      ? dayjs(range.startDate)
+                          .locale(locale)
+                          .format('MMMM, DD, YYYY')
+                      : '...'}
+                  </Text>
+                  <Text>
+                    <Text style={{ marginRight: 5, fontWeight: 'bold' }}>
+                      End Date:
+                    </Text>
+                    {range.endDate
+                      ? dayjs(range.endDate)
+                          .locale(locale)
+                          .format('MMMM, DD, YYYY')
+                      : '...'}
                   </Text>
                 </View>
-              </Pressable>
+              ) : null}
             </View>
           </View>
         </View>
@@ -219,6 +340,21 @@ const styles = StyleSheet.create({
   localeButtonText: {
     fontSize: 15,
   },
+  modesContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginBottom: 20,
+  },
+  modeSelect: {
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderRadius: 8,
+  },
+  modeSelectText: {
+    fontSize: 13,
+    fontWeight: 'bold',
+  },
   datePickerContainer: {
     alignItems: 'center',
   },
@@ -232,12 +368,15 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowOffset: { width: 0, height: 0 },
   },
+  footer: {
+    paddingHorizontal: 5,
+    paddingVertical: 5,
+    marginTop: 15,
+  },
   footerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 5,
-    paddingVertical: 5,
   },
   todayButton: {
     paddingHorizontal: 16,

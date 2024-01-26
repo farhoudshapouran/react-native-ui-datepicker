@@ -2,19 +2,20 @@ import { createContext, useContext } from 'react';
 import { CalendarViews } from './enums';
 import type {
   DateType,
-  CalendarTheme,
-  CalendarModes,
-  CalendarState,
+  DatePickerBaseProps,
+  CalendarThemeProps,
 } from './types';
 
-export interface CalendarContextType extends CalendarState {
-  mode: CalendarModes;
+export interface CalendarContextType extends DatePickerBaseProps {
   locale: string | ILocale;
   displayFullDays: boolean;
-  minimumDate: DateType;
-  maximumDate: DateType;
   firstDayOfWeek: number;
-  theme?: CalendarTheme;
+  theme: CalendarThemeProps;
+  calendarView: CalendarViews;
+  // selectedDate: DateType;
+  // selectedDates: DateType[];
+  currentDate: DateType; // used for latest state of calendar based on Month and Year
+  currentYear: number;
   setCalendarView: (value: CalendarViews) => void;
   onSelectDate: (date: DateType) => void;
   onSelectMonth: (month: number) => void;
