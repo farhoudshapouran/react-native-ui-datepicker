@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
+import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import DateTimePicker, { DateType, ModeType } from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
 import 'dayjs/locale/en';
@@ -37,6 +38,7 @@ const Locales = ['en', 'de', 'es', 'fr', 'tr'];
 
 export default function App() {
   const [mode, setMode] = useState<ModeType>('single');
+  const [timePicker, setTimePicker] = useState(false);
 
   const [date, setDate] = useState<DateType | undefined>();
   const [range, setRange] = React.useState<{
@@ -193,19 +195,48 @@ export default function App() {
             </Text>
           </TouchableOpacity>
         </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 10,
+            marginBottom: 20,
+          }}
+        >
+          <BouncyCheckbox
+            size={20}
+            text="Time Picker"
+            fillColor={theme?.mainColor}
+            textStyle={{
+              fontSize: 14,
+              color: '#000',
+              marginLeft: -8,
+              textDecorationLine: 'none',
+            }}
+            useNativeDriver={false}
+            isChecked={timePicker}
+            disableBuiltInState
+            onPress={() => setTimePicker(!timePicker)}
+            disabled={mode !== 'single'}
+          />
+          <Text style={{ fontSize: 13, color: 'gray' }}>
+            (Works in Single mode)
+          </Text>
+        </View>
         <View style={styles.datePickerContainer}>
           <View style={styles.datePicker}>
             <DateTimePicker
               mode={mode}
               date={date}
+              locale={locale}
               startDate={range.startDate}
               endDate={range.endDate}
               dates={dates}
               //minDate={dayjs().startOf('day')}
               //maxDate={dayjs().add(3, 'day').endOf('day')}
               //firstDayOfWeek={1}
-              displayFullDays={true}
-              locale={locale}
+              displayFullDays
+              timePicker={timePicker}
               onChange={onChange}
               headerButtonColor={theme?.mainColor}
               selectedItemColor={theme?.mainColor}
@@ -223,9 +254,15 @@ export default function App() {
               {mode === 'single' ? (
                 <View style={styles.footerContainer}>
                   <Text>
-                    {dayjs(date)
-                      .locale(locale)
-                      .format('MMMM, DD, YYYY - HH:mm')}
+                    {date
+                      ? dayjs(date)
+                          .locale(locale)
+                          .format(
+                            timePicker
+                              ? 'MMMM, DD, YYYY - HH:mm'
+                              : 'MMMM, DD, YYYY'
+                          )
+                      : '...'}
                   </Text>
                   <Pressable
                     onPress={() => setDate(dayjs())}

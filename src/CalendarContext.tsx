@@ -12,8 +12,6 @@ export interface CalendarContextType extends DatePickerBaseProps {
   firstDayOfWeek: number;
   theme: CalendarThemeProps;
   calendarView: CalendarViews;
-  // selectedDate: DateType;
-  // selectedDates: DateType[];
   currentDate: DateType; // used for latest state of calendar based on Month and Year
   currentYear: number;
   setCalendarView: (value: CalendarViews) => void;

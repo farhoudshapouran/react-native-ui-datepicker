@@ -11,6 +11,7 @@ const arrow_right = require('../assets/images/arrow_right.png');
 
 const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
   const {
+    mode,
     date,
     currentDate,
     currentYear,
@@ -20,11 +21,10 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
     setCalendarView,
     theme,
     locale,
+    timePicker,
   } = useCalendarContext();
 
   const currentMonthText = dayjs(currentDate).locale(locale).format('MMMM');
-
-  const displayTime = false;
 
   const renderPrevButton = (
     <Pressable
@@ -151,7 +151,9 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
         {calendarView !== CalendarViews.year ? monthSelector : null}
         {yearSelector()}
       </View>
-      {displayTime && calendarView !== CalendarViews.year ? (
+      {timePicker &&
+      mode === 'single' &&
+      calendarView !== CalendarViews.year ? (
         <Pressable
           onPress={() =>
             setCalendarView(

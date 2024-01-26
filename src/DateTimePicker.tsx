@@ -65,6 +65,7 @@ const DateTimePicker = (
     mode,
     locale = 'en',
     displayFullDays = false,
+    timePicker = false,
     firstDayOfWeek,
     buttonPrevIcon,
     buttonNextIcon,
@@ -156,9 +157,11 @@ const DateTimePicker = (
 
   useEffect(() => {
     if (mode === 'single') {
+      const newDate = date && (timePicker ? date : getStartOfDay(date));
+
       dispatch({
         type: CalendarActionKind.CHANGE_SELECTED_DATE,
-        payload: { date },
+        payload: { date: newDate },
       });
     } else if (mode === 'range') {
       dispatch({
@@ -171,7 +174,7 @@ const DateTimePicker = (
         payload: { dates },
       });
     }
-  }, [mode, date, startDate, endDate, dates]);
+  }, [mode, date, startDate, endDate, dates, timePicker]);
 
   const setCalendarView = useCallback((view: CalendarViews) => {
     dispatch({ type: CalendarActionKind.SET_CALENDAR_VIEW, payload: view });
@@ -181,13 +184,15 @@ const DateTimePicker = (
     (date: DateType) => {
       if (onChange) {
         if (mode === 'single') {
+          const newDate = timePicker ? date : getStartOfDay(date);
+
           dispatch({
             type: CalendarActionKind.CHANGE_CURRENT_DATE,
-            payload: date,
+            payload: newDate,
           });
 
           (onChange as SingleChange)({
-            date,
+            date: newDate,
           });
         } else if (mode === 'range') {
           const sd = state.startDate;
@@ -222,7 +227,7 @@ const DateTimePicker = (
         }
       }
     },
-    [onChange, mode, state.startDate, state.endDate, state.dates]
+    [onChange, mode, state.startDate, state.endDate, state.dates, timePicker]
   );
 
   const onSelectMonth = useCallback(
@@ -280,6 +285,7 @@ const DateTimePicker = (
         locale,
         mode,
         displayFullDays,
+        timePicker,
         minDate,
         maxDate,
         firstDayOfWeek: firstDay,
