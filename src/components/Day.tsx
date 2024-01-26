@@ -3,6 +3,7 @@ import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { CalendarThemeProps, IDayObject } from '../types';
 import { CALENDAR_HEIGHT } from '../enums';
 import { addColorAlpha } from '../utils';
+import { isEqual } from 'lodash';
 
 export const daySize = 46;
 
@@ -10,7 +11,7 @@ interface Props extends Omit<IDayObject, 'day'> {
   isToday: boolean;
   isSelected: boolean;
   onSelectDate: (date: string) => void;
-  theme?: CalendarThemeProps;
+  theme: CalendarThemeProps;
 }
 
 function EmptyDayPure() {
@@ -19,7 +20,7 @@ function EmptyDayPure() {
 
 export const EmptyDay = React.memo(EmptyDayPure);
 
-const Day = ({
+function Day({
   date,
   text,
   disabled,
@@ -31,40 +32,51 @@ const Day = ({
   rightCrop,
   onSelectDate,
   theme,
-}: Props) => {
+}: Props) {
+  const onPress = React.useCallback(() => {
+    onSelectDate(date);
+  }, [onSelectDate, date]);
+
+  const {
+    calendarTextStyle,
+    dayContainerStyle,
+    selectedItemColor,
+    selectedTextStyle,
+    todayContainerStyle,
+    todayTextStyle,
+  } = theme;
+
   //const bothWays = inRange && leftCrop && rightCrop;
   const isCrop = inRange && (leftCrop || rightCrop) && !(leftCrop && rightCrop);
 
-  const dayContainerStyle = isCurrentMonth
-    ? theme?.dayContainerStyle
-    : { opacity: 0.3 };
+  const containerStyle = isCurrentMonth ? dayContainerStyle : { opacity: 0.3 };
 
   const todayItemStyle = isToday
     ? {
         borderWidth: 2,
-        borderColor: theme?.selectedItemColor || '#0047FF',
-        ...theme?.todayContainerStyle,
+        borderColor: selectedItemColor || '#0047FF',
+        ...todayContainerStyle,
       }
     : null;
 
   const activeItemStyle = isSelected
     ? {
-        borderColor: theme?.selectedItemColor || '#0047FF',
-        backgroundColor: theme?.selectedItemColor || '#0047FF',
+        borderColor: selectedItemColor || '#0047FF',
+        backgroundColor: selectedItemColor || '#0047FF',
       }
     : null;
 
   const textStyle = isSelected
-    ? { color: '#fff', ...theme?.selectedTextStyle }
+    ? { color: '#fff', ...selectedTextStyle }
     : isToday
     ? {
-        ...theme?.calendarTextStyle,
-        color: theme?.selectedItemColor || '#0047FF',
-        ...theme?.todayTextStyle,
+        ...calendarTextStyle,
+        color: selectedItemColor || '#0047FF',
+        ...todayTextStyle,
       }
-    : theme?.calendarTextStyle;
+    : calendarTextStyle;
 
-  const rangeRootBackground = addColorAlpha(theme?.selectedItemColor, 0.15);
+  const rangeRootBackground = addColorAlpha(selectedItemColor, 0.15);
 
   return (
     <View style={styles.dayCell}>
@@ -100,10 +112,10 @@ const Day = ({
 
       <Pressable
         disabled={disabled}
-        onPress={() => onSelectDate(date)}
+        onPress={disabled ? undefined : onPress}
         style={[
           styles.dayContainer,
-          dayContainerStyle,
+          containerStyle,
           todayItemStyle,
           activeItemStyle,
           disabled && styles.disabledDay,
@@ -118,7 +130,7 @@ const Day = ({
       </Pressable>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   dayCell: {
@@ -149,4 +161,23 @@ const styles = StyleSheet.create({
   },
 });
 
-export default React.memo(Day);
+const customComparator = (
+  prevProps: Readonly<Props>,
+  nextProps: Readonly<Props>
+) => {
+  return (
+    prevProps.date === nextProps.date &&
+    prevProps.text === nextProps.text &&
+    prevProps.disabled === nextProps.disabled &&
+    prevProps.isCurrentMonth === nextProps.isCurrentMonth &&
+    prevProps.isToday === nextProps.isToday &&
+    prevProps.isSelected === nextProps.isSelected &&
+    prevProps.inRange === nextProps.inRange &&
+    prevProps.leftCrop === nextProps.leftCrop &&
+    prevProps.rightCrop === nextProps.rightCrop &&
+    prevProps.onSelectDate === nextProps.onSelectDate &&
+    isEqual(prevProps.theme, nextProps.theme)
+  );
+};
+
+export default React.memo(Day, customComparator);
