@@ -5,6 +5,7 @@ import {
   dateToUnix,
   getEndOfDay,
   getStartOfDay,
+  areDatesOnSameDay,
 } from './utils';
 import CalendarContext from './CalendarContext';
 import { CalendarViews, CalendarActionKind } from './enums';
@@ -15,13 +16,15 @@ import type {
   DatePickerBaseProps,
   CalendarThemeProps,
   HeaderProps,
+  SingleChange,
+  RangeChange,
+  MultiChange,
 } from './types';
 import Calendar from './components/Calendar';
 import dayjs from 'dayjs';
 import localeData from 'dayjs/plugin/localeData';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
-import { SingleChange, RangeChange, MultiChange } from './types';
 
 dayjs.extend(localeData);
 dayjs.extend(relativeTime);
@@ -72,7 +75,7 @@ const DateTimePicker = (
     date,
     startDate,
     endDate,
-    // dates,
+    dates,
     onChange,
     ...rest
   } = props;
@@ -81,6 +84,22 @@ const DateTimePicker = (
     firstDayOfWeek && firstDayOfWeek > 0 && firstDayOfWeek <= 6
       ? firstDayOfWeek
       : 0;
+
+  let currentDate = dayjs();
+
+  if (mode === 'single' && date) {
+    currentDate = dayjs(date);
+  }
+
+  if (mode === 'range' && startDate) {
+    currentDate = dayjs(startDate);
+  }
+
+  if (mode === 'multiple' && dates && dates.length > 0) {
+    currentDate = dayjs(dates[0]);
+  }
+
+  let currentYear = currentDate.year();
 
   dayjs.locale(locale);
 
@@ -116,16 +135,22 @@ const DateTimePicker = (
             startDate,
             endDate,
           };
+        case CalendarActionKind.CHANGE_SELECTED_MULTIPLE:
+          const { dates } = action.payload;
+          return {
+            ...prevState,
+            dates,
+          };
       }
     },
     {
-      date: undefined,
-      startDate: undefined,
-      endDate: undefined,
-      dates: [],
+      date,
+      startDate,
+      endDate,
+      dates,
       calendarView: CalendarViews.day,
-      currentDate: new Date(),
-      currentYear: new Date().getFullYear(),
+      currentDate,
+      currentYear,
     }
   );
 
@@ -140,8 +165,13 @@ const DateTimePicker = (
         type: CalendarActionKind.CHANGE_SELECTED_RANGE,
         payload: { startDate, endDate },
       });
+    } else if (mode === 'multiple') {
+      dispatch({
+        type: CalendarActionKind.CHANGE_SELECTED_MULTIPLE,
+        payload: { dates },
+      });
     }
-  }, [mode, date, startDate, endDate]);
+  }, [mode, date, startDate, endDate, dates]);
 
   const setCalendarView = useCallback((view: CalendarViews) => {
     dispatch({ type: CalendarActionKind.SET_CALENDAR_VIEW, payload: view });
@@ -150,11 +180,12 @@ const DateTimePicker = (
   const onSelectDate = useCallback(
     (date: DateType) => {
       if (onChange) {
-        dispatch({
-          type: CalendarActionKind.CHANGE_CURRENT_DATE,
-          payload: date,
-        });
         if (mode === 'single') {
+          dispatch({
+            type: CalendarActionKind.CHANGE_CURRENT_DATE,
+            payload: date,
+          });
+
           (onChange as SingleChange)({
             date,
           });
@@ -172,13 +203,26 @@ const DateTimePicker = (
             endDate: !isStart ? getEndOfDay(date) : undefined,
           });
         } else if (mode === 'multiple') {
-          // (onChange as MultiChange)({
-          //   dates: [date],
-          // });
+          const safeDates = (state.dates as DateType[]) || [];
+          const newDate = getStartOfDay(date);
+
+          const exists = safeDates.some((ed) => areDatesOnSameDay(ed, newDate));
+
+          const newDates = exists
+            ? safeDates.filter((ed) => !areDatesOnSameDay(ed, newDate))
+            : [...safeDates, newDate];
+
+          newDates.sort((a, b) => (dayjs(a).isAfter(dayjs(b)) ? 1 : -1));
+
+          (onChange as MultiChange)({
+            dates: newDates,
+            datePressed: newDate,
+            change: exists ? 'removed' : 'added',
+          });
         }
       }
     },
-    [onChange, mode, state.startDate, state.endDate]
+    [onChange, mode, state.startDate, state.endDate, state.dates]
   );
 
   const onSelectMonth = useCallback(
@@ -233,8 +277,6 @@ const DateTimePicker = (
     <CalendarContext.Provider
       value={{
         ...state,
-        startDate,
-        endDate,
         locale,
         mode,
         displayFullDays,

@@ -72,7 +72,7 @@ export type RangeChange = (params: {
 
 export type MultiChange = (params: {
   dates: DateType[];
-  datePressed: Date;
+  datePressed: DateType;
   change: 'added' | 'removed';
 }) => any;
 

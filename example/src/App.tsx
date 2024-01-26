@@ -38,44 +38,34 @@ const Locales = ['en', 'de', 'es', 'fr', 'tr'];
 export default function App() {
   const [mode, setMode] = useState<ModeType>('single');
 
-  const [date, setDate] = useState<DateType>();
+  const [date, setDate] = useState<DateType | undefined>();
   const [range, setRange] = React.useState<{
     startDate: DateType;
     endDate: DateType;
   }>({ startDate: undefined, endDate: undefined });
+  const [dates, setDates] = useState<DateType[] | undefined>();
 
   const [theme, setTheme] = useState<ITheme | undefined>(Themes[0]);
   const [locale, setLocale] = useState('en');
-
-  const onChangeSingle = useCallback(
-    (params: any) => {
-      setDate(params.date);
-    },
-    [setDate]
-  );
-
-  const onChaneRange = useCallback(
-    ({ startDate, endDate }: any) => {
-      setRange({ startDate, endDate });
-    },
-    [setRange]
-  );
 
   const onChangeMode = useCallback(
     (value: ModeType) => {
       setDate(undefined);
       setRange({ startDate: undefined, endDate: undefined });
+      setDates(undefined);
       setMode(value);
     },
-    [setMode, setDate, setRange]
+    [setMode, setDate, setRange, setDates]
   );
 
   const onChange = useCallback(
     (params) => {
       if (mode === 'single') {
-        onChangeSingle(params);
+        setDate(params.date);
       } else if (mode === 'range') {
-        onChaneRange(params);
+        setRange(params);
+      } else if (mode === 'multiple') {
+        setDates(params.dates);
       }
     },
     [mode]
@@ -182,6 +172,26 @@ export default function App() {
               Range
             </Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.modeSelect,
+              // eslint-disable-next-line react-native/no-inline-styles
+              {
+                backgroundColor:
+                  mode === 'multiple' ? theme?.mainColor : undefined,
+              },
+            ]}
+            onPress={() => onChangeMode('multiple')}
+          >
+            <Text
+              style={[
+                styles.modeSelectText,
+                mode === 'multiple' && { color: theme?.activeTextColor },
+              ]}
+            >
+              Multiple
+            </Text>
+          </TouchableOpacity>
         </View>
         <View style={styles.datePickerContainer}>
           <View style={styles.datePicker}>
@@ -190,6 +200,7 @@ export default function App() {
               date={date}
               startDate={range.startDate}
               endDate={range.endDate}
+              dates={dates}
               //minDate={dayjs().startOf('day')}
               //maxDate={dayjs().add(3, 'day').endOf('day')}
               //firstDayOfWeek={1}
@@ -217,7 +228,7 @@ export default function App() {
                       .format('MMMM, DD, YYYY - HH:mm')}
                   </Text>
                   <Pressable
-                    onPress={() => onChangeSingle({ date: dayjs() })}
+                    onPress={() => setDate(dayjs())}
                     accessibilityRole="button"
                     accessibilityLabel="Today"
                   >
@@ -260,6 +271,16 @@ export default function App() {
                           .format('MMMM, DD, YYYY')
                       : '...'}
                   </Text>
+                </View>
+              ) : mode === 'multiple' ? (
+                <View style={{ gap: 3 }}>
+                  <Text style={{ fontWeight: 'bold' }}>Selected Dates:</Text>
+                  {dates &&
+                    dates.map((d, index) => (
+                      <Text key={index}>
+                        {dayjs(d).locale(locale).format('MMMM, DD, YYYY')}
+                      </Text>
+                    ))}
                 </View>
               ) : null}
             </View>

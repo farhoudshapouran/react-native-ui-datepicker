@@ -1,5 +1,6 @@
 import React, { useMemo, useCallback } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
+import dayjs from 'dayjs';
 import { useCalendarContext } from '../CalendarContext';
 import Day, { EmptyDay } from './Day';
 import {
@@ -16,10 +17,11 @@ import {
 const DaySelector = () => {
   const {
     mode,
+    date,
     startDate,
     endDate,
+    dates,
     currentDate,
-    date,
     onSelectDate,
     displayFullDays,
     minDate,
@@ -85,6 +87,46 @@ const DaySelector = () => {
             ) {
               inRange = false;
             }
+          } else if (mode === 'multiple') {
+            const safeDates = dates || [];
+            isSelected = safeDates.some((d) => areDatesOnSameDay(day.date, d));
+
+            const yesterday = dayjs(day.date).add(-1, 'day');
+            const tomorrow = dayjs(day.date).add(1, 'day');
+
+            const yesterdaySelected = safeDates.some((d) =>
+              areDatesOnSameDay(d, yesterday)
+            );
+            const tomorrowSelected = safeDates.some((d) =>
+              areDatesOnSameDay(d, tomorrow)
+            );
+
+            if (isSelected) {
+              if (tomorrowSelected && yesterdaySelected) {
+                inRange = true;
+              }
+              if (tomorrowSelected && !yesterdaySelected) {
+                inRange = true;
+                leftCrop = true;
+              }
+
+              if (yesterdaySelected && !tomorrowSelected) {
+                inRange = true;
+                rightCrop = true;
+              }
+
+              if (isFirstDayOfMonth && !tomorrowSelected) {
+                inRange = false;
+              }
+
+              if (isLastDayOfMonth && !yesterdaySelected) {
+                inRange = false;
+              }
+
+              if (inRange && !leftCrop && !rightCrop) {
+                isSelected = false;
+              }
+            }
           } else if (mode === 'single') {
             isSelected = areDatesOnSameDay(day.date, date);
           }
@@ -114,6 +156,7 @@ const DaySelector = () => {
       date,
       startDate,
       endDate,
+      dates,
     ]
   );
 
