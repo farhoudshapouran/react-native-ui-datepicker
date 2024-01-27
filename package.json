@@ -29,7 +29,7 @@
   "scripts": {
     "test": "jest -u",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint \"**/*.{js,ts,jsx,tsx}\"",
+    "lint": "eslint .",
     "prepack": "bob build",
     "release": "release-it",
     "example": "yarn --cwd example",
@@ -71,11 +71,11 @@
     "@testing-library/jest-native": "^5.4.3",
     "@testing-library/react-native": "^12.3.2",
     "@types/jest": "^28.1.8",
+    "@types/lodash": "^4.14.202",
     "@types/react": "~17.0.21",
     "@types/react-native": "0.70.0",
     "@types/react-test-renderer": "^18.0.5",
     "commitlint": "^17.0.2",
-    "dayjs": "^1.11.7",
     "del-cli": "^5.0.0",
     "eslint": "^8.4.1",
     "eslint-config-prettier": "^8.5.0",
@@ -95,7 +95,6 @@
     "@types/react": "17.0.43"
   },
   "peerDependencies": {
-    "dayjs": "*",
     "react": "*",
     "react-native": "*"
   },
@@ -169,6 +168,8 @@
     ]
   },
   "dependencies": {
+    "dayjs": "^1.11.10",
+    "lodash": "^4.17.21",
     "uninstall": "^0.0.0"
   }
 }

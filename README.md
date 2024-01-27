@@ -37,7 +37,7 @@ export default function App() {
     <View style={styles.container}>
       <DateTimePicker
         value={value}
-        onValueChange={(date) => setValue(date)}
+        onChange={(date) => setValue(date)}
       />
     </View>
   )
@@ -61,11 +61,11 @@ For more, take a look at the `/example` directory.
 | Name                     | Type            |   Default       | Description                                                                            |
 | ------------------------ | --------------- | --------------- | -------------------------------------------------------------------------------------- |
 | value                    | `DateType`      | `Dayjs`         | DatePicker value to display selected date                                              |
-| onValueChange            | `func`          | `() => {}`      | Called when the new date selected from DatePicker                                      |
+| onChange                 | `Function`      | `() => {}`      | Called when the new date selected from DatePicker                                      |
 | mode                     | `string`        | `'datetime'`    | Defines the DatePicker mode `['datetime', 'date', 'time']`                             |
 | locale                   | `string`        | `'en'`          | Defines the DatePicker locale                                                          |
-| minimumDate              | `DateType`      | `null`          | Defines DatePicker minimum selectable date                                             |
-| maximumDate              | `DateType`      | `null`          | Defines DatePicker maximum selectable date                                             |
+| minDate                  | `DateType`      | `null`          | Defines DatePicker minimum selectable date                                             |
+| maxDate                  | `DateType`      | `null`          | Defines DatePicker maximum selectable date                                             |
 | firstDayOfWeek           | `number`        | `0`             | Defines the starting day of week, number 0-6, 0 - Sunday, 6 - Saturday                 |
 | displayFullDays          | `boolean`       | `false`         | Defines show previous and next month's days in the current calendar view               |
 | calendarTextStyle        | `TextStyle`     | `null`          | Defines all text styles inside the calendar (Days, Months, Years, Hours, and Minutes)  |

@@ -1,50 +1,164 @@
 import React, { useMemo, useCallback } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
+import dayjs from 'dayjs';
 import { useCalendarContext } from '../CalendarContext';
 import Day, { EmptyDay } from './Day';
 import {
   getParsedDate,
   getMonthDays,
   getWeekdaysMin,
+  getDaysInMonth,
   areDatesOnSameDay,
+  isDateBetween,
   getDate,
   getFormated,
 } from '../utils';
 
 const DaySelector = () => {
   const {
+    mode,
+    date,
+    startDate,
+    endDate,
+    dates,
     currentDate,
-    selectedDate,
     onSelectDate,
     displayFullDays,
-    minimumDate,
-    maximumDate,
+    minDate,
+    maxDate,
     firstDayOfWeek,
     theme,
   } = useCalendarContext();
+
   const { year, month, hour, minute } = getParsedDate(currentDate);
 
   const daysGrid = useMemo(
     () => {
       const today = new Date();
+
+      const { fullDaysInMonth } = getDaysInMonth(
+        currentDate,
+        displayFullDays,
+        firstDayOfWeek
+      );
+
       return getMonthDays(
         currentDate,
         displayFullDays,
-        minimumDate,
-        maximumDate,
+        minDate,
+        maxDate,
         firstDayOfWeek
-      ).map((day) => {
-        return day
-          ? {
-              ...day,
-              isToday: areDatesOnSameDay(day.date, today),
-              isSelected: areDatesOnSameDay(day.date, selectedDate),
+      ).map((day, index) => {
+        if (day) {
+          let leftCrop = day.dayOfMonth === 1;
+          let rightCrop = day.dayOfMonth === fullDaysInMonth;
+
+          const isFirstDayOfMonth = day.dayOfMonth === 1;
+          const isLastDayOfMonth = day.dayOfMonth === fullDaysInMonth;
+
+          const isToday = areDatesOnSameDay(day.date, today);
+          let inRange = false;
+          let isSelected = false;
+
+          if (mode === 'range') {
+            const selectedStartDay = areDatesOnSameDay(day.date, startDate);
+            const selectedEndDay = areDatesOnSameDay(day.date, endDate);
+            isSelected = selectedStartDay || selectedEndDay;
+            inRange = isDateBetween(day.date, {
+              startDate,
+              endDate,
+            });
+            if (selectedStartDay) {
+              leftCrop = true;
             }
-          : null;
+            if (selectedEndDay) {
+              rightCrop = true;
+            }
+            if (index % 7 === 0 && !selectedStartDay) {
+              leftCrop = false;
+            }
+
+            if (index % 7 === 6 && !selectedEndDay) {
+              rightCrop = false;
+            }
+
+            if (
+              (isFirstDayOfMonth && selectedEndDay) ||
+              (isLastDayOfMonth && selectedStartDay)
+            ) {
+              inRange = false;
+            }
+          } else if (mode === 'multiple') {
+            const safeDates = dates || [];
+            isSelected = safeDates.some((d) => areDatesOnSameDay(day.date, d));
+
+            const yesterday = dayjs(day.date).add(-1, 'day');
+            const tomorrow = dayjs(day.date).add(1, 'day');
+
+            const yesterdaySelected = safeDates.some((d) =>
+              areDatesOnSameDay(d, yesterday)
+            );
+            const tomorrowSelected = safeDates.some((d) =>
+              areDatesOnSameDay(d, tomorrow)
+            );
+
+            if (isSelected) {
+              if (tomorrowSelected && yesterdaySelected) {
+                inRange = true;
+              }
+              if (tomorrowSelected && !yesterdaySelected) {
+                inRange = true;
+                leftCrop = true;
+              }
+
+              if (yesterdaySelected && !tomorrowSelected) {
+                inRange = true;
+                rightCrop = true;
+              }
+
+              if (isFirstDayOfMonth && !tomorrowSelected) {
+                inRange = false;
+              }
+
+              if (isLastDayOfMonth && !yesterdaySelected) {
+                inRange = false;
+              }
+
+              if (inRange && !leftCrop && !rightCrop) {
+                isSelected = false;
+              }
+            }
+          } else if (mode === 'single') {
+            isSelected = areDatesOnSameDay(day.date, date);
+          }
+
+          return {
+            ...day,
+            isToday,
+            isSelected,
+            inRange,
+            leftCrop,
+            rightCrop,
+          };
+        } else {
+          return null;
+        }
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [month, year, displayFullDays, minimumDate, maximumDate, selectedDate]
+    [
+      mode,
+      month,
+      year,
+      displayFullDays,
+      firstDayOfWeek,
+      minDate,
+      maxDate,
+      date,
+      startDate,
+      endDate,
+      dates,
+    ]
   );
 
   const handleSelectDate = useCallback(
@@ -80,6 +194,9 @@ const DaySelector = () => {
               theme={theme}
               isToday={day.isToday}
               isSelected={day.isSelected}
+              inRange={day.inRange}
+              leftCrop={day.leftCrop}
+              rightCrop={day.rightCrop}
               onSelectDate={handleSelectDate}
             />
           ) : (

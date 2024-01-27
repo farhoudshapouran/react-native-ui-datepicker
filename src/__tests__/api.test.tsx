@@ -13,16 +13,16 @@ describe('API TESTS', () => {
     const selectedDate = new Date();
     const month = selectedDate.toLocaleString('en-US', { month: 'long' });
 
-    render(<DateTimePicker value={selectedDate} />);
+    render(<DateTimePicker mode="single" date={selectedDate} />);
     expect(screen.getByText(month)).toBeVisible();
   });
 
-  // test('minimumDate should be applied after init', () => {
-  //   const minimumDate = new Date();
+  // test('minDate should be applied after init', () => {
+  //   const minDate = new Date();
 
-  //   render(<DateTimePicker minimumDate={minimumDate} />);
+  //   render(<DateTimePicker minDate={minDate} />);
   //   expect(
-  //     screen.getByTestId(dayjs(minimumDate).add(-1, 'day').format('YYYY/MM/DD'))
+  //     screen.getByTestId(dayjs(minDate).add(-1, 'day').format('YYYY/MM/DD'))
   //   ).toBeDisabled();
   // });
 });

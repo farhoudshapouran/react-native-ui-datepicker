@@ -67,18 +67,22 @@ const Wheel = ({
         let newValueIndex =
           valueIndex -
           Math.round(gestureState.dy / ((radius * 2) / displayCount));
-        if (circular)
+        if (circular) {
           newValueIndex = (newValueIndex + items.length) % items.length;
-        else {
-          if (newValueIndex < 0) newValueIndex = 0;
-          else if (newValueIndex >= items.length)
+        } else {
+          if (newValueIndex < 0) {
+            newValueIndex = 0;
+          } else if (newValueIndex >= items.length) {
             newValueIndex = items.length - 1;
+          }
         }
         const newValue = items[newValueIndex] || 0;
         if (newValue === value) {
           translateY.setOffset(0);
           translateY.setValue(0);
-        } else setValue(newValue);
+        } else {
+          setValue(newValue);
+        }
       },
     });
   }, [
