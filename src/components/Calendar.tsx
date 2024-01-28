@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useMemo } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
 import type { CalendarViews } from '../enums';
@@ -9,6 +9,7 @@ import MonthSelector from './MonthSelector';
 import DaySelector from './DaySelector';
 import TimeSelector from './TimeSelector';
 import { CALENDAR_HEIGHT } from '../enums';
+import { getMonthDays } from '../utils';
 
 const CalendarView: Record<CalendarViews, ReactNode> = {
   year: <YearSelector />,
@@ -20,7 +21,24 @@ const CalendarView: Record<CalendarViews, ReactNode> = {
 interface PropTypes extends HeaderProps {}
 
 const Calendar = ({ buttonPrevIcon, buttonNextIcon }: PropTypes) => {
-  const { calendarView } = useCalendarContext();
+  const { currentDate,
+    selectedDate,
+    onSelectDate,
+    displayFullDays,
+    minimumDate,
+    maximumDate,
+    firstDayOfWeek,
+    theme,calendarView, mode } = useCalendarContext();
+
+  const currentMonthDays = useMemo(()=>getMonthDays(
+      currentDate,
+      displayFullDays,
+      minimumDate,
+      maximumDate,
+      firstDayOfWeek
+  ),[currentDate,displayFullDays,minimumDate,maximumDate,firstDayOfWeek]);
+
+  let height = Math.ceil(currentMonthDays.length / 7) === 6 ? CALENDAR_HEIGHT:CALENDAR_HEIGHT - 40;
 
   return (
     <View style={styles.container} testID="calendar">
@@ -29,9 +47,9 @@ const Calendar = ({ buttonPrevIcon, buttonNextIcon }: PropTypes) => {
           buttonPrevIcon={buttonPrevIcon}
           buttonNextIcon={buttonNextIcon}
         />
-      ) : null} */}
+ ) : null} */}
       <Header buttonPrevIcon={buttonPrevIcon} buttonNextIcon={buttonNextIcon} />
-      <View style={styles.calendarContainer}>{CalendarView[calendarView]}</View>
+      <View style={[styles.calendarContainer, {height: height}]}>{CalendarView[calendarView]}</View>
     </View>
   );
 };
@@ -41,7 +59,6 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   calendarContainer: {
-    height: CALENDAR_HEIGHT,
     alignItems: 'center',
   },
 });
