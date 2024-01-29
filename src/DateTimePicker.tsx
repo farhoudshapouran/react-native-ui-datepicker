@@ -62,7 +62,7 @@ const DateTimePicker = (
   props: DatePickerSingleProps | DatePickerRangeProps | DatePickeMultipleProps
 ) => {
   const {
-    mode,
+    mode = 'single',
     locale = 'en',
     displayFullDays = false,
     timePicker = false,
