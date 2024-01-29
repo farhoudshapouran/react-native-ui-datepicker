@@ -56,18 +56,48 @@ For more, take a look at the `/example` directory.
 ![react-native-ui-datepicker-styles](https://user-images.githubusercontent.com/7857656/227260476-30ee8c25-f809-4dcf-bccf-cd1ffab8795a.jpg)
 
 
-## Available props
+## Calendar props
 
 | Name                     | Type            |   Default       | Description                                                                            |
 | ------------------------ | --------------- | --------------- | -------------------------------------------------------------------------------------- |
-| value                    | `DateType`      | `Dayjs`         | DatePicker value to display selected date                                              |
-| onChange                 | `Function`      | `() => {}`      | Called when the new date selected from DatePicker                                      |
-| mode                     | `string`        | `'datetime'`    | Defines the DatePicker mode `['datetime', 'date', 'time']`                             |
+| mode                     | `string`        | `'single'`      | Defines the DatePicker mode `['single', 'range', 'multiple']`                          |
 | locale                   | `string`        | `'en'`          | Defines the DatePicker locale                                                          |
 | minDate                  | `DateType`      | `null`          | Defines DatePicker minimum selectable date                                             |
 | maxDate                  | `DateType`      | `null`          | Defines DatePicker maximum selectable date                                             |
 | firstDayOfWeek           | `number`        | `0`             | Defines the starting day of week, number 0-6, 0 - Sunday, 6 - Saturday                 |
 | displayFullDays          | `boolean`       | `false`         | Defines show previous and next month's days in the current calendar view               |
+
+
+## Single Mode props
+
+| Name         | Type            |   Default         | Description                                                    |
+| ------------ | --------------- | ----------------- | -------------------------------------------------------------- |
+| date         | `DateType`      | `undefined`       | Date value to display selected date                            |
+| onChange     | `Function`      | `({date}) => {}`  | Called when the new date selected from DatePicker              |
+| timePicker   | `boolean`       | `false`           | Defines show or hide time picker                               |
+
+
+## Range Mode props
+
+| Name         | Type            |   Default                        | Description                                                       |
+| ------------ | --------------- | -------------------------------- | ----------------------------------------------------------------- |
+| startDate    | `DateType`      | `undefined`                      | Start date value to display selected start date                   |
+| endDate      | `DateType`      | `undefined`                      | End date value to display selected end date                       |
+| onChange     | `Function`      | `({startDate, endDate}) => {}`   | Called when the new start or end date selected from DatePicker    |
+
+
+## Multiple Mode props
+
+| Name         | Type            |   Default          | Description                                                    |
+| ------------ | --------------- | ------------------ | -------------------------------------------------------------- |
+| dates        | `DateType[]`    | `[]`               | Dates array to display selected dates                          |
+| onChange     | `Function`      | `({dates}) => {}`  | Called when the new dates selected from DatePicker             |
+
+
+## Styling props
+
+| Name                     | Type            |   Default       | Description                                                                            |
+| ------------------------ | --------------- | --------------- | -------------------------------------------------------------------------------------- |
 | calendarTextStyle        | `TextStyle`     | `null`          | Defines all text styles inside the calendar (Days, Months, Years, Hours, and Minutes)  |
 | selectedTextStyle        | `TextStyle`     | `null`          | Defines selected (Day, Month, Year) text styles                                        |
 | selectedItemColor        | `string`        | `'#0047FF'`     | Defines selected (Day, Month, Year) background and border colors                       |

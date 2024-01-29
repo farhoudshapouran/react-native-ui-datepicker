@@ -23,13 +23,13 @@ export interface WheelStyleProps {
 
 export interface WheelProps extends WheelStyleProps {
   value: number;
-  setValue: (value: number) => void;
+  setValue?: (value: number) => void;
   items: number[];
 }
 
 const Wheel = ({
   value,
-  setValue,
+  setValue = () => {},
   items,
   containerStyle,
   textStyle,
@@ -41,15 +41,13 @@ const Wheel = ({
 }: WheelProps) => {
   const translateY = useRef(new Animated.Value(0)).current;
   const renderCount =
-    displayCount * 2 < items.length
-      ? displayCount * 4 + 1
-      : displayCount * 2 - 1;
+    displayCount * 2 < items.length ? displayCount * 8 : displayCount * 2 - 1;
   const circular = items.length >= displayCount;
   const height =
     typeof containerStyle?.height === 'number' ? containerStyle.height : 130;
   const radius = wheelHeight != null ? wheelHeight / 2 : height / 2;
 
-  const valueIndex = items.indexOf(value);
+  const valueIndex = useMemo(() => items.indexOf(value), [items, value]);
 
   const panResponder = useMemo(() => {
     return PanResponder.create({
@@ -102,11 +100,14 @@ const Wheel = ({
     return Array.from({ length: renderCount }, (_, index) => {
       let targetIndex = valueIndex + index - centerIndex;
       if (targetIndex < 0 || targetIndex >= items.length) {
+        if (!circular) {
+          return 0;
+        }
         targetIndex = (targetIndex + items.length) % items.length;
       }
       return items[targetIndex] || 0;
     });
-  }, [renderCount, valueIndex, items]);
+  }, [renderCount, valueIndex, items, circular]);
 
   const animatedAngles = useMemo(() => {
     //translateY.setValue(0);
@@ -142,9 +143,7 @@ const Wheel = ({
         const animatedAngle = animatedAngles[index];
         return (
           <Animated.Text
-            key={`${value}${
-              index > displayValues.length / 2 ? 'Post' : 'Before'
-            }${displayValue + index}`}
+            key={`${displayValue}-${index}`}
             style={[
               textStyle,
               // eslint-disable-next-line react-native/no-inline-styles
@@ -202,4 +201,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(Wheel);
+export default memo(Wheel, (prevProps, nextProps) => {
+  return (
+    prevProps.value === nextProps.value &&
+    prevProps.setValue === nextProps.setValue
+  );
+});

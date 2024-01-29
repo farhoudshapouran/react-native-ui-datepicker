@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
 import Wheel from './TimePicker/Wheel';
@@ -9,9 +9,28 @@ function createNumberList(num: number) {
   return new Array(num).fill(0).map((_, index) => index);
 }
 
+const hours = createNumberList(24);
+const minutes = createNumberList(60);
+
 const TimeSelector = () => {
-  const { date, currentDate, onSelectDate, theme } = useCalendarContext();
+  const { date, onSelectDate, theme } = useCalendarContext();
   const { hour, minute } = getParsedDate(date);
+
+  const handleChangeHour = useCallback(
+    (value: number) => {
+      const newDate = getDate(date).hour(value);
+      onSelectDate(getFormated(newDate));
+    },
+    [date, onSelectDate]
+  );
+
+  const handleChangeMinute = useCallback(
+    (value: number) => {
+      const newDate = getDate(date).minute(value);
+      onSelectDate(getFormated(newDate));
+    },
+    [date, onSelectDate]
+  );
 
   return (
     <View style={styles.container} testID="time-selector">
@@ -21,15 +40,12 @@ const TimeSelector = () => {
         <View style={styles.wheelContainer}>
           <Wheel
             value={hour}
-            items={createNumberList(24)}
+            items={hours}
             textStyle={{
               ...styles.timePickerText,
               ...theme?.timePickerTextStyle,
             }}
-            setValue={(value) => {
-              const newDate = getDate(currentDate).hour(value);
-              onSelectDate(getFormated(newDate));
-            }}
+            setValue={handleChangeHour}
           />
         </View>
         <Text
@@ -43,15 +59,12 @@ const TimeSelector = () => {
         <View style={styles.wheelContainer}>
           <Wheel
             value={minute}
-            items={createNumberList(60)}
+            items={minutes}
             textStyle={{
               ...styles.timePickerText,
               ...theme?.timePickerTextStyle,
             }}
-            setValue={(value) => {
-              const newDate = getDate(currentDate).minute(value);
-              onSelectDate(getFormated(newDate));
-            }}
+            setValue={handleChangeMinute}
           />
         </View>
       </View>
