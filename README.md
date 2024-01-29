@@ -37,7 +37,7 @@ export default function App() {
     <View style={styles.container}>
       <DateTimePicker
         mode="single"
-        date={value}
+        date={date}
         onChange={(params) => setDate(params.date)}
       />
     </View>
