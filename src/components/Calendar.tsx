@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, memo } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
 import type { CalendarViews } from '../enums';
@@ -46,4 +46,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Calendar;
+export default memo(Calendar);
