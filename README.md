@@ -31,13 +31,14 @@ import DateTimePicker from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
 
 export default function App() {
-  const [value, setValue] = useState(dayjs());
+  const [date, setDate] = useState(dayjs());
   
   return (
     <View style={styles.container}>
       <DateTimePicker
-        value={value}
-        onChange={(date) => setValue(date)}
+        mode="single"
+        date={value}
+        onChange={(params) => setDate(params.date)}
       />
     </View>
   )
