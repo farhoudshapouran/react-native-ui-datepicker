@@ -67,7 +67,9 @@ For more, take a look at the `/example` directory.
 | firstDayOfWeek           | `number`        | `0`             | Defines the starting day of week, number 0-6, 0 - Sunday, 6 - Saturday                 |
 | displayFullDays          | `boolean`       | `false`         | Defines show previous and next month's days in the current calendar view               |
 
-
+<p align="center">
+<img src="/.github/images/modes-screenshot.png" />
+</p>
 
 ## Single Mode props
 
