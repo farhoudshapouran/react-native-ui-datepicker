@@ -1,7 +1,7 @@
 {
   "name": "react-native-ui-datepicker",
-  "version": "1.0.11",
-  "description": "Customizable datetime picker for React Native",
+  "version": "2.0.0",
+  "description": "Customizable date picker for React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/src/index.d.ts",
@@ -46,12 +46,16 @@
     "react-native-datet-picker",
     "react-native-timepicker",
     "react-native-time-picker",
+    "react-native-calendar",
+    "react-native-daterange",
     "datetime",
     "datetime-picker",
-    "datetpicker",
+    "datepicker",
     "datet-picker",
     "timepicker",
-    "time-picker"
+    "time-picker",
+    "calendar",
+    "daterange"
   ],
   "repository": "https://github.com/farhoudshapouran/react-native-ui-datepicker",
   "author": "Farhoud Shapouran <shapouran@gmail.com> (https://github.com/farhoudshapouran)",
