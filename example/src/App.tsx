@@ -3,12 +3,13 @@ import {
   StyleSheet,
   View,
   Text,
-  Pressable,
-  Image,
-  Linking,
   SafeAreaView,
   TouchableOpacity,
+  Pressable,
 } from 'react-native';
+import ThemeSelector, { ITheme } from './components/ThemeSelector';
+import LocaleSelector from './components/LocaleSelector';
+import GithubLink from './components/GithubLink';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import DateTimePicker, { DateType, ModeType } from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
@@ -17,11 +18,6 @@ import 'dayjs/locale/de';
 import 'dayjs/locale/es';
 import 'dayjs/locale/fr';
 import 'dayjs/locale/tr';
-
-interface ITheme {
-  mainColor: string;
-  activeTextColor: string;
-}
 
 const Themes: ITheme[] = [
   { mainColor: '#0047FF', activeTextColor: '#fff' },
@@ -33,8 +29,6 @@ const Themes: ITheme[] = [
   { mainColor: '#FDE6D8', activeTextColor: '#9D5228' },
   { mainColor: '#FAD7DD', activeTextColor: '#932338' },
 ];
-
-const Locales = ['en', 'de', 'es', 'fr', 'tr'];
 
 export default function App() {
   const [mode, setMode] = useState<ModeType>('single');
@@ -79,60 +73,16 @@ export default function App() {
         <View style={styles.titleContainer}>
           <Text style={styles.title}>React Native UI DatePicker</Text>
         </View>
-        <View style={styles.themeContainer}>
-          {Themes.map((item, index) => (
-            <Pressable
-              key={index}
-              style={[
-                styles.themeButton,
-                {
-                  borderColor: item.activeTextColor,
-                  backgroundColor: item.mainColor,
-                },
-              ]}
-              onPress={() => setTheme(item)}
-              accessibilityRole="button"
-              accessibilityLabel="Set Active Theme"
-            />
-          ))}
-        </View>
-        <View style={styles.localeContainer}>
-          <Text
-            style={{
-              // eslint-disable-next-line react-native/no-inline-styles
-              marginRight: 8,
-            }}
-          >
-            Locale:
-          </Text>
-          {Locales.map((item, index) => (
-            <Pressable
-              key={index}
-              style={[
-                styles.localeButton,
-                item === locale && {
-                  backgroundColor: theme?.mainColor,
-                },
-              ]}
-              onPress={() => setLocale(item)}
-              accessibilityRole="button"
-              accessibilityLabel={item.toUpperCase()}
-            >
-              <Text
-                style={[
-                  styles.localeButtonText,
-                  // eslint-disable-next-line react-native/no-inline-styles
-                  item === locale && {
-                    fontWeight: 'bold',
-                    color: theme?.activeTextColor,
-                  },
-                ]}
-              >
-                {item.toUpperCase()}
-              </Text>
-            </Pressable>
-          ))}
-        </View>
+
+        <ThemeSelector themes={Themes} setTheme={setTheme} />
+
+        <LocaleSelector
+          locale={locale}
+          setLocale={setLocale}
+          mainColor={theme?.mainColor}
+          activeTextColor={theme?.activeTextColor}
+        />
+
         <View style={styles.modesContainer}>
           <Text
             style={{
@@ -331,24 +281,8 @@ export default function App() {
             </View>
           </View>
         </View>
-        <View style={styles.githubContainer}>
-          <Pressable
-            style={styles.githubLink}
-            onPress={() =>
-              Linking.openURL(
-                'https://github.com/farhoudshapouran/react-native-ui-datepicker'
-              )
-            }
-            accessibilityRole="button"
-            accessibilityLabel="Check repository on GitHub"
-          >
-            <Image
-              source={require('../assets/github-logo.png')}
-              style={styles.githubLogo}
-            />
-            <Text style={styles.githubText}>Check repository on GitHub</Text>
-          </Pressable>
-        </View>
+
+        <GithubLink />
       </View>
     </SafeAreaView>
   );
@@ -372,40 +306,6 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   title: { fontSize: 18, fontWeight: 'bold' },
-  themeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    marginBottom: 10,
-    width: 330,
-  },
-  themeButton: {
-    borderWidth: 4,
-    width: 32,
-    height: 32,
-    borderRadius: 32,
-    margin: 5,
-    shadowRadius: 20,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 0 },
-  },
-  localeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  localeButton: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 36,
-    height: 36,
-    borderRadius: 36,
-    margin: 2,
-  },
-  localeButtonText: {
-    fontSize: 15,
-  },
   modesContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -451,19 +351,5 @@ const styles = StyleSheet.create({
   },
   todayButtonText: {
     fontWeight: 'bold',
-  },
-  githubContainer: {
-    paddingVertical: 20,
-  },
-  githubLink: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  githubLogo: {
-    width: 22,
-    height: 22,
-  },
-  githubText: {
-    marginLeft: 8,
   },
 });
