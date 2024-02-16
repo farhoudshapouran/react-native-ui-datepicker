@@ -78,6 +78,7 @@ const DateTimePicker = (
     endDate,
     dates,
     onChange,
+    initialView = CalendarViews.day,
     ...rest
   } = props;
 
@@ -149,7 +150,7 @@ const DateTimePicker = (
       startDate,
       endDate,
       dates,
-      calendarView: CalendarViews.day,
+      calendarView: initialView,
       currentDate,
       currentYear,
     }
