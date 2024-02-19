@@ -1,9 +1,4 @@
-export enum CalendarViews {
-  day = 'day',
-  month = 'month',
-  year = 'year',
-  time = 'time',
-}
+export type CalendarViews = 'day' | 'month' | 'year' | 'time';
 
 export enum CalendarActionKind {
   SET_CALENDAR_VIEW = 'SET_CALENDAR_VIEW',

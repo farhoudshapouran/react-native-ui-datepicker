@@ -78,9 +78,14 @@ const DateTimePicker = (
     endDate,
     dates,
     onChange,
-    initialView = CalendarViews.day,
+    initialView = 'day',
     ...rest
   } = props;
+
+  const initialCalendarView: CalendarViews =
+    mode !== 'single' && initialView === 'time' ? 'day' : initialView;
+
+  console.log(initialCalendarView);
 
   const firstDay =
     firstDayOfWeek && firstDayOfWeek > 0 && firstDayOfWeek <= 6
@@ -150,7 +155,7 @@ const DateTimePicker = (
       startDate,
       endDate,
       dates,
-      calendarView: initialView,
+      calendarView: initialCalendarView,
       currentDate,
       currentYear,
     }
@@ -240,7 +245,7 @@ const DateTimePicker = (
       });
       dispatch({
         type: CalendarActionKind.SET_CALENDAR_VIEW,
-        payload: CalendarViews.day,
+        payload: 'day',
       });
     },
     [state.currentDate]
@@ -255,7 +260,7 @@ const DateTimePicker = (
       });
       dispatch({
         type: CalendarActionKind.SET_CALENDAR_VIEW,
-        payload: CalendarViews.day,
+        payload: 'day',
       });
     },
     [state.currentDate]
