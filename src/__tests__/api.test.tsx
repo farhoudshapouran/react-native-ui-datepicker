@@ -10,7 +10,7 @@ import 'dayjs/locale/tr';
 
 describe('API TESTS', () => {
   test('should display the passed date', () => {
-    const selectedDate = new Date(2020, 12, 19);
+    const selectedDate = new Date(2020, 11, 19);
     const month = selectedDate.toLocaleString('en-US', { month: 'long' });
 
     render(<DateTimePicker mode="single" date={selectedDate} />);
