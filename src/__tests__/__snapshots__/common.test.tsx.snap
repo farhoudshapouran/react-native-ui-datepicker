@@ -102,7 +102,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         }
       >
         <View
-          accessibilityLabel="November"
+          accessibilityLabel="February"
           accessibilityRole="button"
           accessibilityState={
             Object {
@@ -159,12 +159,12 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 ]
               }
             >
-              November
+              February
             </Text>
           </View>
         </View>
         <View
-          accessibilityLabel="2023"
+          accessibilityLabel="2024"
           accessibilityRole="button"
           accessibilityState={
             Object {
@@ -221,70 +221,9 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 ]
               }
             >
-              2023
+              2024
             </Text>
           </View>
-        </View>
-      </View>
-      <View
-        accessibilityLabel="00:12"
-        accessibilityRole="button"
-        accessibilityState={
-          Object {
-            "busy": undefined,
-            "checked": undefined,
-            "disabled": undefined,
-            "expanded": undefined,
-            "selected": undefined,
-          }
-        }
-        accessibilityValue={
-          Object {
-            "max": undefined,
-            "min": undefined,
-            "now": undefined,
-            "text": undefined,
-          }
-        }
-        accessible={true}
-        collapsable={false}
-        focusable={true}
-        onBlur={[Function]}
-        onClick={[Function]}
-        onFocus={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-      >
-        <View
-          style={
-            Array [
-              Object {
-                "borderRadius": 5,
-                "marginHorizontal": 1,
-                "paddingHorizontal": 5,
-                "paddingVertical": 5,
-              },
-              undefined,
-            ]
-          }
-        >
-          <Text
-            style={
-              Array [
-                Object {
-                  "fontSize": 15,
-                  "fontWeight": "bold",
-                },
-                undefined,
-              ]
-            }
-          >
-            00:12
-          </Text>
         </View>
       </View>
       <View
@@ -496,7 +435,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -504,7 +444,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -512,7 +453,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -520,7 +462,17 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
+              "width": "14.2%",
+            }
+          }
+        />
+        <View
+          style={
+            Object {
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -572,17 +524,25 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 false,
               ]
             }
-            testID="2023-11-01"
+            testID="2024-02-01"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text>
+              <Text
+                style={
+                  Array [
+                    undefined,
+                  ]
+                }
+              >
                 1
               </Text>
             </View>
@@ -591,7 +551,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -643,17 +604,25 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 false,
               ]
             }
-            testID="2023-11-02"
+            testID="2024-02-02"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text>
+              <Text
+                style={
+                  Array [
+                    undefined,
+                  ]
+                }
+              >
                 2
               </Text>
             </View>
@@ -662,7 +631,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -714,17 +684,25 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 false,
               ]
             }
-            testID="2023-11-03"
+            testID="2024-02-03"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text>
+              <Text
+                style={
+                  Array [
+                    undefined,
+                  ]
+                }
+              >
                 3
               </Text>
             </View>
@@ -733,7 +711,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -785,17 +764,25 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 false,
               ]
             }
-            testID="2023-11-04"
+            testID="2024-02-04"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text>
+              <Text
+                style={
+                  Array [
+                    undefined,
+                  ]
+                }
+              >
                 4
               </Text>
             </View>
@@ -804,7 +791,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -856,17 +844,25 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 false,
               ]
             }
-            testID="2023-11-05"
+            testID="2024-02-05"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text>
+              <Text
+                style={
+                  Array [
+                    undefined,
+                  ]
+                }
+              >
                 5
               </Text>
             </View>
@@ -875,7 +871,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -927,17 +924,25 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 false,
               ]
             }
-            testID="2023-11-06"
+            testID="2024-02-06"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text>
+              <Text
+                style={
+                  Array [
+                    undefined,
+                  ]
+                }
+              >
                 6
               </Text>
             </View>
@@ -946,7 +951,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -998,17 +1004,25 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 false,
               ]
             }
-            testID="2023-11-07"
+            testID="2024-02-07"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text>
+              <Text
+                style={
+                  Array [
+                    undefined,
+                  ]
+                }
+              >
                 7
               </Text>
             </View>
@@ -1017,7 +1031,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -1069,17 +1084,25 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 false,
               ]
             }
-            testID="2023-11-08"
+            testID="2024-02-08"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text>
+              <Text
+                style={
+                  Array [
+                    undefined,
+                  ]
+                }
+              >
                 8
               </Text>
             </View>
@@ -1088,7 +1111,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -1140,17 +1164,25 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 false,
               ]
             }
-            testID="2023-11-09"
+            testID="2024-02-09"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text>
+              <Text
+                style={
+                  Array [
+                    undefined,
+                  ]
+                }
+              >
                 9
               </Text>
             </View>
@@ -1159,7 +1191,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -1211,17 +1244,25 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 false,
               ]
             }
-            testID="2023-11-10"
+            testID="2024-02-10"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text>
+              <Text
+                style={
+                  Array [
+                    undefined,
+                  ]
+                }
+              >
                 10
               </Text>
             </View>
@@ -1230,7 +1271,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -1282,17 +1324,25 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 false,
               ]
             }
-            testID="2023-11-11"
+            testID="2024-02-11"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text>
+              <Text
+                style={
+                  Array [
+                    undefined,
+                  ]
+                }
+              >
                 11
               </Text>
             </View>
@@ -1301,7 +1351,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -1353,17 +1404,25 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 false,
               ]
             }
-            testID="2023-11-12"
+            testID="2024-02-12"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text>
+              <Text
+                style={
+                  Array [
+                    undefined,
+                  ]
+                }
+              >
                 12
               </Text>
             </View>
@@ -1372,7 +1431,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -1424,17 +1484,25 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 false,
               ]
             }
-            testID="2023-11-13"
+            testID="2024-02-13"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text>
+              <Text
+                style={
+                  Array [
+                    undefined,
+                  ]
+                }
+              >
                 13
               </Text>
             </View>
@@ -1443,7 +1511,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -1495,17 +1564,25 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 false,
               ]
             }
-            testID="2023-11-14"
+            testID="2024-02-14"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text>
+              <Text
+                style={
+                  Array [
+                    undefined,
+                  ]
+                }
+              >
                 14
               </Text>
             </View>
@@ -1514,7 +1591,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -1566,17 +1644,25 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 false,
               ]
             }
-            testID="2023-11-15"
+            testID="2024-02-15"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text>
+              <Text
+                style={
+                  Array [
+                    undefined,
+                  ]
+                }
+              >
                 15
               </Text>
             </View>
@@ -1585,7 +1671,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -1632,29 +1719,28 @@ exports[`COMMON TESTS should render with default options 1`] = `
                   "margin": 1.5,
                 },
                 undefined,
-                Object {
-                  "borderColor": "#0047FF",
-                  "borderWidth": 2,
-                },
+                null,
                 null,
                 false,
               ]
             }
-            testID="2023-11-16"
+            testID="2024-02-16"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
               <Text
                 style={
-                  Object {
-                    "color": "#0047FF",
-                  }
+                  Array [
+                    undefined,
+                  ]
                 }
               >
                 16
@@ -1665,7 +1751,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -1717,17 +1804,25 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 false,
               ]
             }
-            testID="2023-11-17"
+            testID="2024-02-17"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text>
+              <Text
+                style={
+                  Array [
+                    undefined,
+                  ]
+                }
+              >
                 17
               </Text>
             </View>
@@ -1736,7 +1831,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -1788,17 +1884,25 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 false,
               ]
             }
-            testID="2023-11-18"
+            testID="2024-02-18"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text>
+              <Text
+                style={
+                  Array [
+                    undefined,
+                  ]
+                }
+              >
                 18
               </Text>
             </View>
@@ -1807,7 +1911,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -1854,22 +1959,35 @@ exports[`COMMON TESTS should render with default options 1`] = `
                   "margin": 1.5,
                 },
                 undefined,
-                null,
+                Object {
+                  "borderColor": "#0047FF",
+                  "borderWidth": 2,
+                },
                 null,
                 false,
               ]
             }
-            testID="2023-11-19"
+            testID="2024-02-19"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text>
+              <Text
+                style={
+                  Array [
+                    Object {
+                      "color": "#0047FF",
+                    },
+                  ]
+                }
+              >
                 19
               </Text>
             </View>
@@ -1878,7 +1996,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -1930,17 +2049,25 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 false,
               ]
             }
-            testID="2023-11-20"
+            testID="2024-02-20"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text>
+              <Text
+                style={
+                  Array [
+                    undefined,
+                  ]
+                }
+              >
                 20
               </Text>
             </View>
@@ -1949,7 +2076,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -2001,17 +2129,25 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 false,
               ]
             }
-            testID="2023-11-21"
+            testID="2024-02-21"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text>
+              <Text
+                style={
+                  Array [
+                    undefined,
+                  ]
+                }
+              >
                 21
               </Text>
             </View>
@@ -2020,7 +2156,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -2072,17 +2209,25 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 false,
               ]
             }
-            testID="2023-11-22"
+            testID="2024-02-22"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text>
+              <Text
+                style={
+                  Array [
+                    undefined,
+                  ]
+                }
+              >
                 22
               </Text>
             </View>
@@ -2091,7 +2236,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -2143,17 +2289,25 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 false,
               ]
             }
-            testID="2023-11-23"
+            testID="2024-02-23"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text>
+              <Text
+                style={
+                  Array [
+                    undefined,
+                  ]
+                }
+              >
                 23
               </Text>
             </View>
@@ -2162,7 +2316,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -2214,17 +2369,25 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 false,
               ]
             }
-            testID="2023-11-24"
+            testID="2024-02-24"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text>
+              <Text
+                style={
+                  Array [
+                    undefined,
+                  ]
+                }
+              >
                 24
               </Text>
             </View>
@@ -2233,7 +2396,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -2285,17 +2449,25 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 false,
               ]
             }
-            testID="2023-11-25"
+            testID="2024-02-25"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text>
+              <Text
+                style={
+                  Array [
+                    undefined,
+                  ]
+                }
+              >
                 25
               </Text>
             </View>
@@ -2304,7 +2476,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -2356,17 +2529,25 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 false,
               ]
             }
-            testID="2023-11-26"
+            testID="2024-02-26"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text>
+              <Text
+                style={
+                  Array [
+                    undefined,
+                  ]
+                }
+              >
                 26
               </Text>
             </View>
@@ -2375,7 +2556,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -2427,17 +2609,25 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 false,
               ]
             }
-            testID="2023-11-27"
+            testID="2024-02-27"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text>
+              <Text
+                style={
+                  Array [
+                    undefined,
+                  ]
+                }
+              >
                 27
               </Text>
             </View>
@@ -2446,7 +2636,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -2498,17 +2689,25 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 false,
               ]
             }
-            testID="2023-11-28"
+            testID="2024-02-28"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text>
+              <Text
+                style={
+                  Array [
+                    undefined,
+                  ]
+                }
+              >
                 28
               </Text>
             </View>
@@ -2517,7 +2716,8 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 41.857142857142854,
+              "height": 42.857142857142854,
+              "position": "relative",
               "width": "14.2%",
             }
           }
@@ -2569,89 +2769,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 false,
               ]
             }
-            testID="2023-11-29"
+            testID="2024-02-29"
           >
             <View
               style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
+                Array [
+                  Object {
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                  },
+                ]
               }
             >
-              <Text>
+              <Text
+                style={
+                  Array [
+                    undefined,
+                  ]
+                }
+              >
                 29
-              </Text>
-            </View>
-          </View>
-        </View>
-        <View
-          style={
-            Object {
-              "height": 41.857142857142854,
-              "width": "14.2%",
-            }
-          }
-        >
-          <View
-            accessibilityLabel="30"
-            accessibilityRole="button"
-            accessibilityState={
-              Object {
-                "busy": undefined,
-                "checked": undefined,
-                "disabled": false,
-                "expanded": undefined,
-                "selected": undefined,
-              }
-            }
-            accessibilityValue={
-              Object {
-                "max": undefined,
-                "min": undefined,
-                "now": undefined,
-                "text": undefined,
-              }
-            }
-            accessible={true}
-            collapsable={false}
-            focusable={true}
-            onBlur={[Function]}
-            onClick={[Function]}
-            onFocus={[Function]}
-            onResponderGrant={[Function]}
-            onResponderMove={[Function]}
-            onResponderRelease={[Function]}
-            onResponderTerminate={[Function]}
-            onResponderTerminationRequest={[Function]}
-            onStartShouldSetResponder={[Function]}
-            style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
-            }
-            testID="2023-11-30"
-          >
-            <View
-              style={
-                Object {
-                  "alignItems": "center",
-                  "justifyContent": "center",
-                }
-              }
-            >
-              <Text>
-                30
               </Text>
             </View>
           </View>
