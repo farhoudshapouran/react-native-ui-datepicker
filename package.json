@@ -27,7 +27,7 @@
     "!**/.*"
   ],
   "scripts": {
-    "test": "jest -u",
+    "test": "jest",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "prepack": "bob build",
@@ -106,9 +106,7 @@
     "node": ">= 16.0.0"
   },
   "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
+    "extends": ["@commitlint/config-conventional"]
   },
   "release-it": {
     "git": {
@@ -129,10 +127,7 @@
   },
   "eslintConfig": {
     "root": true,
-    "extends": [
-      "@react-native-community",
-      "prettier"
-    ],
+    "extends": ["@react-native-community", "prettier"],
     "rules": {
       "prettier/prettier": [
         "error",
@@ -146,10 +141,7 @@
       ]
     }
   },
-  "eslintIgnore": [
-    "node_modules/",
-    "lib/"
-  ],
+  "eslintIgnore": ["node_modules/", "lib/"],
   "prettier": {
     "quoteProps": "consistent",
     "singleQuote": true,
