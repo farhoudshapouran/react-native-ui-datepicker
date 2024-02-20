@@ -161,11 +161,9 @@ const DateTimePicker = (
 
   useEffect(() => {
     if (mode === 'single') {
-      const newDate = date && (timePicker ? date : date);
-
       dispatch({
         type: CalendarActionKind.CHANGE_SELECTED_DATE,
-        payload: { date: newDate },
+        payload: { date },
       });
     } else if (mode === 'range') {
       dispatch({
@@ -185,10 +183,12 @@ const DateTimePicker = (
   }, []);
 
   const onSelectDate = useCallback(
-    (date: DateType) => {
+    (selectedDate: string) => {
       if (onChange) {
         if (mode === 'single') {
-          const newDate = timePicker ? date : date.split(' ')[0];
+          const newDate = timePicker
+            ? selectedDate
+            : selectedDate.split(' ')[0];
 
           dispatch({
             type: CalendarActionKind.CHANGE_CURRENT_DATE,
@@ -203,17 +203,17 @@ const DateTimePicker = (
           const ed = state.endDate;
           let isStart: boolean = true;
 
-          if (sd && !ed && dateToUnix(date) >= dateToUnix(sd!)) {
+          if (sd && !ed && dateToUnix(selectedDate) >= dateToUnix(sd!)) {
             isStart = false;
           }
 
           (onChange as RangeChange)({
-            startDate: isStart ? getStartOfDay(date) : sd,
-            endDate: !isStart ? getEndOfDay(date) : undefined,
+            startDate: isStart ? getStartOfDay(selectedDate) : sd,
+            endDate: !isStart ? getEndOfDay(selectedDate) : undefined,
           });
         } else if (mode === 'multiple') {
           const safeDates = (state.dates as DateType[]) || [];
-          const newDate = getStartOfDay(date);
+          const newDate = getStartOfDay(selectedDate);
 
           const exists = safeDates.some((ed) => areDatesOnSameDay(ed, newDate));
 

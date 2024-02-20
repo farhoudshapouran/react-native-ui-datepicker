@@ -25,6 +25,8 @@ describe('API TESTS', () => {
 
     expect(onChange).toHaveBeenCalledTimes(1);
     const call = onChange.mock.calls[0];
+
+    expect(typeof call[0].date).toEqual('string');
     expect(call[0].date).toEqual('2020-12-17');
   });
 
@@ -47,6 +49,7 @@ describe('API TESTS', () => {
 
     expect(onChange).toHaveBeenCalledTimes(1);
     const call = onChange.mock.calls[0];
+    expect(typeof call[0].date).toEqual('string');
     expect(call[0].date).toEqual('2020-12-17 12:30');
   });
 
