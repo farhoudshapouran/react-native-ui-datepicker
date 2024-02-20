@@ -85,8 +85,6 @@ const DateTimePicker = (
   const initialCalendarView: CalendarViews =
     mode !== 'single' && initialView === 'time' ? 'day' : initialView;
 
-  console.log(initialCalendarView);
-
   const firstDay =
     firstDayOfWeek && firstDayOfWeek > 0 && firstDayOfWeek <= 6
       ? firstDayOfWeek
@@ -163,7 +161,7 @@ const DateTimePicker = (
 
   useEffect(() => {
     if (mode === 'single') {
-      const newDate = date && (timePicker ? date : getStartOfDay(date));
+      const newDate = date && (timePicker ? date : date);
 
       dispatch({
         type: CalendarActionKind.CHANGE_SELECTED_DATE,
@@ -190,7 +188,7 @@ const DateTimePicker = (
     (date: DateType) => {
       if (onChange) {
         if (mode === 'single') {
-          const newDate = timePicker ? date : getStartOfDay(date);
+          const newDate = timePicker ? date : date.split(' ')[0];
 
           dispatch({
             type: CalendarActionKind.CHANGE_CURRENT_DATE,
