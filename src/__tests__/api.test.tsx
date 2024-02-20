@@ -8,11 +8,11 @@ import 'dayjs/locale/es';
 import 'dayjs/locale/fr';
 import 'dayjs/locale/tr';
 
-describe('API TESTS', () => {
+describe('API Test Single Mode', () => {
   test('should display the passed date', async () => {
     const selectedDate = new Date(2020, 11, 19);
     const month = selectedDate.toLocaleString('en-US', { month: 'long' });
-    onChange = jest.fn();
+    const onChange = jest.fn();
 
     render(
       <DateTimePicker mode="single" date={selectedDate} onChange={onChange} />
@@ -33,9 +33,10 @@ describe('API TESTS', () => {
   test('should display the passed date with time in time mode', async () => {
     const selectedDate = new Date(2020, 11, 19, 12, 30);
     const month = selectedDate.toLocaleString('en-US', { month: 'long' });
-    onChange = jest.fn();
+    const onChange = jest.fn();
     render(
       <DateTimePicker
+        mode="single"
         timePicker={true}
         date={selectedDate}
         onChange={onChange}

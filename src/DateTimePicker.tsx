@@ -188,7 +188,7 @@ const DateTimePicker = (
         if (mode === 'single') {
           const newDate = timePicker
             ? selectedDate
-            : selectedDate.split(' ')[0];
+            : (selectedDate.split(' ')[0] as string);
 
           dispatch({
             type: CalendarActionKind.CHANGE_CURRENT_DATE,
