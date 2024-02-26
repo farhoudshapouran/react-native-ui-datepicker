@@ -12,10 +12,12 @@ interface Props extends Omit<IDayObject, 'day'> {
   isSelected: boolean;
   onSelectDate: (date: string) => void;
   theme: CalendarThemeProps;
+  height?: number;
 }
 
-function EmptyDayPure() {
-  return <View style={styles.dayCell} />;
+function EmptyDayPure({ height }: { height?: number }) {
+  const style = styles(height || CALENDAR_HEIGHT);
+  return <View style={style.dayCell} />;
 }
 
 export const EmptyDay = React.memo(EmptyDayPure);
@@ -32,6 +34,7 @@ function Day({
   rightCrop,
   onSelectDate,
   theme,
+  height,
 }: Props) {
   const onPress = React.useCallback(() => {
     onSelectDate(date);
@@ -78,18 +81,20 @@ function Day({
 
   const rangeRootBackground = addColorAlpha(selectedItemColor, 0.15);
 
+  const style = styles(height || CALENDAR_HEIGHT);
+
   return (
-    <View style={styles.dayCell}>
+    <View style={style.dayCell}>
       {inRange && !isCrop ? (
         <View
-          style={[styles.rangeRoot, { backgroundColor: rangeRootBackground }]}
+          style={[style.rangeRoot, { backgroundColor: rangeRootBackground }]}
         ></View>
       ) : null}
 
       {isCrop && leftCrop ? (
         <View
           style={[
-            styles.rangeRoot,
+            style.rangeRoot,
             {
               left: '50%',
               backgroundColor: rangeRootBackground,
@@ -101,7 +106,7 @@ function Day({
       {isCrop && rightCrop ? (
         <View
           style={[
-            styles.rangeRoot,
+            style.rangeRoot,
             {
               right: '50%',
               backgroundColor: rangeRootBackground,
@@ -114,17 +119,17 @@ function Day({
         disabled={disabled}
         onPress={disabled ? undefined : onPress}
         style={[
-          styles.dayContainer,
+          style.dayContainer,
           containerStyle,
           todayItemStyle,
           activeItemStyle,
-          disabled && styles.disabledDay,
+          disabled && style.disabledDay,
         ]}
         testID={date}
         accessibilityRole="button"
         accessibilityLabel={text}
       >
-        <View style={[styles.dayTextContainer]}>
+        <View style={[style.dayTextContainer]}>
           <Text style={[textStyle]}>{text}</Text>
         </View>
       </Pressable>
@@ -132,34 +137,35 @@ function Day({
   );
 }
 
-const styles = StyleSheet.create({
-  dayCell: {
-    position: 'relative',
-    width: '14.2%',
-    height: CALENDAR_HEIGHT / 7,
-  },
-  dayContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 1.5,
-    borderRadius: 100,
-  },
-  dayTextContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  disabledDay: {
-    opacity: 0.3,
-  },
-  rangeRoot: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 2,
-    bottom: 2,
-  },
-});
+const styles = (height: number) =>
+  StyleSheet.create({
+    dayCell: {
+      position: 'relative',
+      width: '14.2%',
+      height: height / 7,
+    },
+    dayContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      margin: 1.5,
+      borderRadius: 100,
+    },
+    dayTextContainer: {
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    disabledDay: {
+      opacity: 0.3,
+    },
+    rangeRoot: {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      top: 2,
+      bottom: 2,
+    },
+  });
 
 const customComparator = (
   prevProps: Readonly<Props>,
@@ -176,6 +182,7 @@ const customComparator = (
     prevProps.leftCrop === nextProps.leftCrop &&
     prevProps.rightCrop === nextProps.rightCrop &&
     prevProps.onSelectDate === nextProps.onSelectDate &&
+    prevProps.height === nextProps.height &&
     isEqual(prevProps.theme, nextProps.theme)
   );
 };

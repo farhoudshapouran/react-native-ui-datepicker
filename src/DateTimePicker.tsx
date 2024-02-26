@@ -79,13 +79,12 @@ const DateTimePicker = (
     dates,
     onChange,
     initialView = 'day',
+    height,
     ...rest
   } = props;
 
   const initialCalendarView: CalendarViews =
     mode !== 'single' && initialView === 'time' ? 'day' : initialView;
-
-  console.log(initialCalendarView);
 
   const firstDay =
     firstDayOfWeek && firstDayOfWeek > 0 && firstDayOfWeek <= 6
@@ -295,6 +294,7 @@ const DateTimePicker = (
         minDate,
         maxDate,
         firstDayOfWeek: firstDay,
+        height,
         theme: rest,
         setCalendarView,
         onSelectDate,
@@ -307,6 +307,7 @@ const DateTimePicker = (
       <Calendar
         buttonPrevIcon={buttonPrevIcon}
         buttonNextIcon={buttonNextIcon}
+        height={height}
       />
     </CalendarContext.Provider>
   );

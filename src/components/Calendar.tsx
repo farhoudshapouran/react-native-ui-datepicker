@@ -17,10 +17,22 @@ const CalendarView: Record<CalendarViews, ReactNode> = {
   time: <TimeSelector />,
 };
 
-interface PropTypes extends HeaderProps {}
+interface PropTypes extends HeaderProps {
+  height?: number;
+}
 
-const Calendar = ({ buttonPrevIcon, buttonNextIcon }: PropTypes) => {
+const Calendar = ({ buttonPrevIcon, buttonNextIcon, height }: PropTypes) => {
   const { calendarView } = useCalendarContext();
+
+  const styles = StyleSheet.create({
+    container: {
+      width: '100%',
+    },
+    calendarContainer: {
+      height: height || CALENDAR_HEIGHT,
+      alignItems: 'center',
+    },
+  });
 
   return (
     <View style={styles.container} testID="calendar">
@@ -35,15 +47,5 @@ const Calendar = ({ buttonPrevIcon, buttonNextIcon }: PropTypes) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
-  },
-  calendarContainer: {
-    height: CALENDAR_HEIGHT,
-    alignItems: 'center',
-  },
-});
 
 export default memo(Calendar);

@@ -28,6 +28,7 @@ const DaySelector = () => {
     maxDate,
     firstDayOfWeek,
     theme,
+    height,
   } = useCalendarContext();
 
   const { year, month, hour, minute } = getParsedDate(currentDate);
@@ -198,9 +199,10 @@ const DaySelector = () => {
               leftCrop={day.leftCrop}
               rightCrop={day.rightCrop}
               onSelectDate={handleSelectDate}
+              height={height}
             />
           ) : (
-            <EmptyDay key={index} />
+            <EmptyDay key={index} height={height} />
           );
         })}
       </View>
