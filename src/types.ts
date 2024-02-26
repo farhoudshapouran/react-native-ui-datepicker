@@ -63,7 +63,9 @@ export interface IDayObject {
   rightCrop: boolean;
 }
 
-export type SingleChange = (params: { date: DateType }) => void;
+// Returns the date in the format of 'YYYY-MM-DD' for date only mode
+// Returns the date in the format of 'YYYY-MM-DD HH:mm' for date and time mode
+export type SingleChange = (params: { date: string }) => void;
 
 export type RangeChange = (params: {
   startDate: DateType;
