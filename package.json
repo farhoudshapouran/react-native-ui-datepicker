@@ -1,5 +1,5 @@
 {
-  "name": "react-native-ui-datepicker",
+  "name": "react-native-ui-datepicker-custom",
   "version": "2.0.2",
   "description": "Customizable date picker for React Native",
   "main": "lib/commonjs/index",
@@ -57,13 +57,13 @@
     "calendar",
     "daterange"
   ],
-  "repository": "https://github.com/farhoudshapouran/react-native-ui-datepicker",
+  "repository": "https://github.com/zjianpeng/react-native-ui-datepicker-custom",
   "author": "Farhoud Shapouran <shapouran@gmail.com> (https://github.com/farhoudshapouran)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/farhoudshapouran/react-native-ui-datepicker/issues"
   },
-  "homepage": "https://github.com/farhoudshapouran/react-native-ui-datepicker#readme",
+  "homepage": "https://github.com/zjianpeng/react-native-ui-datepicker-custom#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
