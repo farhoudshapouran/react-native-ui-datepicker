@@ -11,7 +11,7 @@ import ThemeSelector, { ITheme } from './components/ThemeSelector';
 import LocaleSelector from './components/LocaleSelector';
 import GithubLink from './components/GithubLink';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import DateTimePicker, { DateType, ModeType } from 'react-native-ui-datepicker';
+import DateTimePicker, { DateType, ModeType } from '../../src';
 import dayjs from 'dayjs';
 import 'dayjs/locale/en';
 import 'dayjs/locale/de';
