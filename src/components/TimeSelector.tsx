@@ -27,7 +27,6 @@ const TimeSelector = () => {
 
   const handleChangeMinute = useCallback(
     (value: number) => {
-      console.log(minutes[value]);
       const newDate = getDate(date).minute(minutes[value] ?? 0);
       onSelectDate(getFormated(newDate));
     },
