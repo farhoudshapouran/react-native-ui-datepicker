@@ -31,7 +31,7 @@ const DaySelector = () => {
     height,
   } = useCalendarContext();
 
-  const { year, month, hour, minute } = getParsedDate(currentDate);
+  const { year, month, hour, minute, second } = getParsedDate(currentDate);
 
   const daysGrid = useMemo(
     () => {
@@ -164,11 +164,11 @@ const DaySelector = () => {
 
   const handleSelectDate = useCallback(
     (date: string) => {
-      const newDate = getDate(date).hour(hour).minute(minute);
+      const newDate = getDate(date).hour(hour).minute(minute).second(second);
 
       onSelectDate(getFormated(newDate));
     },
-    [onSelectDate, hour, minute]
+    [onSelectDate, hour, minute, second]
   );
 
   return (

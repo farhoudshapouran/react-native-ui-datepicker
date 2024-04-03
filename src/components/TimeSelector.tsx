@@ -11,10 +11,11 @@ function createNumberList(num: number) {
 
 const hours = createNumberList(24);
 const minutes = createNumberList(60);
+const seconds = createNumberList(60);
 
 const TimeSelector = () => {
   const { date, onSelectDate, theme } = useCalendarContext();
-  const { hour, minute } = getParsedDate(date);
+  const { hour, minute, second } = getParsedDate(date);
 
   const handleChangeHour = useCallback(
     (value: number) => {
@@ -27,6 +28,14 @@ const TimeSelector = () => {
   const handleChangeMinute = useCallback(
     (value: number) => {
       const newDate = getDate(date).minute(value);
+      onSelectDate(getFormated(newDate));
+    },
+    [date, onSelectDate]
+  );
+
+  const handleChangeSecond = useCallback(
+    (value: number) => {
+      const newDate = getDate(date).second(value);
       onSelectDate(getFormated(newDate));
     },
     [date, onSelectDate]
@@ -65,6 +74,25 @@ const TimeSelector = () => {
               ...theme?.timePickerTextStyle,
             }}
             setValue={handleChangeMinute}
+          />
+        </View>
+        <Text
+          style={{
+            ...styles.timePickerText,
+            ...theme?.timePickerTextStyle,
+          }}
+        >
+          :
+        </Text>
+        <View style={styles.wheelContainer}>
+          <Wheel
+            value={second}
+            items={seconds}
+            textStyle={{
+              ...styles.timePickerText,
+              ...theme?.timePickerTextStyle,
+            }}
+            setValue={handleChangeSecond}
           />
         </View>
       </View>

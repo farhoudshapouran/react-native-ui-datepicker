@@ -7,9 +7,11 @@ import {
   ViewStyle,
   Platform,
 } from 'react-native';
-import React, { memo, useMemo, useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { sin } from './AnimatedMath';
 import { CALENDAR_HEIGHT } from '../../enums';
+import { throttle } from 'lodash';
+
 
 export interface WheelStyleProps {
   containerStyle?: ViewStyle;
@@ -56,10 +58,10 @@ const Wheel = ({
       onPanResponderGrant: () => {
         translateY.setValue(0);
       },
-      onPanResponderMove: (evt, gestureState) => {
+      onPanResponderMove: throttle((evt, gestureState) => {
         translateY.setValue(gestureState.dy);
         evt.stopPropagation();
-      },
+      }, 32),
       onPanResponderRelease: (_, gestureState) => {
         translateY.extractOffset();
         let newValueIndex =
@@ -110,7 +112,7 @@ const Wheel = ({
   }, [renderCount, valueIndex, items, circular]);
 
   const animatedAngles = useMemo(() => {
-    //translateY.setValue(0);
+    translateY.setValue(0);
     translateY.setOffset(0);
     const currentIndex = displayValues.indexOf(value);
     return displayValues && displayValues.length > 0
@@ -201,9 +203,11 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(Wheel, (prevProps, nextProps) => {
-  return (
-    prevProps.value === nextProps.value &&
-    prevProps.setValue === nextProps.setValue
-  );
-});
+export default Wheel;
+
+// export default memo(Wheel, (prevProps, nextProps) => {
+//   return (
+//     prevProps.value === nextProps.value &&
+//     prevProps.setValue === nextProps.setValue
+//   );
+// });

@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import type { DateType, IDayObject } from './types';
 
-export const CALENDAR_FORMAT = 'YYYY-MM-DD HH:mm';
+export const CALENDAR_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 export const DATE_FORMAT = 'YYYY-MM-DD';
 export const YEAR_PAGE_SIZE = 12;
 
@@ -139,6 +139,7 @@ export const getParsedDate = (date: DateType) => {
     month: dayjs(date).month(),
     hour: dayjs(date).hour(),
     minute: dayjs(date).minute(),
+    second: dayjs(date).second(),
   };
 };
 
