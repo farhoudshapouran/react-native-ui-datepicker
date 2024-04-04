@@ -22,7 +22,7 @@ const TimeSelector = () => {
       const newDate = getDate(date).hour(hours[value] ?? 0);
       onSelectDate(getFormated(newDate));
     },
-    [date, onSelectDate]
+    [date, onSelectDate, hours]
   );
 
   const handleChangeMinute = useCallback(
@@ -30,7 +30,7 @@ const TimeSelector = () => {
       const newDate = getDate(date).minute(minutes[value] ?? 0);
       onSelectDate(getFormated(newDate));
     },
-    [date, onSelectDate]
+    [date, onSelectDate, minutes]
   );
 
   const handleChangeSecond = useCallback(
@@ -38,7 +38,7 @@ const TimeSelector = () => {
       const newDate = getDate(date).second(seconds[value] ?? 0);
       onSelectDate(getFormated(newDate));
     },
-    [date, onSelectDate]
+    [date, onSelectDate, seconds]
   );
 
   return (
@@ -49,38 +49,45 @@ const TimeSelector = () => {
         <View style={styles.wheelContainer}>
           <Wheely
             selectedIndex={hours.indexOf(hour)}
-            options={hours.map(String)}
+            options={hours.map((h) => (h < 10 ? `0${h}` : String(h)))}
             onChange={handleChangeHour}
+            // containerStyle={{ width: 50 }}
           />
         </View>
-        <Text
-          style={{
-            ...styles.timePickerText,
-            ...theme?.timePickerTextStyle,
-          }}
-        >
-          :
-        </Text>
+        <View style={styles.seperator}>
+          <Text
+            style={{
+              ...styles.timePickerText,
+              ...theme?.timePickerTextStyle,
+            }}
+          >
+            :
+          </Text>
+        </View>
         <View style={styles.wheelContainer}>
           <Wheely
             selectedIndex={minutes.indexOf(minute)}
-            options={minutes.map(String)}
+            options={minutes.map((m) => (m < 10 ? `0${m}` : String(m)))}
             onChange={handleChangeMinute}
+            // containerStyle={{ width: 50 }}
           />
         </View>
-        <Text
-          style={{
-            ...styles.timePickerText,
-            ...theme?.timePickerTextStyle,
-          }}
-        >
-          :
-        </Text>
+        <View style={styles.seperator}>
+          <Text
+            style={{
+              ...styles.timePickerText,
+              ...theme?.timePickerTextStyle,
+            }}
+          >
+            :
+          </Text>
+        </View>
         <View style={styles.wheelContainer}>
           <Wheely
             selectedIndex={seconds.indexOf(second)}
-            options={seconds.map(String)}
+            options={seconds.map((s) => (s < 10 ? `0${s}` : String(s)))}
             onChange={handleChangeSecond}
+            // containerStyle={{ width: 50 }}
           />
         </View>
       </View>
@@ -95,19 +102,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   wheelContainer: {
-    flex: 1,
+    flex: 4,
   },
   timePickerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    width: CALENDAR_HEIGHT / 2,
+    alignSelf: 'center',
+    alignContent: 'center',
+    // width: CALENDAR_HEIGHT / 1.5,
     height: CALENDAR_HEIGHT / 2,
   },
   timePickerText: {
     fontSize: 24,
     fontWeight: 'bold',
   },
+  seperator: { flex: 1, justifyContent: 'center', alignItems: 'center' },
 });
 
 export default TimeSelector;
