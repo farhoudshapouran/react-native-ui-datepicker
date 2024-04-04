@@ -8241,7 +8241,7 @@ react-native-gradle-plugin@^0.71.19:
 
 "react-native-wheely@https://github.com/Loxone/react-native-wheely.git":
   version "0.6.0"
-  resolved "https://github.com/Loxone/react-native-wheely.git#250a0333fcd0c55a1f42f635aeb85305679c49e8"
+  resolved "https://github.com/Loxone/react-native-wheely.git#2afb2c3bbb93529872bf87484c016adee186ed82"
 
 react-native@^0.71.0:
   version "0.71.14"
