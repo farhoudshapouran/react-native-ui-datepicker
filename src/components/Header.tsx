@@ -148,11 +148,11 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
             setCalendarView(calendarView === 'time' ? 'day' : 'time')
           }
           accessibilityRole="button"
-          accessibilityLabel={dayjs(date).format('HH:mm')}
+          accessibilityLabel={dayjs(date).format('HH:mm:ss')}
         >
           <View style={[styles.textContainer, theme?.headerTextContainerStyle]}>
             <Text style={[styles.text, theme?.headerTextStyle]}>
-              {dayjs(date).format('HH:mm')}
+              {dayjs(date).format('HH:mm:ss')}
             </Text>
           </View>
         </Pressable>

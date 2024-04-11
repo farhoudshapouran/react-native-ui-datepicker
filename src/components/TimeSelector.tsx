@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
-import Wheel from './TimePicker/Wheel';
 import { CALENDAR_HEIGHT } from '../enums';
 import { getParsedDate, getDate, getFormated } from '../utils';
+import Wheely from 'react-native-wheely';
 
 function createNumberList(num: number) {
   return new Array(num).fill(0).map((_, index) => index);
@@ -11,25 +11,34 @@ function createNumberList(num: number) {
 
 const hours = createNumberList(24);
 const minutes = createNumberList(60);
+const seconds = createNumberList(60);
 
 const TimeSelector = () => {
   const { date, onSelectDate, theme } = useCalendarContext();
-  const { hour, minute } = getParsedDate(date);
+  const { hour, minute, second } = getParsedDate(date);
 
   const handleChangeHour = useCallback(
     (value: number) => {
-      const newDate = getDate(date).hour(value);
+      const newDate = getDate(date).hour(hours[value] ?? 0);
       onSelectDate(getFormated(newDate));
     },
-    [date, onSelectDate]
+    [date, onSelectDate, hours]
   );
 
   const handleChangeMinute = useCallback(
     (value: number) => {
-      const newDate = getDate(date).minute(value);
+      const newDate = getDate(date).minute(minutes[value] ?? 0);
       onSelectDate(getFormated(newDate));
     },
-    [date, onSelectDate]
+    [date, onSelectDate, minutes]
+  );
+
+  const handleChangeSecond = useCallback(
+    (value: number) => {
+      const newDate = getDate(date).second(seconds[value] ?? 0);
+      onSelectDate(getFormated(newDate));
+    },
+    [date, onSelectDate, seconds]
   );
 
   return (
@@ -38,33 +47,47 @@ const TimeSelector = () => {
         style={[styles.timePickerContainer, theme?.timePickerContainerStyle]}
       >
         <View style={styles.wheelContainer}>
-          <Wheel
-            value={hour}
-            items={hours}
-            textStyle={{
-              ...styles.timePickerText,
-              ...theme?.timePickerTextStyle,
-            }}
-            setValue={handleChangeHour}
+          <Wheely
+            selectedIndex={hours.indexOf(hour)}
+            options={hours.map((h) => (h < 10 ? `0${h}` : String(h)))}
+            onChange={handleChangeHour}
+            // containerStyle={{ width: 50 }}
           />
         </View>
-        <Text
-          style={{
-            ...styles.timePickerText,
-            ...theme?.timePickerTextStyle,
-          }}
-        >
-          :
-        </Text>
-        <View style={styles.wheelContainer}>
-          <Wheel
-            value={minute}
-            items={minutes}
-            textStyle={{
+        <View style={styles.seperator}>
+          <Text
+            style={{
               ...styles.timePickerText,
               ...theme?.timePickerTextStyle,
             }}
-            setValue={handleChangeMinute}
+          >
+            :
+          </Text>
+        </View>
+        <View style={styles.wheelContainer}>
+          <Wheely
+            selectedIndex={minutes.indexOf(minute)}
+            options={minutes.map((m) => (m < 10 ? `0${m}` : String(m)))}
+            onChange={handleChangeMinute}
+            // containerStyle={{ width: 50 }}
+          />
+        </View>
+        <View style={styles.seperator}>
+          <Text
+            style={{
+              ...styles.timePickerText,
+              ...theme?.timePickerTextStyle,
+            }}
+          >
+            :
+          </Text>
+        </View>
+        <View style={styles.wheelContainer}>
+          <Wheely
+            selectedIndex={seconds.indexOf(second)}
+            options={seconds.map((s) => (s < 10 ? `0${s}` : String(s)))}
+            onChange={handleChangeSecond}
+            // containerStyle={{ width: 50 }}
           />
         </View>
       </View>
@@ -79,19 +102,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   wheelContainer: {
-    flex: 1,
+    flex: 4,
   },
   timePickerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    width: CALENDAR_HEIGHT / 2,
+    alignSelf: 'center',
+    alignContent: 'center',
+    // width: CALENDAR_HEIGHT / 1.5,
     height: CALENDAR_HEIGHT / 2,
   },
   timePickerText: {
     fontSize: 24,
     fontWeight: 'bold',
   },
+  seperator: { flex: 1, justifyContent: 'center', alignItems: 'center' },
 });
 
 export default TimeSelector;

@@ -217,7 +217,7 @@ export default function App() {
                           .locale(locale)
                           .format(
                             timePicker
-                              ? 'MMMM, DD, YYYY - HH:mm'
+                              ? 'MMMM, DD, YYYY - HH:mm:ss'
                               : 'MMMM, DD, YYYY'
                           )
                       : '...'}
