@@ -6,7 +6,11 @@ import { CALENDAR_HEIGHT } from '../enums';
 import { getParsedDate, getDate, getFormated } from '../utils';
 
 function createNumberList(num: number) {
-  return new Array(num).fill(0).map((_, index) => index);
+  return new Array(num)
+    .fill(0)
+    .map((_, index) =>
+      index < 10 ? `0${index.toString()}` : index.toString()
+    );
 }
 
 const hours = createNumberList(24);
@@ -34,22 +38,13 @@ const TimeSelector = () => {
 
   return (
     <View style={styles.container} testID="time-selector">
-      <View
-        style={[styles.timePickerContainer, theme?.timePickerContainerStyle]}
-      >
+      <View style={styles.timePickerContainer}>
         <View style={styles.wheelContainer}>
-          <Wheel
-            value={hour}
-            items={hours}
-            textStyle={{
-              ...styles.timePickerText,
-              ...theme?.timePickerTextStyle,
-            }}
-            setValue={handleChangeHour}
-          />
+          <Wheel value={hour} items={hours} setValue={handleChangeHour} />
         </View>
         <Text
           style={{
+            marginHorizontal: 5,
             ...styles.timePickerText,
             ...theme?.timePickerTextStyle,
           }}
@@ -57,15 +52,7 @@ const TimeSelector = () => {
           :
         </Text>
         <View style={styles.wheelContainer}>
-          <Wheel
-            value={minute}
-            items={minutes}
-            textStyle={{
-              ...styles.timePickerText,
-              ...theme?.timePickerTextStyle,
-            }}
-            setValue={handleChangeMinute}
-          />
+          <Wheel value={minute} items={minutes} setValue={handleChangeMinute} />
         </View>
       </View>
     </View>

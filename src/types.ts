@@ -44,6 +44,8 @@ export type CalendarThemeProps = {
   selectedItemColor?: string;
   timePickerContainerStyle?: ViewStyle;
   timePickerTextStyle?: TextStyle;
+  timePickerIndicatorStyle?: ViewStyle;
+  timePickerDecelerationRate?: 'normal' | 'fast' | number;
 };
 
 export type HeaderProps = {
