@@ -52,7 +52,7 @@ const DaySelector = () => {
       ).map((day, index) => {
         if (day) {
           let leftCrop = day.dayOfMonth === 1;
-          let rightCrop = day.dayOfMonth === fullDaysInMonth;
+          let rightCrop = ((day?.dayOfMonth || 0) - ((day?.dayOfMonth || 0) - day.day)) === fullDaysInMonth;
 
           const isFirstDayOfMonth = day.dayOfMonth === 1;
           const isLastDayOfMonth = day.dayOfMonth === fullDaysInMonth;
@@ -79,7 +79,7 @@ const DaySelector = () => {
               leftCrop = false;
             }
 
-            if (index % 7 === 6 && !selectedEndDay) {
+            if ((rightCrop || index % 7 === 6) && !selectedEndDay) {
               rightCrop = false;
             }
 
