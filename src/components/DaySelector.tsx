@@ -55,7 +55,7 @@ const DaySelector = () => {
           let rightCrop = day.dayOfMonth === fullDaysInMonth;
 
           const isFirstDayOfMonth = day.dayOfMonth === 1;
-          const isLastDayOfMonth = day.dayOfMonth === fullDaysInMonth;
+          const isLastDayOfMonth = ((day?.dayOfMonth || 0) - ((day?.dayOfMonth || 0) - day.day)) === fullDaysInMonth;
 
           const isToday = areDatesOnSameDay(day.date, today);
           let inRange = false;
@@ -86,7 +86,8 @@ const DaySelector = () => {
 
             if (
               (isFirstDayOfMonth && selectedEndDay) ||
-              (isLastDayOfMonth && selectedStartDay)
+              (isLastDayOfMonth && selectedStartDay) ||
+              dayjs(startDate).format('DDMMYYYY') === dayjs(endDate).format('DDMMYYYY')
             ) {
               inRange = false;
             }
