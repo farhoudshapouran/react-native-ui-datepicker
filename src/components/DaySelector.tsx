@@ -62,6 +62,7 @@ const DaySelector = () => {
           let isSelected = false;
 
           if (mode === 'range') {
+            rightCrop = false;
             const selectedStartDay = areDatesOnSameDay(day.date, startDate);
             const selectedEndDay = areDatesOnSameDay(day.date, endDate);
             isSelected = selectedStartDay || selectedEndDay;
