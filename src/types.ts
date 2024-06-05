@@ -46,6 +46,7 @@ export type CalendarThemeProps = {
   timePickerTextStyle?: TextStyle;
   timePickerIndicatorStyle?: ViewStyle;
   timePickerDecelerationRate?: 'normal' | 'fast' | number;
+  selectedRangeBackgroundColor?: string;
 };
 
 export type HeaderProps = {
