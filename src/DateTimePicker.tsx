@@ -105,6 +105,10 @@ const DateTimePicker = (
     currentDate = dayjs(dates[0]);
   }
 
+  if (minDate && currentDate.isBefore(minDate)) {
+    currentDate = dayjs(minDate);
+  }
+
   let currentYear = currentDate.year();
 
   dayjs.locale(locale);
@@ -162,7 +166,8 @@ const DateTimePicker = (
 
   useEffect(() => {
     if (mode === 'single') {
-      const newDate = date && (timePicker ? date : getStartOfDay(date));
+      const newDate =
+        (date && (timePicker ? date : getStartOfDay(date))) ?? minDate;
 
       dispatch({
         type: CalendarActionKind.CHANGE_SELECTED_DATE,
@@ -179,7 +184,7 @@ const DateTimePicker = (
         payload: { dates },
       });
     }
-  }, [mode, date, startDate, endDate, dates, timePicker]);
+  }, [mode, date, startDate, endDate, dates, minDate, timePicker]);
 
   const setCalendarView = useCallback((view: CalendarViews) => {
     dispatch({ type: CalendarActionKind.SET_CALENDAR_VIEW, payload: view });
