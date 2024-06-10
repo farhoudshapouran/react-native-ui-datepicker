@@ -29,6 +29,7 @@ const DaySelector = () => {
     firstDayOfWeek,
     theme,
     height,
+    includeSeconds,
   } = useCalendarContext();
 
   const { year, month, hour, minute, second } = getParsedDate(currentDate);
@@ -164,11 +165,14 @@ const DaySelector = () => {
 
   const handleSelectDate = useCallback(
     (date: string) => {
-      const newDate = getDate(date).hour(hour).minute(minute).second(second);
+      let newDate = getDate(date).hour(hour).minute(minute);
+      if (includeSeconds) {
+        newDate = newDate.second(second);
+      }
 
-      onSelectDate(getFormated(newDate));
+      onSelectDate(getFormated(newDate, includeSeconds));
     },
-    [onSelectDate, hour, minute, second]
+    [onSelectDate, hour, minute, second, includeSeconds]
   );
 
   return (
