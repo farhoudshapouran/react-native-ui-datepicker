@@ -25,8 +25,10 @@ export const getWeekdaysMin = (firstDayOfWeek: number) => {
   return days;
 };
 
-export const getFormated = (date: DateType, includeSeconds: boolean) =>
-  dayjs(date).format(includeSeconds ? CALENDAR_FORMAT_WITH_SECONDS : CALENDAR_FORMAT);
+export const getFormated = (date: DateType, includeSeconds?: boolean) =>
+  dayjs(date).format(
+    includeSeconds ? CALENDAR_FORMAT_WITH_SECONDS : CALENDAR_FORMAT
+  );
 
 export const getDateMonth = (date: DateType) => dayjs(date).month();
 
