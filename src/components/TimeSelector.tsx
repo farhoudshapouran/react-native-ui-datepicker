@@ -14,31 +14,31 @@ const minutes = createNumberList(60);
 const seconds = createNumberList(60);
 
 const TimeSelector = () => {
-  const { date, onSelectDate, theme } = useCalendarContext();
+  const { date, onSelectDate, theme, includeSeconds } = useCalendarContext();
   const { hour, minute, second } = getParsedDate(date);
 
   const handleChangeHour = useCallback(
     (value: number) => {
       const newDate = getDate(date).hour(hours[value] ?? 0);
-      onSelectDate(getFormated(newDate));
+      onSelectDate(getFormated(newDate, includeSeconds));
     },
-    [date, onSelectDate, hours]
+    [date, onSelectDate, hours, includeSeconds]
   );
 
   const handleChangeMinute = useCallback(
     (value: number) => {
       const newDate = getDate(date).minute(minutes[value] ?? 0);
-      onSelectDate(getFormated(newDate));
+      onSelectDate(getFormated(newDate, includeSeconds));
     },
-    [date, onSelectDate, minutes]
+    [date, onSelectDate, minutes, includeSeconds]
   );
 
   const handleChangeSecond = useCallback(
     (value: number) => {
       const newDate = getDate(date).second(seconds[value] ?? 0);
-      onSelectDate(getFormated(newDate));
+      onSelectDate(getFormated(newDate, includeSeconds));
     },
-    [date, onSelectDate, seconds]
+    [date, onSelectDate, seconds, includeSeconds]
   );
 
   return (
@@ -51,7 +51,6 @@ const TimeSelector = () => {
             selectedIndex={hours.indexOf(hour)}
             options={hours.map((h) => (h < 10 ? `0${h}` : String(h)))}
             onChange={handleChangeHour}
-            // containerStyle={{ width: 50 }}
           />
         </View>
         <View style={styles.seperator}>
@@ -69,27 +68,29 @@ const TimeSelector = () => {
             selectedIndex={minutes.indexOf(minute)}
             options={minutes.map((m) => (m < 10 ? `0${m}` : String(m)))}
             onChange={handleChangeMinute}
-            // containerStyle={{ width: 50 }}
           />
         </View>
-        <View style={styles.seperator}>
-          <Text
-            style={{
-              ...styles.timePickerText,
-              ...theme?.timePickerTextStyle,
-            }}
-          >
-            :
-          </Text>
-        </View>
-        <View style={styles.wheelContainer}>
-          <Wheely
-            selectedIndex={seconds.indexOf(second)}
-            options={seconds.map((s) => (s < 10 ? `0${s}` : String(s)))}
-            onChange={handleChangeSecond}
-            // containerStyle={{ width: 50 }}
-          />
-        </View>
+        {includeSeconds ? (
+          <>
+            <View style={styles.seperator}>
+              <Text
+                style={{
+                  ...styles.timePickerText,
+                  ...theme?.timePickerTextStyle,
+                }}
+              >
+                :
+              </Text>
+            </View>
+            <View style={styles.wheelContainer}>
+              <Wheely
+                selectedIndex={seconds.indexOf(second)}
+                options={seconds.map((s) => (s < 10 ? `0${s}` : String(s)))}
+                onChange={handleChangeSecond}
+              />
+            </View>
+          </>
+        ) : null}
       </View>
     </View>
   );

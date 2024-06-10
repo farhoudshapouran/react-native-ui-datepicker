@@ -21,6 +21,7 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
     theme,
     locale,
     timePicker,
+    includeSeconds,
   } = useCalendarContext();
 
   const currentMonthText = dayjs(currentDate).locale(locale).format('MMMM');
@@ -136,6 +137,8 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
     </Pressable>
   );
 
+  const format = includeSeconds ? 'HH:mm:ss' : 'HH:mm';
+
   const renderSelectors = (
     <>
       <View style={styles.selectorContainer}>
@@ -148,11 +151,11 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
             setCalendarView(calendarView === 'time' ? 'day' : 'time')
           }
           accessibilityRole="button"
-          accessibilityLabel={dayjs(date).format('HH:mm:ss')}
+          accessibilityLabel={dayjs(date).format(format)}
         >
           <View style={[styles.textContainer, theme?.headerTextContainerStyle]}>
             <Text style={[styles.text, theme?.headerTextStyle]}>
-              {dayjs(date).format('HH:mm:ss')}
+              {dayjs(date).format(format)}
             </Text>
           </View>
         </Pressable>

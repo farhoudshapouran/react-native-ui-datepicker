@@ -80,6 +80,7 @@ const DateTimePicker = (
     onChange,
     initialView = 'day',
     height,
+    includeSeconds = false,
     ...rest
   } = props;
 
@@ -240,14 +241,14 @@ const DateTimePicker = (
       const newDate = getDate(state.currentDate).month(month);
       dispatch({
         type: CalendarActionKind.CHANGE_CURRENT_DATE,
-        payload: getFormated(newDate),
+        payload: getFormated(newDate, includeSeconds),
       });
       dispatch({
         type: CalendarActionKind.SET_CALENDAR_VIEW,
         payload: 'day',
       });
     },
-    [state.currentDate]
+    [state.currentDate, includeSeconds]
   );
 
   const onSelectYear = useCallback(
@@ -255,14 +256,14 @@ const DateTimePicker = (
       const newDate = getDate(state.currentDate).year(year);
       dispatch({
         type: CalendarActionKind.CHANGE_CURRENT_DATE,
-        payload: getFormated(newDate),
+        payload: getFormated(newDate, includeSeconds),
       });
       dispatch({
         type: CalendarActionKind.SET_CALENDAR_VIEW,
         payload: 'day',
       });
     },
-    [state.currentDate]
+    [state.currentDate, includeSeconds]
   );
 
   const onChangeMonth = useCallback(
@@ -270,10 +271,10 @@ const DateTimePicker = (
       const newDate = getDate(state.currentDate).add(month, 'month');
       dispatch({
         type: CalendarActionKind.CHANGE_CURRENT_DATE,
-        payload: getFormated(newDate),
+        payload: getFormated(newDate, includeSeconds),
       });
     },
-    [state.currentDate]
+    [state.currentDate, includeSeconds]
   );
 
   const onChangeYear = useCallback((year: number) => {
@@ -302,6 +303,7 @@ const DateTimePicker = (
         onSelectYear,
         onChangeMonth,
         onChangeYear,
+        includeSeconds,
       }}
     >
       <Calendar
