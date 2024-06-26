@@ -88,7 +88,7 @@ function Day({
       {inRange && !isCrop ? (
         <View
           style={[style.rangeRoot, { backgroundColor: rangeRootBackground }]}
-        ></View>
+        />
       ) : null}
 
       {isCrop && leftCrop ? (
@@ -100,7 +100,7 @@ function Day({
               backgroundColor: rangeRootBackground,
             },
           ]}
-        ></View>
+        />
       ) : null}
 
       {isCrop && rightCrop ? (
@@ -112,7 +112,7 @@ function Day({
               backgroundColor: rangeRootBackground,
             },
           ]}
-        ></View>
+        />
       ) : null}
 
       <Pressable

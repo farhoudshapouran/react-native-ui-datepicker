@@ -190,6 +190,7 @@ export default function App() {
               startDate={range.startDate}
               endDate={range.endDate}
               dates={dates}
+              //disabledDays={{ sunday: true, saturday: true }}
               //minDate={dayjs().startOf('day')}
               //maxDate={dayjs().add(3, 'day').endOf('day')}
               //firstDayOfWeek={1}
