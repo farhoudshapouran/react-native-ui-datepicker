@@ -50,7 +50,7 @@ const DaySelector = () => {
         minDate,
         maxDate,
         firstDayOfWeek,
-        disabledDays
+        mode === 'single' ? disabledDays : {}
       ).map((day, index) => {
         if (day) {
           let leftCrop = day.dayOfMonth === 1;
