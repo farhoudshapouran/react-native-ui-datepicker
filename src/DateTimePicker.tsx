@@ -80,6 +80,7 @@ const DateTimePicker = (
     onChange,
     initialView = 'day',
     height,
+    disabledDays,
     ...rest
   } = props;
 
@@ -302,6 +303,7 @@ const DateTimePicker = (
         onSelectYear,
         onChangeMonth,
         onChangeYear,
+        disabledDays,
       }}
     >
       <Calendar

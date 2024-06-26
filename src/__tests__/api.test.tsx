@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react-native';
+import { fireEvent, render, screen } from '@testing-library/react-native';
 import DateTimePicker from '../DateTimePicker';
 //import dayjs from 'dayjs';
 import 'dayjs/locale/en';
@@ -17,6 +17,24 @@ describe('API TESTS', () => {
     expect(screen.getByText(month)).toBeVisible();
     expect(screen.getByText('19')).toBeVisible();
     expect(screen.getByText('2020')).toBeVisible();
+  });
+
+  test('should not allow disabled weekdays to be selected', () => {
+    const selectedDate = new Date(2020, 11, 15); // Start with Tuesday
+    const changeFn = jest.fn();
+
+    render(
+      <DateTimePicker
+        mode="single"
+        date={selectedDate}
+        onChange={changeFn}
+        disabledDays={{ monday: true }}
+      />
+    );
+
+    // 14th is Monday
+    fireEvent.press(screen.getByText('14'));
+    expect(changeFn).not.toHaveBeenCalled();
   });
 
   // test('minDate should be applied after init', () => {

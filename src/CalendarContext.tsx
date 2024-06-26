@@ -4,6 +4,7 @@ import type {
   DateType,
   DatePickerBaseProps,
   CalendarThemeProps,
+  DisabledDays,
 } from './types';
 
 export interface CalendarContextType extends DatePickerBaseProps {
@@ -14,6 +15,7 @@ export interface CalendarContextType extends DatePickerBaseProps {
   calendarView: CalendarViews;
   currentDate: DateType; // used for latest state of calendar based on Month and Year
   currentYear: number;
+  disabledDays?: DisabledDays;
   setCalendarView: (value: CalendarViews) => void;
   onSelectDate: (date: DateType) => void;
   onSelectMonth: (month: number) => void;

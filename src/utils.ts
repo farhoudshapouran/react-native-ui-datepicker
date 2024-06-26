@@ -1,9 +1,18 @@
 import dayjs from 'dayjs';
-import type { DateType, IDayObject } from './types';
+import type { DateType, DisabledDays, IDayObject } from './types';
 
 export const CALENDAR_FORMAT = 'YYYY-MM-DD HH:mm';
 export const DATE_FORMAT = 'YYYY-MM-DD';
 export const YEAR_PAGE_SIZE = 12;
+export const WEEK_DAYS = [
+  'sunday',
+  'monday',
+  'tuesday',
+  'wednesday',
+  'thursday',
+  'friday',
+  'saturday',
+];
 
 export const getMonths = () => dayjs.months();
 
@@ -158,7 +167,8 @@ export const getMonthDays = (
   displayFullDays: boolean,
   minDate: DateType,
   maxDate: DateType,
-  firstDayOfWeek: number
+  firstDayOfWeek: number,
+  disabledDays?: DisabledDays
 ): IDayObject[] => {
   const date = getDate(datetime);
   const {
@@ -178,7 +188,8 @@ export const getMonthDays = (
           minDate,
           maxDate,
           false,
-          index + 1
+          index + 1,
+          disabledDays
         );
       })
     : Array(prevMonthOffset).fill(null);
@@ -192,7 +203,8 @@ export const getMonthDays = (
       minDate,
       maxDate,
       true,
-      prevMonthOffset + day
+      prevMonthOffset + day,
+      disabledDays
     );
   });
 
@@ -205,7 +217,8 @@ export const getMonthDays = (
       minDate,
       maxDate,
       false,
-      daysInCurrentMonth + prevMonthOffset + day
+      daysInCurrentMonth + prevMonthOffset + day,
+      disabledDays
     );
   });
 
@@ -229,7 +242,8 @@ const generateDayObject = (
   minDate: DateType,
   maxDate: DateType,
   isCurrentMonth: boolean,
-  dayOfMonth: number
+  dayOfMonth: number,
+  disabledDays?: DisabledDays
 ) => {
   let disabled = false;
   if (minDate) {
@@ -238,6 +252,12 @@ const generateDayObject = (
   if (maxDate && !disabled) {
     disabled = date > getDate(maxDate);
   }
+
+  const weekDay = getWeekdayName(date.toDate()) as keyof DisabledDays;
+  if (weekDay && disabledDays?.[weekDay]) {
+    disabled = true;
+  }
+
   return {
     text: day.toString(),
     day: day,
@@ -268,4 +288,9 @@ export function addColorAlpha(color: string | undefined, opacity: number) {
   }
 
   return color + opacityHex;
+}
+
+export function getWeekdayName(date: Date): string | undefined {
+  const dayIndex = date.getDay();
+  return WEEK_DAYS[dayIndex];
 }

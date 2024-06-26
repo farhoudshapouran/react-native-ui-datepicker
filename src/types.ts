@@ -19,6 +19,16 @@ export type LocalState = {
   currentYear: number;
 };
 
+export type DisabledDays = {
+  monday?: boolean;
+  tuesday?: boolean;
+  wednesday?: boolean;
+  thursday?: boolean;
+  friday?: boolean;
+  saturday?: boolean;
+  sunday?: boolean;
+};
+
 export type CalendarAction = {
   type: CalendarActionKind;
   payload: any;
@@ -95,4 +105,5 @@ export interface DatePickerBaseProps {
   onChange?: SingleChange | RangeChange | MultiChange;
   initialView?: CalendarViews;
   height?: number;
+  disabledDays?: DisabledDays;
 }
