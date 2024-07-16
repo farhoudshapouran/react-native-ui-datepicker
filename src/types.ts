@@ -85,6 +85,7 @@ export interface DatePickerBaseProps {
   endYear?: number;
   minDate?: DateType;
   maxDate?: DateType;
+  isDateDisabled?: (date: Date) => boolean;
   firstDayOfWeek?: number;
   displayFullDays?: boolean;
   timePicker?: boolean;

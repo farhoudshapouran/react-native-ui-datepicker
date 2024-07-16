@@ -26,6 +26,7 @@ const DaySelector = () => {
     displayFullDays,
     minDate,
     maxDate,
+    isDateDisabled,
     firstDayOfWeek,
     theme,
     height,
@@ -48,7 +49,8 @@ const DaySelector = () => {
         displayFullDays,
         minDate,
         maxDate,
-        firstDayOfWeek
+        firstDayOfWeek,
+        isDateDisabled
       ).map((day, index) => {
         if (day) {
           let leftCrop = day.dayOfMonth === 1;
