@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import type { DateType, IDayObject } from './types';
+import type { DatePickerBaseProps, DateType, IDayObject } from './types';
 
 export const CALENDAR_FORMAT = 'YYYY-MM-DD HH:mm';
 export const DATE_FORMAT = 'YYYY-MM-DD';
@@ -158,7 +158,8 @@ export const getMonthDays = (
   displayFullDays: boolean,
   minDate: DateType,
   maxDate: DateType,
-  firstDayOfWeek: number
+  firstDayOfWeek: number,
+  isDateDisabled?: DatePickerBaseProps['isDateDisabled']
 ): IDayObject[] => {
   const date = getDate(datetime);
   const {
@@ -178,7 +179,8 @@ export const getMonthDays = (
           minDate,
           maxDate,
           false,
-          index + 1
+          index + 1,
+          isDateDisabled
         );
       })
     : Array(prevMonthOffset).fill(null);
@@ -192,7 +194,8 @@ export const getMonthDays = (
       minDate,
       maxDate,
       true,
-      prevMonthOffset + day
+      prevMonthOffset + day,
+      isDateDisabled
     );
   });
 
@@ -205,7 +208,8 @@ export const getMonthDays = (
       minDate,
       maxDate,
       false,
-      daysInCurrentMonth + prevMonthOffset + day
+      daysInCurrentMonth + prevMonthOffset + day,
+      isDateDisabled
     );
   });
 
@@ -229,7 +233,8 @@ const generateDayObject = (
   minDate: DateType,
   maxDate: DateType,
   isCurrentMonth: boolean,
-  dayOfMonth: number
+  dayOfMonth: number,
+  isDateDisabled?: DatePickerBaseProps['isDateDisabled']
 ) => {
   let disabled = false;
   if (minDate) {
@@ -237,6 +242,9 @@ const generateDayObject = (
   }
   if (maxDate && !disabled) {
     disabled = date > getDate(maxDate);
+  }
+  if (isDateDisabled && !disabled) {
+    disabled = isDateDisabled(date.toDate());
   }
   return {
     text: day.toString(),
