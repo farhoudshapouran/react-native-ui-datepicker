@@ -76,11 +76,12 @@ For more, take a look at the `/example` directory.
 
 ## Single Mode props
 
-| Name       | Type       | Default          | Description                                       |
-| ---------- | ---------- | ---------------- | ------------------------------------------------- |
-| date       | `DateType` | `undefined`      | Date value to display selected date               |
-| onChange   | `Function` | `({date}) => {}` | Called when the new date selected from DatePicker |
-| timePicker | `boolean`  | `false`          | Defines show or hide time picker                  |
+| Name         | Type           | Default          | Description                                                                |
+| ------------ | -------------- | ---------------- | -------------------------------------------------------------------------- |
+| date         | `DateType`     | `undefined`      | Date value to display selected date                                        |
+| onChange     | `Function`     | `({date}) => {}` | Called when the new date selected from DatePicker                          |
+| timePicker   | `boolean`      | `false`          | Defines show or hide time picker                                           |
+| disabledDays | `DisabledDays` | `'undefined'`    | Defines DatePicker disabled weekdays (e.g., disable Sunday from selection) |
 
 ## Range Mode props
 

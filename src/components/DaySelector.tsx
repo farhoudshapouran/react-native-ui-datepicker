@@ -28,6 +28,7 @@ const DaySelector = () => {
     maxDate,
     firstDayOfWeek,
     theme,
+    disabledDays,
     height,
   } = useCalendarContext();
 
@@ -48,7 +49,8 @@ const DaySelector = () => {
         displayFullDays,
         minDate,
         maxDate,
-        firstDayOfWeek
+        firstDayOfWeek,
+        mode === 'single' ? disabledDays : {}
       ).map((day, index) => {
         if (day) {
           let leftCrop = day.dayOfMonth === 1;

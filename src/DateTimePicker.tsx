@@ -19,6 +19,7 @@ import type {
   SingleChange,
   RangeChange,
   MultiChange,
+  DisabledDays,
 } from './types';
 import Calendar from './components/Calendar';
 import dayjs from 'dayjs';
@@ -37,6 +38,7 @@ export interface DatePickerSingleProps
   mode: 'single';
   date?: DateType;
   onChange?: SingleChange;
+  disabledDays?: DisabledDays;
 }
 
 export interface DatePickerRangeProps
@@ -80,6 +82,7 @@ const DateTimePicker = (
     onChange,
     initialView = 'day',
     height,
+    disabledDays = {},
     ...rest
   } = props;
 
@@ -307,6 +310,7 @@ const DateTimePicker = (
         onSelectYear,
         onChangeMonth,
         onChangeYear,
+        disabledDays,
       }}
     >
       <Calendar
