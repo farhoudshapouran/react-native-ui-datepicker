@@ -192,6 +192,8 @@ export default function App() {
               dates={dates}
               //minDate={dayjs().startOf('day')}
               //maxDate={dayjs().add(3, 'day').endOf('day')}
+              //disabledDates={[dayjs(), dayjs().add(1, 'day')]}
+              //disabledDates={(date) => [0, 6].includes(dayjs(date).day())}// disable weekends
               //firstDayOfWeek={1}
               displayFullDays
               timePicker={timePicker}
