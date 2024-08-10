@@ -61,6 +61,35 @@ export function isDateBetween(
   return dayjs(date) <= endDate && dayjs(date) >= startDate;
 }
 
+export function isDateDisabled(
+  date: dayjs.Dayjs,
+  {
+    minDate,
+    maxDate,
+    disabledDates,
+  }: {
+    minDate?: DateType;
+    maxDate?: DateType;
+    disabledDates?: DateType[] | ((date: DateType) => boolean) | undefined;
+  }
+): boolean {
+  if (minDate && date < getDate(minDate)) return true;
+  if (maxDate && date > getDate(maxDate)) return true;
+
+  if (disabledDates) {
+    if (Array.isArray(disabledDates)) {
+      const isDisabled = disabledDates.some((disabledDate) =>
+        areDatesOnSameDay(date, disabledDate)
+      );
+      return isDisabled;
+    } else if (disabledDates instanceof Function) {
+      return disabledDates(date);
+    }
+  }
+
+  return false;
+}
+
 export const getFormatedDate = (date: DateType, format: string) =>
   dayjs(date).format(format);
 
@@ -238,28 +267,11 @@ const generateDayObject = (
   isCurrentMonth: boolean,
   dayOfMonth: number
 ) => {
-  let disabled = false;
-  if (minDate) {
-    disabled = date < getDate(minDate);
-  }
-  if (maxDate && !disabled) {
-    disabled = date > getDate(maxDate);
-  }
-  if (disabledDates) {
-    if (Array.isArray(disabledDates)) {
-      const dates = disabledDates.filter((disabledDate) =>
-        areDatesOnSameDay(date, disabledDate)
-      );
-      disabled = dates.length > 0;
-    } else if (disabledDates instanceof Function) {
-      disabled = disabledDates(date);
-    }
-  }
   return {
     text: day.toString(),
     day: day,
     date: getFormatedDate(date, DATE_FORMAT),
-    disabled,
+    disabled: isDateDisabled(date, { minDate, maxDate, disabledDates }),
     isCurrentMonth,
     dayOfMonth,
   };
