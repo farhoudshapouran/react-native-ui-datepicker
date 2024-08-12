@@ -22,6 +22,7 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
     locale,
     timePicker,
     includeSeconds,
+    useTimePickerOnly,
   } = useCalendarContext();
 
   const currentMonthText = dayjs(currentDate).locale(locale).format('MMMM');
@@ -162,6 +163,10 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
       ) : null}
     </>
   );
+
+  if (useTimePickerOnly) {
+    return undefined;
+  }
 
   return (
     <View

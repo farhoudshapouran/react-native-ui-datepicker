@@ -78,9 +78,11 @@ const DateTimePicker = (
     endDate,
     dates,
     onChange,
-    initialView = 'day',
     height,
     includeSeconds = false,
+    CustomSelectorViews,
+    useTimePickerOnly = false,
+    initialView = useTimePickerOnly ? "time" : 'day',
     ...rest
   } = props;
 
@@ -181,6 +183,15 @@ const DateTimePicker = (
       });
     }
   }, [mode, date, startDate, endDate, dates, timePicker]);
+
+  useEffect(() => {
+    if (useTimePickerOnly) {
+      dispatch({
+        type: CalendarActionKind.SET_CALENDAR_VIEW,
+        payload: 'time',
+      });
+    }
+  }, [useTimePickerOnly]);
 
   const setCalendarView = useCallback((view: CalendarViews) => {
     dispatch({ type: CalendarActionKind.SET_CALENDAR_VIEW, payload: view });
@@ -304,12 +315,14 @@ const DateTimePicker = (
         onChangeMonth,
         onChangeYear,
         includeSeconds,
+        useTimePickerOnly,
       }}
     >
       <Calendar
         buttonPrevIcon={buttonPrevIcon}
         buttonNextIcon={buttonNextIcon}
         height={height}
+        CustomSelectorViews={CustomSelectorViews}
       />
     </CalendarContext.Provider>
   );

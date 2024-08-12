@@ -19,9 +19,10 @@ const CalendarView: Record<CalendarViews, ReactNode> = {
 
 interface PropTypes extends HeaderProps {
   height?: number;
+  CustomSelectorViews?: Partial<Record<CalendarViews, ReactNode>>
 }
 
-const Calendar = ({ buttonPrevIcon, buttonNextIcon, height }: PropTypes) => {
+const Calendar = ({ buttonPrevIcon, buttonNextIcon, height, CustomSelectorViews }: PropTypes) => {
   const { calendarView } = useCalendarContext();
 
   const styles = StyleSheet.create({
@@ -43,7 +44,7 @@ const Calendar = ({ buttonPrevIcon, buttonNextIcon, height }: PropTypes) => {
         />
       ) : null} */}
       <Header buttonPrevIcon={buttonPrevIcon} buttonNextIcon={buttonNextIcon} />
-      <View style={styles.calendarContainer}>{CalendarView[calendarView]}</View>
+      <View style={styles.calendarContainer}>{CustomSelectorViews?.[calendarView] ?? CalendarView[calendarView]}</View>
     </View>
   );
 };

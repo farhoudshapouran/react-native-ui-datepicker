@@ -86,6 +86,7 @@ export interface DatePickerBaseProps {
   firstDayOfWeek?: number;
   displayFullDays?: boolean;
   timePicker?: boolean;
+  useTimePickerOnly: boolean;
   date?: DateType;
   dates?: DateType[];
   startDate?: DateType;
@@ -94,4 +95,5 @@ export interface DatePickerBaseProps {
   initialView?: CalendarViews;
   height?: number;
   includeSeconds?: boolean;
+  CustomSelectorViews?: Partial<Record<CalendarViews, ReactNode>>
 }

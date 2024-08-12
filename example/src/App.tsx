@@ -32,7 +32,8 @@ const Themes: ITheme[] = [
 
 export default function App() {
   const [mode, setMode] = useState<ModeType>('single');
-  const [timePicker, setTimePicker] = useState(false);
+  const [timePicker, setTimePicker] = useState(true);
+  const [useTimePickerOnly, setUseTimePickerOnly] = useState(true);
 
   const [date, setDate] = useState<DateType | undefined>();
   const [range, setRange] = React.useState<{
@@ -177,6 +178,22 @@ export default function App() {
             onPress={() => setTimePicker(!timePicker)}
             disabled={mode !== 'single'}
           />
+          <BouncyCheckbox
+            size={20}
+            text="Use Time Picker Only"
+            fillColor={theme?.mainColor}
+            textStyle={{
+              fontSize: 14,
+              color: '#000',
+              marginLeft: -8,
+              textDecorationLine: 'none',
+            }}
+            useNativeDriver={false}
+            isChecked={useTimePickerOnly}
+            disableBuiltInState
+            onPress={() => setUseTimePickerOnly(!useTimePickerOnly)}
+            disabled={mode !== 'single'}
+          />
           <Text style={{ fontSize: 13, color: 'gray' }}>
             (Works in Single mode)
           </Text>
@@ -206,7 +223,7 @@ export default function App() {
               // eslint-disable-next-line react-native/no-inline-styles
               todayContainerStyle={{
                 borderWidth: 1,
-              }}
+              }} useTimePickerOnly={useTimePickerOnly}
             />
             <View style={styles.footer}>
               {mode === 'single' ? (
