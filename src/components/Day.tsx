@@ -47,6 +47,7 @@ function Day({
     selectedTextStyle,
     todayContainerStyle,
     todayTextStyle,
+    selectedRangeBackgroundColor,
   } = theme;
 
   //const bothWays = inRange && leftCrop && rightCrop;
@@ -79,7 +80,8 @@ function Day({
       }
     : calendarTextStyle;
 
-  const rangeRootBackground = addColorAlpha(selectedItemColor, 0.15);
+  const rangeRootBackground =
+    selectedRangeBackgroundColor ?? addColorAlpha(selectedItemColor, 0.15);
 
   const style = styles(height || CALENDAR_HEIGHT);
 
