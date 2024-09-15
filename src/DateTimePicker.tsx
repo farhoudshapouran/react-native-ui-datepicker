@@ -81,9 +81,10 @@ const DateTimePicker = (
     onChange,
     initialView = 'day',
     height,
-    isDateDisabled,
     ...rest
   } = props;
+
+  dayjs.locale(locale);
 
   const initialCalendarView: CalendarViews =
     mode !== 'single' && initialView === 'time' ? 'day' : initialView;
@@ -112,8 +113,6 @@ const DateTimePicker = (
   }
 
   let currentYear = currentDate.year();
-
-  dayjs.locale(locale);
 
   const [state, dispatch] = useReducer(
     (prevState: LocalState, action: CalendarAction) => {
@@ -310,7 +309,6 @@ const DateTimePicker = (
         onSelectYear,
         onChangeMonth,
         onChangeYear,
-        isDateDisabled,
       }}
     >
       <Calendar
