@@ -190,6 +190,7 @@ export default function App() {
               startDate={range.startDate}
               endDate={range.endDate}
               dates={dates}
+              //isDateDisabled={(date) => [0, 6].includes(dayjs(date).day())} // disable weekends
               //minDate={dayjs().startOf('day')}
               //maxDate={dayjs().add(3, 'day').endOf('day')}
               //disabledDates={[dayjs(), dayjs().add(1, 'day')]}

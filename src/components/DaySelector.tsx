@@ -49,6 +49,7 @@ const DaySelector = () => {
         displayFullDays,
         minDate,
         maxDate,
+        firstDayOfWeek,
         disabledDates,
         firstDayOfWeek
       ).map((day, index) => {

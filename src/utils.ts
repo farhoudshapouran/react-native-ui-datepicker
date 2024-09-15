@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import type { DateType, IDayObject } from './types';
+import type { DatePickerBaseProps, DateType, IDayObject } from './types';
 
 export const CALENDAR_FORMAT = 'YYYY-MM-DD HH:mm';
 export const DATE_FORMAT = 'YYYY-MM-DD';
@@ -188,6 +188,7 @@ export const getMonthDays = (
   displayFullDays: boolean,
   minDate: DateType,
   maxDate: DateType,
+  firstDayOfWeek: number,
   disabledDates: DateType[] | ((date: DateType) => boolean) | undefined,
   firstDayOfWeek: number
 ): IDayObject[] => {
@@ -210,7 +211,8 @@ export const getMonthDays = (
           maxDate,
           disabledDates,
           false,
-          index + 1
+          index + 1,
+          isDateDisabled
         );
       })
     : Array(prevMonthOffset).fill(null);
@@ -225,7 +227,8 @@ export const getMonthDays = (
       maxDate,
       disabledDates,
       true,
-      prevMonthOffset + day
+      prevMonthOffset + day,
+      isDateDisabled
     );
   });
 
@@ -239,7 +242,8 @@ export const getMonthDays = (
       maxDate,
       disabledDates,
       false,
-      daysInCurrentMonth + prevMonthOffset + day
+      daysInCurrentMonth + prevMonthOffset + day,
+      isDateDisabled
     );
   });
 
@@ -265,7 +269,8 @@ const generateDayObject = (
   maxDate: DateType,
   disabledDates: DateType[] | ((date: DateType) => boolean) | undefined,
   isCurrentMonth: boolean,
-  dayOfMonth: number
+  dayOfMonth: number,
+  isDateDisabled?: DatePickerBaseProps['isDateDisabled']
 ) => {
   return {
     text: day.toString(),
