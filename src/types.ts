@@ -46,6 +46,7 @@ export type CalendarThemeProps = {
   timePickerTextStyle?: TextStyle;
   timePickerIndicatorStyle?: ViewStyle;
   timePickerDecelerationRate?: 'normal' | 'fast' | number;
+  selectedRangeBackgroundColor?: string;
 };
 
 export type HeaderProps = {
@@ -85,7 +86,7 @@ export interface DatePickerBaseProps {
   endYear?: number;
   minDate?: DateType;
   maxDate?: DateType;
-  isDateDisabled?: (date: Date) => boolean;
+  disabledDates?: DateType[] | ((date: DateType) => boolean);
   firstDayOfWeek?: number;
   displayFullDays?: boolean;
   timePicker?: boolean;

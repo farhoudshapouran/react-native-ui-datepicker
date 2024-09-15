@@ -59,17 +59,17 @@ For more, take a look at the `/example` directory.
 
 ## Calendar props
 
-| Name            | Type                | Default       | Description                                                              |
-| --------------- | ------------------- | ------------- | ------------------------------------------------------------------------ |
-| mode            | `string`            | `'single'`    | Defines the DatePicker mode `['single', 'range', 'multiple']`            |
-| locale          | `string`            | `'en'`        | Defines the DatePicker locale                                            |
-| minDate         | `DateType`          | `null`        | Defines DatePicker minimum selectable date                               |
-| maxDate         | `DateType`          | `null`        | Defines DatePicker maximum selectable date                               |
-| isDateDisabled  | `(Date) => boolean` | `undefined`   | Defines a custom callback to disable custom dates like weekends          |
-| firstDayOfWeek  | `number`            | `0`           | Defines the starting day of week, number 0-6, 0 - Sunday, 6 - Saturday   |
-| displayFullDays | `boolean`           | `false`       | Defines show previous and next month's days in the current calendar view |
-| initialView     | `string`            | `'day'`       | Defines the DatePicker initial view `['day', 'month', 'year', 'time']`   |
-| height          | `number`            | `'undefined'` | Defines the Calendar view heights                                        |
+| Name            | Type                       | Default                               | Description                                                                                  |
+| --------------- | -------------------------- | ------------------------------------- | -------------------------------------------------------------------------------------------- |
+| mode            | `string`                   | `'single'`                            | Defines the DatePicker mode `['single', 'range', 'multiple']`                                |
+| locale          | `string`                   | `'en'`                                | Defines the DatePicker locale                                                                |
+| minDate         | `DateType`                 | `null`                                | Defines DatePicker minimum selectable date                                                   |
+| maxDate         | `DateType`                 | `null`                                | Defines DatePicker maximum selectable date                                                   |
+| disabledDates   | `DateType[]` or `Function` | `[]` or `(date: DateType) => boolean` | Defines DatePicker array of disabled dates, or a function that returns true for a given date |
+| firstDayOfWeek  | `number`                   | `0`                                   | Defines the starting day of week, number 0-6, 0 - Sunday, 6 - Saturday                       |
+| displayFullDays | `boolean`                  | `false`                               | Defines show previous and next month's days in the current calendar view                     |
+| initialView     | `string`                   | `'day'`                               | Defines the DatePicker initial view `['day', 'month', 'year', 'time']`                       |
+| height          | `number`                   | `'undefined'`                         | Defines the Calendar view heights                                                            |
 
 <p align="center">
 <img src="/.github/images/modes-screenshot.png" />
@@ -100,31 +100,32 @@ For more, take a look at the `/example` directory.
 
 ## Styling props
 
-| Name                       | Type                           | Default     | Description                                                                                   |
-| -------------------------- | ------------------------------ | ----------- | --------------------------------------------------------------------------------------------- |
-| calendarTextStyle          | `TextStyle`                    | `null`      | Defines all text styles inside the calendar (Days, Months, Years, Hours, and Minutes)         |
-| selectedTextStyle          | `TextStyle`                    | `null`      | Defines selected (Day, Month, Year) text styles                                               |
-| selectedItemColor          | `string`                       | `'#0047FF'` | Defines selected (Day, Month, Year) background and border colors                              |
-| headerContainerStyle       | `ViewStyle`                    | `null`      | Defines calendar header container style                                                       |
-| headerTextContainerStyle   | `ViewStyle`                    | `null`      | Defines calendar header texts (Month, Year, Time) containers style                            |
-| headerTextStyle            | `TextStyle`                    | `null`      | Defines calendar header text styles (Month, Year, Time)                                       |
-| headerButtonStyle          | `ViewStyle`                    | `null`      | Defines calendar header "prev and next buttons" containers style                              |
-| headerButtonColor          | `string`                       | `null`      | Defines calendar header "prev and next buttons" icon color                                    |
-| headerButtonSize           | `number`                       | `18`        | Defines calendar header "prev and next buttons" icon size                                     |
-| headerButtonsPosition      | `string`                       | `'around'`  | Defines calendar header "prev and next buttons" positions `['around', 'right', 'left']`       |
-| buttonPrevIcon             | `ReactNode`                    | `undefined` | Defines calendar header "prev button" custom icon                                             |
-| buttonNextIcon             | `ReactNode`                    | `undefined` | Defines calendar header "next button" custom icon                                             |
-| dayContainerStyle          | `ViewStyle`                    | `null`      | Defines days containers style                                                                 |
-| todayContainerStyle        | `ViewStyle`                    | `null`      | Defines today container style                                                                 |
-| todayTextStyle             | `TextStyle`                    | `null`      | Defines today text style                                                                      |
-| monthContainerStyle        | `ViewStyle`                    | `null`      | Defines months containers style                                                               |
-| yearContainerStyle         | `ViewStyle`                    | `null`      | Defines years containers style                                                                |
-| weekDaysContainerStyle     | `ViewStyle`                    | `null`      | Defines weekdays container style                                                              |
-| weekDaysTextStyle          | `TextStyle`                    | `null`      | Defines weekdays texts style                                                                  |
-| timePickerContainerStyle   | `ViewStyle`                    | `null`      | Defines time picker container style                                                           |
-| timePickerTextStyle        | `TextStyle`                    | `null`      | Defines time picker (Hours, Minutes) texts style                                              |
-| timePickerIndicatorStyle   | `ViewStyle`                    | `null`      | Defines selected time indicator style                                                         |
-| timePickerDecelerationRate | `'normal'`, `'fast'`, `number` | `'fast'`    | Defines how quickly the underlying scroll view decelerates after the user lifts their finger. |
+| Name                         | Type                           | Default     | Description                                                                                   |
+| ---------------------------- | ------------------------------ | ----------- | --------------------------------------------------------------------------------------------- |
+| calendarTextStyle            | `TextStyle`                    | `null`      | Defines all text styles inside the calendar (Days, Months, Years, Hours, and Minutes)         |
+| selectedTextStyle            | `TextStyle`                    | `null`      | Defines selected (Day, Month, Year) text styles                                               |
+| selectedItemColor            | `string`                       | `'#0047FF'` | Defines selected (Day, Month, Year) background and border colors                              |
+| headerContainerStyle         | `ViewStyle`                    | `null`      | Defines calendar header container style                                                       |
+| headerTextContainerStyle     | `ViewStyle`                    | `null`      | Defines calendar header texts (Month, Year, Time) containers style                            |
+| headerTextStyle              | `TextStyle`                    | `null`      | Defines calendar header text styles (Month, Year, Time)                                       |
+| headerButtonStyle            | `ViewStyle`                    | `null`      | Defines calendar header "prev and next buttons" containers style                              |
+| headerButtonColor            | `string`                       | `null`      | Defines calendar header "prev and next buttons" icon color                                    |
+| headerButtonSize             | `number`                       | `18`        | Defines calendar header "prev and next buttons" icon size                                     |
+| headerButtonsPosition        | `string`                       | `'around'`  | Defines calendar header "prev and next buttons" positions `['around', 'right', 'left']`       |
+| buttonPrevIcon               | `ReactNode`                    | `undefined` | Defines calendar header "prev button" custom icon                                             |
+| buttonNextIcon               | `ReactNode`                    | `undefined` | Defines calendar header "next button" custom icon                                             |
+| dayContainerStyle            | `ViewStyle`                    | `null`      | Defines days containers style                                                                 |
+| todayContainerStyle          | `ViewStyle`                    | `null`      | Defines today container style                                                                 |
+| todayTextStyle               | `TextStyle`                    | `null`      | Defines today text style                                                                      |
+| monthContainerStyle          | `ViewStyle`                    | `null`      | Defines months containers style                                                               |
+| yearContainerStyle           | `ViewStyle`                    | `null`      | Defines years containers style                                                                |
+| weekDaysContainerStyle       | `ViewStyle`                    | `null`      | Defines weekdays container style                                                              |
+| weekDaysTextStyle            | `TextStyle`                    | `null`      | Defines weekdays texts style                                                                  |
+| timePickerContainerStyle     | `ViewStyle`                    | `null`      | Defines time picker container style                                                           |
+| timePickerTextStyle          | `TextStyle`                    | `null`      | Defines time picker (Hours, Minutes) texts style                                              |
+| timePickerIndicatorStyle     | `ViewStyle`                    | `null`      | Defines selected time indicator style                                                         |
+| timePickerDecelerationRate   | `'normal'`, `'fast'`, `number` | `'fast'`    | Defines how quickly the underlying scroll view decelerates after the user lifts their finger. |
+| selectedRangeBackgroundColor | `string`                       | `undefined` | Defines selected range background color.                                                      |
 
 ## Contributing
 
