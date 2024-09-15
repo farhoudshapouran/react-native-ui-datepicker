@@ -1,6 +1,6 @@
 {
   "name": "react-native-ui-datepicker",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Customizable date picker for React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -172,9 +172,8 @@
     ]
   },
   "dependencies": {
-    "dayjs": "^1.11.10",
+    "dayjs": "^1.11.13",
     "lodash": "^4.17.21",
-    "react-native-wheely": "^0.6.0",
-    "uninstall": "^0.0.0"
+    "react-native-wheely": "^0.6.0"
   }
 }

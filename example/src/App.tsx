@@ -225,7 +225,7 @@ export default function App() {
                       : '...'}
                   </Text>
                   <Pressable
-                    onPress={() => setDate(dayjs())}
+                    onPress={() => setDate(new Date())}
                     accessibilityRole="button"
                     accessibilityLabel="Today"
                   >
