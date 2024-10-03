@@ -3,7 +3,12 @@ import { View, Text, Pressable, StyleSheet, Image } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
 import dayjs from 'dayjs';
 import type { HeaderProps } from '../types';
-import { getDateYear, getYearRange, YEAR_PAGE_SIZE } from '../utils';
+import {
+  getDateYear,
+  getFirstDayOfYear,
+  getYearRange,
+  YEAR_PAGE_SIZE,
+} from '../utils';
 
 const arrow_left = require('../assets/images/arrow_left.png');
 const arrow_right = require('../assets/images/arrow_right.png');
@@ -89,6 +94,22 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
     </Pressable>
   );
 
+  const monthListSelector = useCallback(() => {
+    const label = getFirstDayOfYear(currentYear).format('YYYY');
+    return (
+      <Pressable
+        onPress={() => setCalendarView('year')}
+        testID="btn-month"
+        accessibilityRole="button"
+        accessibilityLabel={label}
+      >
+        <View style={[styles.textContainer, theme?.headerTextContainerStyle]}>
+          <Text style={[styles.text, theme?.headerTextStyle]}>{label}</Text>
+        </View>
+      </Pressable>
+    );
+  }, [currentYear, setCalendarView, theme]);
+
   const yearSelector = useCallback(() => {
     const years = getYearRange(currentYear);
     return (
@@ -139,9 +160,16 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
   const renderSelectors = (
     <>
       <View style={styles.selectorContainer}>
-        {calendarView !== 'year' ? monthSelector : null}
-        {yearSelector()}
+        {calendarView === 'month' ? (
+          monthListSelector()
+        ) : (
+          <>
+            {calendarView !== 'year' ? monthSelector : null}
+            {yearSelector()}
+          </>
+        )}
       </View>
+
       {timePicker && mode === 'single' && calendarView !== 'year' ? (
         <Pressable
           onPress={() =>
