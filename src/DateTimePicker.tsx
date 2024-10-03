@@ -6,6 +6,7 @@ import {
   getEndOfDay,
   getStartOfDay,
   areDatesOnSameDay,
+  getFirstDayOfYear,
 } from './utils';
 import CalendarContext from './CalendarContext';
 import { CalendarViews, CalendarActionKind } from './enums';
@@ -243,7 +244,7 @@ const DateTimePicker = (
 
   const onSelectMonth = useCallback(
     (month: number) => {
-      const newDate = getDate(state.currentDate).month(month);
+      const newDate = getFirstDayOfYear(state.currentYear).month(month);
       dispatch({
         type: CalendarActionKind.CHANGE_CURRENT_DATE,
         payload: getFormated(newDate),
@@ -253,7 +254,7 @@ const DateTimePicker = (
         payload: 'day',
       });
     },
-    [state.currentDate]
+    [state.currentYear]
   );
 
   const onSelectYear = useCallback(

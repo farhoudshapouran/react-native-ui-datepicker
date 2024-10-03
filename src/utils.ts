@@ -135,6 +135,10 @@ export function getDaysInMonth(
   };
 }
 
+export function getFirstDayOfYear(year: number) {
+  return dayjs().set('year', year).startOf('year');
+}
+
 export function getFirstDayOfMonth(
   date: DateType,
   firstDayOfWeek: number
