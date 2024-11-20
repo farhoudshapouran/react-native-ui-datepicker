@@ -17,43 +17,43 @@ function EmptyDayPure() {
 export const EmptyDay = React.memo(EmptyDayPure);
 
 const Day = ({
-  date,
-  text,
-  disabled,
-  isCurrentMonth,
-  isToday,
-  isSelected,
-  onSelectDate,
-  theme,
-}: Props) => {
+               date,
+               text,
+               disabled,
+               isCurrentMonth,
+               isToday,
+               isSelected,
+               onSelectDate,
+               theme,
+             }: Props) => {
   const dayContainerStyle = isCurrentMonth
     ? theme?.dayContainerStyle
     : { opacity: 0.3 };
 
   const todayItemStyle = isToday
     ? {
-        borderWidth: 2,
-        borderColor: theme?.selectedItemColor || '#0047FF',
-        ...theme?.todayContainerStyle,
-      }
+      borderWidth: 2,
+      borderColor: theme?.selectedItemColor || '#0047FF',
+      ...theme?.todayContainerStyle,
+    }
     : null;
 
   const activeItemStyle = isSelected
     ? {
-        borderColor: theme?.selectedItemColor || '#0047FF',
-        backgroundColor: theme?.selectedItemColor || '#0047FF',
-      }
+      borderColor: theme?.selectedItemColor || '#0047FF',
+      backgroundColor: theme?.selectedItemColor || '#0047FF',
+    }
     : null;
 
   const textStyle = isSelected
     ? { color: '#fff', ...theme?.selectedTextStyle }
     : isToday
-    ? {
+      ? {
         ...theme?.calendarTextStyle,
         color: theme?.selectedItemColor || '#0047FF',
         ...theme?.todayTextStyle,
       }
-    : theme?.calendarTextStyle;
+      : theme?.calendarTextStyle;
 
   return (
     <View style={styles.dayCell}>

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, {useCallback, useEffect} from 'react';
 import { View, Text, Pressable, StyleSheet, Image } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
 import dayjs from 'dayjs';
@@ -21,20 +21,35 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
     mode,
     theme,
     locale,
+    minimumDate,
+    maximumDate,
   } = useCalendarContext();
 
-  const currentMonthText = dayjs(currentDate).locale(locale).format('MMMM');
+  var disabledPrevButton = dayjs(currentDate) >= dayjs(minimumDate)
 
+  if(dayjs().year() - dayjs(minimumDate).year() > 10 && calendarView === 'month'){
+    disabledPrevButton = dayjs().year() - 9 <= currentYear
+  }
+
+  const currentMonthText = dayjs(currentDate).locale(locale).format('MMMM');
+  const displayPreviewNextButton = mode !== CalendarViews.year
   const renderPrevButton = (
     <Pressable
-      disabled={calendarView === CalendarViews.time}
-      onPress={() =>
+      disabled={calendarView === CalendarViews.time ||
+      calendarView === CalendarViews.day ? dayjs(dayjs(selectedDate).format("YYYY MM")).isSame(dayjs(minimumDate).format("YYYY MM")) :
+        dayjs(dayjs(currentYear.toString()).format("YYYY")).isSame(dayjs(minimumDate).format("YYYY"))
+      }
+      onPress={() => {
+        if(!disabledPrevButton){
+          return
+        }
         calendarView === CalendarViews.day
-          ? onChangeMonth(-1)
+          ? onChangeMonth(-1, parseInt(currentYear) -1)
           : calendarView === CalendarViews.month
-          ? onChangeYear(currentYear - 1)
-          : calendarView === CalendarViews.year &&
-            onChangeYear(currentYear - YEAR_PAGE_SIZE)
+            ? onChangeYear(currentYear - 1)
+            : calendarView === CalendarViews.year &&
+            onChangeYear(currentYear - YEAR_PAGE_SIZE)}
+
       }
       testID="btn-prev"
       accessibilityRole="button"
@@ -59,14 +74,19 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
 
   const renderNextButton = (
     <Pressable
-      disabled={calendarView === CalendarViews.time}
-      onPress={() =>
+      disabled={calendarView === CalendarViews.time ||
+      calendarView === CalendarViews.day ?
+        dayjs(currentDate).isSame(dayjs(maximumDate))
+        : dayjs(dayjs((currentYear).toString()).format("YYYY")).isSame( dayjs(maximumDate).format("YYYY"))}
+      onPress={() =>{
         calendarView === CalendarViews.day
-          ? onChangeMonth(1)
+          ? onChangeMonth(1, currentYear -1)
           : calendarView === CalendarViews.month
-          ? onChangeYear(currentYear + 1)
-          : calendarView === CalendarViews.year &&
+            ? onChangeYear(currentYear + 1)
+            : calendarView === CalendarViews.year &&
             onChangeYear(currentYear + YEAR_PAGE_SIZE)
+      }
+
       }
       testID="btn-next"
       accessibilityRole="button"
@@ -90,7 +110,7 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
   );
 
   const yearSelector = useCallback(() => {
-    const years = getYearRange(currentYear);
+    const years = getYearRange(currentYear, maximumDate, minimumDate);
     return (
       <Pressable
         onPress={() => {
@@ -104,12 +124,13 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
         testID="btn-year"
         accessibilityRole="button"
         accessibilityLabel={dayjs(currentDate).format('YYYY')}
+        disabled={calendarView === CalendarViews.year || calendarView === CalendarViews.month}
       >
         <View style={[styles.textContainer, theme?.headerTextContainerStyle]}>
           <Text style={[styles.text, theme?.headerTextStyle]}>
             {calendarView === CalendarViews.year
               ? `${years.at(0)} - ${years.at(-1)}`
-              : dayjs(currentDate).format('YYYY')}
+              : calendarView === CalendarViews.day ? dayjs(currentDate).format('YYYY') : currentYear}
           </Text>
         </View>
       </Pressable>
@@ -135,6 +156,7 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
       testID="btn-month"
       accessibilityRole="button"
       accessibilityLabel={currentMonthText}
+      disabled={calendarView === CalendarViews.month}
     >
       <View style={[styles.textContainer, theme?.headerTextContainerStyle]}>
         <Text style={[styles.text, theme?.headerTextStyle]}>
@@ -179,25 +201,29 @@ const Header = ({ buttonPrevIcon, buttonNextIcon }: HeaderProps) => {
     >
       {theme?.headerButtonsPosition === 'left' ? (
         <View style={styles.container}>
-          <View style={styles.row}>
-            {renderPrevButton}
-            {renderNextButton}
-          </View>
+          {displayPreviewNextButton &&
+            <View style={styles.row}>
+              {renderPrevButton}
+              {renderNextButton}
+            </View>
+          }
           {renderSelectors}
         </View>
       ) : theme?.headerButtonsPosition === 'right' ? (
         <View style={styles.container}>
           {renderSelectors}
-          <View style={styles.row}>
-            {renderPrevButton}
-            {renderNextButton}
-          </View>
+          {displayPreviewNextButton &&
+            <View style={styles.row}>
+              {renderPrevButton}
+              {renderNextButton}
+            </View>
+          }
         </View>
       ) : (
         <View style={styles.container}>
-          {renderPrevButton}
+          {displayPreviewNextButton && renderPrevButton}
           {renderSelectors}
-          {renderNextButton}
+          {displayPreviewNextButton && renderNextButton}
         </View>
       )}
     </View>

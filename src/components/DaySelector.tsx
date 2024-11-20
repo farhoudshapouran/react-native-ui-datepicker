@@ -10,6 +10,8 @@ import {
   getDate,
   getFormated,
 } from '../utils';
+import {CALENDAR_HEIGHT} from "react-native-ui-datepicker/lib/typescript/src/enums";
+import dayjs from "dayjs";
 
 const DaySelector = () => {
   const {
@@ -21,6 +23,7 @@ const DaySelector = () => {
     maximumDate,
     firstDayOfWeek,
     theme,
+    currentYear
   } = useCalendarContext();
   const { year, month, hour, minute } = getParsedDate(currentDate);
 
@@ -36,10 +39,10 @@ const DaySelector = () => {
       ).map((day) => {
         return day
           ? {
-              ...day,
-              isToday: areDatesOnSameDay(day.date, today),
-              isSelected: areDatesOnSameDay(day.date, selectedDate),
-            }
+            ...day,
+            isToday: areDatesOnSameDay(day.date, today),
+            isSelected: areDatesOnSameDay(day.date, selectedDate),
+          }
           : null;
       });
     },
@@ -93,9 +96,10 @@ const DaySelector = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // flex: 1,
     paddingTop: 5,
     width: '100%',
+    height: 300,
   },
   weekDaysContainer: {
     width: '100%',

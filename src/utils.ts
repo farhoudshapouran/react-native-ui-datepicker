@@ -3,7 +3,7 @@ import type { DateType, IDayObject } from './types';
 
 export const CALENDAR_FORMAT = 'YYYY-MM-DD HH:mm';
 export const DATE_FORMAT = 'YYYY-MM-DD';
-export const YEAR_PAGE_SIZE = 12;
+export const YEAR_PAGE_SIZE = 10;
 
 export const getMonths = () => dayjs.months();
 
@@ -49,12 +49,12 @@ export const getFormatedDate = (date: DateType, format: string) =>
 
 export const getDate = (date: DateType) => dayjs(date, CALENDAR_FORMAT);
 
-export const getYearRange = (year: number) => {
-  const endYear = YEAR_PAGE_SIZE * Math.ceil(year / YEAR_PAGE_SIZE);
-  let startYear = endYear === year ? endYear : endYear - YEAR_PAGE_SIZE;
+export const getYearRange = (year: number, maxDate: string, minDate: string) => {
+  const endYear = parseInt(dayjs(maxDate).format("YYYY"));
+  let startYear = parseInt(dayjs(minDate).format("YYYY"));
 
   if (startYear < 0) startYear = 0;
-  return Array.from({ length: YEAR_PAGE_SIZE }, (_, i) => startYear + i);
+  return Array.from({ length: endYear-startYear > 12 ? YEAR_PAGE_SIZE : endYear - startYear +1 }, (_, i) => startYear + i);
 };
 
 /**
@@ -99,10 +99,10 @@ export const getMonthDays = (
 
   const prevDays = displayFullDays
     ? Array.from({ length: dayOfMonth }, (_, i) => {
-        const day = i + (prevMonthDays - dayOfMonth + 1);
-        const thisDay = date.add(-1, 'month').date(day);
-        return generateDayObject(day, thisDay, minimumDate, maximumDate, false);
-      })
+      const day = i + (prevMonthDays - dayOfMonth + 1);
+      const thisDay = date.add(-1, 'month').date(day);
+      return generateDayObject(day, thisDay, minimumDate, maximumDate, false);
+    })
     : Array(dayOfMonth).fill(null);
 
   const monthDaysOffset = dayOfMonth + daysInMonth;

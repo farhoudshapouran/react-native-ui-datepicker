@@ -23,7 +23,7 @@ const Calendar = ({ buttonPrevIcon, buttonNextIcon }: PropTypes) => {
   const { calendarView, mode } = useCalendarContext();
 
   return (
-    <View style={styles.container} testID="calendar">
+    <View style={styles.container} testID="calendar" accessible={false}>
       {mode !== 'time' ? (
         <Header
           buttonPrevIcon={buttonPrevIcon}
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   calendarContainer: {
-    height: CALENDAR_HEIGHT,
+    height: 'fit-content',
     alignItems: 'center',
   },
 });
