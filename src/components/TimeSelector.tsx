@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, I18nManager } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
 import Wheel from './TimePicker/Wheel';
 import { CALENDAR_HEIGHT } from '../enums';
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   timePickerContainer: {
-    flexDirection: 'row',
+    flexDirection: I18nManager.getConstants().isRTL ? 'row-reverse' : 'row',
     alignItems: 'center',
     justifyContent: 'center',
     width: CALENDAR_HEIGHT / 2,
