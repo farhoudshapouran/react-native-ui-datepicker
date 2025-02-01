@@ -37,7 +37,8 @@
       ]
     ],
     "experiments": {
-      "typedRoutes": true
+      "typedRoutes": true,
+      "baseUrl": "/react-native-ui-datepicker"
     }
   }
 }
