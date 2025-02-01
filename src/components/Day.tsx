@@ -15,12 +15,9 @@ interface Props extends Omit<IDayObject, 'day'> {
   height?: number;
 }
 
-function EmptyDayPure({ height }: { height?: number }) {
-  const style = styles(height || CALENDAR_HEIGHT);
-  return <View style={style.dayCell} />;
-}
-
-export const EmptyDay = React.memo(EmptyDayPure);
+export const EmptyDay = React.memo(({ height }: { height?: number }) => (
+  <View style={styles(height || CALENDAR_HEIGHT).dayCell} />
+));
 
 function Day({
   date,
@@ -36,103 +33,83 @@ function Day({
   theme,
   height,
 }: Props) {
-  const onPress = React.useCallback(() => {
-    onSelectDate(date);
-  }, [onSelectDate, date]);
+  const onPress = React.useCallback(
+    () => onSelectDate(date),
+    [onSelectDate, date]
+  );
 
   const {
     calendarTextStyle,
     dayContainerStyle,
-    selectedItemColor,
+    selectedItemColor = '#0047FF',
     selectedTextStyle,
     todayContainerStyle,
     todayTextStyle,
     selectedRangeBackgroundColor,
   } = theme;
 
-  //const bothWays = inRange && leftCrop && rightCrop;
+  const style = styles(height || CALENDAR_HEIGHT);
+  const rangeBackground =
+    selectedRangeBackgroundColor ?? addColorAlpha(selectedItemColor, 0.15);
   const isCrop = inRange && (leftCrop || rightCrop) && !(leftCrop && rightCrop);
 
-  const containerStyle = isCurrentMonth ? dayContainerStyle : { opacity: 0.3 };
+  const containerStyle = StyleSheet.flatten([
+    style.dayContainer,
+    isCurrentMonth || isCrop ? dayContainerStyle : style.disabledDay,
+    isToday && {
+      borderWidth: 2,
+      borderColor: selectedItemColor,
+      ...todayContainerStyle,
+    },
+    isSelected && {
+      borderColor: selectedItemColor,
+      backgroundColor: selectedItemColor,
+    },
+  ]);
 
-  const todayItemStyle = isToday
-    ? {
-        borderWidth: 2,
-        borderColor: selectedItemColor || '#0047FF',
-        ...todayContainerStyle,
-      }
-    : null;
-
-  const activeItemStyle = isSelected
-    ? {
-        borderColor: selectedItemColor || '#0047FF',
-        backgroundColor: selectedItemColor || '#0047FF',
-      }
-    : null;
-
-  const textStyle = isSelected
-    ? { color: '#fff', ...selectedTextStyle }
-    : isToday
-    ? {
-        ...calendarTextStyle,
-        color: selectedItemColor || '#0047FF',
-        ...todayTextStyle,
-      }
-    : calendarTextStyle;
-
-  const rangeRootBackground =
-    selectedRangeBackgroundColor ?? addColorAlpha(selectedItemColor, 0.15);
-
-  const style = styles(height || CALENDAR_HEIGHT);
+  const textStyle = StyleSheet.flatten([
+    isSelected
+      ? { color: '#fff', ...selectedTextStyle }
+      : isToday
+      ? { ...calendarTextStyle, color: selectedItemColor, ...todayTextStyle }
+      : calendarTextStyle,
+  ]);
 
   return (
     <View style={style.dayCell}>
-      {inRange && !isCrop ? (
-        <View
-          style={[style.rangeRoot, { backgroundColor: rangeRootBackground }]}
-        />
-      ) : null}
-
-      {isCrop && leftCrop ? (
-        <View
-          style={[
-            style.rangeRoot,
-            {
-              left: '50%',
-              backgroundColor: rangeRootBackground,
-            },
-          ]}
-        />
-      ) : null}
-
-      {isCrop && rightCrop ? (
-        <View
-          style={[
-            style.rangeRoot,
-            {
-              right: '50%',
-              backgroundColor: rangeRootBackground,
-            },
-          ]}
-        />
-      ) : null}
-
+      {inRange && !isCrop && (
+        <View style={[style.rangeRoot, { backgroundColor: rangeBackground }]} />
+      )}
+      {isCrop && (
+        <>
+          {leftCrop && (
+            <View
+              style={[
+                style.rangeRoot,
+                { left: '50%', backgroundColor: rangeBackground },
+              ]}
+            />
+          )}
+          {rightCrop && (
+            <View
+              style={[
+                style.rangeRoot,
+                { right: '50%', backgroundColor: rangeBackground },
+              ]}
+            />
+          )}
+        </>
+      )}
       <Pressable
         disabled={disabled}
-        onPress={disabled ? undefined : onPress}
-        style={[
-          style.dayContainer,
-          containerStyle,
-          todayItemStyle,
-          activeItemStyle,
-          disabled && style.disabledDay,
-        ]}
+        onPress={onPress}
+        style={containerStyle}
         testID={date}
         accessibilityRole="button"
         accessibilityLabel={text}
       >
-        <View style={[style.dayTextContainer]}>
-          <Text style={[textStyle]}>{text}</Text>
+        <View style={style.dayTextContainer}>
+          <Text style={textStyle}>{text}</Text>
         </View>
       </Pressable>
     </View>
@@ -143,7 +120,7 @@ const styles = (height: number) =>
   StyleSheet.create({
     dayCell: {
       position: 'relative',
-      width: '14.2%',
+      width: '14.25%',
       height: height / 7,
     },
     dayContainer: {
@@ -172,21 +149,18 @@ const styles = (height: number) =>
 const customComparator = (
   prevProps: Readonly<Props>,
   nextProps: Readonly<Props>
-) => {
-  return (
-    prevProps.date === nextProps.date &&
-    prevProps.text === nextProps.text &&
-    prevProps.disabled === nextProps.disabled &&
-    prevProps.isCurrentMonth === nextProps.isCurrentMonth &&
-    prevProps.isToday === nextProps.isToday &&
-    prevProps.isSelected === nextProps.isSelected &&
-    prevProps.inRange === nextProps.inRange &&
-    prevProps.leftCrop === nextProps.leftCrop &&
-    prevProps.rightCrop === nextProps.rightCrop &&
-    prevProps.onSelectDate === nextProps.onSelectDate &&
-    prevProps.height === nextProps.height &&
-    isEqual(prevProps.theme, nextProps.theme)
-  );
-};
+) =>
+  Object.is(prevProps.date, nextProps.date) &&
+  Object.is(prevProps.text, nextProps.text) &&
+  prevProps.disabled === nextProps.disabled &&
+  prevProps.isCurrentMonth === nextProps.isCurrentMonth &&
+  prevProps.isToday === nextProps.isToday &&
+  prevProps.isSelected === nextProps.isSelected &&
+  prevProps.inRange === nextProps.inRange &&
+  prevProps.leftCrop === nextProps.leftCrop &&
+  prevProps.rightCrop === nextProps.rightCrop &&
+  prevProps.onSelectDate === nextProps.onSelectDate &&
+  prevProps.height === nextProps.height &&
+  isEqual(prevProps.theme, nextProps.theme);
 
 export default React.memo(Day, customComparator);
