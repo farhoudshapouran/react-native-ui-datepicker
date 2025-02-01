@@ -1,8 +1,8 @@
 {
   "name": "react-native-ui-datepicker",
-  "version": "2.0.8",
+  "version": "2.0.9",
   "description": "Customizable date picker for React Native",
-  "main": "lib/commonjs/index",
+  "main": "lib/module/index",
   "module": "lib/module/index",
   "types": "lib/typescript/src/index.d.ts",
   "react-native": "src/index",
@@ -163,14 +163,14 @@
     "source": "src",
     "output": "lib",
     "targets": [
-      "commonjs",
-      "module",
       [
-        "typescript",
+        "module",
         {
-          "project": "tsconfig.build.json"
+          "esm": true,
+          "jsxRuntime": "classic"
         }
-      ]
+      ],
+      "typescript"
     ]
   },
   "dependencies": {

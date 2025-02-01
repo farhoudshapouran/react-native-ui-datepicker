@@ -71,17 +71,17 @@ export type SingleChange = (params: { date: DateType }) => void;
 export type RangeChange = (params: {
   startDate: DateType;
   endDate: DateType;
-}) => any;
+}) => void;
 
 export type MultiChange = (params: {
   dates: DateType[];
   datePressed: DateType;
   change: 'added' | 'removed';
-}) => any;
+}) => void;
 
 export interface DatePickerBaseProps {
   mode?: ModeType;
-  locale?: string | ILocale;
+  locale?: string | ILocale; // If ILocale is required, define it somewhere
   startYear?: number;
   endYear?: number;
   minDate?: DateType;
