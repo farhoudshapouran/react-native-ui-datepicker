@@ -10,6 +10,7 @@ import {
   ViewProps,
   FlatListProps,
   FlatList,
+  Platform,
 } from 'react-native';
 import styles from './wheel-picker.style';
 import WheelPickerItem from './wheel-picker-item';
@@ -109,8 +110,9 @@ const WheelPicker: React.FC<Props> = ({
    * This ensures that what the user sees as selected in the picker always corresponds to the value state.
    */
   useEffect(() => {
-    flatListRef.current?.scrollToOffset({
-      offset: selectedIndex * itemHeight,
+    flatListRef.current?.scrollToIndex({
+      index: selectedIndex,
+      animated: Platform.OS === 'ios',
     });
   }, [selectedIndex, itemHeight]);
 
