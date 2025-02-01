@@ -1,18 +1,18 @@
 import React, { useMemo, useCallback } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import dayjs from 'dayjs';
 import { useCalendarContext } from '../CalendarContext';
 import Day, { EmptyDay } from './Day';
 import {
   getParsedDate,
   getMonthDays,
-  getWeekdaysMin,
   getDaysInMonth,
   areDatesOnSameDay,
   isDateBetween,
   getDate,
   getFormated,
 } from '../utils';
+import WeekDays from './WeekDays';
 
 const DaySelector = () => {
   const {
@@ -171,8 +171,8 @@ const DaySelector = () => {
   );
 
   const handleSelectDate = useCallback(
-    (date: string) => {
-      const newDate = getDate(date).hour(hour).minute(minute);
+    (selectedDate: string) => {
+      const newDate = getDate(selectedDate).hour(hour).minute(minute);
 
       onSelectDate(getFormated(newDate));
     },
@@ -181,16 +181,7 @@ const DaySelector = () => {
 
   return (
     <View style={styles.container} testID="day-selector">
-      <View
-        style={[styles.weekDaysContainer, theme?.weekDaysContainerStyle]}
-        testID="week-days"
-      >
-        {getWeekdaysMin(firstDayOfWeek)?.map((item, index) => (
-          <View key={index} style={styles.weekDayCell}>
-            <Text style={theme?.weekDaysTextStyle}>{item}</Text>
-          </View>
-        ))}
-      </View>
+      <WeekDays firstDayOfWeek={firstDayOfWeek} theme={theme} />
       <View style={styles.daysContainer} testID="days">
         {daysGrid?.map((day, index) => {
           return day ? (
@@ -223,21 +214,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 5,
     width: '100%',
-  },
-  weekDaysContainer: {
-    width: '100%',
-    flexDirection: 'row',
-    paddingBottom: 10,
-    paddingTop: 5,
-    marginBottom: 10,
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderColor: '#E5E5E5',
-  },
-  weekDayCell: {
-    width: '14.2%',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   daysContainer: {
     flex: 1,

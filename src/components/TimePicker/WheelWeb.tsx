@@ -6,19 +6,18 @@ import {
   Platform,
 } from 'react-native';
 import React, { memo, useMemo, useRef } from 'react';
-import { useCalendarContext } from '../../CalendarContext';
 import { sin } from './AnimatedMath';
 import { CALENDAR_HEIGHT } from '../../enums';
+import { CalendarThemeProps } from '../../types';
 
 interface WheelProps {
   value: number;
   setValue?: (value: number) => void;
   items: string[];
+  theme: CalendarThemeProps;
 }
 
-const WheelWeb = ({ value, setValue = () => {}, items }: WheelProps) => {
-  const { theme } = useCalendarContext();
-
+const WheelWeb = ({ value, setValue = () => {}, items, theme }: WheelProps) => {
   const displayCount = 5;
   const translateY = useRef(new Animated.Value(0)).current;
   const renderCount =

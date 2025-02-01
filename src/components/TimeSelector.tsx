@@ -1,24 +1,28 @@
-import React, { useCallback } from 'react';
-import { Text, View, StyleSheet, I18nManager } from 'react-native';
+import React, { useCallback, useMemo } from 'react';
+import {
+  Text,
+  View,
+  StyleSheet,
+  I18nManager,
+  ViewStyle,
+  TextStyle,
+} from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
 import Wheel from './TimePicker/Wheel';
 import { CALENDAR_HEIGHT } from '../enums';
 import { getParsedDate, getDate, getFormated } from '../utils';
 
-function createNumberList(num: number) {
-  return new Array(num)
-    .fill(0)
-    .map((_, index) =>
-      index < 10 ? `0${index.toString()}` : index.toString()
-    );
-}
+const createNumberList = (num: number) =>
+  Array.from({ length: num }, (_, index) =>
+    index < 10 ? `0${index}` : `${index}`
+  );
 
 const hours = createNumberList(24);
 const minutes = createNumberList(60);
 
 const TimeSelector = () => {
   const { date, onSelectDate, theme } = useCalendarContext();
-  const { hour, minute } = getParsedDate(date);
+  const { hour, minute } = useMemo(() => getParsedDate(date), [date]);
 
   const handleChangeHour = useCallback(
     (value: number) => {
@@ -36,23 +40,38 @@ const TimeSelector = () => {
     [date, onSelectDate]
   );
 
+  const timePickerContainerStyle: ViewStyle = useMemo(
+    () => ({
+      ...styles.timePickerContainer,
+      flexDirection: I18nManager.getConstants().isRTL ? 'row-reverse' : 'row',
+    }),
+    []
+  );
+
+  const timePickerTextStyle: TextStyle = useMemo(
+    () => ({ ...styles.timePickerText, ...theme?.timePickerTextStyle }),
+    [theme?.timePickerTextStyle]
+  );
+
   return (
     <View style={styles.container} testID="time-selector">
-      <View style={styles.timePickerContainer}>
+      <View style={timePickerContainerStyle}>
         <View style={styles.wheelContainer}>
-          <Wheel value={hour} items={hours} setValue={handleChangeHour} />
+          <Wheel
+            value={hour}
+            items={hours}
+            setValue={handleChangeHour}
+            theme={theme}
+          />
         </View>
-        <Text
-          style={{
-            marginHorizontal: 5,
-            ...styles.timePickerText,
-            ...theme?.timePickerTextStyle,
-          }}
-        >
-          :
-        </Text>
+        <Text style={timePickerTextStyle}>:</Text>
         <View style={styles.wheelContainer}>
-          <Wheel value={minute} items={minutes} setValue={handleChangeMinute} />
+          <Wheel
+            value={minute}
+            items={minutes}
+            setValue={handleChangeMinute}
+            theme={theme}
+          />
         </View>
       </View>
     </View>
@@ -69,7 +88,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   timePickerContainer: {
-    flexDirection: I18nManager.getConstants().isRTL ? 'row-reverse' : 'row',
     alignItems: 'center',
     justifyContent: 'center',
     width: CALENDAR_HEIGHT / 2,
@@ -78,6 +96,7 @@ const styles = StyleSheet.create({
   timePickerText: {
     fontSize: 24,
     fontWeight: 'bold',
+    marginHorizontal: 5,
   },
 });
 

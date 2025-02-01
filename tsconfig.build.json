@@ -1,5 +1,10 @@
-
 {
-  "extends": "./tsconfig",
-  "exclude": ["example"]
+  "extends": "./tsconfig.json",
+  "exclude": [
+    "example",
+    "lib",
+    "node_modules",
+    "**/__tests__/*",
+    "**/__mocks__/*"
+  ]
 }

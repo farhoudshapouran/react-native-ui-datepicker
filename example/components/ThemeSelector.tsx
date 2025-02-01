@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { StyleSheet, View, Pressable } from 'react-native';
 
 export interface ITheme {
@@ -11,7 +11,7 @@ type Props = {
   setTheme: (theme: ITheme) => void;
 };
 
-export default function ThemeSelector({ themes = [], setTheme }: Props) {
+const ThemeSelector = ({ themes = [], setTheme }: Props) => {
   return (
     <View style={styles.themeContainer}>
       {themes.map((item, index) => (
@@ -31,7 +31,9 @@ export default function ThemeSelector({ themes = [], setTheme }: Props) {
       ))}
     </View>
   );
-}
+};
+
+export default memo(ThemeSelector);
 
 const styles = StyleSheet.create({
   themeContainer: {

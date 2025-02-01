@@ -1,4 +1,7 @@
 {
   "extends": "@react-native-community",
-  "ignorePatterns": [".*.js", ".*.ts", "node_modules/", "lib/", "example/"]
+  "ignorePatterns": [".*.js", ".*.ts", "node_modules/", "lib/", "example/"],
+  "rules": {
+    "react/react-in-jsx-scope": "off"
+  }
 }

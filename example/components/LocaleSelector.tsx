@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { StyleSheet, View, Text, Pressable } from 'react-native';
 
 const Locales = ['en', 'de', 'es', 'fr', 'tr'];
@@ -10,12 +10,12 @@ type Props = {
   activeTextColor?: string;
 };
 
-export default function LocaleSelector({
+const LocaleSelector = ({
   locale,
   setLocale,
   mainColor,
   activeTextColor,
-}: Props) {
+}: Props) => {
   return (
     <View style={styles.localeContainer}>
       <Text
@@ -55,7 +55,9 @@ export default function LocaleSelector({
       ))}
     </View>
   );
-}
+};
+
+export default memo(LocaleSelector);
 
 const styles = StyleSheet.create({
   localeContainer: {

@@ -1,18 +1,19 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Platform } from 'react-native';
 import WheelNative from './WheelNative';
 import WheelWeb from './WheelWeb';
+import { CalendarThemeProps } from '../../types';
 
-interface WheelProps {
+type WheelProps = {
   value: number;
   setValue?: (value: number) => void;
   items: string[];
-}
+  theme: CalendarThemeProps;
+};
 
-export default function Wheel(props: WheelProps) {
-  return Platform.OS === 'web' ? (
-    <WheelWeb {...props} />
-  ) : (
-    <WheelNative {...props} />
-  );
-}
+const Wheel = (props: WheelProps) => {
+  const Component = Platform.OS === 'web' ? WheelWeb : WheelNative;
+  return <Component {...props} />;
+};
+
+export default memo(Wheel);

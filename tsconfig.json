@@ -1,15 +1,15 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
-      "react": ["./node_modules/@types/react"],
+      "*": ["src/*"],
       "react-native-ui-datepicker": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "jsx": "react",
+    "jsx": "react-native",
     "lib": ["esnext"],
     "module": "esnext",
     "moduleResolution": "node",
@@ -23,6 +23,10 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "esnext"
-  }
+    "target": "esnext",
+    "allowJs": true,
+    "types": ["react-native", "jest", "node", "@testing-library/jest-native"]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }

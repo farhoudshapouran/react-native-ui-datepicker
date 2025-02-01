@@ -7,9 +7,9 @@ import {
   TouchableOpacity,
   Pressable,
 } from 'react-native';
-import ThemeSelector, { ITheme } from './components/ThemeSelector';
-import LocaleSelector from './components/LocaleSelector';
-import GithubLink from './components/GithubLink';
+import ThemeSelector, { ITheme } from '@/components/ThemeSelector';
+import LocaleSelector from '@/components/LocaleSelector';
+import GithubLink from '@/components/GithubLink';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import DateTimePicker, { DateType, ModeType } from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
@@ -30,7 +30,7 @@ const Themes: ITheme[] = [
   { mainColor: '#FAD7DD', activeTextColor: '#932338' },
 ];
 
-export default function App() {
+export default function MainPage() {
   const [mode, setMode] = useState<ModeType>('single');
   const [timePicker, setTimePicker] = useState(false);
 
@@ -55,7 +55,7 @@ export default function App() {
   );
 
   const onChange = useCallback(
-    (params) => {
+    (params: any) => {
       if (mode === 'single') {
         setDate(params.date);
       } else if (mode === 'range') {
@@ -157,8 +157,9 @@ export default function App() {
           style={{
             flexDirection: 'row',
             alignItems: 'center',
-            gap: 10,
             marginBottom: 20,
+            gap: 10,
+            paddingHorizontal: 120,
           }}
         >
           <BouncyCheckbox
@@ -169,11 +170,9 @@ export default function App() {
               fontSize: 14,
               color: '#000',
               marginLeft: -8,
-              textDecorationLine: 'none',
             }}
             useNativeDriver={false}
             isChecked={timePicker}
-            disableBuiltInState
             onPress={() => setTimePicker(!timePicker)}
             disabled={mode !== 'single'}
           />

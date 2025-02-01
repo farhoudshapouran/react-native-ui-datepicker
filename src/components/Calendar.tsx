@@ -1,5 +1,5 @@
-import React, { ReactNode, memo } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { ReactNode, memo, useMemo } from 'react';
+import { View, StyleSheet, ViewStyle } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
 import type { CalendarViews } from '../enums';
 import type { HeaderProps } from '../types';
@@ -17,22 +17,26 @@ const CalendarView: Record<CalendarViews, ReactNode> = {
   time: <TimeSelector />,
 };
 
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+  },
+});
+
 interface PropTypes extends HeaderProps {
   height?: number;
 }
 
 const Calendar = ({ buttonPrevIcon, buttonNextIcon, height }: PropTypes) => {
-  const { calendarView } = useCalendarContext();
+  const { calendarView, theme } = useCalendarContext();
 
-  const styles = StyleSheet.create({
-    container: {
-      width: '100%',
-    },
-    calendarContainer: {
+  const calendarContainerStyle: ViewStyle = useMemo(
+    () => ({
       height: height || CALENDAR_HEIGHT,
       alignItems: 'center',
-    },
-  });
+    }),
+    [height]
+  );
 
   return (
     <View style={styles.container} testID="calendar">
@@ -42,8 +46,12 @@ const Calendar = ({ buttonPrevIcon, buttonNextIcon, height }: PropTypes) => {
           buttonNextIcon={buttonNextIcon}
         />
       ) : null} */}
-      <Header buttonPrevIcon={buttonPrevIcon} buttonNextIcon={buttonNextIcon} />
-      <View style={styles.calendarContainer}>{CalendarView[calendarView]}</View>
+      <Header
+        buttonPrevIcon={buttonPrevIcon}
+        buttonNextIcon={buttonNextIcon}
+        theme={theme}
+      />
+      <View style={calendarContainerStyle}>{CalendarView[calendarView]}</View>
     </View>
   );
 };

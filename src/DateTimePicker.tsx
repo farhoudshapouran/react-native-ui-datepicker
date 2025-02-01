@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useReducer } from 'react';
+import React, { useCallback, useEffect, useMemo, useReducer } from 'react';
 import {
   getFormated,
   getDate,
@@ -86,8 +86,10 @@ const DateTimePicker = (
 
   dayjs.locale(locale);
 
-  const initialCalendarView: CalendarViews =
-    mode !== 'single' && initialView === 'time' ? 'day' : initialView;
+  const initialCalendarView: CalendarViews = useMemo(
+    () => (mode !== 'single' && initialView === 'time' ? 'day' : initialView),
+    [mode, initialView]
+  );
 
   const firstDay =
     firstDayOfWeek && firstDayOfWeek > 0 && firstDayOfWeek <= 6
@@ -133,24 +135,24 @@ const DateTimePicker = (
             currentYear: action.payload,
           };
         case CalendarActionKind.CHANGE_SELECTED_DATE:
-          const { date } = action.payload;
+          const { date: selectedDate } = action.payload;
           return {
             ...prevState,
-            date,
+            date: selectedDate,
             currentDate: date,
           };
         case CalendarActionKind.CHANGE_SELECTED_RANGE:
-          const { startDate, endDate } = action.payload;
+          const { startDate: start, endDate: end } = action.payload;
           return {
             ...prevState,
-            startDate,
-            endDate,
+            startDate: start,
+            endDate: end,
           };
         case CalendarActionKind.CHANGE_SELECTED_MULTIPLE:
-          const { dates } = action.payload;
+          const { dates: selectedDates } = action.payload;
           return {
             ...prevState,
-            dates,
+            dates: selectedDates,
           };
       }
     },
@@ -192,10 +194,12 @@ const DateTimePicker = (
   }, []);
 
   const onSelectDate = useCallback(
-    (date: DateType) => {
+    (selectedDate: DateType) => {
       if (onChange) {
         if (mode === 'single') {
-          const newDate = timePicker ? date : getStartOfDay(date);
+          const newDate = timePicker
+            ? selectedDate
+            : getStartOfDay(selectedDate);
 
           dispatch({
             type: CalendarActionKind.CHANGE_CURRENT_DATE,
@@ -210,17 +214,17 @@ const DateTimePicker = (
           const ed = state.endDate;
           let isStart: boolean = true;
 
-          if (sd && !ed && dateToUnix(date) >= dateToUnix(sd!)) {
+          if (sd && !ed && dateToUnix(selectedDate) >= dateToUnix(sd!)) {
             isStart = false;
           }
 
           (onChange as RangeChange)({
-            startDate: isStart ? getStartOfDay(date) : sd,
-            endDate: !isStart ? getEndOfDay(date) : undefined,
+            startDate: isStart ? getStartOfDay(selectedDate) : sd,
+            endDate: !isStart ? getEndOfDay(selectedDate) : undefined,
           });
         } else if (mode === 'multiple') {
           const safeDates = (state.dates as DateType[]) || [];
-          const newDate = getStartOfDay(date);
+          const newDate = getStartOfDay(selectedDate);
 
           const exists = safeDates.some((ed) => areDatesOnSameDay(ed, newDate));
 
@@ -289,28 +293,54 @@ const DateTimePicker = (
     });
   }, []);
 
+  const memoizedTheme = useMemo(
+    () => rest,
+    [JSON.stringify(rest)] // eslint-disable-line react-hooks/exhaustive-deps
+  );
+
+  const memoizedValue = useMemo(
+    () => ({
+      ...state,
+      locale,
+      mode,
+      displayFullDays,
+      timePicker,
+      minDate,
+      maxDate,
+      disabledDates,
+      firstDayOfWeek: firstDay,
+      height,
+      theme: memoizedTheme,
+      setCalendarView,
+      onSelectDate,
+      onSelectMonth,
+      onSelectYear,
+      onChangeMonth,
+      onChangeYear,
+    }),
+    [
+      locale,
+      mode,
+      displayFullDays,
+      timePicker,
+      minDate,
+      maxDate,
+      disabledDates,
+      firstDay,
+      height,
+      memoizedTheme,
+      setCalendarView,
+      onSelectDate,
+      onSelectMonth,
+      onSelectYear,
+      onChangeMonth,
+      onChangeYear,
+      state,
+    ]
+  );
+
   return (
-    <CalendarContext.Provider
-      value={{
-        ...state,
-        locale,
-        mode,
-        displayFullDays,
-        timePicker,
-        minDate,
-        maxDate,
-        disabledDates,
-        firstDayOfWeek: firstDay,
-        height,
-        theme: rest,
-        setCalendarView,
-        onSelectDate,
-        onSelectMonth,
-        onSelectYear,
-        onChangeMonth,
-        onChangeYear,
-      }}
-    >
+    <CalendarContext.Provider value={memoizedValue}>
       <Calendar
         buttonPrevIcon={buttonPrevIcon}
         buttonNextIcon={buttonNextIcon}
@@ -320,4 +350,4 @@ const DateTimePicker = (
   );
 };
 
-export default memo(DateTimePicker);
+export default DateTimePicker;

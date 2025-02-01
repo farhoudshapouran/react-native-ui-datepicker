@@ -1,40 +1,46 @@
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import { StyleSheet, Platform } from 'react-native';
-import WheelPicker from 'react-native-wheely';
-import { useCalendarContext } from '../../CalendarContext';
+import WheelPicker from './wheel-picker';
+import { CalendarThemeProps } from '../../types';
 
 interface WheelProps {
   value: number;
   setValue?: (value: number) => void;
   items: string[];
+  theme: CalendarThemeProps;
 }
 
-export default function WheelNative({
+const WheelNative = ({
   value,
   setValue = () => {},
   items,
-}: WheelProps) {
-  const { theme } = useCalendarContext();
+  theme,
+}: WheelProps) => {
+  const containerStyle = useMemo(
+    () => ({ ...styles.container, ...theme?.timePickerContainerStyle }),
+    [theme?.timePickerContainerStyle]
+  );
+
+  const itemTextStyle = useMemo(
+    () => ({ ...styles.timePickerText, ...theme?.timePickerTextStyle }),
+    [theme?.timePickerTextStyle]
+  );
 
   return (
     <WheelPicker
       selectedIndex={value}
       options={items}
       onChange={setValue}
-      containerStyle={{
-        ...styles.container,
-        ...theme?.timePickerContainerStyle,
-      }}
-      itemTextStyle={{
-        ...styles.timePickerText,
-        ...theme?.timePickerTextStyle,
-      }}
+      containerStyle={containerStyle}
+      itemTextStyle={itemTextStyle}
       selectedIndicatorStyle={{ ...theme?.timePickerIndicatorStyle }}
       itemHeight={45}
       decelerationRate={theme?.timePickerDecelerationRate}
     />
   );
-}
+};
+
+export default memo(WheelNative);
 
 const styles = StyleSheet.create({
   container: {

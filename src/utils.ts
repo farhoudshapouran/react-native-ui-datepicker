@@ -73,8 +73,12 @@ export function isDateDisabled(
     disabledDates?: DateType[] | ((date: DateType) => boolean) | undefined;
   }
 ): boolean {
-  if (minDate && date < getDate(minDate)) return true;
-  if (maxDate && date > getDate(maxDate)) return true;
+  if (minDate && date < getDate(minDate)) {
+    return true;
+  }
+  if (maxDate && date > getDate(maxDate)) {
+    return true;
+  }
 
   if (disabledDates) {
     if (Array.isArray(disabledDates)) {

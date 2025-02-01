@@ -22,7 +22,7 @@ export default function GithubLink() {
         accessibilityLabel="Check repository on GitHub"
       >
         <Image
-          source={require('../../assets/github-logo.png')}
+          source={require('../assets/images/github-logo.png')}
           style={styles.githubLogo}
         />
         <Text style={styles.githubText}>Check repository on GitHub</Text>
