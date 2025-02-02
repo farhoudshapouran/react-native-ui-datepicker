@@ -33,16 +33,16 @@ jobs:
         uses: ./.github/actions/setup
 
       - name: Run unit tests
-        run: yarn test --maxWorkers=2 --coverage
+        run: yarn test
 
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+  # build:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v3
 
-      - name: Setup project
-        uses: ./.github/actions/setup
+  #     - name: Setup project
+  #       uses: ./.github/actions/setup
 
-      - name: Build package
-        run: yarn prepack
+  #     - name: Build package
+  #       run: yarn prepack

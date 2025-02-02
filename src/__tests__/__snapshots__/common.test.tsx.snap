@@ -437,7 +437,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         />
@@ -446,7 +446,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         />
@@ -455,7 +455,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         />
@@ -464,7 +464,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         />
@@ -473,7 +473,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         />
@@ -482,7 +482,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -519,38 +519,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-01"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 1
               </Text>
@@ -562,7 +550,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -599,38 +587,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-02"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 2
               </Text>
@@ -642,7 +618,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -679,38 +655,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-03"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 3
               </Text>
@@ -722,7 +686,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -759,38 +723,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-04"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 4
               </Text>
@@ -802,7 +754,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -839,38 +791,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-05"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 5
               </Text>
@@ -882,7 +822,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -919,38 +859,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-06"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 6
               </Text>
@@ -962,7 +890,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -999,38 +927,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-07"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 7
               </Text>
@@ -1042,7 +958,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -1079,38 +995,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-08"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 8
               </Text>
@@ -1122,7 +1026,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -1159,38 +1063,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-09"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 9
               </Text>
@@ -1202,7 +1094,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -1239,38 +1131,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-10"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 10
               </Text>
@@ -1282,7 +1162,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -1319,38 +1199,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-11"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 11
               </Text>
@@ -1362,7 +1230,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -1399,38 +1267,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-12"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 12
               </Text>
@@ -1442,7 +1298,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -1479,38 +1335,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-13"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 13
               </Text>
@@ -1522,7 +1366,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -1559,38 +1403,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-14"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 14
               </Text>
@@ -1602,7 +1434,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -1639,38 +1471,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-15"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 15
               </Text>
@@ -1682,7 +1502,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -1719,38 +1539,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-16"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 16
               </Text>
@@ -1762,7 +1570,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -1799,38 +1607,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-17"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 17
               </Text>
@@ -1842,7 +1638,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -1879,38 +1675,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-18"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 18
               </Text>
@@ -1922,7 +1706,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -1959,42 +1743,31 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                Object {
-                  "backgroundColor": "#0047FF",
-                  "borderColor": "#0047FF",
-                },
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "backgroundColor": "#0047FF",
+                "borderColor": "#0047FF",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-19"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
                 style={
-                  Array [
-                    Object {
-                      "color": "#fff",
-                    },
-                  ]
+                  Object {
+                    "color": "#fff",
+                  }
                 }
               >
                 19
@@ -2007,7 +1780,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -2044,38 +1817,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-20"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 20
               </Text>
@@ -2087,7 +1848,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -2124,38 +1885,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-21"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 21
               </Text>
@@ -2167,7 +1916,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -2204,38 +1953,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-22"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 22
               </Text>
@@ -2247,7 +1984,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -2284,38 +2021,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-23"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 23
               </Text>
@@ -2327,7 +2052,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -2364,38 +2089,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-24"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 24
               </Text>
@@ -2407,7 +2120,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -2444,38 +2157,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-25"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 25
               </Text>
@@ -2487,7 +2188,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -2524,38 +2225,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-26"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 26
               </Text>
@@ -2567,7 +2256,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -2604,38 +2293,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-27"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 27
               </Text>
@@ -2647,7 +2324,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -2684,38 +2361,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-28"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 28
               </Text>
@@ -2727,7 +2392,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -2764,38 +2429,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-29"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 29
               </Text>
@@ -2807,7 +2460,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -2844,38 +2497,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-30"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 30
               </Text>
@@ -2887,7 +2528,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
             Object {
               "height": 42.857142857142854,
               "position": "relative",
-              "width": "14.2%",
+              "width": "14.25%",
             }
           }
         >
@@ -2924,38 +2565,26 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onResponderTerminationRequest={[Function]}
             onStartShouldSetResponder={[Function]}
             style={
-              Array [
-                Object {
-                  "alignItems": "center",
-                  "borderRadius": 100,
-                  "flex": 1,
-                  "justifyContent": "center",
-                  "margin": 1.5,
-                },
-                undefined,
-                null,
-                null,
-                false,
-              ]
+              Object {
+                "alignItems": "center",
+                "borderRadius": 100,
+                "flex": 1,
+                "justifyContent": "center",
+                "margin": 1.5,
+              }
             }
             testID="2024-03-31"
           >
             <View
               style={
-                Array [
-                  Object {
-                    "alignItems": "center",
-                    "justifyContent": "center",
-                  },
-                ]
+                Object {
+                  "alignItems": "center",
+                  "justifyContent": "center",
+                }
               }
             >
               <Text
-                style={
-                  Array [
-                    undefined,
-                  ]
-                }
+                style={Object {}}
               >
                 31
               </Text>
