@@ -14,11 +14,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Use Node.js 18
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-
       - name: Setup project
         uses: ./.github/actions/setup
 
@@ -34,11 +29,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Use Node.js 18
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-
       - name: Setup project
         uses: ./.github/actions/setup
 
@@ -50,11 +40,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
-      - name: Use Node.js 18
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
 
       - name: Setup project
         uses: ./.github/actions/setup
