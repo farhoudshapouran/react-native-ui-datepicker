@@ -13,7 +13,11 @@ export const getWeekdays = () => dayjs.weekdays();
 
 export const getWeekdaysShort = () => dayjs.weekdaysShort();
 
-export const getWeekdaysMin = (firstDayOfWeek: number) => {
+export const getWeekdaysMin = (
+  locale: string | ILocale,
+  firstDayOfWeek: number
+) => {
+  dayjs().locale(locale);
   let days = dayjs.weekdaysMin();
   if (firstDayOfWeek > 0) {
     days = [

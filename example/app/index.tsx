@@ -18,6 +18,7 @@ import 'dayjs/locale/de';
 import 'dayjs/locale/es';
 import 'dayjs/locale/fr';
 import 'dayjs/locale/tr';
+import 'dayjs/locale/fa';
 
 const Themes: ITheme[] = [
   { mainColor: '#0047FF', activeTextColor: '#fff' },
@@ -193,7 +194,7 @@ export default function MainPage() {
               //maxDate={dayjs().add(3, 'day').endOf('day')}
               //disabledDates={[dayjs(), dayjs().add(1, 'day')]}
               //disabledDates={(date) => [0, 6].includes(dayjs(date).day())} // disable weekends
-              //firstDayOfWeek={1}
+              //firstDayOfWeek={6}
               displayFullDays
               timePicker={timePicker}
               onChange={onChange}

@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { StyleSheet, View, Text, Pressable } from 'react-native';
 
-const Locales = ['en', 'de', 'es', 'fr', 'tr'];
+const Locales = ['en', 'de', 'es', 'fr', 'tr', 'fa'];
 
 type Props = {
   locale: string;

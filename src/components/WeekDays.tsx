@@ -4,17 +4,18 @@ import { getWeekdaysMin } from '../utils';
 import { CalendarThemeProps } from '../types';
 
 type WeekDaysProps = {
+  locale: string | ILocale;
   firstDayOfWeek: number;
   theme: CalendarThemeProps;
 };
 
-const WeekDays = ({ firstDayOfWeek, theme }: WeekDaysProps) => {
+const WeekDays = ({ locale, firstDayOfWeek, theme }: WeekDaysProps) => {
   return (
     <View
       style={[styles.weekDaysContainer, theme?.weekDaysContainerStyle]}
       testID="week-days"
     >
-      {getWeekdaysMin(firstDayOfWeek)?.map((item, index) => (
+      {getWeekdaysMin(locale, firstDayOfWeek)?.map((item, index) => (
         <View key={index} style={styles.weekDayCell}>
           <Text style={theme?.weekDaysTextStyle}>{item}</Text>
         </View>

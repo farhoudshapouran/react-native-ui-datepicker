@@ -65,13 +65,21 @@ function Day({
       borderColor: selectedItemColor,
       backgroundColor: selectedItemColor,
     },
+    disabled && style.disabledDay,
   ]);
 
   const textStyle = StyleSheet.flatten([
     isSelected
-      ? { color: '#fff', ...selectedTextStyle }
+      ? {
+          color: '#fff',
+          ...selectedTextStyle,
+        }
       : isToday
-      ? { ...calendarTextStyle, color: selectedItemColor, ...todayTextStyle }
+      ? {
+          ...calendarTextStyle,
+          color: selectedItemColor,
+          ...todayTextStyle,
+        }
       : calendarTextStyle,
   ]);
 

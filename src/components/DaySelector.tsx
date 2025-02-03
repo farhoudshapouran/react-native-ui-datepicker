@@ -30,6 +30,7 @@ const DaySelector = () => {
     firstDayOfWeek,
     theme,
     height,
+    locale,
   } = useCalendarContext();
 
   const { year, month, hour, minute } = getParsedDate(currentDate);
@@ -181,7 +182,7 @@ const DaySelector = () => {
 
   return (
     <View style={styles.container} testID="day-selector">
-      <WeekDays firstDayOfWeek={firstDayOfWeek} theme={theme} />
+      <WeekDays locale={locale} firstDayOfWeek={firstDayOfWeek} theme={theme} />
       <View style={styles.daysContainer} testID="days">
         {daysGrid?.map((day, index) => {
           return day ? (
