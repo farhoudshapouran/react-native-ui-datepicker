@@ -1,41 +1,44 @@
 import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
-import { CalendarThemeProps, IDayObject } from '../types';
+import { CalendarThemeProps, DayObject } from '../types';
 import { CALENDAR_HEIGHT } from '../enums';
 import { addColorAlpha } from '../utils';
 import { isEqual } from 'lodash';
 
-export const daySize = 46;
-
-interface Props extends Omit<IDayObject, 'day'> {
-  isToday: boolean;
-  isSelected: boolean;
+interface Props {
+  day: DayObject;
   onSelectDate: (date: string) => void;
   theme: CalendarThemeProps;
-  height?: number;
+  calendarHeight?: number;
+  renderDay?: (day: DayObject) => React.ReactNode;
 }
 
 export const EmptyDay = React.memo(({ height }: { height?: number }) => (
   <View style={styles(height || CALENDAR_HEIGHT).dayCell} />
 ));
 
-function Day({
-  date,
-  text,
-  disabled,
-  isCurrentMonth,
-  isToday,
-  isSelected,
-  inRange,
-  leftCrop,
-  rightCrop,
+const Day = ({
+  day,
   onSelectDate,
   theme,
-  height,
-}: Props) {
+  calendarHeight,
+  renderDay,
+}: Props) => {
+  const {
+    text,
+    date,
+    isDisabled,
+    isCurrentMonth,
+    isToday,
+    isSelected,
+    inRange,
+    leftCrop,
+    rightCrop,
+  } = day;
+
   const onPress = React.useCallback(
-    () => onSelectDate(date),
-    [onSelectDate, date]
+    () => onSelectDate(day.date),
+    [onSelectDate, day.date]
   );
 
   const {
@@ -48,16 +51,15 @@ function Day({
     selectedRangeBackgroundColor,
   } = theme;
 
-  const style = styles(height || CALENDAR_HEIGHT);
+  const style = styles(calendarHeight || CALENDAR_HEIGHT);
   const rangeBackground =
     selectedRangeBackgroundColor ?? addColorAlpha(selectedItemColor, 0.15);
   const isCrop = inRange && (leftCrop || rightCrop) && !(leftCrop && rightCrop);
 
   const containerStyle = StyleSheet.flatten([
     style.dayContainer,
-    isCurrentMonth || isCrop ? dayContainerStyle : style.disabledDay,
+    isCurrentMonth || inRange ? dayContainerStyle : style.disabledDay,
     isToday && {
-      borderWidth: 2,
       borderColor: selectedItemColor,
       ...todayContainerStyle,
     },
@@ -65,13 +67,14 @@ function Day({
       borderColor: selectedItemColor,
       backgroundColor: selectedItemColor,
     },
-    disabled && style.disabledDay,
+    isDisabled && style.disabledDay,
   ]);
 
   const textStyle = StyleSheet.flatten([
     isSelected
       ? {
           color: '#fff',
+          ...calendarTextStyle,
           ...selectedTextStyle,
         }
       : isToday
@@ -109,41 +112,43 @@ function Day({
         </>
       )}
       <Pressable
-        disabled={disabled}
+        disabled={isDisabled}
         onPress={onPress}
-        style={containerStyle}
+        style={style.dayWrapper}
         testID={date}
         accessibilityRole="button"
         accessibilityLabel={text}
       >
-        <View style={style.dayTextContainer}>
-          <Text style={textStyle}>{text}</Text>
-        </View>
+        {renderDay ? (
+          renderDay(day)
+        ) : (
+          <View style={containerStyle}>
+            <Text style={textStyle}>{text}</Text>
+          </View>
+        )}
       </Pressable>
     </View>
   );
-}
+};
 
-const styles = (height: number) =>
+const styles = (calendarHeight: number) =>
   StyleSheet.create({
     dayCell: {
-      position: 'relative',
       width: '14.25%',
-      height: height / 7,
+    },
+    dayWrapper: {
+      margin: 1.5,
     },
     dayContainer: {
-      flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
-      margin: 1.5,
+      minHeight: calendarHeight * 0.14,
       borderRadius: 100,
-    },
-    dayTextContainer: {
-      justifyContent: 'center',
-      alignItems: 'center',
+      borderWidth: 1,
+      borderColor: 'transparent',
     },
     disabledDay: {
-      opacity: 0.3,
+      opacity: 0.5,
     },
     rangeRoot: {
       position: 'absolute',
@@ -157,18 +162,14 @@ const styles = (height: number) =>
 const customComparator = (
   prevProps: Readonly<Props>,
   nextProps: Readonly<Props>
-) =>
-  Object.is(prevProps.date, nextProps.date) &&
-  Object.is(prevProps.text, nextProps.text) &&
-  prevProps.disabled === nextProps.disabled &&
-  prevProps.isCurrentMonth === nextProps.isCurrentMonth &&
-  prevProps.isToday === nextProps.isToday &&
-  prevProps.isSelected === nextProps.isSelected &&
-  prevProps.inRange === nextProps.inRange &&
-  prevProps.leftCrop === nextProps.leftCrop &&
-  prevProps.rightCrop === nextProps.rightCrop &&
-  prevProps.onSelectDate === nextProps.onSelectDate &&
-  prevProps.height === nextProps.height &&
-  isEqual(prevProps.theme, nextProps.theme);
+) => {
+  return (
+    isEqual(prevProps.day, nextProps.day) &&
+    prevProps.onSelectDate === nextProps.onSelectDate &&
+    prevProps.calendarHeight === nextProps.calendarHeight &&
+    prevProps.renderDay === nextProps.renderDay &&
+    isEqual(prevProps.theme, nextProps.theme)
+  );
+};
 
 export default React.memo(Day, customComparator);

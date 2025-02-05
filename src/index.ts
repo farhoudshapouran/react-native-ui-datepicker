@@ -1,5 +1,5 @@
 import DateTimePicker from './DateTimePicker';
-import type { DateType, ModeType } from './types';
+import type { DateType, ModeType, DayObject } from './types';
 
-export type { DateType, ModeType };
+export type { DateType, ModeType, DayObject };
 export default DateTimePicker;

@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "homepage": "https://farhoudshapouran.github.io/react-native-ui-datepicker",
   "scripts": {
-    "start": "expo start",
+    "start": "expo start -c",
     "reset-project": "node ./scripts/reset-project.js",
     "android": "expo start --android",
     "ios": "expo start --ios",

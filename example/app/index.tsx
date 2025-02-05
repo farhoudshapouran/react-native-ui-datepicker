@@ -7,11 +7,16 @@ import {
   TouchableOpacity,
   Pressable,
 } from 'react-native';
-import ThemeSelector, { ITheme } from '@/components/ThemeSelector';
-import LocaleSelector from '@/components/LocaleSelector';
-import GithubLink from '@/components/GithubLink';
+import { ThemeSelector, ITheme } from '@/components/theme-selector';
+import { LocaleSelector } from '@/components/locale-selector';
+import { GithubLink } from '@/components/github-link';
+import { CustomDay } from '@/components/custom-day';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import DateTimePicker, { DateType, ModeType } from 'react-native-ui-datepicker';
+import DateTimePicker, {
+  DateType,
+  DayObject,
+  ModeType,
+} from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
 import 'dayjs/locale/en';
 import 'dayjs/locale/de';
@@ -67,6 +72,10 @@ export default function MainPage() {
     },
     [mode]
   );
+
+  const renderDay = useCallback((day: DayObject) => {
+    return <CustomDay day={day} />;
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -193,7 +202,7 @@ export default function MainPage() {
               //minDate={dayjs().startOf('day')}
               //maxDate={dayjs().add(3, 'day').endOf('day')}
               //disabledDates={[dayjs(), dayjs().add(1, 'day')]}
-              //disabledDates={(date) => [0, 6].includes(dayjs(date).day())} // disable weekends
+              disabledDates={(date) => [0, 6].includes(dayjs(date).day())} // disable weekends
               //firstDayOfWeek={6}
               displayFullDays
               timePicker={timePicker}
@@ -209,6 +218,7 @@ export default function MainPage() {
               todayContainerStyle={{
                 borderWidth: 1,
               }}
+              renderDay={renderDay}
             />
             <View style={styles.footer}>
               {mode === 'single' ? (
@@ -329,7 +339,7 @@ const styles = StyleSheet.create({
   datePicker: {
     width: 330,
     backgroundColor: '#fff',
-    padding: 15,
+    padding: 10,
     borderRadius: 15,
     shadowRadius: 20,
     shadowColor: '#000',
@@ -339,7 +349,7 @@ const styles = StyleSheet.create({
   footer: {
     paddingHorizontal: 5,
     paddingVertical: 5,
-    marginTop: 15,
+    marginTop: 20,
   },
   footerContainer: {
     flexDirection: 'row',

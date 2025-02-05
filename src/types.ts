@@ -54,17 +54,19 @@ export type HeaderProps = {
   buttonNextIcon?: ReactNode;
 };
 
-export interface IDayObject {
+export type DayObject = {
   text: string;
-  day: number;
+  number: number;
   date: string;
-  disabled: boolean;
+  isDisabled: boolean;
   isCurrentMonth: boolean;
   dayOfMonth?: number;
+  isToday: boolean;
+  isSelected: boolean;
   inRange: boolean;
   leftCrop: boolean;
   rightCrop: boolean;
-}
+};
 
 export type SingleChange = (params: { date: DateType }) => void;
 
@@ -97,4 +99,5 @@ export interface DatePickerBaseProps {
   onChange?: SingleChange | RangeChange | MultiChange;
   initialView?: CalendarViews;
   height?: number;
+  renderDay?: (day: DayObject) => React.ReactNode;
 }

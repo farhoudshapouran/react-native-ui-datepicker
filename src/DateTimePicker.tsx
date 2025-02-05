@@ -81,6 +81,7 @@ const DateTimePicker = (
     onChange,
     initialView = 'day',
     height,
+    renderDay,
     ...rest
   } = props;
 
@@ -293,10 +294,8 @@ const DateTimePicker = (
     });
   }, []);
 
-  const memoizedTheme = useMemo(
-    () => rest,
-    [JSON.stringify(rest)] // eslint-disable-line react-hooks/exhaustive-deps
-  );
+  const stableRest = useMemo(() => rest, [JSON.stringify(rest)]); // eslint-disable-line react-hooks/exhaustive-deps
+  const memoizedTheme = useMemo(() => stableRest, [stableRest]);
 
   const memoizedValue = useMemo(
     () => ({
@@ -317,6 +316,7 @@ const DateTimePicker = (
       onSelectYear,
       onChangeMonth,
       onChangeYear,
+      renderDay,
     }),
     [
       locale,
@@ -336,6 +336,7 @@ const DateTimePicker = (
       onChangeMonth,
       onChangeYear,
       state,
+      renderDay,
     ]
   );
 

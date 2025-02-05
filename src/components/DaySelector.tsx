@@ -13,6 +13,7 @@ import {
   getFormated,
 } from '../utils';
 import WeekDays from './WeekDays';
+import { DayObject } from '../types';
 
 const DaySelector = () => {
   const {
@@ -31,11 +32,12 @@ const DaySelector = () => {
     theme,
     height,
     locale,
+    renderDay,
   } = useCalendarContext();
 
   const { year, month, hour, minute } = getParsedDate(currentDate);
 
-  const daysGrid = useMemo(
+  const daysGrid: (DayObject | null)[] = useMemo(
     () => {
       const today = new Date();
 
@@ -59,7 +61,7 @@ const DaySelector = () => {
 
           const isFirstDayOfMonth = day.dayOfMonth === 1;
           const isLastDayOfMonth =
-            (day?.dayOfMonth || 0) - ((day?.dayOfMonth || 0) - day.day) ===
+            (day?.dayOfMonth || 0) - ((day?.dayOfMonth || 0) - day.number) ===
             fullDaysInMonth;
 
           const isToday = areDatesOnSameDay(day.date, today);
@@ -184,22 +186,15 @@ const DaySelector = () => {
     <View style={styles.container} testID="day-selector">
       <WeekDays locale={locale} firstDayOfWeek={firstDayOfWeek} theme={theme} />
       <View style={styles.daysContainer} testID="days">
-        {daysGrid?.map((day, index) => {
-          return day ? (
+        {daysGrid?.map((dayObject, index) => {
+          return dayObject ? (
             <Day
               key={index}
-              date={day.date}
-              text={day.text}
-              disabled={day.disabled}
-              isCurrentMonth={day.isCurrentMonth}
+              day={dayObject}
               theme={theme}
-              isToday={day.isToday}
-              isSelected={day.isSelected}
-              inRange={day.inRange}
-              leftCrop={day.leftCrop}
-              rightCrop={day.rightCrop}
               onSelectDate={handleSelectDate}
-              height={height}
+              calendarHeight={height}
+              renderDay={renderDay}
             />
           ) : (
             <EmptyDay key={index} height={height} />

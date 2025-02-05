@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import type { DateType, IDayObject } from './types';
+import type { DateType, DayObject } from './types';
 
 export const CALENDAR_FORMAT = 'YYYY-MM-DD HH:mm';
 export const DATE_FORMAT = 'YYYY-MM-DD';
@@ -186,8 +186,8 @@ export const getParsedDate = (date: DateType) => {
  * @param displayFullDays
  * @param minDate - min selectable date
  * @param maxDate - max selectable date
- * @param disabledDates - array of disabled dates, or a function that returns true for a given date
  * @param firstDayOfWeek - first day of week, number 0-6, 0 – Sunday, 6 – Saturday
+ * @param disabledDates - array of disabled dates, or a function that returns true for a given date
  *
  * @returns days array based on current date
  */
@@ -198,7 +198,7 @@ export const getMonthDays = (
   maxDate: DateType,
   firstDayOfWeek: number,
   disabledDates: DateType[] | ((date: DateType) => boolean) | undefined
-): IDayObject[] => {
+): DayObject[] => {
   const date = getDate(datetime);
   const {
     prevMonthDays,
@@ -209,10 +209,10 @@ export const getMonthDays = (
 
   const prevDays = displayFullDays
     ? Array.from({ length: prevMonthOffset }, (_, index) => {
-        const day = index + (prevMonthDays - prevMonthOffset + 1);
-        const thisDay = date.add(-1, 'month').date(day);
+        const number = index + (prevMonthDays - prevMonthOffset + 1);
+        const thisDay = date.add(-1, 'month').date(number);
         return generateDayObject(
-          day,
+          number,
           thisDay,
           minDate,
           maxDate,
@@ -257,17 +257,18 @@ export const getMonthDays = (
 /**
  * Generate day object for displaying inside day cell
  *
- * @param day - number of day
+ * @param number - number of day
  * @param date - calculated date based on day, month, and year
  * @param minDate - min selectable date
  * @param maxDate - max selectable date
  * @param disabledDates - array of disabled dates, or a function that returns true for a given date
  * @param isCurrentMonth - define the day is in the current month
+ * @param dayOfMonth - number the day in the current month
  *
  * @returns days object based on current date
  */
 const generateDayObject = (
-  day: number,
+  number: number,
   date: dayjs.Dayjs,
   minDate: DateType,
   maxDate: DateType,
@@ -276,10 +277,10 @@ const generateDayObject = (
   dayOfMonth: number
 ) => {
   return {
-    text: day.toString(),
-    day: day,
+    text: number.toString(),
+    number,
     date: getFormatedDate(date, DATE_FORMAT),
-    disabled: isDateDisabled(date, { minDate, maxDate, disabledDates }),
+    isDisabled: isDateDisabled(date, { minDate, maxDate, disabledDates }),
     isCurrentMonth,
     dayOfMonth,
   };
