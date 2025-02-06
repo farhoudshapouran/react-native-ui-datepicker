@@ -10,6 +10,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 import { ReactScan } from 'react-scan/native';
+import "../global.css";
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 

@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Pressable,
+  ScrollView,
 } from 'react-native';
 import { ThemeSelector, ITheme } from '@/components/theme-selector';
 import { LocaleSelector } from '@/components/locale-selector';
@@ -73,229 +74,227 @@ export default function MainPage() {
     [mode]
   );
 
-  const renderDay = useCallback((day: DayObject) => {
-    return <CustomDay day={day} />;
-  }, []);
-
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.body}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>React Native UI DatePicker</Text>
-        </View>
+      <ScrollView>
+        <View style={styles.body} className="">
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>React Native UI DatePicker</Text>
+          </View>
 
-        <ThemeSelector themes={Themes} setTheme={setTheme} />
+          <ThemeSelector themes={Themes} setTheme={setTheme} />
 
-        <LocaleSelector
-          locale={locale}
-          setLocale={setLocale}
-          mainColor={theme?.mainColor}
-          activeTextColor={theme?.activeTextColor}
-        />
-
-        <View style={styles.modesContainer}>
-          <Text
-            style={{
-              // eslint-disable-next-line react-native/no-inline-styles
-              marginRight: 8,
-            }}
-          >
-            Mode:
-          </Text>
-          <TouchableOpacity
-            style={[
-              styles.modeSelect,
-              {
-                // eslint-disable-next-line react-native/no-inline-styles
-                backgroundColor:
-                  mode === 'single' ? theme?.mainColor : undefined,
-              },
-            ]}
-            onPress={() => onChangeMode('single')}
-          >
-            <Text
-              style={[
-                styles.modeSelectText,
-                mode === 'single' && { color: theme?.activeTextColor },
-              ]}
-            >
-              Single
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.modeSelect,
-              // eslint-disable-next-line react-native/no-inline-styles
-              {
-                backgroundColor:
-                  mode === 'range' ? theme?.mainColor : undefined,
-              },
-            ]}
-            onPress={() => onChangeMode('range')}
-          >
-            <Text
-              style={[
-                styles.modeSelectText,
-                mode === 'range' && { color: theme?.activeTextColor },
-              ]}
-            >
-              Range
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              styles.modeSelect,
-              // eslint-disable-next-line react-native/no-inline-styles
-              {
-                backgroundColor:
-                  mode === 'multiple' ? theme?.mainColor : undefined,
-              },
-            ]}
-            onPress={() => onChangeMode('multiple')}
-          >
-            <Text
-              style={[
-                styles.modeSelectText,
-                mode === 'multiple' && { color: theme?.activeTextColor },
-              ]}
-            >
-              Multiple
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginBottom: 20,
-            gap: 10,
-            paddingHorizontal: 120,
-          }}
-        >
-          <BouncyCheckbox
-            size={20}
-            text="Time Picker"
-            fillColor={theme?.mainColor}
-            textStyle={{
-              fontSize: 14,
-              color: '#000',
-              marginLeft: -8,
-            }}
-            useNativeDriver={false}
-            isChecked={timePicker}
-            onPress={() => setTimePicker(!timePicker)}
-            disabled={mode !== 'single'}
+          <LocaleSelector
+            locale={locale}
+            setLocale={setLocale}
+            mainColor={theme?.mainColor}
+            activeTextColor={theme?.activeTextColor}
           />
-          <Text style={{ fontSize: 13, color: 'gray' }}>
-            (Works in Single mode)
-          </Text>
-        </View>
-        <View style={styles.datePickerContainer}>
-          <View style={styles.datePicker}>
-            <DateTimePicker
-              mode={mode}
-              date={date}
-              locale={locale}
-              startDate={range.startDate}
-              endDate={range.endDate}
-              dates={dates}
-              //minDate={dayjs().startOf('day')}
-              //maxDate={dayjs().add(3, 'day').endOf('day')}
-              //disabledDates={[dayjs(), dayjs().add(1, 'day')]}
-              disabledDates={(date) => [0, 6].includes(dayjs(date).day())} // disable weekends
-              //firstDayOfWeek={6}
-              displayFullDays
-              timePicker={timePicker}
-              onChange={onChange}
-              headerButtonColor={theme?.mainColor}
-              selectedItemColor={theme?.mainColor}
-              // eslint-disable-next-line react-native/no-inline-styles
-              selectedTextStyle={{
-                fontWeight: 'bold',
-                color: theme?.activeTextColor,
+
+          <View style={styles.modesContainer}>
+            <Text
+              style={{
+                // eslint-disable-next-line react-native/no-inline-styles
+                marginRight: 8,
               }}
-              // eslint-disable-next-line react-native/no-inline-styles
-              todayContainerStyle={{
-                borderWidth: 1,
+            >
+              Mode:
+            </Text>
+            <TouchableOpacity
+              style={[
+                styles.modeSelect,
+                {
+                  // eslint-disable-next-line react-native/no-inline-styles
+                  backgroundColor:
+                    mode === 'single' ? theme?.mainColor : undefined,
+                },
+              ]}
+              onPress={() => onChangeMode('single')}
+            >
+              <Text
+                style={[
+                  styles.modeSelectText,
+                  mode === 'single' && { color: theme?.activeTextColor },
+                ]}
+              >
+                Single
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.modeSelect,
+                // eslint-disable-next-line react-native/no-inline-styles
+                {
+                  backgroundColor:
+                    mode === 'range' ? theme?.mainColor : undefined,
+                },
+              ]}
+              onPress={() => onChangeMode('range')}
+            >
+              <Text
+                style={[
+                  styles.modeSelectText,
+                  mode === 'range' && { color: theme?.activeTextColor },
+                ]}
+              >
+                Range
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.modeSelect,
+                // eslint-disable-next-line react-native/no-inline-styles
+                {
+                  backgroundColor:
+                    mode === 'multiple' ? theme?.mainColor : undefined,
+                },
+              ]}
+              onPress={() => onChangeMode('multiple')}
+            >
+              <Text
+                style={[
+                  styles.modeSelectText,
+                  mode === 'multiple' && { color: theme?.activeTextColor },
+                ]}
+              >
+                Multiple
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              marginBottom: 20,
+              gap: 10,
+              paddingHorizontal: 120,
+            }}
+          >
+            <BouncyCheckbox
+              size={20}
+              text="Time Picker"
+              fillColor={theme?.mainColor}
+              textStyle={{
+                fontSize: 14,
+                color: '#000',
+                marginLeft: -8,
               }}
-              renderDay={renderDay}
+              useNativeDriver={false}
+              isChecked={timePicker}
+              onPress={() => setTimePicker(!timePicker)}
+              disabled={mode !== 'single'}
             />
-            <View style={styles.footer}>
-              {mode === 'single' ? (
-                <View style={styles.footerContainer}>
-                  <Text>
-                    {date
-                      ? dayjs(date)
-                          .locale(locale)
-                          .format(
-                            timePicker
-                              ? 'MMMM, DD, YYYY - HH:mm'
-                              : 'MMMM, DD, YYYY'
-                          )
-                      : '...'}
-                  </Text>
-                  <Pressable
-                    onPress={() => setDate(new Date())}
-                    accessibilityRole="button"
-                    accessibilityLabel="Today"
-                  >
-                    <View
-                      style={[
-                        styles.todayButton,
-                        { backgroundColor: theme?.mainColor },
-                      ]}
+            <Text style={{ fontSize: 13, color: 'gray' }}>
+              (Works in Single mode)
+            </Text>
+          </View>
+          <View style={styles.datePickerContainer}>
+            <View style={styles.datePicker}>
+              <DateTimePicker
+                mode={mode}
+                date={date}
+                locale={locale}
+                startDate={range.startDate}
+                endDate={range.endDate}
+                dates={dates}
+                //minDate={dayjs().startOf('day')}
+                //maxDate={dayjs().add(3, 'day').endOf('day')}
+                //disabledDates={[dayjs(), dayjs().add(1, 'day')]}
+                disabledDates={(date) => [0, 6].includes(dayjs(date).day())} // disable weekends
+                //firstDayOfWeek={6}
+                displayFullDays
+                timePicker={timePicker}
+                onChange={onChange}
+                headerButtonColor={theme?.mainColor}
+                selectedItemColor={theme?.mainColor}
+                // eslint-disable-next-line react-native/no-inline-styles
+                selectedTextStyle={{
+                  fontWeight: 'bold',
+                  color: theme?.activeTextColor,
+                }}
+                // eslint-disable-next-line react-native/no-inline-styles
+                todayContainerStyle={{
+                  borderWidth: 1,
+                }}
+                renderDay={(day: DayObject) => <CustomDay day={day} />}
+              />
+              <View style={styles.footer}>
+                {mode === 'single' ? (
+                  <View style={styles.footerContainer}>
+                    <Text>
+                      {date
+                        ? dayjs(date)
+                            .locale(locale)
+                            .format(
+                              timePicker
+                                ? 'MMMM, DD, YYYY - HH:mm'
+                                : 'MMMM, DD, YYYY'
+                            )
+                        : '...'}
+                    </Text>
+                    <Pressable
+                      onPress={() => setDate(new Date())}
+                      accessibilityRole="button"
+                      accessibilityLabel="Today"
                     >
-                      <Text
+                      <View
                         style={[
-                          styles.todayButtonText,
-                          { color: theme?.activeTextColor },
+                          styles.todayButton,
+                          { backgroundColor: theme?.mainColor },
                         ]}
                       >
-                        Today
+                        <Text
+                          style={[
+                            styles.todayButtonText,
+                            { color: theme?.activeTextColor },
+                          ]}
+                        >
+                          Today
+                        </Text>
+                      </View>
+                    </Pressable>
+                  </View>
+                ) : mode === 'range' ? (
+                  <View style={{ gap: 3 }}>
+                    <Text>
+                      <Text style={{ marginRight: 5, fontWeight: 'bold' }}>
+                        Start Date:
                       </Text>
-                    </View>
-                  </Pressable>
-                </View>
-              ) : mode === 'range' ? (
-                <View style={{ gap: 3 }}>
-                  <Text>
-                    <Text style={{ marginRight: 5, fontWeight: 'bold' }}>
-                      Start Date:
+                      {range.startDate
+                        ? dayjs(range.startDate)
+                            .locale(locale)
+                            .format('MMMM, DD, YYYY')
+                        : '...'}
                     </Text>
-                    {range.startDate
-                      ? dayjs(range.startDate)
-                          .locale(locale)
-                          .format('MMMM, DD, YYYY')
-                      : '...'}
-                  </Text>
-                  <Text>
-                    <Text style={{ marginRight: 5, fontWeight: 'bold' }}>
-                      End Date:
-                    </Text>
-                    {range.endDate
-                      ? dayjs(range.endDate)
-                          .locale(locale)
-                          .format('MMMM, DD, YYYY')
-                      : '...'}
-                  </Text>
-                </View>
-              ) : mode === 'multiple' ? (
-                <View style={{ gap: 3 }}>
-                  <Text style={{ fontWeight: 'bold' }}>Selected Dates:</Text>
-                  {dates &&
-                    dates.map((d, index) => (
-                      <Text key={index}>
-                        {dayjs(d).locale(locale).format('MMMM, DD, YYYY')}
+                    <Text>
+                      <Text style={{ marginRight: 5, fontWeight: 'bold' }}>
+                        End Date:
                       </Text>
-                    ))}
-                </View>
-              ) : null}
+                      {range.endDate
+                        ? dayjs(range.endDate)
+                            .locale(locale)
+                            .format('MMMM, DD, YYYY')
+                        : '...'}
+                    </Text>
+                  </View>
+                ) : mode === 'multiple' ? (
+                  <View style={{ gap: 3 }}>
+                    <Text style={{ fontWeight: 'bold' }}>Selected Dates:</Text>
+                    {dates &&
+                      dates.map((d, index) => (
+                        <Text key={index}>
+                          {dayjs(d).locale(locale).format('MMMM, DD, YYYY')}
+                        </Text>
+                      ))}
+                  </View>
+                ) : null}
+              </View>
             </View>
           </View>
-        </View>
 
-        <GithubLink />
-      </View>
+          <GithubLink />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -337,7 +336,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   datePicker: {
-    width: 330,
+    width: 350,
     backgroundColor: '#fff',
     padding: 10,
     borderRadius: 15,

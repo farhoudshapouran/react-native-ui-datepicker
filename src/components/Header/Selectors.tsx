@@ -1,9 +1,9 @@
+import React, { memo } from 'react';
 import { Pressable, StyleSheet, View, Text } from 'react-native';
 import { useCalendarContext } from '../../CalendarContext';
 import MonthButton from './MonthButton';
 import YearButton from './YearButton';
 import dayjs from 'dayjs';
-import { memo } from 'react';
 
 const Selectors = () => {
   const { mode, date, calendarView, setCalendarView, theme, timePicker } =

@@ -1,3 +1,4 @@
+import React, { memo, useMemo, useRef } from 'react';
 import {
   Animated,
   PanResponder,
@@ -5,7 +6,6 @@ import {
   View,
   Platform,
 } from 'react-native';
-import React, { memo, useMemo, useRef } from 'react';
 import { sin } from './AnimatedMath';
 import { CALENDAR_HEIGHT } from '../../enums';
 import { CalendarThemeProps } from '../../types';

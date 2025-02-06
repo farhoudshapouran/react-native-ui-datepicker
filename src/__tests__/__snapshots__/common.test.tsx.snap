@@ -435,8 +435,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -444,8 +442,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -453,8 +449,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -462,8 +456,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -471,8 +463,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -480,8 +470,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -520,10 +508,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -533,7 +517,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -548,8 +536,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -588,10 +574,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -601,7 +583,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -616,8 +602,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -656,10 +640,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -669,7 +649,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -684,8 +668,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -724,10 +706,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -737,7 +715,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -752,8 +734,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -792,10 +772,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -805,7 +781,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -820,8 +800,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -860,10 +838,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -873,7 +847,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -888,8 +866,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -928,10 +904,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -941,7 +913,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -956,8 +932,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -996,10 +970,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -1009,7 +979,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -1024,8 +998,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -1064,10 +1036,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -1077,7 +1045,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -1092,8 +1064,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -1132,10 +1102,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -1145,7 +1111,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -1160,8 +1130,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -1200,10 +1168,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -1213,7 +1177,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -1228,8 +1196,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -1268,10 +1234,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -1281,7 +1243,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -1296,8 +1262,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -1336,10 +1300,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -1349,7 +1309,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -1364,8 +1328,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -1404,10 +1366,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -1417,7 +1375,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -1432,8 +1394,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -1472,10 +1432,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -1485,7 +1441,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -1500,8 +1460,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -1540,10 +1498,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -1553,7 +1507,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -1568,8 +1526,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -1608,10 +1564,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -1621,7 +1573,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -1636,8 +1592,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -1676,10 +1630,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -1689,7 +1639,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -1704,8 +1658,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -1744,12 +1696,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "backgroundColor": "#0047FF",
-                "borderColor": "#0047FF",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -1759,7 +1705,12 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "backgroundColor": "#0047FF",
+                  "borderColor": "#0047FF",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -1778,8 +1729,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -1818,10 +1767,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -1831,7 +1776,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -1846,8 +1795,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -1886,10 +1833,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -1899,7 +1842,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -1914,8 +1861,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -1954,10 +1899,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -1967,7 +1908,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -1982,8 +1927,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -2022,10 +1965,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -2035,7 +1974,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -2050,8 +1993,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -2090,10 +2031,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -2103,7 +2040,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -2118,8 +2059,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -2158,10 +2097,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -2171,7 +2106,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -2186,8 +2125,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -2226,10 +2163,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -2239,7 +2172,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -2254,8 +2191,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -2294,10 +2229,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -2307,7 +2238,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -2322,8 +2257,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -2362,10 +2295,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -2375,7 +2304,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -2390,8 +2323,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -2430,10 +2361,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -2443,7 +2370,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -2458,8 +2389,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -2498,10 +2427,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -2511,7 +2436,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >
@@ -2526,8 +2455,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "height": 42.857142857142854,
-              "position": "relative",
               "width": "14.25%",
             }
           }
@@ -2566,10 +2493,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
             onStartShouldSetResponder={[Function]}
             style={
               Object {
-                "alignItems": "center",
-                "borderRadius": 100,
-                "flex": 1,
-                "justifyContent": "center",
                 "margin": 1.5,
               }
             }
@@ -2579,7 +2502,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               style={
                 Object {
                   "alignItems": "center",
+                  "borderColor": "transparent",
+                  "borderRadius": 100,
+                  "borderWidth": 1,
                   "justifyContent": "center",
+                  "minHeight": 42.00000000000001,
                 }
               }
             >

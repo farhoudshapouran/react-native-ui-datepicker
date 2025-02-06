@@ -1,6 +1,7 @@
+const { getDefaultConfig } = require('expo/metro-config');
+const { withNativeWind } = require('nativewind/metro');
 const path = require('path');
 const escape = require('escape-string-regexp');
-const { getDefaultConfig } = require('expo/metro-config');
 const exclusionList = require('metro-config/src/defaults/exclusionList');
 const pak = require('../package.json');
 
@@ -12,7 +13,7 @@ const modules = Object.keys({
 
 const defaultConfig = getDefaultConfig(__dirname);
 
-module.exports = {
+const config = {
   ...defaultConfig,
 
   projectRoot: __dirname,
@@ -36,3 +37,5 @@ module.exports = {
     }, {}),
   },
 };
+
+module.exports = withNativeWind(config, { input: './global.css' });
