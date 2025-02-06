@@ -1,6 +1,6 @@
 import { useColorScheme } from 'react-native';
 import { ClassNames, Styles } from './types';
-import { UI, SelectionState, DayFlag, MonthState, YearState } from './ui';
+import { UI, SelectionState, DayFlag, MonthState, YearState, CalenderFlag } from './ui';
 
 export function getDefaultClassNames(): ClassNames {
   const classNames: ClassNames = {
@@ -44,8 +44,9 @@ export function getDefaultClassNames(): ClassNames {
       'group bg-primary web:hover:bg-primary web:hover:opacity-90 active:opacity-90',
     [SelectionState.selected_label]: 'text-primary-foreground',
 
-    [DayFlag.disabled]: '',
-    [DayFlag.disabled_label]: 'text-muted-foreground opacity-50',
+    [CalenderFlag.disabled]: '',
+    [CalenderFlag.disabled_label]: 'text-muted-foreground opacity-50',
+
     [DayFlag.hidden]: '',
     [DayFlag.outside]: '',
     [DayFlag.outside_label]: 'text-muted-foreground',
@@ -149,11 +150,12 @@ export function getDefaultStyles(): Styles {
       color: COLORS[theme].primaryForeground,
     },
 
-    [DayFlag.disabled]: {},
-    [DayFlag.disabled_label]: {
+    [CalenderFlag.disabled]: {},
+    [CalenderFlag.disabled_label]: {
       color: COLORS[theme].mutedForeground,
       opacity: 0.5,
     },
+
     [DayFlag.hidden]: {},
     [DayFlag.outside]: {},
     [DayFlag.outside_label]: { color: COLORS[theme].mutedForeground },

@@ -1,7 +1,7 @@
 import type { Dayjs } from 'dayjs';
 import type { CalendarActionKind, CalendarViews } from './enums';
 import type { TextStyle, ViewStyle } from 'react-native';
-import { UI, SelectionState, DayFlag, MonthState, YearState } from './ui';
+import { UI, SelectionState, DayFlag, MonthState, YearState, CalenderFlag } from './ui';
 
 export type DateType = string | number | Dayjs | Date | null | undefined;
 
@@ -87,11 +87,11 @@ export type MultiChange = (params: {
 }) => void;
 
 export type ClassNames = Partial<{
-  [key in UI | SelectionState | DayFlag | MonthState | YearState]: string;
+  [key in UI | SelectionState | DayFlag | MonthState | YearState | CalenderFlag]: string;
 }>;
 
 export type Styles = Partial<{
-  [key in UI | SelectionState | DayFlag | MonthState | YearState]:
+  [key in UI | SelectionState | DayFlag | MonthState | YearState | CalenderFlag]:
     | ViewStyle
     | TextStyle;
 }>;
