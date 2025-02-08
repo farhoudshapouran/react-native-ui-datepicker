@@ -3,7 +3,7 @@ import { useCalendarContext } from '../../CalendarContext';
 import MonthButton from './MonthButton';
 import YearButton from './YearButton';
 import dayjs from 'dayjs';
-import { memo } from 'react';
+import React, { memo } from 'react';
 
 const Selectors = () => {
   const { mode, date, calendarView, setCalendarView, theme, timePicker } =

@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useCalendarContext } from '../../CalendarContext';
 import { getDateYear, getYearRange } from '../../utils';
 import dayjs from 'dayjs';
-import { memo } from 'react';
+import React, { memo } from 'react';
 
 const YearButton = () => {
   const {

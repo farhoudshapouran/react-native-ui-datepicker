@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useCalendarContext } from '../../CalendarContext';
-import { memo } from 'react';
+import React, { memo } from 'react';
 
 const MonthButton = () => {
   const { currentDate, calendarView, setCalendarView, theme, locale } =
