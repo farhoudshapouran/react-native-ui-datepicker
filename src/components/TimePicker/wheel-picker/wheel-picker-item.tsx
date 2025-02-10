@@ -1,9 +1,11 @@
 import React from 'react';
 import { StyleProp, TextStyle, Animated, Text, ViewStyle } from 'react-native';
 import styles from './wheel-picker.style';
+import { isEqual } from 'lodash';
 
 interface ItemProps {
   textStyle: StyleProp<TextStyle>;
+  textClassName: string;
   style: StyleProp<ViewStyle>;
   option: string | null;
   height: number;
@@ -17,6 +19,7 @@ interface ItemProps {
 
 const WheelPickerItem: React.FC<ItemProps> = ({
   textStyle,
+  textClassName,
   style,
   height,
   option,
@@ -125,17 +128,21 @@ const WheelPickerItem: React.FC<ItemProps> = ({
         },
       ]}
     >
-      <Text style={textStyle}>{option}</Text>
+      <Text style={textStyle} className={textClassName}>
+        {option}
+      </Text>
     </Animated.View>
   );
 };
 
-export default React.memo(
-  WheelPickerItem,
-  /**
-   * We enforce that this component will not rerender after the initial render.
-   * Therefore props that change on every render like style objects or functions
-   * do not need to be wrapped into useMemo and useCallback.
-   */
-  () => true
-);
+const customComparator = (
+  prevProps: Readonly<ItemProps>,
+  nextProps: Readonly<ItemProps>
+) => {
+  return (
+    prevProps.textClassName === nextProps.textClassName &&
+    isEqual(prevProps.textStyle, nextProps.textStyle)
+  );
+};
+
+export default React.memo(WheelPickerItem, customComparator);

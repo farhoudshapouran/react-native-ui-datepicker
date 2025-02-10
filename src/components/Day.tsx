@@ -1,28 +1,36 @@
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
-import { CalendarThemeProps, DayObject } from '../types';
+import { ClassNames, DayObject, Styles } from '../types';
 import { CALENDAR_HEIGHT } from '../enums';
-import { addColorAlpha } from '../utils';
+import { cn } from '../utils';
 import { isEqual } from 'lodash';
 
 interface Props {
   day: DayObject;
   onSelectDate: (date: string) => void;
-  theme: CalendarThemeProps;
   calendarHeight?: number;
   renderDay?: (day: DayObject) => React.ReactNode;
+  styles?: Styles;
+  classNames?: ClassNames;
 }
 
-export const EmptyDay = React.memo(({ height }: { height?: number }) => (
-  <View style={styles(height || CALENDAR_HEIGHT).dayCell} />
-));
+export const EmptyDay = React.memo(
+  ({ calendarHeight }: { calendarHeight?: number }) => {
+    const style = useMemo(
+      () => createDefaultStyles(calendarHeight || CALENDAR_HEIGHT),
+      [calendarHeight]
+    );
+    return <View style={style.dayCell} />;
+  }
+);
 
 const Day = ({
   day,
   onSelectDate,
-  theme,
   calendarHeight,
   renderDay,
+  styles = {},
+  classNames = {},
 }: Props) => {
   const {
     text,
@@ -34,142 +42,178 @@ const Day = ({
     inRange,
     leftCrop,
     rightCrop,
+    isStartOfWeek,
+    isEndOfWeek,
   } = day;
 
-  const onPress = React.useCallback(
-    () => onSelectDate(day.date),
-    [onSelectDate, day.date]
+  const style = useMemo(
+    () => createDefaultStyles(calendarHeight || CALENDAR_HEIGHT),
+    [calendarHeight]
   );
 
-  const {
-    calendarTextStyle,
-    dayContainerStyle,
-    selectedItemColor = '#0047FF',
-    selectedTextStyle,
-    todayContainerStyle,
-    todayTextStyle,
-    selectedRangeBackgroundColor,
-  } = theme;
-
-  const style = styles(calendarHeight || CALENDAR_HEIGHT);
-  const rangeBackground =
-    selectedRangeBackgroundColor ?? addColorAlpha(selectedItemColor, 0.15);
   const isCrop = inRange && (leftCrop || rightCrop) && !(leftCrop && rightCrop);
+  const inMiddle = inRange && !leftCrop && !rightCrop;
+  const rangeStart = inRange && leftCrop;
+  const rangeEnd = inRange && rightCrop;
 
   const containerStyle = StyleSheet.flatten([
     style.dayContainer,
-    isCurrentMonth || inRange ? dayContainerStyle : style.disabledDay,
-    isToday && {
-      borderColor: selectedItemColor,
-      ...todayContainerStyle,
-    },
-    isSelected && {
-      borderColor: selectedItemColor,
-      backgroundColor: selectedItemColor,
-    },
-    isDisabled && style.disabledDay,
+    styles.day,
+    isToday && styles.today,
+    !isCurrentMonth && styles.outside,
+    isSelected && styles.selected,
+    isDisabled && styles.disabled,
+    inMiddle && styles.range_middle,
+    rangeStart && styles.range_start,
+    rangeEnd && styles.range_end,
   ]);
 
   const textStyle = StyleSheet.flatten([
-    isSelected
-      ? {
-          color: '#fff',
-          ...calendarTextStyle,
-          ...selectedTextStyle,
-        }
-      : isToday
-      ? {
-          ...calendarTextStyle,
-          color: selectedItemColor,
-          ...todayTextStyle,
-        }
-      : calendarTextStyle,
+    styles.day_label,
+    isToday && styles.today_label,
+    !isCurrentMonth && styles.outside_label,
+    isSelected && styles.selected_label,
+    isDisabled && styles.disabled_label,
+    inMiddle && styles.range_middle_label,
+    rangeStart && styles.range_start_label,
+    rangeEnd && styles.range_end_label,
+  ]);
+
+  const containerClassName = cn(
+    classNames.day,
+    isToday && classNames.today,
+    !isCurrentMonth && classNames.outside,
+    isSelected && classNames.selected,
+    isDisabled && classNames.disabled,
+    inMiddle && classNames.range_middle,
+    rangeStart && classNames.range_start,
+    rangeEnd && classNames.range_end
+  );
+
+  const textClassName = cn(
+    classNames.day_label,
+    isToday && classNames.today_label,
+    !isCurrentMonth && classNames.outside_label,
+    isSelected && classNames.selected_label,
+    isDisabled && classNames.disabled_label,
+    inMiddle && classNames.range_middle_label,
+    rangeStart && classNames.range_start_label,
+    rangeEnd && classNames.range_end_label
+  );
+
+  const RangeLine = useMemo(() => {
+    if (!inRange) return null;
+    if (!isCrop) {
+      return (
+        <View
+          style={[
+            style.rangeRoot,
+            styles.range_line,
+            isEndOfWeek && styles.range_line_weekend,
+            isStartOfWeek && styles.range_line_weekstart,
+          ]}
+          className={cn(
+            classNames.range_line,
+            isEndOfWeek && classNames.range_line_weekend,
+            isStartOfWeek && classNames.range_line_weekstart
+          )}
+        />
+      );
+    }
+    return (
+      <>
+        {leftCrop && (
+          <View
+            style={[style.rangeRoot, { left: '50%' }, styles.range_line]}
+            className={classNames.range_line}
+          />
+        )}
+        {rightCrop && (
+          <View
+            style={[style.rangeRoot, { right: '50%' }, styles.range_line]}
+            className={classNames.range_line}
+          />
+        )}
+      </>
+    );
+  }, [
+    inRange,
+    isCrop,
+    leftCrop,
+    rightCrop,
+    style.rangeRoot,
+    styles.range_line,
+    styles.range_line_weekstart,
+    styles.range_line_weekend,
+    classNames.range_line,
+    classNames.range_line_weekstart,
+    classNames.range_line_weekend,
   ]);
 
   return (
     <View style={style.dayCell}>
-      {inRange && !isCrop && (
-        <View style={[style.rangeRoot, { backgroundColor: rangeBackground }]} />
-      )}
-      {isCrop && (
-        <>
-          {leftCrop && (
-            <View
-              style={[
-                style.rangeRoot,
-                { left: '50%', backgroundColor: rangeBackground },
-              ]}
-            />
-          )}
-          {rightCrop && (
-            <View
-              style={[
-                style.rangeRoot,
-                { right: '50%', backgroundColor: rangeBackground },
-              ]}
-            />
-          )}
-        </>
-      )}
-      <Pressable
-        disabled={isDisabled}
-        onPress={onPress}
-        style={style.dayWrapper}
-        testID={date}
-        accessibilityRole="button"
-        accessibilityLabel={text}
-      >
+      <View style={styles.day_wrapper} className={classNames.day_wrapper}>
+        {RangeLine}
         {renderDay ? (
-          renderDay(day)
+          <Pressable
+            disabled={isDisabled}
+            onPress={() => onSelectDate(date)}
+            accessibilityRole="button"
+            accessibilityLabel={text}
+            style={style.dayContainer}
+          >
+            {renderDay(day)}
+          </Pressable>
         ) : (
-          <View style={containerStyle}>
-            <Text style={textStyle}>{text}</Text>
-          </View>
+          <Pressable
+            disabled={isDisabled}
+            onPress={() => onSelectDate(date)}
+            accessibilityRole="button"
+            accessibilityLabel={text}
+            style={containerStyle}
+            className={containerClassName}
+          >
+            <Text style={textStyle} className={textClassName}>
+              {text}
+            </Text>
+          </Pressable>
         )}
-      </Pressable>
+      </View>
     </View>
   );
 };
 
-const styles = (calendarHeight: number) =>
+const createDefaultStyles = (calendarHeight: number) =>
   StyleSheet.create({
     dayCell: {
       width: '14.25%',
     },
-    dayWrapper: {
-      margin: 1.5,
-    },
     dayContainer: {
       justifyContent: 'center',
       alignItems: 'center',
-      minHeight: calendarHeight * 0.14,
-      borderRadius: 100,
-      borderWidth: 1,
-      borderColor: 'transparent',
+      minHeight: calendarHeight / 7,
     },
-    disabledDay: {
-      opacity: 0.5,
+    rangeWrapper: {
+      flex: 1,
     },
     rangeRoot: {
       position: 'absolute',
+      top: 4,
       left: 0,
       right: 0,
-      top: 2,
-      bottom: 2,
+      bottom: 4,
     },
   });
 
-const customComparator = (
-  prevProps: Readonly<Props>,
-  nextProps: Readonly<Props>
-) => {
-  return (
-    isEqual(prevProps.day, nextProps.day) &&
-    prevProps.onSelectDate === nextProps.onSelectDate &&
-    prevProps.calendarHeight === nextProps.calendarHeight &&
-    prevProps.renderDay === nextProps.renderDay &&
-    isEqual(prevProps.theme, nextProps.theme)
-  );
+const customComparator = (prev: Readonly<Props>, next: Readonly<Props>) => {
+  const areEqual =
+    isEqual(prev.day, next.day) &&
+    prev.onSelectDate === next.onSelectDate &&
+    prev.calendarHeight === next.calendarHeight &&
+    prev.renderDay === next.renderDay &&
+    isEqual(prev.styles, next.styles) &&
+    isEqual(prev.classNames, next.classNames);
+  return areEqual;
 };
 
-export default React.memo(Day, customComparator);
+export default memo(Day, customComparator);

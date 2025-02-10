@@ -2,6 +2,7 @@ import type { Dayjs } from 'dayjs';
 import type { CalendarActionKind, CalendarViews } from './enums';
 import type { TextStyle, ViewStyle } from 'react-native';
 import type { ReactNode } from 'react';
+import { UI, SelectionState, DayFlag, MonthState, YearState } from './ui';
 
 export type DateType = string | number | Dayjs | Date | null | undefined;
 
@@ -25,7 +26,6 @@ export type CalendarAction = {
 };
 
 export type CalendarThemeProps = {
-  headerButtonsPosition?: HeaderButtonPositions;
   headerContainerStyle?: ViewStyle;
   headerTextContainerStyle?: ViewStyle;
   headerTextStyle?: TextStyle;
@@ -66,6 +66,8 @@ export type DayObject = {
   inRange: boolean;
   leftCrop: boolean;
   rightCrop: boolean;
+  isStartOfWeek: boolean;
+  isEndOfWeek: boolean;
 };
 
 export type SingleChange = (params: { date: DateType }) => void;
@@ -80,6 +82,18 @@ export type MultiChange = (params: {
   datePressed: DateType;
   change: 'added' | 'removed';
 }) => void;
+
+export type ClassNames = Partial<{
+  [key in UI | SelectionState | DayFlag | MonthState | YearState]: string;
+}>;
+
+export type Styles = Partial<{
+  [key in UI | SelectionState | DayFlag | MonthState | YearState]:
+    | ViewStyle
+    | TextStyle;
+}>;
+
+export type WeekdayName = 'min' | 'short';
 
 export interface DatePickerBaseProps {
   mode?: ModeType;
@@ -100,4 +114,9 @@ export interface DatePickerBaseProps {
   initialView?: CalendarViews;
   height?: number;
   renderDay?: (day: DayObject) => React.ReactNode;
+  styles?: Styles;
+  classNames?: ClassNames;
+  headerButtonsPosition?: HeaderButtonPositions;
+  weekdays?: WeekdayName;
+  multiRangeMode?: boolean;
 }

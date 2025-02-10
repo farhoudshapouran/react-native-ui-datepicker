@@ -2,13 +2,14 @@ import React, { memo } from 'react';
 import { Platform } from 'react-native';
 import WheelNative from './WheelNative';
 import WheelWeb from './WheelWeb';
-import { CalendarThemeProps } from '../../types';
+import { ClassNames, Styles } from '../../types';
 
 type WheelProps = {
   value: number;
   setValue?: (value: number) => void;
   items: string[];
-  theme: CalendarThemeProps;
+  styles?: Styles;
+  classNames?: ClassNames;
 };
 
 const Wheel = (props: WheelProps) => {

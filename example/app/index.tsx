@@ -77,7 +77,7 @@ export default function MainPage() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-        <View style={styles.body} className="">
+        <View style={styles.body}>
           <View style={styles.titleContainer}>
             <Text style={styles.title}>React Native UI DatePicker</Text>
           </View>

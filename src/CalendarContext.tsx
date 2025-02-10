@@ -1,16 +1,12 @@
 import { createContext, useContext } from 'react';
 import { CalendarViews } from './enums';
-import type {
-  DateType,
-  DatePickerBaseProps,
-  CalendarThemeProps,
-} from './types';
+import type { DateType, DatePickerBaseProps } from './types';
 
 export interface CalendarContextType extends DatePickerBaseProps {
   locale: string | ILocale;
   displayFullDays: boolean;
   firstDayOfWeek: number;
-  theme: CalendarThemeProps;
+  //theme: CalendarThemeProps;
   calendarView: CalendarViews;
   currentDate: DateType; // used for latest state of calendar based on Month and Year
   currentYear: number;

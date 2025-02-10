@@ -1,11 +1,17 @@
 import React, { memo } from 'react';
 import dayjs from 'dayjs';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { useCalendarContext } from '../../CalendarContext';
 
 const MonthButton = () => {
-  const { currentDate, calendarView, setCalendarView, theme, locale } =
-    useCalendarContext();
+  const {
+    currentDate,
+    calendarView,
+    setCalendarView,
+    locale,
+    styles,
+    classNames,
+  } = useCalendarContext();
 
   const currentMonthText = dayjs(currentDate).locale(locale).format('MMMM');
 
@@ -18,8 +24,14 @@ const MonthButton = () => {
       accessibilityRole="button"
       accessibilityLabel={currentMonthText}
     >
-      <View style={[styles.textContainer, theme?.headerTextContainerStyle]}>
-        <Text style={[styles.text, theme?.headerTextStyle]}>
+      <View
+        style={styles?.month_selector}
+        className={classNames?.month_selector}
+      >
+        <Text
+          style={styles?.month_selector_label}
+          className={classNames?.month_selector_label}
+        >
           {currentMonthText}
         </Text>
       </View>
@@ -28,16 +40,3 @@ const MonthButton = () => {
 };
 
 export default memo(MonthButton);
-
-const styles = StyleSheet.create({
-  textContainer: {
-    marginHorizontal: 1,
-    paddingHorizontal: 5,
-    paddingVertical: 5,
-    borderRadius: 5,
-  },
-  text: {
-    fontWeight: 'bold',
-    fontSize: 15,
-  },
-});

@@ -4,31 +4,32 @@ import { useCalendarContext } from '../CalendarContext';
 import type { CalendarViews } from '../enums';
 import type { HeaderProps } from '../types';
 import Header from './Header';
-import YearSelector from './YearSelector';
-import MonthSelector from './MonthSelector';
-import DaySelector from './DaySelector';
-import TimeSelector from './TimeSelector';
+import Years from './Years';
+import Months from './Months';
+import Days from './Days';
+import TimePicker from './TimePicker';
 import { CALENDAR_HEIGHT } from '../enums';
 
 const CalendarView: Record<CalendarViews, ReactNode> = {
-  year: <YearSelector />,
-  month: <MonthSelector />,
-  day: <DaySelector />,
-  time: <TimeSelector />,
+  year: <Years />,
+  month: <Months />,
+  day: <Days />,
+  time: <TimePicker />,
 };
 
-const styles = StyleSheet.create({
+const defaultStyles = StyleSheet.create({
   container: {
     width: '100%',
   },
 });
 
-interface PropTypes extends HeaderProps {
+interface Props extends HeaderProps {
   height?: number;
 }
 
-const Calendar = ({ buttonPrevIcon, buttonNextIcon, height }: PropTypes) => {
-  const { calendarView, theme } = useCalendarContext();
+const Calendar = ({ buttonPrevIcon, buttonNextIcon, height }: Props) => {
+  const { calendarView, styles, classNames, headerButtonsPosition } =
+    useCalendarContext();
 
   const calendarContainerStyle: ViewStyle = useMemo(
     () => ({
@@ -39,21 +40,26 @@ const Calendar = ({ buttonPrevIcon, buttonNextIcon, height }: PropTypes) => {
   );
 
   return (
-    <View style={styles.container} testID="calendar">
-      {/* {mode !== 'time' ? (
-        <Header
-          buttonPrevIcon={buttonPrevIcon}
-          buttonNextIcon={buttonNextIcon}
-        />
-      ) : null} */}
+    <View style={defaultStyles.container} testID="calendar">
       <Header
         buttonPrevIcon={buttonPrevIcon}
         buttonNextIcon={buttonNextIcon}
-        theme={theme}
+        buttonsPosition={headerButtonsPosition}
+        styles={styles}
+        classNames={classNames}
       />
       <View style={calendarContainerStyle}>{CalendarView[calendarView]}</View>
     </View>
   );
 };
 
-export default memo(Calendar);
+const customComparator = (prev: Readonly<Props>, next: Readonly<Props>) => {
+  const areEqual =
+    prev.buttonPrevIcon === next.buttonPrevIcon &&
+    prev.buttonNextIcon === next.buttonNextIcon &&
+    prev.height === next.height;
+
+  return areEqual;
+};
+
+export default memo(Calendar, customComparator);

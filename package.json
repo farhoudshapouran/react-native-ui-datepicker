@@ -101,8 +101,7 @@
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*",
-    "react-native-web": "*"
+    "react-native": "*"
   },
   "engines": {
     "node": ">= 18"
@@ -151,7 +150,9 @@
     ]
   },
   "dependencies": {
+    "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "tailwind-merge": "^3.0.1"
   }
 }

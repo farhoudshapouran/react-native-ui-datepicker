@@ -21,7 +21,9 @@ interface Props {
   onChange: (index: number) => void;
   selectedIndicatorStyle?: StyleProp<ViewStyle>;
   itemTextStyle?: TextStyle;
+  itemTextClassName?: string;
   itemStyle?: ViewStyle;
+  selectedIndicatorClassName?: string;
   itemHeight?: number;
   containerStyle?: ViewStyle;
   containerProps?: Omit<ViewProps, 'style'>;
@@ -41,6 +43,8 @@ const WheelPicker: React.FC<Props> = ({
   containerStyle = {},
   itemStyle = {},
   itemTextStyle = {},
+  selectedIndicatorClassName = '',
+  itemTextClassName = '',
   itemHeight = 40,
   scaleFunction = (x: number) => 1.0 ** x,
   rotationFunction = (x: number) => 1 - Math.pow(1 / 2, x),
@@ -130,10 +134,12 @@ const WheelPicker: React.FC<Props> = ({
             height: itemHeight,
           },
         ]}
+        className={selectedIndicatorClassName}
       />
       <Animated.FlatList<string | null>
         {...flatListProps}
         ref={flatListRef}
+        nestedScrollEnabled
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
         onScroll={Animated.event(
@@ -158,6 +164,7 @@ const WheelPicker: React.FC<Props> = ({
             option={option}
             style={itemStyle}
             textStyle={itemTextStyle}
+            textClassName={itemTextClassName}
             height={itemHeight}
             currentScrollIndex={currentScrollIndex}
             scaleFunction={scaleFunction}

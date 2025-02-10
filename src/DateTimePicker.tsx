@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useReducer } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+} from 'react';
 import {
   getFormated,
   getDate,
@@ -6,6 +12,7 @@ import {
   getEndOfDay,
   getStartOfDay,
   areDatesOnSameDay,
+  removeTime,
 } from './utils';
 import CalendarContext from './CalendarContext';
 import { CalendarViews, CalendarActionKind } from './enums';
@@ -21,6 +28,7 @@ import type {
   MultiChange,
 } from './types';
 import Calendar from './components/Calendar';
+import { useDeepCompareMemo } from './utils';
 import dayjs from 'dayjs';
 import localeData from 'dayjs/plugin/localeData';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -58,6 +66,8 @@ export interface DatePickeMultipleProps
   onChange?: MultiChange;
 }
 
+let currentDate = dayjs();
+
 const DateTimePicker = (
   props: DatePickerSingleProps | DatePickerRangeProps | DatePickeMultipleProps
 ) => {
@@ -82,7 +92,11 @@ const DateTimePicker = (
     initialView = 'day',
     height,
     renderDay,
-    ...rest
+    classNames = {},
+    styles = {},
+    headerButtonsPosition,
+    weekdays = 'min',
+    multiRangeMode = false,
   } = props;
 
   dayjs.locale(locale);
@@ -92,30 +106,33 @@ const DateTimePicker = (
     [mode, initialView]
   );
 
-  const firstDay =
-    firstDayOfWeek && firstDayOfWeek > 0 && firstDayOfWeek <= 6
-      ? firstDayOfWeek
-      : 0;
+  const firstDay = useMemo(
+    () =>
+      firstDayOfWeek && firstDayOfWeek > 0 && firstDayOfWeek <= 6
+        ? firstDayOfWeek
+        : 0,
+    [firstDayOfWeek]
+  );
 
-  let currentDate = dayjs();
+  const currentYear = useMemo(() => {
+    if (mode === 'single' && date) {
+      currentDate = dayjs(date);
+    }
 
-  if (mode === 'single' && date) {
-    currentDate = dayjs(date);
-  }
+    if (mode === 'range' && startDate) {
+      currentDate = dayjs(startDate);
+    }
 
-  if (mode === 'range' && startDate) {
-    currentDate = dayjs(startDate);
-  }
+    if (mode === 'multiple' && dates && dates.length > 0) {
+      currentDate = dayjs(dates[0]);
+    }
 
-  if (mode === 'multiple' && dates && dates.length > 0) {
-    currentDate = dayjs(dates[0]);
-  }
+    if (minDate && currentDate.isBefore(minDate)) {
+      currentDate = dayjs(minDate);
+    }
 
-  if (minDate && currentDate.isBefore(minDate)) {
-    currentDate = dayjs(minDate);
-  }
-
-  let currentYear = currentDate.year();
+    return currentDate.year();
+  }, [mode, date, startDate, dates, minDate]);
 
   const [state, dispatch] = useReducer(
     (prevState: LocalState, action: CalendarAction) => {
@@ -168,6 +185,9 @@ const DateTimePicker = (
     }
   );
 
+  const stateRef = useRef(state);
+  stateRef.current = state;
+
   useEffect(() => {
     if (mode === 'single') {
       const newDate =
@@ -211,20 +231,60 @@ const DateTimePicker = (
             date: newDate,
           });
         } else if (mode === 'range') {
-          const sd = state.startDate;
-          const ed = state.endDate;
+          // set time to 00:00:00
+          let sd = removeTime(stateRef.current.startDate);
+          let ed = removeTime(stateRef.current.endDate);
+          const selected = removeTime(selectedDate);
           let isStart: boolean = true;
+          let isReset: boolean = false;
 
-          if (sd && !ed && dateToUnix(selectedDate) >= dateToUnix(sd!)) {
+          if (
+            dateToUnix(selected) !== dateToUnix(ed) &&
+            dateToUnix(selected) >= dateToUnix(sd) &&
+            dateToUnix(sd) !== dateToUnix(ed)
+          ) {
             isStart = false;
+          } else if (sd && dateToUnix(selected) === dateToUnix(sd)) {
+            isReset = true;
           }
 
-          (onChange as RangeChange)({
-            startDate: isStart ? getStartOfDay(selectedDate) : sd,
-            endDate: !isStart ? getEndOfDay(selectedDate) : undefined,
-          });
+          if (sd && ed) {
+            if (
+              dateToUnix(sd) === dateToUnix(ed) &&
+              dateToUnix(selected) > dateToUnix(sd)
+            ) {
+              isStart = false;
+            }
+
+            if (
+              dateToUnix(selected) > dateToUnix(sd) &&
+              dateToUnix(selected) === dateToUnix(ed)
+            ) {
+              ed = undefined;
+            }
+          }
+
+          if (sd && !ed && dateToUnix(selected) < dateToUnix(sd)) {
+            ed = sd;
+          }
+
+          if (isReset) {
+            (onChange as RangeChange)({
+              startDate: undefined,
+              endDate: undefined,
+            });
+          } else {
+            (onChange as RangeChange)({
+              startDate: isStart ? getStartOfDay(selectedDate) : sd,
+              endDate: !isStart
+                ? getEndOfDay(selectedDate)
+                : ed
+                  ? getEndOfDay(ed)
+                  : ed,
+            });
+          }
         } else if (mode === 'multiple') {
-          const safeDates = (state.dates as DateType[]) || [];
+          const safeDates = (stateRef.current.dates as DateType[]) || [];
           const newDate = getStartOfDay(selectedDate);
 
           const exists = safeDates.some((ed) => areDatesOnSameDay(ed, newDate));
@@ -243,63 +303,62 @@ const DateTimePicker = (
         }
       }
     },
-    [onChange, mode, state.startDate, state.endDate, state.dates, timePicker]
+    [mode, timePicker, stateRef]
   );
 
   const onSelectMonth = useCallback(
     (month: number) => {
-      const newDate = getDate(state.currentDate).month(month);
+      const newDate = getDate(stateRef.current.currentDate).month(month);
       dispatch({
         type: CalendarActionKind.CHANGE_CURRENT_DATE,
         payload: getFormated(newDate),
       });
-      dispatch({
-        type: CalendarActionKind.SET_CALENDAR_VIEW,
-        payload: 'day',
-      });
+      setCalendarView('day');
     },
-    [state.currentDate]
+    [setCalendarView, stateRef]
   );
 
   const onSelectYear = useCallback(
     (year: number) => {
-      const newDate = getDate(state.currentDate).year(year);
+      const newDate = getDate(stateRef.current.currentDate).year(year);
       dispatch({
         type: CalendarActionKind.CHANGE_CURRENT_DATE,
         payload: getFormated(newDate),
       });
-      dispatch({
-        type: CalendarActionKind.SET_CALENDAR_VIEW,
-        payload: 'day',
-      });
+      setCalendarView('day');
     },
-    [state.currentDate]
+    [setCalendarView, stateRef, dispatch]
   );
 
   const onChangeMonth = useCallback(
     (month: number) => {
-      const newDate = getDate(state.currentDate).add(month, 'month');
+      const newDate = getDate(stateRef.current.currentDate).add(month, 'month');
       dispatch({
         type: CalendarActionKind.CHANGE_CURRENT_DATE,
         payload: getFormated(newDate),
       });
     },
-    [state.currentDate]
+    [stateRef, dispatch]
   );
 
-  const onChangeYear = useCallback((year: number) => {
-    dispatch({
-      type: CalendarActionKind.CHANGE_CURRENT_YEAR,
-      payload: year,
-    });
-  }, []);
+  const onChangeYear = useCallback(
+    (year: number) => {
+      dispatch({
+        type: CalendarActionKind.CHANGE_CURRENT_YEAR,
+        payload: year,
+      });
+    },
+    [stateRef, dispatch]
+  );
 
-  const stableRest = useMemo(() => rest, [JSON.stringify(rest)]); // eslint-disable-line react-hooks/exhaustive-deps
-  const memoizedTheme = useMemo(() => stableRest, [stableRest]);
+  const memoizedStyles = useDeepCompareMemo({ ...styles }, [styles]);
 
-  const memoizedValue = useMemo(
+  const memoizedClassNames = useDeepCompareMemo({ ...classNames }, [
+    classNames,
+  ]);
+
+  const baseContextValue = useMemo(
     () => ({
-      ...state,
       locale,
       mode,
       displayFullDays,
@@ -309,14 +368,9 @@ const DateTimePicker = (
       disabledDates,
       firstDayOfWeek: firstDay,
       height,
-      theme: memoizedTheme,
-      setCalendarView,
-      onSelectDate,
-      onSelectMonth,
-      onSelectYear,
-      onChangeMonth,
-      onChangeYear,
-      renderDay,
+      headerButtonsPosition,
+      weekdays,
+      multiRangeMode,
     }),
     [
       locale,
@@ -328,16 +382,49 @@ const DateTimePicker = (
       disabledDates,
       firstDay,
       height,
-      memoizedTheme,
+      headerButtonsPosition,
+      weekdays,
+      multiRangeMode,
+    ]
+  );
+
+  const handlerContextValue = useMemo(
+    () => ({
       setCalendarView,
       onSelectDate,
       onSelectMonth,
       onSelectYear,
       onChangeMonth,
       onChangeYear,
-      state,
+      renderDay,
+    }),
+    [
+      setCalendarView,
+      onSelectDate,
+      onSelectMonth,
+      onSelectYear,
+      onChangeMonth,
+      onChangeYear,
       renderDay,
     ]
+  );
+
+  const styleContextValue = useMemo(
+    () => ({
+      classNames: memoizedClassNames,
+      styles: memoizedStyles,
+    }),
+    [memoizedClassNames, memoizedStyles]
+  );
+
+  const memoizedValue = useMemo(
+    () => ({
+      ...state,
+      ...baseContextValue,
+      ...handlerContextValue,
+      ...styleContextValue,
+    }),
+    [state, baseContextValue, handlerContextValue, styleContextValue]
   );
 
   return (

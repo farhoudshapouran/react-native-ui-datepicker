@@ -1,8 +1,10 @@
 import { ReactNode } from 'react';
-import { CalendarThemeProps } from '../../types';
+import { ClassNames, Styles, HeaderButtonPositions } from '../../types';
 
 export type HeaderProps = {
   buttonPrevIcon?: ReactNode;
   buttonNextIcon?: ReactNode;
-  theme: CalendarThemeProps;
+  buttonsPosition?: HeaderButtonPositions;
+  styles?: Styles;
+  classNames?: ClassNames;
 };

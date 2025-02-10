@@ -5,19 +5,30 @@ import {
   StyleSheet,
   View,
   Platform,
+  Text,
 } from 'react-native';
 import { sin } from './AnimatedMath';
 import { CALENDAR_HEIGHT } from '../../enums';
-import { CalendarThemeProps } from '../../types';
+import { ClassNames, Styles } from '../../types';
+import { isEqual } from 'lodash';
 
 interface WheelProps {
   value: number;
   setValue?: (value: number) => void;
   items: string[];
-  theme: CalendarThemeProps;
+  styles?: Styles;
+  classNames?: ClassNames;
 }
 
-const WheelWeb = ({ value, setValue = () => {}, items, theme }: WheelProps) => {
+const ITEM_HEIGHT = 40;
+
+const WheelWeb = ({
+  value,
+  setValue = () => {},
+  items,
+  styles = {},
+  classNames = {},
+}: WheelProps) => {
   const displayCount = 5;
   const translateY = useRef(new Animated.Value(0)).current;
   const renderCount =
@@ -117,48 +128,55 @@ const WheelWeb = ({ value, setValue = () => {}, items, theme }: WheelProps) => {
   }, [displayValues, radius, value, displayCount, translateY]);
 
   return (
-    <View style={[styles.container]} {...panResponder.panHandlers}>
+    <View style={[defaultStyles.container]} {...panResponder.panHandlers}>
+      <View
+        style={[
+          styles.time_selected_indicator,
+          defaultStyles.selectedIndicator,
+          {
+            transform: [{ translateY: -ITEM_HEIGHT / 2 }],
+            height: ITEM_HEIGHT,
+          },
+        ]}
+        className={classNames.time_selected_indicator}
+      />
       {displayValues?.map((displayValue, index) => {
         const animatedAngle = animatedAngles[index];
         return (
-          <Animated.Text
+          <Animated.View
             key={`${displayValue}-${index}`}
-            style={[
-              { ...styles.timePickerText, ...theme?.timePickerTextStyle },
-              // eslint-disable-next-line react-native/no-inline-styles
-              {
-                position: 'absolute',
-                height: 25,
-                transform: animatedAngle
-                  ? [
-                      {
-                        translateY: Animated.multiply(
-                          radius,
-                          sin(animatedAngle)
-                        ),
-                      },
-                      {
-                        rotateX: animatedAngle.interpolate({
-                          inputRange: [-Math.PI / 2, Math.PI / 2],
-                          outputRange: ['-89deg', '89deg'],
-                          extrapolate: 'clamp',
-                        }),
-                      },
-                    ]
-                  : [],
-                opacity: displayValue !== ('0' + value).slice(-2) ? 0.3 : 1,
-              },
-            ]}
+            // eslint-disable-next-line react-native/no-inline-styles
+            style={{
+              position: 'absolute',
+              height: ITEM_HEIGHT - 10,
+              transform: animatedAngle
+                ? [
+                    {
+                      translateY: Animated.multiply(radius, sin(animatedAngle)),
+                    },
+                    {
+                      rotateX: animatedAngle.interpolate({
+                        inputRange: [-Math.PI / 2, Math.PI / 2],
+                        outputRange: ['-89deg', '89deg'],
+                        extrapolate: 'clamp',
+                      }),
+                    },
+                  ]
+                : [],
+              opacity: displayValue !== ('0' + value).slice(-2) ? 0.3 : 1,
+            }}
           >
-            {displayValue}
-          </Animated.Text>
+            <Text style={styles?.time_label} className={classNames?.time_label}>
+              {displayValue}
+            </Text>
+          </Animated.View>
         );
       })}
     </View>
   );
 };
 
-const styles = StyleSheet.create({
+const defaultStyles = StyleSheet.create({
   container: {
     minWidth: 30,
     overflow: 'hidden',
@@ -176,15 +194,18 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  timePickerText: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  selectedIndicator: {
+    position: 'absolute',
+    width: '100%',
+    top: '51%',
   },
 });
 
 export default memo(WheelWeb, (prevProps, nextProps) => {
   return (
     prevProps.value === nextProps.value &&
-    prevProps.setValue === nextProps.setValue
+    prevProps.setValue === nextProps.setValue &&
+    isEqual(prevProps.classNames, nextProps.classNames) &&
+    isEqual(prevProps.styles, nextProps.styles)
   );
 });

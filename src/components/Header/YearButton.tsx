@@ -9,9 +9,10 @@ const YearButton = () => {
     currentDate,
     calendarView,
     setCalendarView,
-    theme,
     currentYear,
     onChangeYear,
+    styles,
+    classNames,
   } = useCalendarContext();
 
   const years = getYearRange(currentYear);
@@ -25,8 +26,14 @@ const YearButton = () => {
       accessibilityRole="button"
       accessibilityLabel={dayjs(currentDate).format('YYYY')}
     >
-      <View style={[styles.textContainer, theme?.headerTextContainerStyle]}>
-        <Text style={[styles.text, theme?.headerTextStyle]}>
+      <View
+        style={[defaultStyles.container, styles?.year_selector]}
+        className={classNames?.year_selector}
+      >
+        <Text
+          style={styles?.year_selector_label}
+          className={classNames?.year_selector_label}
+        >
           {calendarView === 'year'
             ? `${years[0]} - ${years[years.length - 1]}`
             : dayjs(currentDate).format('YYYY')}
@@ -38,15 +45,9 @@ const YearButton = () => {
 
 export default memo(YearButton);
 
-const styles = StyleSheet.create({
-  textContainer: {
-    marginHorizontal: 1,
-    paddingHorizontal: 5,
-    paddingVertical: 5,
-    borderRadius: 5,
-  },
-  text: {
-    fontWeight: 'bold',
-    fontSize: 15,
+const defaultStyles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

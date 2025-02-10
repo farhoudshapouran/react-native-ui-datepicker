@@ -6,6 +6,7 @@ import {
   I18nManager,
   ViewStyle,
   TextStyle,
+  ScrollView,
 } from 'react-native';
 import { useCalendarContext } from '../CalendarContext';
 import Wheel from './TimePicker/Wheel';
@@ -20,8 +21,8 @@ const createNumberList = (num: number) =>
 const hours = createNumberList(24);
 const minutes = createNumberList(60);
 
-const TimeSelector = () => {
-  const { date, onSelectDate, theme } = useCalendarContext();
+const TimePicker = () => {
+  const { date, onSelectDate, styles, classNames } = useCalendarContext();
   const { hour, minute } = useMemo(() => getParsedDate(date), [date]);
 
   const handleChangeHour = useCallback(
@@ -42,43 +43,52 @@ const TimeSelector = () => {
 
   const timePickerContainerStyle: ViewStyle = useMemo(
     () => ({
-      ...styles.timePickerContainer,
+      ...defaultStyles.timePickerContainer,
       flexDirection: I18nManager.getConstants().isRTL ? 'row-reverse' : 'row',
     }),
     []
   );
 
   const timePickerTextStyle: TextStyle = useMemo(
-    () => ({ ...styles.timePickerText, ...theme?.timePickerTextStyle }),
-    [theme?.timePickerTextStyle]
+    () => ({ ...defaultStyles.timeSeparator, ...styles?.time_label }),
+    [styles?.time_label]
   );
 
   return (
-    <View style={styles.container} testID="time-selector">
+    <ScrollView
+      horizontal={true}
+      scrollEnabled={false}
+      contentContainerStyle={defaultStyles.container}
+      testID="time-selector"
+    >
       <View style={timePickerContainerStyle}>
-        <View style={styles.wheelContainer}>
+        <View style={defaultStyles.wheelContainer}>
           <Wheel
             value={hour}
             items={hours}
             setValue={handleChangeHour}
-            theme={theme}
+            styles={styles}
+            classNames={classNames}
           />
         </View>
-        <Text style={timePickerTextStyle}>:</Text>
-        <View style={styles.wheelContainer}>
+        <Text style={timePickerTextStyle} className={classNames?.time_label}>
+          :
+        </Text>
+        <View style={defaultStyles.wheelContainer}>
           <Wheel
             value={minute}
             items={minutes}
             setValue={handleChangeMinute}
-            theme={theme}
+            styles={styles}
+            classNames={classNames}
           />
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
-const styles = StyleSheet.create({
+const defaultStyles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
@@ -93,11 +103,9 @@ const styles = StyleSheet.create({
     width: CALENDAR_HEIGHT / 2,
     height: CALENDAR_HEIGHT / 2,
   },
-  timePickerText: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  timeSeparator: {
     marginHorizontal: 5,
   },
 });
 
-export default TimeSelector;
+export default TimePicker;

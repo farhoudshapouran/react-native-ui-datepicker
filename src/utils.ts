@@ -1,5 +1,9 @@
 import dayjs from 'dayjs';
-import type { DateType, DayObject } from './types';
+import type { DateType, DayObject, WeekdayName } from './types';
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+import { useRef } from 'react';
+import { isEqual } from 'lodash';
 
 export const CALENDAR_FORMAT = 'YYYY-MM-DD HH:mm';
 export const DATE_FORMAT = 'YYYY-MM-DD';
@@ -15,10 +19,11 @@ export const getWeekdaysShort = () => dayjs.weekdaysShort();
 
 export const getWeekdaysMin = (
   locale: string | ILocale,
-  firstDayOfWeek: number
+  firstDayOfWeek: number,
+  weekdays: WeekdayName
 ) => {
   dayjs().locale(locale);
-  let days = dayjs.weekdaysMin();
+  let days = weekdays === 'min' ? dayjs.weekdaysMin() : dayjs.weekdaysShort();
   if (firstDayOfWeek > 0) {
     days = [
       ...days.slice(firstDayOfWeek, days.length),
@@ -163,6 +168,10 @@ export function dateToUnix(date: DateType): number {
   return dayjs(date).unix();
 }
 
+export function removeTime(date: DateType): DateType {
+  return date ? dayjs(date).startOf('day') : undefined;
+}
+
 /**
  * Get detailed date object
  *
@@ -218,7 +227,8 @@ export const getMonthDays = (
           maxDate,
           disabledDates,
           false,
-          index + 1
+          index + 1,
+          firstDayOfWeek
         );
       })
     : Array(prevMonthOffset).fill(null);
@@ -233,7 +243,8 @@ export const getMonthDays = (
       maxDate,
       disabledDates,
       true,
-      prevMonthOffset + day
+      prevMonthOffset + day,
+      firstDayOfWeek
     );
   });
 
@@ -247,7 +258,8 @@ export const getMonthDays = (
       maxDate,
       disabledDates,
       false,
-      daysInCurrentMonth + prevMonthOffset + day
+      daysInCurrentMonth + prevMonthOffset + day,
+      firstDayOfWeek
     );
   });
 
@@ -264,6 +276,7 @@ export const getMonthDays = (
  * @param disabledDates - array of disabled dates, or a function that returns true for a given date
  * @param isCurrentMonth - define the day is in the current month
  * @param dayOfMonth - number the day in the current month
+ * @param firstDayOfWeek - first day of week, number 0-6, 0 – Sunday, 6 – Saturday
  *
  * @returns days object based on current date
  */
@@ -274,8 +287,11 @@ const generateDayObject = (
   maxDate: DateType,
   disabledDates: DateType[] | ((date: DateType) => boolean) | undefined,
   isCurrentMonth: boolean,
-  dayOfMonth: number
+  dayOfMonth: number,
+  firstDayOfWeek: number
 ) => {
+  const startOfWeek = date.startOf('week').add(firstDayOfWeek, 'day');
+
   return {
     text: number.toString(),
     number,
@@ -283,27 +299,26 @@ const generateDayObject = (
     isDisabled: isDateDisabled(date, { minDate, maxDate, disabledDates }),
     isCurrentMonth,
     dayOfMonth,
+    isStartOfWeek: date.isSame(startOfWeek, 'day'),
+    isEndOfWeek: date.day() === (firstDayOfWeek + 6) % 7,
   };
 };
 
-export function addColorAlpha(color: string | undefined, opacity: number) {
-  //if it has an alpha, remove it
-  if (!color) {
-    color = '#000000';
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+export function useDeepCompareMemo<T>(value: T, deps: any[]): T {
+  const ref = useRef<T>();
+  const depsRef = useRef<any[]>();
+
+  if (
+    !depsRef.current ||
+    !deps.every((dep, i) => isEqual(dep, depsRef.current![i]))
+  ) {
+    ref.current = value;
+    depsRef.current = deps;
   }
 
-  if (color.length > 7) {
-    color = color.substring(0, color.length - 2);
-  }
-
-  // coerce values so ti is between 0 and 1.
-  const _opacity = Math.round(Math.min(Math.max(opacity, 0), 1) * 255);
-  let opacityHex = _opacity.toString(16).toUpperCase();
-
-  // opacities near 0 need a trailing 0
-  if (opacityHex.length === 1) {
-    opacityHex = '0' + opacityHex;
-  }
-
-  return color + opacityHex;
+  return ref.current as T;
 }

@@ -1,45 +1,60 @@
-import React from 'react';
-import { memo } from 'react';
+import React, { memo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { getWeekdaysMin } from '../utils';
-import { CalendarThemeProps } from '../types';
+import { Styles, ClassNames, WeekdayName } from '../types';
 
 type WeekDaysProps = {
   locale: string | ILocale;
   firstDayOfWeek: number;
-  theme: CalendarThemeProps;
+  styles?: Styles;
+  classNames?: ClassNames;
+  weekdays?: WeekdayName;
 };
 
-const WeekDays = ({ locale, firstDayOfWeek, theme }: WeekDaysProps) => {
+const WeekDays = ({
+  locale,
+  firstDayOfWeek,
+  styles = {},
+  classNames = {},
+  weekdays = 'min',
+}: WeekDaysProps) => {
   return (
     <View
-      style={[styles.weekDaysContainer, theme?.weekDaysContainerStyle]}
-      testID="week-days"
+      style={[defaultStyles.container, styles.weekdays]}
+      className={classNames.weekdays}
+      testID="weekdays"
     >
-      {getWeekdaysMin(locale, firstDayOfWeek)?.map((item, index) => (
-        <View key={index} style={styles.weekDayCell}>
-          <Text style={theme?.weekDaysTextStyle}>{item}</Text>
-        </View>
-      ))}
+      {getWeekdaysMin(locale, firstDayOfWeek, weekdays)?.map(
+        (weekday, index) => (
+          <View
+            key={index}
+            style={[defaultStyles.weekday, styles.weekday]}
+            className={classNames.weekday}
+          >
+            <Text
+              style={styles?.weekday_label}
+              className={classNames.weekday_label}
+            >
+              {weekday}
+            </Text>
+          </View>
+        )
+      )}
     </View>
   );
 };
 
 export default memo(WeekDays);
 
-const styles = StyleSheet.create({
-  weekDaysContainer: {
+const defaultStyles = StyleSheet.create({
+  container: {
     width: '100%',
     flexDirection: 'row',
-    paddingBottom: 10,
-    paddingTop: 5,
-    marginBottom: 10,
+    paddingVertical: 6,
     alignItems: 'center',
-    borderBottomWidth: 1,
-    borderColor: '#E5E5E5',
   },
-  weekDayCell: {
-    width: '14.2%',
+  weekday: {
+    width: '14.25%',
     alignItems: 'center',
     justifyContent: 'center',
   },

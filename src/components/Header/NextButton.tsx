@@ -1,43 +1,54 @@
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 import { View, Image, Pressable, StyleSheet } from 'react-native';
 import { useCalendarContext } from '../../CalendarContext';
 import { YEAR_PAGE_SIZE } from '../../utils';
+import { ClassNames, Styles } from '../../types';
+import { UI } from '../../ui';
+import { isEqual } from 'lodash';
 
 const arrow_right = require('../../assets/images/arrow_right.png');
 
 type NextButtonProps = {
   icon?: React.ReactNode;
+  style?: Styles[UI.button_next];
+  className?: ClassNames[UI.button_next];
 };
 
-const NextButton = ({ icon }: NextButtonProps) => {
-  const { currentYear, onChangeMonth, onChangeYear, calendarView, theme } =
+const NextButton = ({ icon, style, className }: NextButtonProps) => {
+  const { currentYear, onChangeMonth, onChangeYear, calendarView } =
     useCalendarContext();
+
+  const onPress = useCallback(() => {
+    switch (calendarView) {
+      case 'day':
+        return onChangeMonth(1);
+      case 'month':
+        return onChangeYear(currentYear + 1);
+      case 'year':
+        return onChangeYear(currentYear + YEAR_PAGE_SIZE);
+      default:
+        return {};
+    }
+  }, [calendarView, currentYear, onChangeMonth, onChangeYear]);
 
   return (
     <Pressable
       disabled={calendarView === 'time'}
-      onPress={() =>
-        calendarView === 'day'
-          ? onChangeMonth(1)
-          : calendarView === 'month'
-          ? onChangeYear(currentYear + 1)
-          : calendarView === 'year' &&
-            onChangeYear(currentYear + YEAR_PAGE_SIZE)
-      }
+      onPress={onPress}
       testID="btn-next"
       accessibilityRole="button"
       accessibilityLabel="Next"
     >
       <View
-        style={[styles.iconContainer, styles.next, theme?.headerButtonStyle]}
+        style={[defaultStyles.iconContainer, defaultStyles.next, style]}
+        className={className}
       >
         {icon || (
           <Image
             source={arrow_right}
             style={{
-              width: theme?.headerButtonSize || 18,
-              height: theme?.headerButtonSize || 18,
-              tintColor: theme?.headerButtonColor,
+              width: 16,
+              height: 16,
             }}
           />
         )}
@@ -46,9 +57,21 @@ const NextButton = ({ icon }: NextButtonProps) => {
   );
 };
 
-export default memo(NextButton);
+const customComparator = (
+  prev: Readonly<NextButtonProps>,
+  next: Readonly<NextButtonProps>
+) => {
+  const areEqual =
+    prev.icon === next.icon &&
+    prev.className === next.className &&
+    isEqual(prev.style, next.style);
 
-const styles = StyleSheet.create({
+  return areEqual;
+};
+
+export default memo(NextButton, customComparator);
+
+const defaultStyles = StyleSheet.create({
   iconContainer: {
     padding: 4,
   },

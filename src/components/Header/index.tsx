@@ -4,43 +4,75 @@ import type { HeaderProps } from './types';
 import PrevButton from './PrevButton';
 import NextButton from './NextButton';
 import Selectors from './Selectors';
+import { isEqual } from 'lodash';
 
-const Header = ({ buttonPrevIcon, buttonNextIcon, theme }: HeaderProps) => {
+const Header = ({
+  buttonPrevIcon,
+  buttonNextIcon,
+  buttonsPosition,
+  styles = {},
+  classNames = {},
+}: HeaderProps) => {
   return (
     <View
-      style={[styles.headerContainer, theme?.headerContainerStyle]}
+      style={[defaultStyles.headerContainer, styles?.header]}
+      className={classNames.header}
       accessibilityRole="header"
     >
-      {theme?.headerButtonsPosition === 'left' ? (
-        <View style={styles.container}>
-          <View style={styles.row}>
-            <PrevButton icon={buttonPrevIcon} theme={theme} />
-            <NextButton icon={buttonNextIcon} />
+      {buttonsPosition === 'left' ? (
+        <View style={defaultStyles.container}>
+          <View style={defaultStyles.row}>
+            <PrevButton
+              icon={buttonPrevIcon}
+              style={styles.button_prev}
+              className={classNames.button_prev}
+            />
+            <NextButton
+              icon={buttonNextIcon}
+              style={styles.button_next}
+              className={classNames.button_next}
+            />
           </View>
-          <Selectors />
+          <Selectors position="left" />
         </View>
-      ) : theme?.headerButtonsPosition === 'right' ? (
-        <View style={styles.container}>
-          <Selectors />
-          <View style={styles.row}>
-            <PrevButton icon={buttonPrevIcon} theme={theme} />
-            <NextButton icon={buttonNextIcon} />
+      ) : buttonsPosition === 'right' ? (
+        <View style={defaultStyles.container}>
+          <Selectors position="right" />
+          <View style={defaultStyles.row}>
+            <PrevButton
+              icon={buttonPrevIcon}
+              style={styles.button_prev}
+              className={classNames.button_prev}
+            />
+            <NextButton
+              icon={buttonNextIcon}
+              style={styles.button_next}
+              className={classNames.button_next}
+            />
           </View>
         </View>
       ) : (
-        <View style={styles.container}>
-          <PrevButton icon={buttonPrevIcon} theme={theme} />
-          <Selectors />
-          <NextButton icon={buttonNextIcon} />
+        <View style={defaultStyles.container}>
+          <PrevButton
+            icon={buttonPrevIcon}
+            style={styles.button_prev}
+            className={classNames.button_prev}
+          />
+          <Selectors position="around" />
+          <NextButton
+            icon={buttonNextIcon}
+            style={styles.button_next}
+            className={classNames.button_next}
+          />
         </View>
       )}
     </View>
   );
 };
 
-const styles = StyleSheet.create({
+const defaultStyles = StyleSheet.create({
   headerContainer: {
-    marginBottom: 5,
+    paddingVertical: 3,
   },
   container: {
     padding: 5,
@@ -53,4 +85,18 @@ const styles = StyleSheet.create({
   },
 });
 
-export default memo(Header);
+const customComparator = (
+  prev: Readonly<HeaderProps>,
+  next: Readonly<HeaderProps>
+) => {
+  const areEqual =
+    prev.buttonPrevIcon === next.buttonPrevIcon &&
+    prev.buttonNextIcon === next.buttonNextIcon &&
+    prev.buttonsPosition === next.buttonsPosition &&
+    isEqual(prev.styles, next.styles) &&
+    isEqual(prev.classNames, next.classNames);
+
+  return areEqual;
+};
+
+export default memo(Header, customComparator);
