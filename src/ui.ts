@@ -1,3 +1,6 @@
+import { View, Text, Pressable } from 'react-native';
+import { cssInterop } from 'nativewind';
+
 export enum UI {
   /** The container of the displayed days. */
   days = 'days',
@@ -19,10 +22,12 @@ export enum UI {
   year = 'year',
   /** The label of the year cell in the years grid. */
   year_label = 'year_label',
-  /** The background line between ranges. */
-  range_line = 'range_line',
-  range_line_weekstart = 'range_line_weekstart',
-  range_line_weekend = 'range_line_weekend',
+  /** The filled background for the selected range. */
+  range_fill = 'range_fill',
+  /** The background for the start days of each week within the selected range. */
+  range_fill_weekstart = 'range_fill_weekstart',
+  /** The background for the end days of each week within the selected range. */
+  range_fill_weekend = 'range_fill_weekend',
   /** The calendar header with the previous and next buttons and selectors. */
   header = 'header',
   /** The cell containing the month selector in the header. */
@@ -106,3 +111,21 @@ export enum YearState {
   /** The label of the activated year. */
   active_year_label = 'active_year_label',
 }
+
+export const ThemedView = cssInterop(View, {
+  className: {
+    target: 'style',
+  },
+});
+
+export const ThemedText = cssInterop(Text, {
+  className: {
+    target: 'style',
+  },
+});
+
+export const ThemedPressable = cssInterop(Pressable, {
+  className: {
+    target: 'style',
+  },
+});

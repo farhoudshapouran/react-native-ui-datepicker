@@ -1,15 +1,16 @@
 import React, { memo, useMemo } from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
-import { ClassNames, DayObject, Styles } from '../types';
+import { View, Pressable, StyleSheet } from 'react-native';
+import { ClassNames, CalendarDay, Styles } from '../types';
 import { CALENDAR_HEIGHT } from '../enums';
 import { cn } from '../utils';
 import { isEqual } from 'lodash';
+import { ThemedPressable, ThemedText, ThemedView } from '../ui';
 
 interface Props {
-  day: DayObject;
+  day: CalendarDay;
   onSelectDate: (date: string) => void;
   calendarHeight?: number;
-  renderDay?: (day: DayObject) => React.ReactNode;
+  renderDay?: (day: CalendarDay) => React.ReactNode;
   styles?: Styles;
   classNames?: ClassNames;
 }
@@ -105,17 +106,17 @@ const Day = ({
     if (!inRange) return null;
     if (!isCrop) {
       return (
-        <View
+        <ThemedView
           style={[
             style.rangeRoot,
-            styles.range_line,
-            isEndOfWeek && styles.range_line_weekend,
-            isStartOfWeek && styles.range_line_weekstart,
+            styles.range_fill,
+            isEndOfWeek && styles.range_fill_weekend,
+            isStartOfWeek && styles.range_fill_weekstart,
           ]}
           className={cn(
-            classNames.range_line,
-            isEndOfWeek && classNames.range_line_weekend,
-            isStartOfWeek && classNames.range_line_weekstart
+            classNames.range_fill,
+            isEndOfWeek && classNames.range_fill_weekend,
+            isStartOfWeek && classNames.range_fill_weekstart
           )}
         />
       );
@@ -123,15 +124,15 @@ const Day = ({
     return (
       <>
         {leftCrop && (
-          <View
-            style={[style.rangeRoot, { left: '50%' }, styles.range_line]}
-            className={classNames.range_line}
+          <ThemedView
+            style={[style.rangeRoot, { left: '50%' }, styles.range_fill]}
+            className={classNames.range_fill}
           />
         )}
         {rightCrop && (
-          <View
-            style={[style.rangeRoot, { right: '50%' }, styles.range_line]}
-            className={classNames.range_line}
+          <ThemedView
+            style={[style.rangeRoot, { right: '50%' }, styles.range_fill]}
+            className={classNames.range_fill}
           />
         )}
       </>
@@ -142,17 +143,17 @@ const Day = ({
     leftCrop,
     rightCrop,
     style.rangeRoot,
-    styles.range_line,
-    styles.range_line_weekstart,
-    styles.range_line_weekend,
-    classNames.range_line,
-    classNames.range_line_weekstart,
-    classNames.range_line_weekend,
+    styles.range_fill,
+    styles.range_fill_weekstart,
+    styles.range_fill_weekend,
+    classNames.range_fill,
+    classNames.range_fill_weekstart,
+    classNames.range_fill_weekend,
   ]);
 
   return (
     <View style={style.dayCell}>
-      <View style={styles.day_wrapper} className={classNames.day_wrapper}>
+      <ThemedView style={styles.day_wrapper} className={classNames.day_wrapper}>
         {RangeLine}
         {renderDay ? (
           <Pressable
@@ -165,7 +166,7 @@ const Day = ({
             {renderDay(day)}
           </Pressable>
         ) : (
-          <Pressable
+          <ThemedPressable
             disabled={isDisabled}
             onPress={() => onSelectDate(date)}
             accessibilityRole="button"
@@ -173,12 +174,12 @@ const Day = ({
             style={containerStyle}
             className={containerClassName}
           >
-            <Text style={textStyle} className={textClassName}>
+            <ThemedText style={textStyle} className={textClassName}>
               {text}
-            </Text>
-          </Pressable>
+            </ThemedText>
+          </ThemedPressable>
         )}
-      </View>
+      </ThemedView>
     </View>
   );
 };

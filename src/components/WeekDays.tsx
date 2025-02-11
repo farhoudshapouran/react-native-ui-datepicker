@@ -1,9 +1,10 @@
 import React, { memo } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { getWeekdaysMin } from '../utils';
 import { Styles, ClassNames, WeekdayName } from '../types';
+import { ThemedText, ThemedView } from '../ui';
 
-type WeekDaysProps = {
+type WeekdaysProps = {
   locale: string | ILocale;
   firstDayOfWeek: number;
   styles?: Styles;
@@ -11,40 +12,40 @@ type WeekDaysProps = {
   weekdays?: WeekdayName;
 };
 
-const WeekDays = ({
+const Weekdays = ({
   locale,
   firstDayOfWeek,
   styles = {},
   classNames = {},
   weekdays = 'min',
-}: WeekDaysProps) => {
+}: WeekdaysProps) => {
   return (
-    <View
+    <ThemedView
       style={[defaultStyles.container, styles.weekdays]}
       className={classNames.weekdays}
       testID="weekdays"
     >
       {getWeekdaysMin(locale, firstDayOfWeek, weekdays)?.map(
         (weekday, index) => (
-          <View
+          <ThemedView
             key={index}
             style={[defaultStyles.weekday, styles.weekday]}
             className={classNames.weekday}
           >
-            <Text
+            <ThemedText
               style={styles?.weekday_label}
               className={classNames.weekday_label}
             >
               {weekday}
-            </Text>
-          </View>
+            </ThemedText>
+          </ThemedView>
         )
       )}
-    </View>
+    </ThemedView>
   );
 };
 
-export default memo(WeekDays);
+export default memo(Weekdays);
 
 const defaultStyles = StyleSheet.create({
   container: {

@@ -1,8 +1,7 @@
 import { cn } from '@/lib/utils';
-import { isEqual } from 'lodash';
-import { memo, useMemo } from 'react';
+import { useMemo } from 'react';
 import { View, Text } from 'react-native';
-import { DayObject } from 'react-native-ui-datepicker';
+import { CalendarDay } from 'react-native-ui-datepicker';
 
 const specialDates = ['2025-02-14', '2025-03-08', '2025-04-01'];
 
@@ -11,7 +10,7 @@ function toArabicNumbers(str: string): string {
 }
 
 type Props = {
-  day: DayObject;
+  day: CalendarDay;
 };
 
 export const CustomDay = ({ day }: Props) => {

@@ -1,5 +1,5 @@
 import { View, Text } from 'react-native';
-import { DayObject } from 'react-native-ui-datepicker';
+import { CalendarDay } from 'react-native-ui-datepicker';
 
 const specialDates = ['2025-02-14', '2025-03-08', '2025-04-01'];
 
@@ -8,7 +8,7 @@ function toArabicNumbers(str: string): string {
 }
 
 type Props = {
-  day: DayObject;
+  day: CalendarDay;
 };
 
 export const CustomDay = ({ day }: Props) => {
@@ -28,8 +28,8 @@ export const CustomDay = ({ day }: Props) => {
           backgroundColor: isSelected
             ? 'blue'
             : isSpecial
-            ? 'gold'
-            : 'transparent',
+              ? 'gold'
+              : 'transparent',
           borderRadius: isSpecial ? 10 : 5, // Add rounded corners for special dates
         }}
       >

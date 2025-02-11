@@ -1,7 +1,8 @@
 import React, { useCallback } from 'react';
-import { Text, View, Pressable, StyleSheet } from 'react-native';
-import { useCalendarContext } from '../CalendarContext';
+import { View, StyleSheet } from 'react-native';
+import { useCalendarContext } from '../calendar-context';
 import { cn, getDateYear, getYearRange } from '../utils';
+import { ThemedPressable, ThemedText } from '../ui';
 
 const Years = () => {
   const {
@@ -49,17 +50,17 @@ const Years = () => {
 
       return (
         <View key={year} style={defaultStyles.yearCell}>
-          <Pressable
+          <ThemedPressable
             onPress={() => onSelectYear(year)}
             style={containerStyle}
             className={containerClassName}
             accessibilityRole="button"
             accessibilityLabel={year.toString()}
           >
-            <Text key={year} style={textStyle} className={textClassName}>
+            <ThemedText key={year} style={textStyle} className={textClassName}>
               {year}
-            </Text>
-          </Pressable>
+            </ThemedText>
+          </ThemedPressable>
         </View>
       );
     });

@@ -1,3 +1,4 @@
+import { useColorScheme } from 'nativewind';
 import { ClassNames, Styles } from './types';
 import { UI, SelectionState, DayFlag, MonthState, YearState } from './ui';
 
@@ -15,19 +16,22 @@ export function getDefaultClassNames(): ClassNames {
     [UI.year]: 'group rounded-md web:hover:bg-accent active:bg-accent',
     [UI.year_label]:
       'web:whitespace-nowrap text-foreground group-active:text-accent-foreground font-normal',
-    [UI.range_line]: 'bg-accent',
-    [UI.range_line_weekstart]: '',
-    [UI.range_line_weekend]: '',
+    [UI.range_fill]: 'bg-accent',
+    [UI.range_fill_weekstart]: '',
+    [UI.range_fill_weekend]: '',
     [UI.header]: 'mb-1',
     [UI.month_selector]: '',
-    [UI.month_selector_label]: 'font-semibold text-xl',
+    [UI.month_selector_label]:
+      'font-semibold native:text-xl text-base text-foreground',
     [UI.year_selector]: '',
-    [UI.year_selector_label]: 'font-semibold text-xl',
+    [UI.year_selector_label]:
+      'font-semibold native:text-xl text-base text-foreground',
     [UI.time_selector]: '',
-    [UI.time_selector_label]: 'font-semibold text-xl',
+    [UI.time_selector_label]:
+      'font-semibold native:text-xl text-base text-foreground',
     [UI.weekdays]: '',
     [UI.weekday]: '',
-    [UI.weekday_label]: 'text-sm uppercase',
+    [UI.weekday_label]: 'text-sm uppercase text-muted-foreground',
     [UI.button_next]: '',
     [UI.button_prev]: '',
     [UI.time_label]: 'text-foreground text-2xl font-medium',
@@ -65,106 +69,125 @@ export function getDefaultClassNames(): ClassNames {
   return classNames;
 }
 
-export function getDefaultStyles(scheme: 'light' | 'dark'): Styles {
+export function getDefaultStyles(): Styles {
+  const { colorScheme } = useColorScheme();
+  const theme = colorScheme ?? 'light';
+
   const styles: Styles = {
     [UI.days]: {},
     [UI.day_wrapper]: { padding: 1.5 },
     [UI.day]: { borderRadius: 5 },
-    [UI.day_label]: { color: COLORS[scheme].accentForeground },
+    [UI.day_label]: { color: COLORS[theme].accentForeground },
     [UI.months]: {},
     [UI.month]: {
-      borderColor: COLORS[scheme].border,
+      borderColor: COLORS[theme].border,
       borderWidth: 1,
       borderRadius: 5,
     },
-    [UI.month_label]: { color: COLORS[scheme].accentForeground },
+    [UI.month_label]: { color: COLORS[theme].accentForeground },
     [UI.years]: {},
     [UI.year]: {
-      borderColor: COLORS[scheme].border,
+      borderColor: COLORS[theme].border,
       borderWidth: 1,
       borderRadius: 5,
     },
-    [UI.year_label]: { color: COLORS[scheme].accentForeground },
-    [UI.range_line]: { backgroundColor: COLORS[scheme].accent },
-    [UI.range_line_weekstart]: {},
-    [UI.range_line_weekend]: {},
+    [UI.year_label]: { color: COLORS[theme].accentForeground },
+    [UI.range_fill]: { backgroundColor: COLORS[theme].accent },
+    [UI.range_fill_weekstart]: {},
+    [UI.range_fill_weekend]: {},
     [UI.header]: { marginBottom: 5 },
     [UI.month_selector]: {},
-    [UI.month_selector_label]: { fontSize: 18, fontWeight: '500' },
+    [UI.month_selector_label]: {
+      fontSize: 16,
+      fontWeight: '500',
+      color: COLORS[theme].foreground,
+    },
     [UI.year_selector]: {},
-    [UI.year_selector_label]: { fontSize: 18, fontWeight: '500' },
+    [UI.year_selector_label]: {
+      fontSize: 16,
+      fontWeight: '500',
+      color: COLORS[theme].foreground,
+    },
     [UI.time_selector]: {},
-    [UI.time_selector_label]: { fontSize: 18, fontWeight: '500' },
+    [UI.time_selector_label]: {
+      fontSize: 16,
+      fontWeight: '500',
+      color: COLORS[theme].foreground,
+    },
     [UI.weekdays]: {},
     [UI.weekday]: {},
-    [UI.weekday_label]: { textTransform: 'uppercase' },
+    [UI.weekday_label]: {
+      fontSize: 12,
+      textTransform: 'uppercase',
+      color: COLORS[theme].mutedForeground,
+    },
     [UI.button_next]: {},
     [UI.button_prev]: {},
     [UI.time_label]: { fontSize: 22, fontWeight: '500' },
     [UI.time_selected_indicator]: {
-      backgroundColor: 'hsl(240 4.8% 95.9%)',
+      backgroundColor: COLORS[theme].muted,
       borderRadius: 5,
     },
 
     [SelectionState.range_end]: {},
     [SelectionState.range_end_label]: {
-      color: COLORS[scheme].primaryForeground,
+      color: COLORS[theme].primaryForeground,
     },
     [SelectionState.range_middle]: { backgroundColor: 'transparent' },
     [SelectionState.range_middle_label]: {
-      color: COLORS[scheme].accentForeground,
+      color: COLORS[theme].accentForeground,
     },
     [SelectionState.range_start]: {},
     [SelectionState.range_start_label]: {
-      color: COLORS[scheme].primaryForeground,
+      color: COLORS[theme].primaryForeground,
     },
     [SelectionState.selected]: {
       borderRadius: 5,
-      backgroundColor: COLORS[scheme].primary,
+      backgroundColor: COLORS[theme].primary,
     },
     [SelectionState.selected_label]: {
-      color: COLORS[scheme].primaryForeground,
+      color: COLORS[theme].primaryForeground,
     },
 
     [DayFlag.disabled]: {},
     [DayFlag.disabled_label]: {
-      color: COLORS[scheme].mutedForeground,
+      color: COLORS[theme].mutedForeground,
       opacity: 0.5,
     },
     [DayFlag.hidden]: {},
     [DayFlag.outside]: {},
-    [DayFlag.outside_label]: { color: COLORS[scheme].mutedForeground },
-    [DayFlag.today]: { backgroundColor: COLORS[scheme].accent },
-    [DayFlag.today_label]: { color: COLORS[scheme].accentForeground },
+    [DayFlag.outside_label]: { color: COLORS[theme].mutedForeground },
+    [DayFlag.today]: { backgroundColor: COLORS[theme].accent },
+    [DayFlag.today_label]: { color: COLORS[theme].accentForeground },
 
     [MonthState.selected_month]: {
-      backgroundColor: COLORS[scheme].primary,
-      borderColor: COLORS[scheme].primary,
+      backgroundColor: COLORS[theme].primary,
+      borderColor: COLORS[theme].primary,
     },
     [MonthState.selected_month_label]: {
-      color: COLORS[scheme].primaryForeground,
+      color: COLORS[theme].primaryForeground,
     },
 
     [YearState.selected_year]: {
-      backgroundColor: COLORS[scheme].primary,
-      borderColor: COLORS[scheme].primary,
+      backgroundColor: COLORS[theme].primary,
+      borderColor: COLORS[theme].primary,
     },
     [YearState.selected_year_label]: {
-      color: COLORS[scheme].primaryForeground,
+      color: COLORS[theme].primaryForeground,
     },
     [YearState.active_year]: {
-      backgroundColor: COLORS[scheme].accent,
-      borderColor: COLORS[scheme].accent,
+      backgroundColor: COLORS[theme].accent,
+      borderColor: COLORS[theme].accent,
     },
     [YearState.active_year_label]: {
-      color: COLORS[scheme].accentForeground,
+      color: COLORS[theme].accentForeground,
     },
   };
 
   return styles;
 }
 
-const COLORS = {
+export const COLORS = {
   light: {
     background: 'hsl(0 0% 100%)',
     foreground: 'hsl(240 10% 3.9%)',

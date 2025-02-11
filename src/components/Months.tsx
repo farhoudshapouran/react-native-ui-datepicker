@@ -1,7 +1,8 @@
 import React from 'react';
-import { Text, View, Pressable, StyleSheet } from 'react-native';
-import { useCalendarContext } from '../CalendarContext';
+import { View, StyleSheet } from 'react-native';
+import { useCalendarContext } from '../calendar-context';
 import { getParsedDate, getMonths, cn } from '../utils';
+import { ThemedPressable, ThemedText } from '../ui';
 
 const Months = () => {
   const { currentDate, onSelectMonth, styles, classNames } =
@@ -33,17 +34,21 @@ const Months = () => {
 
           return (
             <View key={index} style={defaultStyles.monthCell}>
-              <Pressable
+              <ThemedPressable
                 onPress={() => onSelectMonth(index)}
                 accessibilityRole="button"
                 accessibilityLabel={item}
                 style={[defaultStyles.month, styles?.month, activeItemStyle]}
                 className={containerClassName}
               >
-                <Text key={index} style={textStyle} className={textClassName}>
+                <ThemedText
+                  key={index}
+                  style={textStyle}
+                  className={textClassName}
+                >
                   {item}
-                </Text>
-              </Pressable>
+                </ThemedText>
+              </ThemedPressable>
             </View>
           );
         })}

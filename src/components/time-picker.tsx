@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
 import {
-  Text,
   View,
   StyleSheet,
   I18nManager,
@@ -8,10 +7,11 @@ import {
   TextStyle,
   ScrollView,
 } from 'react-native';
-import { useCalendarContext } from '../CalendarContext';
-import Wheel from './TimePicker/Wheel';
+import { useCalendarContext } from '../calendar-context';
+import Wheel from './time-picker/wheel';
 import { CALENDAR_HEIGHT } from '../enums';
 import { getParsedDate, getDate, getFormated } from '../utils';
+import { ThemedText } from '../ui';
 
 const createNumberList = (num: number) =>
   Array.from({ length: num }, (_, index) =>
@@ -71,9 +71,12 @@ const TimePicker = () => {
             classNames={classNames}
           />
         </View>
-        <Text style={timePickerTextStyle} className={classNames?.time_label}>
+        <ThemedText
+          style={timePickerTextStyle}
+          className={classNames?.time_label}
+        >
           :
-        </Text>
+        </ThemedText>
         <View style={defaultStyles.wheelContainer}>
           <Wheel
             value={minute}

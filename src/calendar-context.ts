@@ -4,9 +4,8 @@ import type { DateType, DatePickerBaseProps } from './types';
 
 export interface CalendarContextType extends DatePickerBaseProps {
   locale: string | ILocale;
-  displayFullDays: boolean;
+  showOutsideDays: boolean;
   firstDayOfWeek: number;
-  //theme: CalendarThemeProps;
   calendarView: CalendarViews;
   currentDate: DateType; // used for latest state of calendar based on Month and Year
   currentYear: number;
@@ -18,8 +17,6 @@ export interface CalendarContextType extends DatePickerBaseProps {
   onChangeYear: (value: number) => void;
 }
 
-const CalendarContext = createContext({} as CalendarContextType);
+export const CalendarContext = createContext({} as CalendarContextType);
 
 export const useCalendarContext = () => useContext(CalendarContext);
-
-export default CalendarContext;

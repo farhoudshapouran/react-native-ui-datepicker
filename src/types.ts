@@ -6,7 +6,7 @@ import { UI, SelectionState, DayFlag, MonthState, YearState } from './ui';
 
 export type DateType = string | number | Dayjs | Date | null | undefined;
 
-export type ModeType = 'single' | 'range' | 'multiple';
+export type CalendarMode = 'single' | 'range' | 'multiple';
 
 export type HeaderButtonPositions = 'around' | 'right' | 'left';
 
@@ -25,36 +25,12 @@ export type CalendarAction = {
   payload: any;
 };
 
-export type CalendarThemeProps = {
-  headerContainerStyle?: ViewStyle;
-  headerTextContainerStyle?: ViewStyle;
-  headerTextStyle?: TextStyle;
-  headerButtonStyle?: ViewStyle;
-  headerButtonColor?: string;
-  headerButtonSize?: number;
-  dayContainerStyle?: ViewStyle;
-  todayContainerStyle?: ViewStyle;
-  todayTextStyle?: TextStyle;
-  monthContainerStyle?: ViewStyle;
-  yearContainerStyle?: ViewStyle;
-  weekDaysContainerStyle?: ViewStyle;
-  weekDaysTextStyle?: TextStyle;
-  calendarTextStyle?: TextStyle;
-  selectedTextStyle?: TextStyle;
-  selectedItemColor?: string;
-  timePickerContainerStyle?: ViewStyle;
-  timePickerTextStyle?: TextStyle;
-  timePickerIndicatorStyle?: ViewStyle;
-  timePickerDecelerationRate?: 'normal' | 'fast' | number;
-  selectedRangeBackgroundColor?: string;
-};
-
 export type HeaderProps = {
   buttonPrevIcon?: ReactNode;
   buttonNextIcon?: ReactNode;
 };
 
-export type DayObject = {
+export type CalendarDay = {
   text: string;
   number: number;
   date: string;
@@ -96,7 +72,7 @@ export type Styles = Partial<{
 export type WeekdayName = 'min' | 'short';
 
 export interface DatePickerBaseProps {
-  mode?: ModeType;
+  mode?: CalendarMode;
   locale?: string | ILocale; // If ILocale is required, define it somewhere
   startYear?: number;
   endYear?: number;
@@ -104,7 +80,7 @@ export interface DatePickerBaseProps {
   maxDate?: DateType;
   disabledDates?: DateType[] | ((date: DateType) => boolean);
   firstDayOfWeek?: number;
-  displayFullDays?: boolean;
+  showOutsideDays?: boolean;
   timePicker?: boolean;
   date?: DateType;
   dates?: DateType[];
@@ -113,10 +89,14 @@ export interface DatePickerBaseProps {
   onChange?: SingleChange | RangeChange | MultiChange;
   initialView?: CalendarViews;
   height?: number;
-  renderDay?: (day: DayObject) => React.ReactNode;
+  renderDay?: (day: CalendarDay) => React.ReactNode;
   styles?: Styles;
   classNames?: ClassNames;
   headerButtonsPosition?: HeaderButtonPositions;
   weekdays?: WeekdayName;
   multiRangeMode?: boolean;
+  showHeader?: boolean;
+  showWeekdays?: boolean;
+  enableMonthPicker?: boolean;
+  enableYearPicker?: boolean;
 }

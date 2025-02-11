@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react-native';
-import DateTimePicker from '../DateTimePicker';
+import DateTimePicker from '../datetime-picker';
 //import dayjs from 'dayjs';
 import 'dayjs/locale/en';
 import 'dayjs/locale/de';

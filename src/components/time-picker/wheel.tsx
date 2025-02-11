@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { Platform } from 'react-native';
-import WheelNative from './WheelNative';
-import WheelWeb from './WheelWeb';
+import WheelNative from './wheel-native';
+import WheelWeb from './wheel-web';
 import { ClassNames, Styles } from '../../types';
 
 type WheelProps = {

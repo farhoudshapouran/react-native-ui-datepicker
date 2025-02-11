@@ -1,8 +1,9 @@
 import React, { memo } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { useCalendarContext } from '../../CalendarContext';
+import { Pressable, StyleSheet } from 'react-native';
+import { useCalendarContext } from '../../calendar-context';
 import { getDateYear, getYearRange } from '../../utils';
 import dayjs from 'dayjs';
+import { ThemedView, ThemedText } from '../../ui';
 
 const YearButton = () => {
   const {
@@ -13,11 +14,13 @@ const YearButton = () => {
     onChangeYear,
     styles,
     classNames,
+    enableYearPicker,
   } = useCalendarContext();
 
   const years = getYearRange(currentYear);
   return (
     <Pressable
+      disabled={!enableYearPicker}
       onPress={() => {
         setCalendarView(calendarView === 'year' ? 'day' : 'year');
         onChangeYear(getDateYear(currentDate));
@@ -26,19 +29,19 @@ const YearButton = () => {
       accessibilityRole="button"
       accessibilityLabel={dayjs(currentDate).format('YYYY')}
     >
-      <View
+      <ThemedView
         style={[defaultStyles.container, styles?.year_selector]}
         className={classNames?.year_selector}
       >
-        <Text
+        <ThemedText
           style={styles?.year_selector_label}
           className={classNames?.year_selector_label}
         >
           {calendarView === 'year'
             ? `${years[0]} - ${years[years.length - 1]}`
             : dayjs(currentDate).format('YYYY')}
-        </Text>
-      </View>
+        </ThemedText>
+      </ThemedView>
     </Pressable>
   );
 };

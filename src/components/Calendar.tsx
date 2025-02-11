@@ -1,13 +1,13 @@
 import React, { ReactNode, memo, useMemo } from 'react';
 import { View, StyleSheet, ViewStyle } from 'react-native';
-import { useCalendarContext } from '../CalendarContext';
+import { useCalendarContext } from '../calendar-context';
 import type { CalendarViews } from '../enums';
 import type { HeaderProps } from '../types';
-import Header from './Header';
-import Years from './Years';
-import Months from './Months';
-import Days from './Days';
-import TimePicker from './TimePicker';
+import Header from './header';
+import Years from './years';
+import Months from './months';
+import Days from './days';
+import TimePicker from './time-picker';
 import { CALENDAR_HEIGHT } from '../enums';
 
 const CalendarView: Record<CalendarViews, ReactNode> = {
@@ -28,8 +28,13 @@ interface Props extends HeaderProps {
 }
 
 const Calendar = ({ buttonPrevIcon, buttonNextIcon, height }: Props) => {
-  const { calendarView, styles, classNames, headerButtonsPosition } =
-    useCalendarContext();
+  const {
+    showHeader,
+    calendarView,
+    styles,
+    classNames,
+    headerButtonsPosition,
+  } = useCalendarContext();
 
   const calendarContainerStyle: ViewStyle = useMemo(
     () => ({
@@ -41,13 +46,15 @@ const Calendar = ({ buttonPrevIcon, buttonNextIcon, height }: Props) => {
 
   return (
     <View style={defaultStyles.container} testID="calendar">
-      <Header
-        buttonPrevIcon={buttonPrevIcon}
-        buttonNextIcon={buttonNextIcon}
-        buttonsPosition={headerButtonsPosition}
-        styles={styles}
-        classNames={classNames}
-      />
+      {showHeader ? (
+        <Header
+          buttonPrevIcon={buttonPrevIcon}
+          buttonNextIcon={buttonNextIcon}
+          buttonsPosition={headerButtonsPosition}
+          styles={styles}
+          classNames={classNames}
+        />
+      ) : null}
       <View style={calendarContainerStyle}>{CalendarView[calendarView]}</View>
     </View>
   );

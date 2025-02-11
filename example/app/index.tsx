@@ -15,8 +15,8 @@ import { CustomDay } from '@/components/custom-day';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import DateTimePicker, {
   DateType,
-  DayObject,
-  ModeType,
+  CalendarDay,
+  CalendarMode,
 } from 'react-native-ui-datepicker';
 import dayjs from 'dayjs';
 import 'dayjs/locale/en';
@@ -38,7 +38,7 @@ const Themes: ITheme[] = [
 ];
 
 export default function MainPage() {
-  const [mode, setMode] = useState<ModeType>('single');
+  const [mode, setMode] = useState<CalendarMode>('single');
   const [timePicker, setTimePicker] = useState(false);
 
   const [date, setDate] = useState<DateType | undefined>();
@@ -52,7 +52,7 @@ export default function MainPage() {
   const [locale, setLocale] = useState('en');
 
   const onChangeMode = useCallback(
-    (value: ModeType) => {
+    (value: CalendarMode) => {
       setDate(undefined);
       setRange({ startDate: undefined, endDate: undefined });
       setDates(undefined);
@@ -202,21 +202,21 @@ export default function MainPage() {
                 //disabledDates={[dayjs(), dayjs().add(1, 'day')]}
                 disabledDates={(date) => [0, 6].includes(dayjs(date).day())} // disable weekends
                 //firstDayOfWeek={6}
-                displayFullDays
+                showOutsideDays
                 timePicker={timePicker}
                 onChange={onChange}
-                headerButtonColor={theme?.mainColor}
-                selectedItemColor={theme?.mainColor}
+                //headerButtonColor={theme?.mainColor}
+                //selectedItemColor={theme?.mainColor}
                 // eslint-disable-next-line react-native/no-inline-styles
-                selectedTextStyle={{
-                  fontWeight: 'bold',
-                  color: theme?.activeTextColor,
-                }}
+                // selectedTextStyle={{
+                //   fontWeight: 'bold',
+                //   color: theme?.activeTextColor,
+                // }}
                 // eslint-disable-next-line react-native/no-inline-styles
-                todayContainerStyle={{
-                  borderWidth: 1,
-                }}
-                renderDay={(day: DayObject) => <CustomDay day={day} />}
+                // todayContainerStyle={{
+                //   borderWidth: 1,
+                // }}
+                renderDay={(day: CalendarDay) => <CustomDay day={day} />}
               />
               <View style={styles.footer}>
                 {mode === 'single' ? (

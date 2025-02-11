@@ -1,8 +1,8 @@
 import React, { useMemo, useCallback } from 'react';
 import { View, StyleSheet } from 'react-native';
 import dayjs from 'dayjs';
-import { useCalendarContext } from '../CalendarContext';
-import Day, { EmptyDay } from './Day';
+import { useCalendarContext } from '../calendar-context';
+import Day, { EmptyDay } from './day';
 import {
   getParsedDate,
   getMonthDays,
@@ -12,7 +12,8 @@ import {
   getDate,
   getFormated,
 } from '../utils';
-import WeekDays from './WeekDays';
+import Weekdays from './weekdays';
+import { ThemedView } from '../ui';
 
 const Days = () => {
   const {
@@ -23,7 +24,7 @@ const Days = () => {
     dates,
     currentDate,
     onSelectDate,
-    displayFullDays,
+    showOutsideDays,
     minDate,
     maxDate,
     disabledDates,
@@ -35,6 +36,7 @@ const Days = () => {
     classNames,
     weekdays,
     multiRangeMode,
+    showWeekdays,
   } = useCalendarContext();
 
   const { year, month, hour, minute } = getParsedDate(currentDate);
@@ -57,13 +59,13 @@ const Days = () => {
     const today = new Date();
     const { fullDaysInMonth } = getDaysInMonth(
       currentDate,
-      displayFullDays,
+      showOutsideDays,
       firstDayOfWeek
     );
 
     return getMonthDays(
       currentDate,
-      displayFullDays,
+      showOutsideDays,
       minDate,
       maxDate,
       firstDayOfWeek,
@@ -148,7 +150,7 @@ const Days = () => {
     mode,
     month,
     year,
-    displayFullDays,
+    showOutsideDays,
     firstDayOfWeek,
     minDate,
     maxDate,
@@ -162,14 +164,20 @@ const Days = () => {
 
   return (
     <View style={defaultStyles.container} testID="day-selector">
-      <WeekDays
-        locale={locale}
-        firstDayOfWeek={firstDayOfWeek}
-        styles={styles}
-        classNames={classNames}
-        weekdays={weekdays}
-      />
-      <View style={containerStyle} className={classNames?.days} testID="days">
+      {showWeekdays ? (
+        <Weekdays
+          locale={locale}
+          firstDayOfWeek={firstDayOfWeek}
+          styles={styles}
+          classNames={classNames}
+          weekdays={weekdays}
+        />
+      ) : null}
+      <ThemedView
+        style={containerStyle}
+        className={classNames?.days}
+        testID="days"
+      >
         {daysGrid?.map((day, index) => {
           return day ? (
             <Day
@@ -185,7 +193,7 @@ const Days = () => {
             <EmptyDay key={index} calendarHeight={height} />
           );
         })}
-      </View>
+      </ThemedView>
     </View>
   );
 };

@@ -1,8 +1,9 @@
 import { Link } from 'expo-router';
 import { useActiveLink } from '@/hooks/use-active-link';
 import { NavItemProps } from './types';
-import { Button } from '../ui/button';
-import { Text } from '../ui/text';
+import { Button } from '@/components/ui/button';
+import { Text } from '@/components/ui/text';
+import { cn } from '@/lib/utils';
 
 type Props = {
   item: NavItemProps;
@@ -13,9 +14,14 @@ export function NavItem({ item }: Props) {
 
   return (
     <Link href={item.path} asChild>
-      <Button size="sm" variant={active ? 'secondary' : 'ghost'}>
-        <Text>{item.title}</Text>
-      </Button>
+      <Text
+        className={cn(
+          'text-muted-foreground text-sm',
+          active && 'text-foreground'
+        )}
+      >
+        {item.title}
+      </Text>
     </Link>
   );
 }

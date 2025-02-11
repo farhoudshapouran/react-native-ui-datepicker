@@ -14,20 +14,19 @@ import {
   areDatesOnSameDay,
   removeTime,
 } from './utils';
-import CalendarContext from './CalendarContext';
+import { CalendarContext } from './calendar-context';
 import { CalendarViews, CalendarActionKind } from './enums';
 import type {
   DateType,
   CalendarAction,
   LocalState,
   DatePickerBaseProps,
-  CalendarThemeProps,
   HeaderProps,
   SingleChange,
   RangeChange,
   MultiChange,
 } from './types';
-import Calendar from './components/Calendar';
+import Calendar from './components/calendar';
 import { useDeepCompareMemo } from './utils';
 import dayjs from 'dayjs';
 import localeData from 'dayjs/plugin/localeData';
@@ -39,18 +38,14 @@ dayjs.extend(relativeTime);
 dayjs.extend(localizedFormat);
 
 export interface DatePickerSingleProps
-  extends CalendarThemeProps,
-    HeaderProps,
+  extends HeaderProps,
     DatePickerBaseProps {
   mode: 'single';
   date?: DateType;
   onChange?: SingleChange;
 }
 
-export interface DatePickerRangeProps
-  extends CalendarThemeProps,
-    HeaderProps,
-    DatePickerBaseProps {
+export interface DatePickerRangeProps extends HeaderProps, DatePickerBaseProps {
   mode: 'range';
   startDate?: DateType;
   endDate?: DateType;
@@ -58,8 +53,7 @@ export interface DatePickerRangeProps
 }
 
 export interface DatePickeMultipleProps
-  extends CalendarThemeProps,
-    HeaderProps,
+  extends HeaderProps,
     DatePickerBaseProps {
   mode: 'multiple';
   dates?: DateType[];
@@ -74,7 +68,7 @@ const DateTimePicker = (
   const {
     mode = 'single',
     locale = 'en',
-    displayFullDays = false,
+    showOutsideDays = false,
     timePicker = false,
     firstDayOfWeek,
     buttonPrevIcon,
@@ -97,6 +91,10 @@ const DateTimePicker = (
     headerButtonsPosition,
     weekdays = 'min',
     multiRangeMode = false,
+    showHeader = true,
+    showWeekdays = true,
+    enableMonthPicker = true,
+    enableYearPicker = true,
   } = props;
 
   dayjs.locale(locale);
@@ -361,7 +359,7 @@ const DateTimePicker = (
     () => ({
       locale,
       mode,
-      displayFullDays,
+      showOutsideDays,
       timePicker,
       minDate,
       maxDate,
@@ -371,11 +369,15 @@ const DateTimePicker = (
       headerButtonsPosition,
       weekdays,
       multiRangeMode,
+      showHeader,
+      showWeekdays,
+      enableMonthPicker,
+      enableYearPicker,
     }),
     [
       locale,
       mode,
-      displayFullDays,
+      showOutsideDays,
       timePicker,
       minDate,
       maxDate,
@@ -385,6 +387,10 @@ const DateTimePicker = (
       headerButtonsPosition,
       weekdays,
       multiRangeMode,
+      showHeader,
+      showWeekdays,
+      enableMonthPicker,
+      enableYearPicker,
     ]
   );
 

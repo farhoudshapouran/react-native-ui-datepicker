@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import type { DateType, DayObject, WeekdayName } from './types';
+import type { DateType, CalendarDay, WeekdayName } from './types';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { useRef } from 'react';
@@ -120,7 +120,7 @@ export const getYearRange = (year: number) => {
 
 export function getDaysInMonth(
   date: DateType,
-  displayFullDays: boolean | undefined,
+  showOutsideDays: boolean | undefined,
   firstDayOfWeek: number
 ) {
   const daysInCurrentMonth = dayjs(date).daysInMonth();
@@ -128,9 +128,9 @@ export function getDaysInMonth(
   const prevMonthDays = dayjs(date).add(-1, 'month').daysInMonth();
   const firstDay = dayjs(date).date(1 - firstDayOfWeek);
   const prevMonthOffset = firstDay.day() % 7;
-  const daysInPrevMonth = displayFullDays ? prevMonthOffset : 0;
+  const daysInPrevMonth = showOutsideDays ? prevMonthOffset : 0;
   const monthDaysOffset = prevMonthOffset + daysInCurrentMonth;
-  const daysInNextMonth = displayFullDays
+  const daysInNextMonth = showOutsideDays
     ? monthDaysOffset > 35
       ? 42 - monthDaysOffset
       : 35 - monthDaysOffset
@@ -192,7 +192,7 @@ export const getParsedDate = (date: DateType) => {
  * Calculate month days array based on current date
  *
  * @param datetime - The current date that selected
- * @param displayFullDays
+ * @param showOutsideDays
  * @param minDate - min selectable date
  * @param maxDate - max selectable date
  * @param firstDayOfWeek - first day of week, number 0-6, 0 – Sunday, 6 – Saturday
@@ -202,25 +202,25 @@ export const getParsedDate = (date: DateType) => {
  */
 export const getMonthDays = (
   datetime: DateType = dayjs(),
-  displayFullDays: boolean,
+  showOutsideDays: boolean,
   minDate: DateType,
   maxDate: DateType,
   firstDayOfWeek: number,
   disabledDates: DateType[] | ((date: DateType) => boolean) | undefined
-): DayObject[] => {
+): CalendarDay[] => {
   const date = getDate(datetime);
   const {
     prevMonthDays,
     prevMonthOffset,
     daysInCurrentMonth,
     daysInNextMonth,
-  } = getDaysInMonth(datetime, displayFullDays, firstDayOfWeek);
+  } = getDaysInMonth(datetime, showOutsideDays, firstDayOfWeek);
 
-  const prevDays = displayFullDays
+  const prevDays = showOutsideDays
     ? Array.from({ length: prevMonthOffset }, (_, index) => {
         const number = index + (prevMonthDays - prevMonthOffset + 1);
         const thisDay = date.add(-1, 'month').date(number);
-        return generateDayObject(
+        return generateCalendarDay(
           number,
           thisDay,
           minDate,
@@ -236,7 +236,7 @@ export const getMonthDays = (
   const currentDays = Array.from({ length: daysInCurrentMonth }, (_, index) => {
     const day = index + 1;
     const thisDay = date.date(day);
-    return generateDayObject(
+    return generateCalendarDay(
       day,
       thisDay,
       minDate,
@@ -251,7 +251,7 @@ export const getMonthDays = (
   const nextDays = Array.from({ length: daysInNextMonth }, (_, index) => {
     const day = index + 1;
     const thisDay = date.add(1, 'month').date(day);
-    return generateDayObject(
+    return generateCalendarDay(
       day,
       thisDay,
       minDate,
@@ -280,7 +280,7 @@ export const getMonthDays = (
  *
  * @returns days object based on current date
  */
-const generateDayObject = (
+const generateCalendarDay = (
   number: number,
   date: dayjs.Dayjs,
   minDate: DateType,

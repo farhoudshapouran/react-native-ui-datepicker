@@ -1,10 +1,11 @@
 import React, { memo } from 'react';
 import { View, StyleSheet } from 'react-native';
 import type { HeaderProps } from './types';
-import PrevButton from './PrevButton';
-import NextButton from './NextButton';
-import Selectors from './Selectors';
+import PrevButton from './prev-button';
+import NextButton from './next-button';
+import Selectors from './selectors';
 import { isEqual } from 'lodash';
+import { ThemedView } from '../../ui';
 
 const Header = ({
   buttonPrevIcon,
@@ -14,7 +15,7 @@ const Header = ({
   classNames = {},
 }: HeaderProps) => {
   return (
-    <View
+    <ThemedView
       style={[defaultStyles.headerContainer, styles?.header]}
       className={classNames.header}
       accessibilityRole="header"
@@ -66,7 +67,7 @@ const Header = ({
           />
         </View>
       )}
-    </View>
+    </ThemedView>
   );
 };
 

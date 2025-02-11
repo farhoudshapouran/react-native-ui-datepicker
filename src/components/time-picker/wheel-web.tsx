@@ -5,12 +5,12 @@ import {
   StyleSheet,
   View,
   Platform,
-  Text,
 } from 'react-native';
-import { sin } from './AnimatedMath';
+import { sin } from './animated-math';
 import { CALENDAR_HEIGHT } from '../../enums';
 import { ClassNames, Styles } from '../../types';
 import { isEqual } from 'lodash';
+import { ThemedView, ThemedText } from '../../ui';
 
 interface WheelProps {
   value: number;
@@ -129,7 +129,7 @@ const WheelWeb = ({
 
   return (
     <View style={[defaultStyles.container]} {...panResponder.panHandlers}>
-      <View
+      <ThemedView
         style={[
           styles.time_selected_indicator,
           defaultStyles.selectedIndicator,
@@ -166,9 +166,12 @@ const WheelWeb = ({
               opacity: displayValue !== ('0' + value).slice(-2) ? 0.3 : 1,
             }}
           >
-            <Text style={styles?.time_label} className={classNames?.time_label}>
+            <ThemedText
+              style={styles?.time_label}
+              className={classNames?.time_label}
+            >
               {displayValue}
-            </Text>
+            </ThemedText>
           </Animated.View>
         );
       })}

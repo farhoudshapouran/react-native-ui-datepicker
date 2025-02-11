@@ -1,10 +1,13 @@
 import React, { memo, useCallback } from 'react';
-import { View, Image, Pressable, StyleSheet } from 'react-native';
-import { useCalendarContext } from '../../CalendarContext';
+import { Image, Pressable, StyleSheet } from 'react-native';
+import { useCalendarContext } from '../../calendar-context';
 import { YEAR_PAGE_SIZE } from '../../utils';
 import { ClassNames, Styles } from '../../types';
 import { UI } from '../../ui';
 import { isEqual } from 'lodash';
+import { ThemedView } from '../../ui';
+import { COLORS } from '../../theme';
+import { useColorScheme } from 'nativewind';
 
 const arrow_right = require('../../assets/images/arrow_right.png');
 
@@ -17,6 +20,9 @@ type NextButtonProps = {
 const NextButton = ({ icon, style, className }: NextButtonProps) => {
   const { currentYear, onChangeMonth, onChangeYear, calendarView } =
     useCalendarContext();
+
+  const { colorScheme } = useColorScheme();
+  const theme = colorScheme ?? 'light';
 
   const onPress = useCallback(() => {
     switch (calendarView) {
@@ -39,20 +45,21 @@ const NextButton = ({ icon, style, className }: NextButtonProps) => {
       accessibilityRole="button"
       accessibilityLabel="Next"
     >
-      <View
+      <ThemedView
         style={[defaultStyles.iconContainer, defaultStyles.next, style]}
         className={className}
       >
         {icon || (
           <Image
             source={arrow_right}
+            tintColor={COLORS[theme].foreground}
             style={{
-              width: 16,
-              height: 16,
+              width: 14,
+              height: 14,
             }}
           />
         )}
-      </View>
+      </ThemedView>
     </Pressable>
   );
 };
