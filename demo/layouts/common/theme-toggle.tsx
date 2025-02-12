@@ -2,7 +2,6 @@ import { cssInterop } from 'nativewind';
 import { Button } from '@/components/ui/button';
 import { useColorScheme } from '@/lib/useColorScheme';
 import Feather from '@expo/vector-icons/Feather';
-import { useCallback } from 'react';
 
 cssInterop(Feather, {
   className: {

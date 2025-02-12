@@ -14,13 +14,13 @@ const YearButton = () => {
     onChangeYear,
     styles,
     classNames,
-    enableYearPicker,
+    disableYearPicker,
   } = useCalendarContext();
 
   const years = getYearRange(currentYear);
   return (
     <Pressable
-      disabled={!enableYearPicker}
+      disabled={disableYearPicker}
       onPress={() => {
         setCalendarView(calendarView === 'year' ? 'day' : 'year');
         onChangeYear(getDateYear(currentDate));

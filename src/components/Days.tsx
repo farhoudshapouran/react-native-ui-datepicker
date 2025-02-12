@@ -29,14 +29,15 @@ const Days = () => {
     maxDate,
     disabledDates,
     firstDayOfWeek,
-    height,
+    containerHeight,
+    weekdaysHeight,
     locale,
-    renderDay,
     styles,
     classNames,
     weekdays,
     multiRangeMode,
-    showWeekdays,
+    hideWeekdays,
+    components,
   } = useCalendarContext();
 
   const { year, month, hour, minute } = getParsedDate(currentDate);
@@ -57,11 +58,14 @@ const Days = () => {
 
   const daysGrid = useMemo(() => {
     const today = new Date();
-    const { fullDaysInMonth } = getDaysInMonth(
-      currentDate,
-      showOutsideDays,
-      firstDayOfWeek
-    );
+
+    const {
+      fullDaysInMonth,
+      prevMonthDays,
+      prevMonthOffset,
+      daysInCurrentMonth,
+      daysInNextMonth,
+    } = getDaysInMonth(currentDate, showOutsideDays, firstDayOfWeek);
 
     return getMonthDays(
       currentDate,
@@ -69,7 +73,11 @@ const Days = () => {
       minDate,
       maxDate,
       firstDayOfWeek,
-      disabledDates
+      disabledDates,
+      prevMonthDays,
+      prevMonthOffset,
+      daysInCurrentMonth,
+      daysInNextMonth
     ).map((day, index) => {
       if (!day) return null;
 
@@ -80,6 +88,10 @@ const Days = () => {
       const isToday = areDatesOnSameDay(day.date, today);
       let inRange = false;
       let isSelected = false;
+      let isCrop = false;
+      let inMiddle = false;
+      let rangeStart = false;
+      let rangeEnd = false;
 
       if (mode === 'range') {
         rightCrop = false;
@@ -101,6 +113,11 @@ const Days = () => {
         ) {
           inRange = false;
         }
+
+        isCrop = inRange && (leftCrop || rightCrop) && !(leftCrop && rightCrop);
+        inMiddle = inRange && !leftCrop && !rightCrop;
+        rangeStart = inRange && leftCrop;
+        rangeEnd = inRange && rightCrop;
       } else if (mode === 'multiple') {
         const safeDates = dates || [];
         isSelected = safeDates.some((d) => areDatesOnSameDay(day.date, d));
@@ -129,9 +146,19 @@ const Days = () => {
               rightCrop = true;
             }
 
-            if (isFirstDayOfMonth && !tomorrowSelected) inRange = false;
-            if (isLastDayOfMonth && !yesterdaySelected) inRange = false;
+            if (isFirstDayOfMonth && !tomorrowSelected) {
+              inRange = false;
+            }
+            if (isLastDayOfMonth && !yesterdaySelected) {
+              inRange = false;
+            }
           }
+
+          isCrop =
+            inRange && (leftCrop || rightCrop) && !(leftCrop && rightCrop);
+          inMiddle = inRange && !leftCrop && !rightCrop;
+          rangeStart = inRange && leftCrop;
+          rangeEnd = inRange && rightCrop;
         }
       } else if (mode === 'single') {
         isSelected = areDatesOnSameDay(day.date, date);
@@ -144,6 +171,10 @@ const Days = () => {
         inRange,
         leftCrop,
         rightCrop,
+        isCrop,
+        inMiddle,
+        rangeStart,
+        rangeEnd,
       };
     });
   }, [
@@ -164,13 +195,14 @@ const Days = () => {
 
   return (
     <View style={defaultStyles.container} testID="day-selector">
-      {showWeekdays ? (
+      {!hideWeekdays ? (
         <Weekdays
           locale={locale}
           firstDayOfWeek={firstDayOfWeek}
           styles={styles}
           classNames={classNames}
           weekdays={weekdays}
+          weekdaysHeight={weekdaysHeight}
         />
       ) : null}
       <ThemedView
@@ -184,13 +216,14 @@ const Days = () => {
               key={index}
               day={day}
               onSelectDate={handleSelectDate}
-              calendarHeight={height}
-              renderDay={renderDay}
+              containerHeight={containerHeight}
+              weekdaysHeight={weekdaysHeight}
               styles={styles}
               classNames={classNames}
+              components={components}
             />
           ) : (
-            <EmptyDay key={index} calendarHeight={height} />
+            <EmptyDay key={index} />
           );
         })}
       </ThemedView>
@@ -201,8 +234,10 @@ const Days = () => {
 const defaultStyles = StyleSheet.create({
   container: {
     width: '100%',
+    height: '100%',
   },
   daysContainer: {
+    //flex: 1,
     width: '100%',
     height: '100%',
     flexWrap: 'wrap',

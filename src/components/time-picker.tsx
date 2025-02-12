@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { useCalendarContext } from '../calendar-context';
 import Wheel from './time-picker/wheel';
-import { CALENDAR_HEIGHT } from '../enums';
+import { CONTAINER_HEIGHT } from '../enums';
 import { getParsedDate, getDate, getFormated } from '../utils';
 import { ThemedText } from '../ui';
 
@@ -103,8 +103,8 @@ const defaultStyles = StyleSheet.create({
   timePickerContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: CALENDAR_HEIGHT / 2,
-    height: CALENDAR_HEIGHT / 2,
+    width: CONTAINER_HEIGHT / 2,
+    height: CONTAINER_HEIGHT / 2,
   },
   timeSeparator: {
     marginHorizontal: 5,

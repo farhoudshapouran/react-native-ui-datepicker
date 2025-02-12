@@ -18,7 +18,7 @@ export const CustomDay = ({ day }: Props) => {
   const isSpecial = useMemo(() => specialDates.includes(day.date), [day.date]);
 
   return (
-    <View className="flex items-center justify-center pb-2">
+    <View className="flex w-full items-center justify-center">
       <View
         // style={{
         //   height: 50,
@@ -35,7 +35,7 @@ export const CustomDay = ({ day }: Props) => {
         //   borderRadius: isSpecial ? 10 : 5, // Add rounded corners for special dates
         // }}
         className={cn(
-          'mb-2 h-16 w-8 items-center justify-between rounded-lg border py-2',
+          'h-12 w-full items-center justify-between rounded-lg border py-2',
           isSelected && 'bg-red-500'
         )}
       >

@@ -15,13 +15,17 @@ import {
   removeTime,
 } from './utils';
 import { CalendarContext } from './calendar-context';
-import { CalendarViews, CalendarActionKind } from './enums';
+import {
+  CalendarViews,
+  CalendarActionKind,
+  CONTAINER_HEIGHT,
+  WEEKDAYS_HEIGHT,
+} from './enums';
 import type {
   DateType,
   CalendarAction,
   LocalState,
   DatePickerBaseProps,
-  HeaderProps,
   SingleChange,
   RangeChange,
   MultiChange,
@@ -37,24 +41,20 @@ dayjs.extend(localeData);
 dayjs.extend(relativeTime);
 dayjs.extend(localizedFormat);
 
-export interface DatePickerSingleProps
-  extends HeaderProps,
-    DatePickerBaseProps {
+export interface DatePickerSingleProps extends DatePickerBaseProps {
   mode: 'single';
   date?: DateType;
   onChange?: SingleChange;
 }
 
-export interface DatePickerRangeProps extends HeaderProps, DatePickerBaseProps {
+export interface DatePickerRangeProps extends DatePickerBaseProps {
   mode: 'range';
   startDate?: DateType;
   endDate?: DateType;
   onChange?: RangeChange;
 }
 
-export interface DatePickeMultipleProps
-  extends HeaderProps,
-    DatePickerBaseProps {
+export interface DatePickeMultipleProps extends DatePickerBaseProps {
   mode: 'multiple';
   dates?: DateType[];
   onChange?: MultiChange;
@@ -71,8 +71,6 @@ const DateTimePicker = (
     showOutsideDays = false,
     timePicker = false,
     firstDayOfWeek,
-    buttonPrevIcon,
-    buttonNextIcon,
     // startYear,
     // endYear,
     minDate,
@@ -84,17 +82,18 @@ const DateTimePicker = (
     dates,
     onChange,
     initialView = 'day',
-    height,
-    renderDay,
+    containerHeight = CONTAINER_HEIGHT,
+    weekdaysHeight = WEEKDAYS_HEIGHT,
     classNames = {},
     styles = {},
     headerButtonsPosition,
     weekdays = 'min',
-    multiRangeMode = false,
-    showHeader = true,
-    showWeekdays = true,
-    enableMonthPicker = true,
-    enableYearPicker = true,
+    multiRangeMode,
+    hideHeader,
+    hideWeekdays,
+    disableMonthPicker,
+    disableYearPicker,
+    components = {},
   } = props;
 
   dayjs.locale(locale);
@@ -355,6 +354,13 @@ const DateTimePicker = (
     classNames,
   ]);
 
+  const memoizedComponents = useMemo(
+    () => ({
+      ...components,
+    }),
+    [components]
+  );
+
   const baseContextValue = useMemo(
     () => ({
       locale,
@@ -365,14 +371,15 @@ const DateTimePicker = (
       maxDate,
       disabledDates,
       firstDayOfWeek: firstDay,
-      height,
+      containerHeight,
+      weekdaysHeight,
       headerButtonsPosition,
       weekdays,
       multiRangeMode,
-      showHeader,
-      showWeekdays,
-      enableMonthPicker,
-      enableYearPicker,
+      hideHeader,
+      hideWeekdays,
+      disableMonthPicker,
+      disableYearPicker,
     }),
     [
       locale,
@@ -383,14 +390,15 @@ const DateTimePicker = (
       maxDate,
       disabledDates,
       firstDay,
-      height,
+      containerHeight,
+      weekdaysHeight,
       headerButtonsPosition,
       weekdays,
       multiRangeMode,
-      showHeader,
-      showWeekdays,
-      enableMonthPicker,
-      enableYearPicker,
+      hideHeader,
+      hideWeekdays,
+      disableMonthPicker,
+      disableYearPicker,
     ]
   );
 
@@ -402,7 +410,6 @@ const DateTimePicker = (
       onSelectYear,
       onChangeMonth,
       onChangeYear,
-      renderDay,
     }),
     [
       setCalendarView,
@@ -411,7 +418,6 @@ const DateTimePicker = (
       onSelectYear,
       onChangeMonth,
       onChangeYear,
-      renderDay,
     ]
   );
 
@@ -429,17 +435,20 @@ const DateTimePicker = (
       ...baseContextValue,
       ...handlerContextValue,
       ...styleContextValue,
+      components: memoizedComponents,
     }),
-    [state, baseContextValue, handlerContextValue, styleContextValue]
+    [
+      state,
+      baseContextValue,
+      handlerContextValue,
+      styleContextValue,
+      memoizedComponents,
+    ]
   );
 
   return (
     <CalendarContext.Provider value={memoizedValue}>
-      <Calendar
-        buttonPrevIcon={buttonPrevIcon}
-        buttonNextIcon={buttonNextIcon}
-        height={height}
-      />
+      <Calendar />
     </CalendarContext.Provider>
   );
 };

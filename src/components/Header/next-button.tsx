@@ -12,13 +12,12 @@ import { useColorScheme } from 'nativewind';
 const arrow_right = require('../../assets/images/arrow_right.png');
 
 type NextButtonProps = {
-  icon?: React.ReactNode;
   style?: Styles[UI.button_next];
   className?: ClassNames[UI.button_next];
 };
 
-const NextButton = ({ icon, style, className }: NextButtonProps) => {
-  const { currentYear, onChangeMonth, onChangeYear, calendarView } =
+const NextButton = ({ style, className }: NextButtonProps) => {
+  const { currentYear, onChangeMonth, onChangeYear, calendarView, components } =
     useCalendarContext();
 
   const { colorScheme } = useColorScheme();
@@ -49,7 +48,7 @@ const NextButton = ({ icon, style, className }: NextButtonProps) => {
         style={[defaultStyles.iconContainer, defaultStyles.next, style]}
         className={className}
       >
-        {icon || (
+        {components?.NextIcon || (
           <Image
             source={arrow_right}
             tintColor={COLORS[theme].foreground}
@@ -69,9 +68,7 @@ const customComparator = (
   next: Readonly<NextButtonProps>
 ) => {
   const areEqual =
-    prev.icon === next.icon &&
-    prev.className === next.className &&
-    isEqual(prev.style, next.style);
+    prev.className === next.className && isEqual(prev.style, next.style);
 
   return areEqual;
 };

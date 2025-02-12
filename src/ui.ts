@@ -5,7 +5,7 @@ export enum UI {
   /** The container of the displayed days. */
   days = 'days',
   /** Wrapper of the day cell in the days grid. */
-  day_wrapper = 'day_wrapper',
+  day_cell = 'day_cell',
   /** The day cell in the days grid. */
   day = 'day',
   /** The label of the day cell in the days grid. */

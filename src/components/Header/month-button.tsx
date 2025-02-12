@@ -12,14 +12,14 @@ const MonthButton = () => {
     locale,
     styles,
     classNames,
-    enableMonthPicker,
+    disableMonthPicker,
   } = useCalendarContext();
 
   const currentMonthText = dayjs(currentDate).locale(locale).format('MMMM');
 
   return (
     <Pressable
-      disabled={!enableMonthPicker}
+      disabled={disableMonthPicker}
       onPress={() =>
         setCalendarView(calendarView === 'month' ? 'day' : 'month')
       }

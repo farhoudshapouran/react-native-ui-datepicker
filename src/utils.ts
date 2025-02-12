@@ -206,15 +206,13 @@ export const getMonthDays = (
   minDate: DateType,
   maxDate: DateType,
   firstDayOfWeek: number,
-  disabledDates: DateType[] | ((date: DateType) => boolean) | undefined
+  disabledDates: DateType[] | ((date: DateType) => boolean) | undefined,
+  prevMonthDays: number,
+  prevMonthOffset: number,
+  daysInCurrentMonth: number,
+  daysInNextMonth: number
 ): CalendarDay[] => {
   const date = getDate(datetime);
-  const {
-    prevMonthDays,
-    prevMonthOffset,
-    daysInCurrentMonth,
-    daysInNextMonth,
-  } = getDaysInMonth(datetime, showOutsideDays, firstDayOfWeek);
 
   const prevDays = showOutsideDays
     ? Array.from({ length: prevMonthOffset }, (_, index) => {

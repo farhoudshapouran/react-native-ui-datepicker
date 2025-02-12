@@ -67,8 +67,3 @@ export default function RootLayout() {
     </ThemeProvider>
   );
 }
-
-const useIsomorphicLayoutEffect =
-  Platform.OS === 'web' && typeof window === 'undefined'
-    ? React.useEffect
-    : React.useLayoutEffect;

@@ -1,7 +1,6 @@
 import type { Dayjs } from 'dayjs';
 import type { CalendarActionKind, CalendarViews } from './enums';
 import type { TextStyle, ViewStyle } from 'react-native';
-import type { ReactNode } from 'react';
 import { UI, SelectionState, DayFlag, MonthState, YearState } from './ui';
 
 export type DateType = string | number | Dayjs | Date | null | undefined;
@@ -25,11 +24,6 @@ export type CalendarAction = {
   payload: any;
 };
 
-export type HeaderProps = {
-  buttonPrevIcon?: ReactNode;
-  buttonNextIcon?: ReactNode;
-};
-
 export type CalendarDay = {
   text: string;
   number: number;
@@ -44,6 +38,10 @@ export type CalendarDay = {
   rightCrop: boolean;
   isStartOfWeek: boolean;
   isEndOfWeek: boolean;
+  isCrop: boolean;
+  inMiddle: boolean;
+  rangeStart: boolean;
+  rangeEnd: boolean;
 };
 
 export type SingleChange = (params: { date: DateType }) => void;
@@ -69,6 +67,15 @@ export type Styles = Partial<{
     | TextStyle;
 }>;
 
+export type Components = Partial<{
+  /** The view containing the day in the day cell.. */
+  Day: (day: CalendarDay) => React.ReactNode;
+  /** The previous month/year button icon in the header. */
+  PrevIcon: React.ReactNode;
+  /** The next month button/year icon in the header. */
+  NextIcon: React.ReactNode;
+}>;
+
 export type WeekdayName = 'min' | 'short';
 
 export interface DatePickerBaseProps {
@@ -88,15 +95,16 @@ export interface DatePickerBaseProps {
   endDate?: DateType;
   onChange?: SingleChange | RangeChange | MultiChange;
   initialView?: CalendarViews;
-  height?: number;
-  renderDay?: (day: CalendarDay) => React.ReactNode;
+  containerHeight?: number;
+  weekdaysHeight?: number;
   styles?: Styles;
   classNames?: ClassNames;
   headerButtonsPosition?: HeaderButtonPositions;
   weekdays?: WeekdayName;
   multiRangeMode?: boolean;
-  showHeader?: boolean;
-  showWeekdays?: boolean;
-  enableMonthPicker?: boolean;
-  enableYearPicker?: boolean;
+  hideHeader?: boolean;
+  hideWeekdays?: boolean;
+  disableMonthPicker?: boolean;
+  disableYearPicker?: boolean;
+  components?: Components;
 }

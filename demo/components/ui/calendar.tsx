@@ -3,17 +3,25 @@ import DateTimePicker, {
   DateType,
   CalendarDay,
   getDefaultClassNames,
-  getDefaultStyles,
 } from 'react-native-ui-datepicker';
 
 function Calendar(props: React.ComponentProps<typeof DateTimePicker>) {
-  const classNames = getDefaultClassNames();
+  const defaultClassNames = getDefaultClassNames();
 
   return (
-    <View className="border-muted bg-card shadow-muted w-[300] rounded-xl border p-3 shadow-lg dark:shadow-none">
-      <DateTimePicker height={270} classNames={{ ...classNames }} {...props} />
+    <View className="border-muted bg-card shadow-muted w-[330] rounded-xl border p-3 shadow-lg dark:shadow-none">
+      <DateTimePicker
+        classNames={{
+          ...defaultClassNames,
+          day_cell: 'p-0.5',
+          range_fill: 'bg-accent',
+          range_middle_label: 'text-accent-foreground',
+        }}
+        //showOutsideDays
+        {...props}
+      />
     </View>
   );
 }
 
-export { Calendar };
+export { Calendar, DateType, CalendarDay };

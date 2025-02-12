@@ -1,27 +1,24 @@
-import eslintPluginPrettier from 'eslint-plugin-prettier';
-// module.exports = {
-//   extends: ['@react-native', 'prettier'],
-//   plugins: ['prettier'],
-//   rules: {
-//     'prettier/prettier': 'error',
-//   },
-// };
+const prettier = require('eslint-plugin-prettier');
+const reactHooks = require('eslint-plugin-react-hooks');
 
-export default [
+module.exports = [
   {
-    //extends: ['@react-native', 'prettier'],
-    // ignores: [
-    //   // '.*.js',
-    //   // '.*.ts',
-    //   'node_modules/',
-    //   'lib/',
-    //   'example/',
-    //   '**/*.config.js',
-    // ],
-    plugins: { prettier: eslintPluginPrettier },
+    //extends: ['@react-native'],
+    files: ['src/**/*.{js,jsx,ts,tsx}'],
+    ignores: [
+      'node_modules/',
+      'lib/',
+      'example/',
+      'demo/',
+      '*.config.js',
+      'tsconfig.json',
+    ],
+    plugins: { prettier, 'react-hooks': reactHooks },
     rules: {
       'react/react-in-jsx-scope': 'off',
-      'prettier/prettier': 'error',
+      'prettier/prettier': 'warn',
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
     },
   },
 ];

@@ -9,4 +9,5 @@ export enum CalendarActionKind {
   CHANGE_SELECTED_MULTIPLE = 'CHANGE_SELECTED_MULTIPLE',
 }
 
-export const CALENDAR_HEIGHT = 300;
+export const CONTAINER_HEIGHT = 300;
+export const WEEKDAYS_HEIGHT = 25;

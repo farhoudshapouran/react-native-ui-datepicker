@@ -2,10 +2,15 @@ import React, { useState } from 'react';
 import { View, Text } from 'react-native';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
-import { SingleDatePicker } from '@/components/examples';
+import {
+  CustomDatePicker,
+  MultipleDatePicker,
+  RangeDatePicker,
+  SingleDatePicker,
+} from '@/components/examples';
 
 export default function MainPage() {
-  const [activeTab, setActiveTab] = useState('preview');
+  const [activeTab, setActiveTab] = useState('single');
 
   return (
     <View className="w-full">
@@ -15,10 +20,10 @@ export default function MainPage() {
         className="border-border flex-col overflow-hidden rounded-lg border"
       >
         <TabsList className="border-border w-full flex-row justify-start rounded-none border-b px-1.5">
-          <TabsTrigger value="preview" className="px-2 shadow-none">
+          <TabsTrigger value="single" className="px-2 shadow-none">
             <Text className="text-foreground">Single</Text>
           </TabsTrigger>
-          <TabsTrigger value="code" className="px-2 shadow-none">
+          <TabsTrigger value="range" className="px-2 shadow-none">
             <Text className="text-foreground">Range</Text>
           </TabsTrigger>
           <TabsTrigger value="multiple" className="px-2 shadow-none">
@@ -32,10 +37,18 @@ export default function MainPage() {
             <Text className="text-foreground">Custom</Text>
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="preview" className="min-h-[400px] items-center p-5">
+        <TabsContent value="single" className="min-h-[400px] items-center p-5">
           <SingleDatePicker />
         </TabsContent>
-        <TabsContent value="code"></TabsContent>
+        <TabsContent value="range">
+          <RangeDatePicker />
+        </TabsContent>
+        <TabsContent value="multiple">
+          <MultipleDatePicker />
+        </TabsContent>
+        <TabsContent value="custom" className="min-h-[400px] items-center p-5">
+          <CustomDatePicker />
+        </TabsContent>
       </Tabs>
     </View>
   );

@@ -8,8 +8,6 @@ import { isEqual } from 'lodash';
 import { ThemedView } from '../../ui';
 
 const Header = ({
-  buttonPrevIcon,
-  buttonNextIcon,
   buttonsPosition,
   styles = {},
   classNames = {},
@@ -24,12 +22,10 @@ const Header = ({
         <View style={defaultStyles.container}>
           <View style={defaultStyles.row}>
             <PrevButton
-              icon={buttonPrevIcon}
               style={styles.button_prev}
               className={classNames.button_prev}
             />
             <NextButton
-              icon={buttonNextIcon}
               style={styles.button_next}
               className={classNames.button_next}
             />
@@ -41,12 +37,10 @@ const Header = ({
           <Selectors position="right" />
           <View style={defaultStyles.row}>
             <PrevButton
-              icon={buttonPrevIcon}
               style={styles.button_prev}
               className={classNames.button_prev}
             />
             <NextButton
-              icon={buttonNextIcon}
               style={styles.button_next}
               className={classNames.button_next}
             />
@@ -55,13 +49,11 @@ const Header = ({
       ) : (
         <View style={defaultStyles.container}>
           <PrevButton
-            icon={buttonPrevIcon}
             style={styles.button_prev}
             className={classNames.button_prev}
           />
           <Selectors position="around" />
           <NextButton
-            icon={buttonNextIcon}
             style={styles.button_next}
             className={classNames.button_next}
           />
@@ -91,8 +83,8 @@ const customComparator = (
   next: Readonly<HeaderProps>
 ) => {
   const areEqual =
-    prev.buttonPrevIcon === next.buttonPrevIcon &&
-    prev.buttonNextIcon === next.buttonNextIcon &&
+    prev.PrevIcon === next.PrevIcon &&
+    prev.NextIcon === next.NextIcon &&
     prev.buttonsPosition === next.buttonsPosition &&
     isEqual(prev.styles, next.styles) &&
     isEqual(prev.classNames, next.classNames);

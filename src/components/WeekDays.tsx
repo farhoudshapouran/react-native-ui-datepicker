@@ -1,8 +1,9 @@
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { StyleSheet } from 'react-native';
 import { getWeekdaysMin } from '../utils';
 import { Styles, ClassNames, WeekdayName } from '../types';
 import { ThemedText, ThemedView } from '../ui';
+import { WEEKDAYS_HEIGHT } from '../enums';
 
 type WeekdaysProps = {
   locale: string | ILocale;
@@ -10,6 +11,7 @@ type WeekdaysProps = {
   styles?: Styles;
   classNames?: ClassNames;
   weekdays?: WeekdayName;
+  weekdaysHeight?: number;
 };
 
 const Weekdays = ({
@@ -18,10 +20,16 @@ const Weekdays = ({
   styles = {},
   classNames = {},
   weekdays = 'min',
+  weekdaysHeight = WEEKDAYS_HEIGHT,
 }: WeekdaysProps) => {
+  const style = useMemo(
+    () => createDefaultStyles(weekdaysHeight),
+    [weekdaysHeight]
+  );
+
   return (
     <ThemedView
-      style={[defaultStyles.container, styles.weekdays]}
+      style={[style.container, styles.weekdays]}
       className={classNames.weekdays}
       testID="weekdays"
     >
@@ -29,7 +37,7 @@ const Weekdays = ({
         (weekday, index) => (
           <ThemedView
             key={index}
-            style={[defaultStyles.weekday, styles.weekday]}
+            style={[style.weekday, styles.weekday]}
             className={classNames.weekday}
           >
             <ThemedText
@@ -47,16 +55,17 @@ const Weekdays = ({
 
 export default memo(Weekdays);
 
-const defaultStyles = StyleSheet.create({
-  container: {
-    width: '100%',
-    flexDirection: 'row',
-    paddingVertical: 6,
-    alignItems: 'center',
-  },
-  weekday: {
-    width: '14.25%',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const createDefaultStyles = (weekdaysHeight: number) =>
+  StyleSheet.create({
+    container: {
+      height: weekdaysHeight,
+      width: '100%',
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    weekday: {
+      width: `${100 / 7}%`,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  });

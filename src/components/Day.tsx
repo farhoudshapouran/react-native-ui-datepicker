@@ -1,7 +1,7 @@
 import React, { memo, useMemo } from 'react';
 import { View, Pressable, StyleSheet } from 'react-native';
-import { ClassNames, CalendarDay, Styles } from '../types';
-import { CALENDAR_HEIGHT } from '../enums';
+import { ClassNames, CalendarDay, Styles, Components } from '../types';
+import { CONTAINER_HEIGHT, WEEKDAYS_HEIGHT } from '../enums';
 import { cn } from '../utils';
 import { isEqual } from 'lodash';
 import { ThemedPressable, ThemedText, ThemedView } from '../ui';
@@ -9,30 +9,31 @@ import { ThemedPressable, ThemedText, ThemedView } from '../ui';
 interface Props {
   day: CalendarDay;
   onSelectDate: (date: string) => void;
-  calendarHeight?: number;
-  renderDay?: (day: CalendarDay) => React.ReactNode;
+  containerHeight?: number;
+  weekdaysHeight?: number;
   styles?: Styles;
   classNames?: ClassNames;
+  components?: Components;
 }
 
-export const EmptyDay = React.memo(
-  ({ calendarHeight }: { calendarHeight?: number }) => {
-    const style = useMemo(
-      () => createDefaultStyles(calendarHeight || CALENDAR_HEIGHT),
-      [calendarHeight]
-    );
-    return <View style={style.dayCell} />;
-  }
-);
+export const EmptyDay = React.memo(() => {
+  return <View style={defaultStyles.dayWrapper} />;
+});
 
 const Day = ({
   day,
   onSelectDate,
-  calendarHeight,
-  renderDay,
+  containerHeight = CONTAINER_HEIGHT,
+  weekdaysHeight = WEEKDAYS_HEIGHT,
   styles = {},
   classNames = {},
+  components = {},
 }: Props) => {
+  const style = useMemo(
+    () => createDefaultStyles(containerHeight, weekdaysHeight),
+    [containerHeight, weekdaysHeight]
+  );
+
   const {
     text,
     date,
@@ -45,20 +46,14 @@ const Day = ({
     rightCrop,
     isStartOfWeek,
     isEndOfWeek,
+    isCrop,
+    inMiddle,
+    rangeStart,
+    rangeEnd,
   } = day;
 
-  const style = useMemo(
-    () => createDefaultStyles(calendarHeight || CALENDAR_HEIGHT),
-    [calendarHeight]
-  );
-
-  const isCrop = inRange && (leftCrop || rightCrop) && !(leftCrop && rightCrop);
-  const inMiddle = inRange && !leftCrop && !rightCrop;
-  const rangeStart = inRange && leftCrop;
-  const rangeEnd = inRange && rightCrop;
-
   const containerStyle = StyleSheet.flatten([
-    style.dayContainer,
+    defaultStyles.dayContainer,
     styles.day,
     isToday && styles.today,
     !isCurrentMonth && styles.outside,
@@ -102,13 +97,13 @@ const Day = ({
     rangeEnd && classNames.range_end_label
   );
 
-  const RangeLine = useMemo(() => {
+  const RangeFill = useMemo(() => {
     if (!inRange) return null;
     if (!isCrop) {
       return (
         <ThemedView
           style={[
-            style.rangeRoot,
+            defaultStyles.rangeRoot,
             styles.range_fill,
             isEndOfWeek && styles.range_fill_weekend,
             isStartOfWeek && styles.range_fill_weekstart,
@@ -125,13 +120,21 @@ const Day = ({
       <>
         {leftCrop && (
           <ThemedView
-            style={[style.rangeRoot, { left: '50%' }, styles.range_fill]}
+            style={[
+              defaultStyles.rangeRoot,
+              { left: '50%' },
+              styles.range_fill,
+            ]}
             className={classNames.range_fill}
           />
         )}
         {rightCrop && (
           <ThemedView
-            style={[style.rangeRoot, { right: '50%' }, styles.range_fill]}
+            style={[
+              defaultStyles.rangeRoot,
+              { right: '50%' },
+              styles.range_fill,
+            ]}
             className={classNames.range_fill}
           />
         )}
@@ -142,7 +145,7 @@ const Day = ({
     isCrop,
     leftCrop,
     rightCrop,
-    style.rangeRoot,
+    defaultStyles.rangeRoot,
     styles.range_fill,
     styles.range_fill_weekstart,
     styles.range_fill_weekend,
@@ -152,18 +155,21 @@ const Day = ({
   ]);
 
   return (
-    <View style={style.dayCell}>
-      <ThemedView style={styles.day_wrapper} className={classNames.day_wrapper}>
-        {RangeLine}
-        {renderDay ? (
+    <View style={defaultStyles.dayWrapper}>
+      <ThemedView
+        style={[style.dayCell, styles.day_cell]}
+        className={classNames.day_cell}
+      >
+        {RangeFill}
+        {components.Day ? (
           <Pressable
             disabled={isDisabled}
             onPress={() => onSelectDate(date)}
             accessibilityRole="button"
             accessibilityLabel={text}
-            style={style.dayContainer}
+            style={containerStyle}
           >
-            {renderDay(day)}
+            {components.Day(day)}
           </Pressable>
         ) : (
           <ThemedPressable
@@ -184,25 +190,27 @@ const Day = ({
   );
 };
 
-const createDefaultStyles = (calendarHeight: number) =>
+const defaultStyles = StyleSheet.create({
+  dayWrapper: {
+    width: `${100 / 7}%`,
+  },
+  dayContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  rangeWrapper: {
+    flex: 1,
+  },
+  rangeRoot: {
+    position: 'absolute',
+    top: 2,
+    left: 0,
+    right: 0,
+    bottom: 2,
+  },
+});
+
+const createDefaultStyles = (containerHeight: number, weekdaysHeight: number) =>
   StyleSheet.create({
     dayCell: {
-      width: '14.25%',
-    },
-    dayContainer: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      minHeight: calendarHeight / 7,
-    },
-    rangeWrapper: {
-      flex: 1,
-    },
-    rangeRoot: {
-      position: 'absolute',
-      top: 4,
-      left: 0,
-      right: 0,
-      bottom: 4,
+      minHeight: (containerHeight - weekdaysHeight) / 6,
     },
   });
 
@@ -210,10 +218,11 @@ const customComparator = (prev: Readonly<Props>, next: Readonly<Props>) => {
   const areEqual =
     isEqual(prev.day, next.day) &&
     prev.onSelectDate === next.onSelectDate &&
-    prev.calendarHeight === next.calendarHeight &&
-    prev.renderDay === next.renderDay &&
+    prev.containerHeight === next.containerHeight &&
     isEqual(prev.styles, next.styles) &&
-    isEqual(prev.classNames, next.classNames);
+    isEqual(prev.classNames, next.classNames) &&
+    isEqual(prev.components, next.components);
+
   return areEqual;
 };
 

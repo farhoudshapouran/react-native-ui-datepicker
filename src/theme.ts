@@ -5,7 +5,7 @@ import { UI, SelectionState, DayFlag, MonthState, YearState } from './ui';
 export function getDefaultClassNames(): ClassNames {
   const classNames: ClassNames = {
     [UI.days]: '',
-    [UI.day_wrapper]: 'p-0.5',
+    [UI.day_cell]: 'p-0.5',
     [UI.day]: 'group rounded-md web:hover:bg-accent',
     [UI.day_label]: 'web:whitespace-nowrap text-foreground font-normal',
     [UI.months]: '',
@@ -21,14 +21,11 @@ export function getDefaultClassNames(): ClassNames {
     [UI.range_fill_weekend]: '',
     [UI.header]: 'mb-1',
     [UI.month_selector]: '',
-    [UI.month_selector_label]:
-      'font-semibold native:text-xl text-base text-foreground',
+    [UI.month_selector_label]: 'font-semibold text-lg text-foreground',
     [UI.year_selector]: '',
-    [UI.year_selector_label]:
-      'font-semibold native:text-xl text-base text-foreground',
+    [UI.year_selector_label]: 'font-semibold text-lg text-foreground',
     [UI.time_selector]: '',
-    [UI.time_selector_label]:
-      'font-semibold native:text-xl text-base text-foreground',
+    [UI.time_selector_label]: 'font-semibold text-lg text-foreground',
     [UI.weekdays]: '',
     [UI.weekday]: '',
     [UI.weekday_label]: 'text-sm uppercase text-muted-foreground',
@@ -75,7 +72,7 @@ export function getDefaultStyles(): Styles {
 
   const styles: Styles = {
     [UI.days]: {},
-    [UI.day_wrapper]: { padding: 1.5 },
+    [UI.day_cell]: { padding: 1.5 },
     [UI.day]: { borderRadius: 5 },
     [UI.day_label]: { color: COLORS[theme].accentForeground },
     [UI.months]: {},

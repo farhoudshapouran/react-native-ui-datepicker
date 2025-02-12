@@ -7,7 +7,7 @@ import {
   Platform,
 } from 'react-native';
 import { sin } from './animated-math';
-import { CALENDAR_HEIGHT } from '../../enums';
+import { CONTAINER_HEIGHT } from '../../enums';
 import { ClassNames, Styles } from '../../types';
 import { isEqual } from 'lodash';
 import { ThemedView, ThemedText } from '../../ui';
@@ -185,7 +185,7 @@ const defaultStyles = StyleSheet.create({
     overflow: 'hidden',
     alignItems: 'center',
     justifyContent: 'center',
-    height: CALENDAR_HEIGHT / 2,
+    height: CONTAINER_HEIGHT / 2,
     ...Platform.select({
       web: {
         cursor: 'pointer',
