@@ -13,7 +13,6 @@ import {
   getFormated,
 } from '../utils';
 import Weekdays from './weekdays';
-import { ThemedView } from '../ui';
 
 const Days = () => {
   const {
@@ -34,7 +33,7 @@ const Days = () => {
     locale,
     styles,
     classNames,
-    weekdays,
+    weekdaysFormat,
     multiRangeMode,
     hideWeekdays,
     components,
@@ -201,15 +200,11 @@ const Days = () => {
           firstDayOfWeek={firstDayOfWeek}
           styles={styles}
           classNames={classNames}
-          weekdays={weekdays}
+          weekdaysFormat={weekdaysFormat}
           weekdaysHeight={weekdaysHeight}
         />
       ) : null}
-      <ThemedView
-        style={containerStyle}
-        className={classNames?.days}
-        testID="days"
-      >
+      <View style={containerStyle} className={classNames?.days} testID="days">
         {daysGrid?.map((day, index) => {
           return day ? (
             <Day
@@ -226,7 +221,7 @@ const Days = () => {
             <EmptyDay key={index} />
           );
         })}
-      </ThemedView>
+      </View>
     </View>
   );
 };
@@ -237,7 +232,6 @@ const defaultStyles = StyleSheet.create({
     height: '100%',
   },
   daysContainer: {
-    //flex: 1,
     width: '100%',
     height: '100%',
     flexWrap: 'wrap',

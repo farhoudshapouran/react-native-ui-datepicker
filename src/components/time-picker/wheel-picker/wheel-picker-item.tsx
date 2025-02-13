@@ -1,8 +1,7 @@
 import React from 'react';
-import { StyleProp, TextStyle, Animated, ViewStyle } from 'react-native';
+import { StyleProp, TextStyle, Animated, ViewStyle, Text } from 'react-native';
 import styles from './wheel-picker.style';
 import { isEqual } from 'lodash';
-import { ThemedText } from '../../../ui';
 
 interface ItemProps {
   textStyle: StyleProp<TextStyle>;
@@ -129,9 +128,9 @@ const WheelPickerItem: React.FC<ItemProps> = ({
         },
       ]}
     >
-      <ThemedText style={textStyle} className={textClassName}>
+      <Text style={textStyle} className={textClassName}>
         {option}
-      </ThemedText>
+      </Text>
     </Animated.View>
   );
 };

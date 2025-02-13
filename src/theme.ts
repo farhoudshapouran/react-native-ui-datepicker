@@ -1,4 +1,4 @@
-import { useColorScheme } from 'nativewind';
+import { useColorScheme } from 'react-native';
 import { ClassNames, Styles } from './types';
 import { UI, SelectionState, DayFlag, MonthState, YearState } from './ui';
 
@@ -67,7 +67,7 @@ export function getDefaultClassNames(): ClassNames {
 }
 
 export function getDefaultStyles(): Styles {
-  const { colorScheme } = useColorScheme();
+  const colorScheme = useColorScheme();
   const theme = colorScheme ?? 'light';
 
   const styles: Styles = {

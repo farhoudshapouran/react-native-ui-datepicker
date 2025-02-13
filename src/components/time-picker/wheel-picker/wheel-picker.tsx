@@ -14,7 +14,6 @@ import {
 } from 'react-native';
 import styles from './wheel-picker.style';
 import WheelPickerItem from './wheel-picker-item';
-import { ThemedView } from '../../../ui';
 
 interface Props {
   selectedIndex: number;
@@ -126,7 +125,7 @@ const WheelPicker: React.FC<Props> = ({
       style={[styles.container, { height: containerHeight }, containerStyle]}
       {...containerProps}
     >
-      <ThemedView
+      <View
         style={[
           styles.selectedIndicator,
           selectedIndicatorStyle,

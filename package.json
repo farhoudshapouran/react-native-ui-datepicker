@@ -1,6 +1,6 @@
 {
   "name": "react-native-ui-datepicker",
-  "version": "2.0.11",
+  "version": "3.0.0-beta.2",
   "description": "Customizable date picker for React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -28,7 +28,7 @@
   ],
   "scripts": {
     "test": "jest",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "npx tsc --noEmit",
     "lint": "eslint .",
     "prepack": "bob build",
     "release": "release-it",
@@ -158,7 +158,6 @@
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
     "lodash": "^4.17.21",
-    "nativewind": "^4.1.23",
     "tailwind-merge": "^3.0.1"
   }
 }

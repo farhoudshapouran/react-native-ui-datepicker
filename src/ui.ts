@@ -1,6 +1,3 @@
-import { View, Text, Pressable } from 'react-native';
-import { cssInterop } from 'nativewind';
-
 export enum UI {
   /** The container of the displayed days. */
   days = 'days',
@@ -111,21 +108,3 @@ export enum YearState {
   /** The label of the activated year. */
   active_year_label = 'active_year_label',
 }
-
-export const ThemedView = cssInterop(View, {
-  className: {
-    target: 'style',
-  },
-});
-
-export const ThemedText = cssInterop(Text, {
-  className: {
-    target: 'style',
-  },
-});
-
-export const ThemedPressable = cssInterop(Pressable, {
-  className: {
-    target: 'style',
-  },
-});

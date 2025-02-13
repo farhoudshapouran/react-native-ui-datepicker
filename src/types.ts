@@ -7,7 +7,11 @@ export type DateType = string | number | Dayjs | Date | null | undefined;
 
 export type CalendarMode = 'single' | 'range' | 'multiple';
 
-export type HeaderButtonPositions = 'around' | 'right' | 'left';
+export type NavigationPosition = 'around' | 'right' | 'left';
+
+export type WeekdayFormat = 'min' | 'short' | 'full';
+
+export type MonthFormat = 'short' | 'full';
 
 export type LocalState = {
   date: DateType;
@@ -44,6 +48,19 @@ export type CalendarDay = {
   rangeEnd: boolean;
 };
 
+export type CalendarMonth = {
+  number: number;
+  name: string;
+  short: string;
+  isSelected: boolean;
+};
+
+export type CalendarYear = {
+  number: number;
+  isSelected: boolean;
+  isActivated: boolean;
+};
+
 export type SingleChange = (params: { date: DateType }) => void;
 
 export type RangeChange = (params: {
@@ -68,15 +85,17 @@ export type Styles = Partial<{
 }>;
 
 export type Components = Partial<{
-  /** The view containing the day in the day cell.. */
+  /** The view containing the day in the days grid */
   Day: (day: CalendarDay) => React.ReactNode;
+  /** The view containing the month in the months grid.. */
+  Month: (month: CalendarMonth) => React.ReactNode;
+  /** The view containing the year in the years grid.. */
+  Year: (year: CalendarYear) => React.ReactNode;
   /** The previous month/year button icon in the header. */
   PrevIcon: React.ReactNode;
   /** The next month button/year icon in the header. */
   NextIcon: React.ReactNode;
 }>;
-
-export type WeekdayName = 'min' | 'short';
 
 export interface DatePickerBaseProps {
   mode?: CalendarMode;
@@ -99,8 +118,10 @@ export interface DatePickerBaseProps {
   weekdaysHeight?: number;
   styles?: Styles;
   classNames?: ClassNames;
-  headerButtonsPosition?: HeaderButtonPositions;
-  weekdays?: WeekdayName;
+  navigationPosition?: NavigationPosition;
+  weekdaysFormat?: WeekdayFormat;
+  monthsFormat?: MonthFormat;
+  monthCaptionFormat?: MonthFormat;
   multiRangeMode?: boolean;
   hideHeader?: boolean;
   hideWeekdays?: boolean;

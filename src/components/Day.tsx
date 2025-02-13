@@ -1,10 +1,9 @@
 import React, { memo, useMemo } from 'react';
-import { View, Pressable, StyleSheet } from 'react-native';
+import { View, Pressable, StyleSheet, Text } from 'react-native';
 import { ClassNames, CalendarDay, Styles, Components } from '../types';
 import { CONTAINER_HEIGHT, WEEKDAYS_HEIGHT } from '../enums';
 import { cn } from '../utils';
 import { isEqual } from 'lodash';
-import { ThemedPressable, ThemedText, ThemedView } from '../ui';
 
 interface Props {
   day: CalendarDay;
@@ -101,7 +100,7 @@ const Day = ({
     if (!inRange) return null;
     if (!isCrop) {
       return (
-        <ThemedView
+        <View
           style={[
             defaultStyles.rangeRoot,
             styles.range_fill,
@@ -119,7 +118,7 @@ const Day = ({
     return (
       <>
         {leftCrop && (
-          <ThemedView
+          <View
             style={[
               defaultStyles.rangeRoot,
               { left: '50%' },
@@ -129,7 +128,7 @@ const Day = ({
           />
         )}
         {rightCrop && (
-          <ThemedView
+          <View
             style={[
               defaultStyles.rangeRoot,
               { right: '50%' },
@@ -156,7 +155,7 @@ const Day = ({
 
   return (
     <View style={defaultStyles.dayWrapper}>
-      <ThemedView
+      <View
         style={[style.dayCell, styles.day_cell]}
         className={classNames.day_cell}
       >
@@ -172,7 +171,7 @@ const Day = ({
             {components.Day(day)}
           </Pressable>
         ) : (
-          <ThemedPressable
+          <Pressable
             disabled={isDisabled}
             onPress={() => onSelectDate(date)}
             accessibilityRole="button"
@@ -180,12 +179,12 @@ const Day = ({
             style={containerStyle}
             className={containerClassName}
           >
-            <ThemedText style={textStyle} className={textClassName}>
+            <Text style={textStyle} className={textClassName}>
               {text}
-            </ThemedText>
-          </ThemedPressable>
+            </Text>
+          </Pressable>
         )}
-      </ThemedView>
+      </View>
     </View>
   );
 };

@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useCallback, useMemo } from 'react';
+import { View, StyleSheet, Pressable, Text } from 'react-native';
 import { useCalendarContext } from '../calendar-context';
 import { cn, getDateYear, getYearRange } from '../utils';
-import { ThemedPressable, ThemedText } from '../ui';
+import { CONTAINER_HEIGHT } from '../enums';
 
 const Years = () => {
   const {
@@ -13,54 +13,73 @@ const Years = () => {
     onSelectYear,
     styles = {},
     classNames = {},
+    components,
+    containerHeight = CONTAINER_HEIGHT,
   } = useCalendarContext();
+
+  const style = useMemo(
+    () => createDefaultStyles(containerHeight),
+    [containerHeight]
+  );
+
   const selectedYear = getDateYear(date);
 
   const generateCells = useCallback(() => {
     const years = getYearRange(currentYear);
     const activeYear = getDateYear(currentDate);
     const column = years.map((year) => {
+      const isSelected = year === selectedYear;
+      const isActivated = year === activeYear;
       const containerStyle = StyleSheet.flatten([
         defaultStyles.year,
         styles.year,
-        year === activeYear && styles?.active_year,
-        mode === 'single' && year === selectedYear && styles?.selected_year,
+        isActivated && styles?.active_year,
+        mode === 'single' && isSelected && styles?.selected_year,
       ]);
 
       const textStyle = StyleSheet.flatten([
-        year === activeYear && styles?.active_year_label,
-        mode === 'single' &&
-          year === selectedYear &&
-          styles?.selected_year_label,
+        isActivated && styles?.active_year_label,
+        mode === 'single' && isSelected && styles?.selected_year_label,
       ]);
 
       const containerClassName = cn(
-        year === activeYear && classNames?.active_year,
-        mode === 'single' && year === selectedYear
+        isActivated && classNames?.active_year,
+        mode === 'single' && isSelected
           ? classNames?.selected_year
           : classNames.year
       );
 
       const textClassName = cn(
-        year === activeYear && classNames?.active_year_label,
-        mode === 'single' && year === selectedYear
+        isActivated && classNames?.active_year_label,
+        mode === 'single' && isSelected
           ? classNames?.selected_year_label
           : classNames.year_label
       );
 
       return (
-        <View key={year} style={defaultStyles.yearCell}>
-          <ThemedPressable
-            onPress={() => onSelectYear(year)}
-            style={containerStyle}
-            className={containerClassName}
-            accessibilityRole="button"
-            accessibilityLabel={year.toString()}
-          >
-            <ThemedText key={year} style={textStyle} className={textClassName}>
-              {year}
-            </ThemedText>
-          </ThemedPressable>
+        <View key={year} style={style.yearCell}>
+          {components?.Year ? (
+            <Pressable
+              onPress={() => onSelectYear(year)}
+              accessibilityRole="button"
+              accessibilityLabel={year.toString()}
+              style={defaultStyles.year}
+            >
+              {components.Year({ number: year, isSelected, isActivated })}
+            </Pressable>
+          ) : (
+            <Pressable
+              onPress={() => onSelectYear(year)}
+              accessibilityRole="button"
+              accessibilityLabel={year.toString()}
+              style={containerStyle}
+              className={containerClassName}
+            >
+              <Text key={year} style={textStyle} className={textClassName}>
+                {year}
+              </Text>
+            </Pressable>
+          )}
         </View>
       );
     });
@@ -73,6 +92,7 @@ const Years = () => {
     styles,
     mode,
     classNames,
+    components?.Year,
   ]);
 
   return (
@@ -90,22 +110,25 @@ const defaultStyles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 5,
-    width: '100%',
-  },
-  yearCell: {
-    width: '33.3%',
   },
   years: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    width: '100%',
   },
   year: {
-    paddingVertical: 15,
+    flex: 1,
     margin: 2,
     alignItems: 'center',
+    justifyContent: 'center',
   },
 });
+
+const createDefaultStyles = (containerHeight: number) =>
+  StyleSheet.create({
+    yearCell: {
+      width: `${100 / 3}%`,
+      height: containerHeight / 6,
+    },
+  });
 
 export default Years;

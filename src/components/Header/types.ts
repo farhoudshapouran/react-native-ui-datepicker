@@ -1,10 +1,10 @@
 import React from 'react';
-import { ClassNames, Styles, HeaderButtonPositions } from '../../types';
+import { ClassNames, Styles, NavigationPosition } from '../../types';
 
 export type HeaderProps = {
   PrevIcon?: React.ReactNode;
   NextIcon?: React.ReactNode;
-  buttonsPosition?: HeaderButtonPositions;
+  navigationPosition?: NavigationPosition;
   styles?: Styles;
   classNames?: ClassNames;
 };

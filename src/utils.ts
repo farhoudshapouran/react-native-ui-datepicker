@@ -1,5 +1,10 @@
 import dayjs from 'dayjs';
-import type { DateType, CalendarDay, WeekdayName } from './types';
+import type {
+  DateType,
+  CalendarDay,
+  WeekdayFormat,
+  CalendarMonth,
+} from './types';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { useRef } from 'react';
@@ -13,17 +18,30 @@ export const getMonths = () => dayjs.months();
 
 export const getMonthName = (month: number) => dayjs.months()[month];
 
-export const getWeekdays = () => dayjs.weekdays();
+export const getMonthsArray = (): CalendarMonth[] => {
+  const monthNames = dayjs.months();
+  const monthShortNames = dayjs.monthsShort();
 
-export const getWeekdaysShort = () => dayjs.weekdaysShort();
+  return monthNames.map((name, index) => ({
+    number: index + 1,
+    name,
+    short: monthShortNames[index] || '',
+    isSelected: false,
+  }));
+};
 
-export const getWeekdaysMin = (
+export const getWeekdays = (
   locale: string | ILocale,
   firstDayOfWeek: number,
-  weekdays: WeekdayName
+  fomat: WeekdayFormat
 ) => {
   dayjs().locale(locale);
-  let days = weekdays === 'min' ? dayjs.weekdaysMin() : dayjs.weekdaysShort();
+  let days =
+    fomat === 'min'
+      ? dayjs.weekdaysMin()
+      : fomat === 'short'
+        ? dayjs.weekdaysShort()
+        : dayjs.weekdays();
   if (firstDayOfWeek > 0) {
     days = [
       ...days.slice(firstDayOfWeek, days.length),

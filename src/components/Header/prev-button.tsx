@@ -1,13 +1,17 @@
 import React, { memo, useCallback } from 'react';
-import { Image, Pressable, StyleSheet } from 'react-native';
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  useColorScheme,
+  View,
+} from 'react-native';
 import { useCalendarContext } from '../../calendar-context';
 import { YEAR_PAGE_SIZE } from '../../utils';
 import { ClassNames, Styles } from '../../types';
 import { UI } from '../../ui';
 import { isEqual } from 'lodash';
-import { ThemedView } from '../../ui';
 import { COLORS } from '../../theme';
-import { useColorScheme } from 'nativewind';
 
 const arrow_left = require('../../assets/images/arrow_left.png');
 
@@ -20,7 +24,7 @@ const PrevButton = ({ style, className }: PrevButtonProps) => {
   const { currentYear, calendarView, onChangeMonth, onChangeYear, components } =
     useCalendarContext();
 
-  const { colorScheme } = useColorScheme();
+  const colorScheme = useColorScheme();
   const theme = colorScheme ?? 'light';
 
   const onPress = useCallback(() => {
@@ -44,7 +48,7 @@ const PrevButton = ({ style, className }: PrevButtonProps) => {
       accessibilityRole="button"
       accessibilityLabel="Prev"
     >
-      <ThemedView
+      <View
         style={[defaultStyles.iconContainer, defaultStyles.prev, style]}
         className={className}
       >
@@ -58,7 +62,7 @@ const PrevButton = ({ style, className }: PrevButtonProps) => {
             }}
           />
         )}
-      </ThemedView>
+      </View>
     </Pressable>
   );
 };

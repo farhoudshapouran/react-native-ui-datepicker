@@ -5,22 +5,21 @@ import PrevButton from './prev-button';
 import NextButton from './next-button';
 import Selectors from './selectors';
 import { isEqual } from 'lodash';
-import { ThemedView } from '../../ui';
 
 const Header = ({
-  buttonsPosition,
+  navigationPosition,
   styles = {},
   classNames = {},
 }: HeaderProps) => {
   return (
-    <ThemedView
+    <View
       style={[defaultStyles.headerContainer, styles?.header]}
       className={classNames.header}
       accessibilityRole="header"
     >
-      {buttonsPosition === 'left' ? (
+      {navigationPosition === 'left' ? (
         <View style={defaultStyles.container}>
-          <View style={defaultStyles.row}>
+          <View style={defaultStyles.navigation}>
             <PrevButton
               style={styles.button_prev}
               className={classNames.button_prev}
@@ -32,10 +31,10 @@ const Header = ({
           </View>
           <Selectors position="left" />
         </View>
-      ) : buttonsPosition === 'right' ? (
+      ) : navigationPosition === 'right' ? (
         <View style={defaultStyles.container}>
           <Selectors position="right" />
-          <View style={defaultStyles.row}>
+          <View style={defaultStyles.navigation}>
             <PrevButton
               style={styles.button_prev}
               className={classNames.button_prev}
@@ -59,7 +58,7 @@ const Header = ({
           />
         </View>
       )}
-    </ThemedView>
+    </View>
   );
 };
 
@@ -69,11 +68,12 @@ const defaultStyles = StyleSheet.create({
   },
   container: {
     padding: 5,
+    gap: 10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  row: {
+  navigation: {
     flexDirection: 'row',
   },
 });
@@ -85,7 +85,7 @@ const customComparator = (
   const areEqual =
     prev.PrevIcon === next.PrevIcon &&
     prev.NextIcon === next.NextIcon &&
-    prev.buttonsPosition === next.buttonsPosition &&
+    prev.navigationPosition === next.navigationPosition &&
     isEqual(prev.styles, next.styles) &&
     isEqual(prev.classNames, next.classNames);
 

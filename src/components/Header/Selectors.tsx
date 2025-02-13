@@ -1,14 +1,13 @@
 import React, { memo } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useCalendarContext } from '../../calendar-context';
 import MonthButton from './month-button';
 import YearButton from './year-button';
 import dayjs from 'dayjs';
-import { HeaderButtonPositions } from '../../types';
-import { ThemedView, ThemedText } from '../../ui';
+import { NavigationPosition } from '../../types';
 
 type Props = {
-  position: HeaderButtonPositions;
+  position: NavigationPosition;
 };
 
 const Selectors = ({ position }: Props) => {
@@ -28,7 +27,10 @@ const Selectors = ({ position }: Props) => {
         defaultStyles.container,
         position === 'around'
           ? { justifyContent: 'space-evenly' }
-          : { justifyContent: 'space-between' },
+          : {
+              justifyContent: 'space-between',
+              flexDirection: position === 'left' ? 'row-reverse' : 'row',
+            },
       ]}
     >
       <View style={defaultStyles.monthAndYear}>
@@ -43,17 +45,17 @@ const Selectors = ({ position }: Props) => {
           accessibilityRole="button"
           accessibilityLabel={dayjs(date).format('HH:mm')}
         >
-          <ThemedView
+          <View
             style={styles?.time_selector}
             className={classNames?.time_selector}
           >
-            <ThemedText
+            <Text
               style={styles?.time_selector_label}
               className={classNames?.time_selector_label}
             >
               {dayjs(date).format('HH:mm')}
-            </ThemedText>
-          </ThemedView>
+            </Text>
+          </View>
         </Pressable>
       ) : null}
     </View>

@@ -1,9 +1,8 @@
 import React, { memo } from 'react';
-import { Pressable, StyleSheet } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useCalendarContext } from '../../calendar-context';
 import { getDateYear, getYearRange } from '../../utils';
 import dayjs from 'dayjs';
-import { ThemedView, ThemedText } from '../../ui';
 
 const YearButton = () => {
   const {
@@ -29,19 +28,19 @@ const YearButton = () => {
       accessibilityRole="button"
       accessibilityLabel={dayjs(currentDate).format('YYYY')}
     >
-      <ThemedView
+      <View
         style={[defaultStyles.container, styles?.year_selector]}
         className={classNames?.year_selector}
       >
-        <ThemedText
+        <Text
           style={styles?.year_selector_label}
           className={classNames?.year_selector_label}
         >
           {calendarView === 'year'
             ? `${years[0]} - ${years[years.length - 1]}`
             : dayjs(currentDate).format('YYYY')}
-        </ThemedText>
-      </ThemedView>
+        </Text>
+      </View>
     </Pressable>
   );
 };

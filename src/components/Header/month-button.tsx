@@ -1,8 +1,7 @@
 import React, { memo } from 'react';
 import dayjs from 'dayjs';
-import { Pressable } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { useCalendarContext } from '../../calendar-context';
-import { ThemedView, ThemedText } from '../../ui';
 
 const MonthButton = () => {
   const {
@@ -13,9 +12,12 @@ const MonthButton = () => {
     styles,
     classNames,
     disableMonthPicker,
+    monthCaptionFormat,
   } = useCalendarContext();
 
-  const currentMonthText = dayjs(currentDate).locale(locale).format('MMMM');
+  const currentMonthText = dayjs(currentDate)
+    .locale(locale)
+    .format(monthCaptionFormat === 'full' ? 'MMMM' : 'MMM');
 
   return (
     <Pressable
@@ -27,17 +29,17 @@ const MonthButton = () => {
       accessibilityRole="button"
       accessibilityLabel={currentMonthText}
     >
-      <ThemedView
+      <View
         style={styles?.month_selector}
         className={classNames?.month_selector}
       >
-        <ThemedText
+        <Text
           style={styles?.month_selector_label}
           className={classNames?.month_selector_label}
         >
           {currentMonthText}
-        </ThemedText>
-      </ThemedView>
+        </Text>
+      </View>
     </Pressable>
   );
 };

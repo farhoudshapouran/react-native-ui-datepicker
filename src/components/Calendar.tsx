@@ -29,7 +29,7 @@ const Calendar = () => {
     styles,
     classNames,
     containerHeight,
-    headerButtonsPosition,
+    navigationPosition,
   } = useCalendarContext();
 
   const containerStyle: ViewStyle = useMemo(
@@ -43,7 +43,7 @@ const Calendar = () => {
     <View style={defaultStyles.container} testID="calendar">
       {!hideHeader ? (
         <Header
-          buttonsPosition={headerButtonsPosition}
+          navigationPosition={navigationPosition}
           styles={styles}
           classNames={classNames}
         />

@@ -1,12 +1,25 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useMemo } from 'react';
+import { View, StyleSheet, Pressable, Text } from 'react-native';
 import { useCalendarContext } from '../calendar-context';
-import { getParsedDate, getMonths, cn } from '../utils';
-import { ThemedPressable, ThemedText } from '../ui';
+import { getParsedDate, getMonthsArray, cn } from '../utils';
+import { CONTAINER_HEIGHT } from '../enums';
 
 const Months = () => {
-  const { currentDate, onSelectMonth, styles, classNames } =
-    useCalendarContext();
+  const {
+    currentDate,
+    onSelectMonth,
+    styles,
+    classNames,
+    components,
+    containerHeight = CONTAINER_HEIGHT,
+    monthsFormat,
+  } = useCalendarContext();
+
+  const style = useMemo(
+    () => createDefaultStyles(containerHeight),
+    [containerHeight]
+  );
+
   const { month } = getParsedDate(currentDate);
 
   const containerStyle = StyleSheet.flatten([
@@ -16,39 +29,47 @@ const Months = () => {
 
   return (
     <View style={containerStyle} testID="month-selector">
-      <View style={defaultStyles.monthsContainer}>
-        {getMonths()?.map((item, index) => {
-          const activeItemStyle = index === month ? styles?.selected_month : {};
+      <View style={defaultStyles.months}>
+        {getMonthsArray()?.map((item, index) => {
+          const isSelected = index === month;
+          const activeItemStyle = isSelected ? styles?.selected_month : {};
 
-          const textStyle = index === month ? styles?.selected_month_label : {};
+          const textStyle = isSelected ? styles?.selected_month_label : {};
 
           const containerClassName = cn(
-            index === month ? classNames?.selected_month : classNames?.month
+            isSelected ? classNames?.selected_month : classNames?.month
           );
 
           const textClassName = cn(
-            index === month
+            isSelected
               ? classNames?.selected_month_label
               : classNames?.month_label
           );
 
           return (
-            <View key={index} style={defaultStyles.monthCell}>
-              <ThemedPressable
-                onPress={() => onSelectMonth(index)}
-                accessibilityRole="button"
-                accessibilityLabel={item}
-                style={[defaultStyles.month, styles?.month, activeItemStyle]}
-                className={containerClassName}
-              >
-                <ThemedText
-                  key={index}
-                  style={textStyle}
-                  className={textClassName}
+            <View key={index} style={style.monthCell}>
+              {components?.Month ? (
+                <Pressable
+                  onPress={() => onSelectMonth(index)}
+                  accessibilityRole="button"
+                  accessibilityLabel={item.name}
+                  style={defaultStyles.month}
                 >
-                  {item}
-                </ThemedText>
-              </ThemedPressable>
+                  {components.Month({ ...item, isSelected })}
+                </Pressable>
+              ) : (
+                <Pressable
+                  onPress={() => onSelectMonth(index)}
+                  accessibilityRole="button"
+                  accessibilityLabel={item.name}
+                  style={[defaultStyles.month, styles?.month, activeItemStyle]}
+                  className={containerClassName}
+                >
+                  <Text key={index} style={textStyle} className={textClassName}>
+                    {monthsFormat === 'full' ? item.name : item.short}
+                  </Text>
+                </Pressable>
+              )}
             </View>
           );
         })}
@@ -63,18 +84,24 @@ const defaultStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  monthsContainer: {
+  months: {
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
-  monthCell: {
-    width: '33.3%',
-  },
   month: {
-    paddingVertical: 15,
+    flex: 1,
     margin: 2,
     alignItems: 'center',
+    justifyContent: 'center',
   },
 });
+
+const createDefaultStyles = (containerHeight: number) =>
+  StyleSheet.create({
+    monthCell: {
+      width: `${100 / 3}%`,
+      height: containerHeight / 6,
+    },
+  });
 
 export default Months;
