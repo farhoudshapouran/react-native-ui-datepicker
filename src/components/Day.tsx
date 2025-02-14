@@ -1,6 +1,6 @@
 import React, { memo, useMemo } from 'react';
 import { View, Pressable, StyleSheet, Text } from 'react-native';
-import { ClassNames, CalendarDay, Styles, Components } from '../types';
+import { ClassNames, CalendarDay, Styles, CalendarComponents } from '../types';
 import { CONTAINER_HEIGHT, WEEKDAYS_HEIGHT } from '../enums';
 import { cn } from '../utils';
 import { isEqual } from 'lodash';
@@ -12,7 +12,7 @@ interface Props {
   weekdaysHeight?: number;
   styles?: Styles;
   classNames?: ClassNames;
-  components?: Components;
+  components?: CalendarComponents;
 }
 
 export const EmptyDay = React.memo(() => {

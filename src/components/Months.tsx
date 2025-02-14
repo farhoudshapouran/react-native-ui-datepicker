@@ -50,7 +50,7 @@ const Months = () => {
             <View key={index} style={style.monthCell}>
               {components?.Month ? (
                 <Pressable
-                  onPress={() => onSelectMonth(index)}
+                  onPress={() => onSelectMonth(item.number)}
                   accessibilityRole="button"
                   accessibilityLabel={item.name}
                   style={defaultStyles.month}
@@ -59,7 +59,7 @@ const Months = () => {
                 </Pressable>
               ) : (
                 <Pressable
-                  onPress={() => onSelectMonth(index)}
+                  onPress={() => onSelectMonth(item.number)}
                   accessibilityRole="button"
                   accessibilityLabel={item.name}
                   style={[defaultStyles.month, styles?.month, activeItemStyle]}

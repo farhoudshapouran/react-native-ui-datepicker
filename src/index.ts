@@ -1,6 +1,13 @@
 import DateTimePicker from './datetime-picker';
 
-export type { DateType, CalendarMode, CalendarDay } from './types';
+export type {
+  DateType,
+  CalendarMode,
+  CalendarDay,
+  CalendarMonth,
+  CalendarYear,
+  CalendarComponents,
+} from './types';
 export { getDefaultClassNames, getDefaultStyles } from './theme';
 
 export default DateTimePicker;

@@ -3,7 +3,6 @@ const reactHooks = require('eslint-plugin-react-hooks');
 
 module.exports = [
   {
-    //extends: ['@react-native'],
     files: ['src/**/*.{js,jsx,ts,tsx}'],
     ignores: [
       'node_modules/',

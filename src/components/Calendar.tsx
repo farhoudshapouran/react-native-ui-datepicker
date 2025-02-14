@@ -16,8 +16,7 @@ const CalendarView: Record<CalendarViews, ReactNode> = {
 };
 
 const defaultStyles = StyleSheet.create({
-  container: {
-    width: '100%',
+  root: {
     flex: 1,
   },
 });
@@ -26,8 +25,10 @@ const Calendar = () => {
   const {
     hideHeader,
     calendarView,
-    styles,
-    classNames,
+    style = {},
+    className = '',
+    styles = {},
+    classNames = {},
     containerHeight,
     navigationPosition,
   } = useCalendarContext();
@@ -40,7 +41,11 @@ const Calendar = () => {
   );
 
   return (
-    <View style={defaultStyles.container} testID="calendar">
+    <View
+      style={[defaultStyles.root, style]}
+      className={className}
+      testID="calendar"
+    >
       {!hideHeader ? (
         <Header
           navigationPosition={navigationPosition}

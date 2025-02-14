@@ -1,7 +1,12 @@
 import React, { memo, useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { getWeekdays } from '../utils';
-import { Styles, ClassNames, WeekdayFormat } from '../types';
+import {
+  Styles,
+  ClassNames,
+  WeekdayFormat,
+  CalendarComponents,
+} from '../types';
 import { WEEKDAYS_HEIGHT } from '../enums';
 
 type WeekdaysProps = {
@@ -11,6 +16,7 @@ type WeekdaysProps = {
   classNames?: ClassNames;
   weekdaysFormat?: WeekdayFormat;
   weekdaysHeight?: number;
+  components?: CalendarComponents;
 };
 
 const Weekdays = ({
@@ -20,6 +26,7 @@ const Weekdays = ({
   classNames = {},
   weekdaysFormat = 'min',
   weekdaysHeight = WEEKDAYS_HEIGHT,
+  components = {},
 }: WeekdaysProps) => {
   const style = useMemo(
     () => createDefaultStyles(weekdaysHeight),
@@ -39,12 +46,16 @@ const Weekdays = ({
             style={[style.weekday, styles.weekday]}
             className={classNames.weekday}
           >
-            <Text
-              style={styles?.weekday_label}
-              className={classNames.weekday_label}
-            >
-              {weekday}
-            </Text>
+            {components.Weekday ? (
+              components.Weekday(weekday)
+            ) : (
+              <Text
+                style={styles?.weekday_label}
+                className={classNames.weekday_label}
+              >
+                {weekday}
+              </Text>
+            )}
           </View>
         )
       )}

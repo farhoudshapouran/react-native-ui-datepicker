@@ -84,22 +84,29 @@ export type Styles = Partial<{
     | TextStyle;
 }>;
 
-export type Components = Partial<{
-  /** The view containing the day in the days grid */
+export type CalendarComponents = Partial<{
+  /** The component containing the day in the days grid */
   Day: (day: CalendarDay) => React.ReactNode;
-  /** The view containing the month in the months grid.. */
+  /** The component containing the month in the months grid */
   Month: (month: CalendarMonth) => React.ReactNode;
-  /** The view containing the year in the years grid.. */
+  /** The component containing the year in the years grid */
   Year: (year: CalendarYear) => React.ReactNode;
-  /** The previous month/year button icon in the header. */
-  PrevIcon: React.ReactNode;
-  /** The next month button/year icon in the header. */
-  NextIcon: React.ReactNode;
+  /** The component containing the weekday name in the header */
+  Weekday: (weekday: string) => React.ReactNode;
+  /** The previous month/year button icon in the header */
+  IconPrev: React.ReactNode;
+  /** The next month button/year icon in the header */
+  IconNext: React.ReactNode;
 }>;
 
 export interface DatePickerBaseProps {
   mode?: CalendarMode;
   locale?: string | ILocale; // If ILocale is required, define it somewhere
+  date?: DateType;
+  dates?: DateType[];
+  startDate?: DateType;
+  endDate?: DateType;
+  onChange?: SingleChange | RangeChange | MultiChange;
   startYear?: number;
   endYear?: number;
   minDate?: DateType;
@@ -108,14 +115,11 @@ export interface DatePickerBaseProps {
   firstDayOfWeek?: number;
   showOutsideDays?: boolean;
   timePicker?: boolean;
-  date?: DateType;
-  dates?: DateType[];
-  startDate?: DateType;
-  endDate?: DateType;
-  onChange?: SingleChange | RangeChange | MultiChange;
   initialView?: CalendarViews;
   containerHeight?: number;
   weekdaysHeight?: number;
+  style?: ViewStyle;
+  className?: string;
   styles?: Styles;
   classNames?: ClassNames;
   navigationPosition?: NavigationPosition;
@@ -127,5 +131,9 @@ export interface DatePickerBaseProps {
   hideWeekdays?: boolean;
   disableMonthPicker?: boolean;
   disableYearPicker?: boolean;
-  components?: Components;
+  components?: CalendarComponents;
+  currentMonth?: number;
+  setCurrentMonth?: (month: number) => void;
+  currentYear?: number;
+  setCurrentYear?: (year: number) => void;
 }

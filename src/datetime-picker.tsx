@@ -13,6 +13,7 @@ import {
   getStartOfDay,
   areDatesOnSameDay,
   removeTime,
+  //getDateMonth,
 } from './utils';
 import { CalendarContext } from './calendar-context';
 import {
@@ -84,6 +85,8 @@ const DateTimePicker = (
     initialView = 'day',
     containerHeight = CONTAINER_HEIGHT,
     weekdaysHeight = WEEKDAYS_HEIGHT,
+    style = {},
+    className = '',
     classNames = {},
     styles = {},
     navigationPosition,
@@ -96,6 +99,8 @@ const DateTimePicker = (
     disableMonthPicker,
     disableYearPicker,
     components = {},
+    currentMonth,
+    setCurrentMonth = () => {},
   } = props;
 
   dayjs.locale(locale);
@@ -307,19 +312,21 @@ const DateTimePicker = (
 
   const onSelectMonth = useCallback(
     (month: number) => {
-      const newDate = getDate(stateRef.current.currentDate).month(month);
+      const newDate = getDate(stateRef.current.currentDate).month(month - 1);
+      setCurrentMonth(month);
       dispatch({
         type: CalendarActionKind.CHANGE_CURRENT_DATE,
         payload: getFormated(newDate),
       });
       setCalendarView('day');
     },
-    [setCalendarView, stateRef]
+    [setCalendarView, stateRef, setCurrentMonth]
   );
 
   const onSelectYear = useCallback(
     (year: number) => {
       const newDate = getDate(stateRef.current.currentDate).year(year);
+      console.log(dayjs(newDate).format('YYYY-MM-DD'));
       dispatch({
         type: CalendarActionKind.CHANGE_CURRENT_DATE,
         payload: getFormated(newDate),
@@ -349,6 +356,16 @@ const DateTimePicker = (
     },
     [stateRef, dispatch]
   );
+
+  // useEffect(() => {
+  //   setCurrentMonth(getDateMonth(currentDate));
+  // }, [currentDate, setCurrentMonth]);
+
+  useEffect(() => {
+    if (currentMonth && currentMonth > 0) {
+      onSelectMonth(currentMonth);
+    }
+  }, [currentMonth]);
 
   const memoizedStyles = useDeepCompareMemo({ ...styles }, [styles]);
 
@@ -384,6 +401,8 @@ const DateTimePicker = (
       hideWeekdays,
       disableMonthPicker,
       disableYearPicker,
+      style,
+      className,
     }),
     [
       locale,
@@ -405,6 +424,8 @@ const DateTimePicker = (
       hideWeekdays,
       disableMonthPicker,
       disableYearPicker,
+      style,
+      className,
     ]
   );
 

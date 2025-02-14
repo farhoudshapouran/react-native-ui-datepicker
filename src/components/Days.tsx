@@ -202,6 +202,7 @@ const Days = () => {
           classNames={classNames}
           weekdaysFormat={weekdaysFormat}
           weekdaysHeight={weekdaysHeight}
+          components={components}
         />
       ) : null}
       <View style={containerStyle} className={classNames?.days} testID="days">

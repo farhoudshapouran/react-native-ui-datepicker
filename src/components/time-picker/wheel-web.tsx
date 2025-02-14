@@ -34,7 +34,7 @@ const WheelWeb = ({
   const renderCount =
     displayCount * 2 < items.length ? displayCount * 8 : displayCount * 2 - 1;
   const circular = items.length >= displayCount;
-  const height = 130;
+  const height = 140;
   const radius = height / 2;
 
   const valueIndex = useMemo(

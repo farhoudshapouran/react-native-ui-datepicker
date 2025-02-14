@@ -21,8 +21,13 @@ type PrevButtonProps = {
 };
 
 const PrevButton = ({ style, className }: PrevButtonProps) => {
-  const { currentYear, calendarView, onChangeMonth, onChangeYear, components } =
-    useCalendarContext();
+  const {
+    currentYear,
+    calendarView,
+    onChangeMonth,
+    onChangeYear,
+    components = {},
+  } = useCalendarContext();
 
   const colorScheme = useColorScheme();
   const theme = colorScheme ?? 'light';
@@ -52,7 +57,7 @@ const PrevButton = ({ style, className }: PrevButtonProps) => {
         style={[defaultStyles.iconContainer, defaultStyles.prev, style]}
         className={className}
       >
-        {components?.PrevIcon || (
+        {components.IconPrev || (
           <Image
             source={arrow_left}
             tintColor={COLORS[theme].foreground}

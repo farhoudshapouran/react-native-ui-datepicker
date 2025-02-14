@@ -21,8 +21,13 @@ type NextButtonProps = {
 };
 
 const NextButton = ({ style, className }: NextButtonProps) => {
-  const { currentYear, onChangeMonth, onChangeYear, calendarView, components } =
-    useCalendarContext();
+  const {
+    currentYear,
+    onChangeMonth,
+    onChangeYear,
+    calendarView,
+    components = {},
+  } = useCalendarContext();
 
   const colorScheme = useColorScheme();
   const theme = colorScheme ?? 'light';
@@ -52,7 +57,7 @@ const NextButton = ({ style, className }: NextButtonProps) => {
         style={[defaultStyles.iconContainer, defaultStyles.next, style]}
         className={className}
       >
-        {components?.NextIcon || (
+        {components.IconNext || (
           <Image
             source={arrow_right}
             tintColor={COLORS[theme].foreground}

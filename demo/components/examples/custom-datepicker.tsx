@@ -6,6 +6,7 @@ import DateTimePicker, {
   CalendarDay,
   getDefaultClassNames,
   getDefaultStyles,
+  CalendarComponents,
 } from 'react-native-ui-datepicker';
 import { buttonVariants, buttonTextVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -20,9 +21,9 @@ cssInterop(Feather, {
   },
 });
 
-const components = {
-  PrevIcon: <Feather name="moon" size={14} className="text-foreground" />,
-  NextIcon: <Feather name="sun" size={14} className="text-foreground" />,
+const components: CalendarComponents = {
+  IconPrev: <Feather name="moon" size={14} className="text-foreground" />,
+  IconNext: <Feather name="sun" size={14} className="text-foreground" />,
   Day: (day: CalendarDay) => <CustomDay day={day} />,
 };
 
