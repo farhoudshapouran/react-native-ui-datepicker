@@ -2,8 +2,8 @@ import dayjs from 'dayjs';
 import type {
   DateType,
   CalendarDay,
-  WeekdayFormat,
   CalendarMonth,
+  CalendarWeek,
 } from './types';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -28,7 +28,7 @@ export const getMonthsArray = (): CalendarMonth[] => {
   const monthShortNames = dayjs.monthsShort();
 
   return monthNames.map((name, index) => ({
-    number: index + 1,
+    index,
     name,
     short: monthShortNames[index] || '',
     isSelected: false,
@@ -46,23 +46,33 @@ export const getMonthsArray = (): CalendarMonth[] => {
  */
 export const getWeekdays = (
   locale: string | ILocale,
-  firstDayOfWeek: number,
-  fomat: WeekdayFormat
-) => {
+  firstDayOfWeek: number
+): CalendarWeek[] => {
   dayjs().locale(locale);
-  let days =
-    fomat === 'min'
-      ? dayjs.weekdaysMin()
-      : fomat === 'short'
-        ? dayjs.weekdaysShort()
-        : dayjs.weekdays();
+
+  const weekdayNames = dayjs.weekdays();
+  const weekdayShortNames = dayjs.weekdaysShort();
+  const weekdayMinNames = dayjs.weekdaysMin();
+
+  let weekdays = weekdayNames.map((name, index) => ({
+    name,
+    min: weekdayMinNames[index] || '',
+    short: weekdayShortNames[index] || '',
+  }));
+
+  // let days =
+  //   fomat === 'min'
+  //     ? dayjs.weekdaysMin()
+  //     : fomat === 'short'
+  //       ? dayjs.weekdaysShort()
+  //       : dayjs.weekdays();
   if (firstDayOfWeek > 0) {
-    days = [
-      ...days.slice(firstDayOfWeek, days.length),
-      ...days.slice(0, firstDayOfWeek),
-    ] as dayjs.WeekdayNames;
+    weekdays = [
+      ...weekdays.slice(firstDayOfWeek, weekdays.length),
+      ...weekdays.slice(0, firstDayOfWeek),
+    ] as CalendarWeek[];
   }
-  return days;
+  return weekdays;
 };
 
 export const getFormated = (date: DateType) =>

@@ -39,26 +39,28 @@ const Weekdays = ({
       className={classNames.weekdays}
       testID="weekdays"
     >
-      {getWeekdays(locale, firstDayOfWeek, weekdaysFormat)?.map(
-        (weekday, index) => (
-          <View
-            key={index}
-            style={[style.weekday, styles.weekday]}
-            className={classNames.weekday}
-          >
-            {components.Weekday ? (
-              components.Weekday(weekday)
-            ) : (
-              <Text
-                style={styles?.weekday_label}
-                className={classNames.weekday_label}
-              >
-                {weekday}
-              </Text>
-            )}
-          </View>
-        )
-      )}
+      {getWeekdays(locale, firstDayOfWeek)?.map((weekday, index) => (
+        <View
+          key={index}
+          style={[style.weekday, styles.weekday]}
+          className={classNames.weekday}
+        >
+          {components.Weekday ? (
+            components.Weekday(weekday)
+          ) : (
+            <Text
+              style={styles?.weekday_label}
+              className={classNames.weekday_label}
+            >
+              {weekdaysFormat === 'min'
+                ? weekday.min
+                : weekdaysFormat === 'short'
+                  ? weekday.short
+                  : weekday.name}
+            </Text>
+          )}
+        </View>
+      ))}
     </View>
   );
 };

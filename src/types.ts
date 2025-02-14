@@ -17,7 +17,7 @@ export type LocalState = {
   date: DateType;
   startDate: DateType;
   endDate: DateType;
-  dates: DateType[];
+  dates?: DateType[];
   calendarView: CalendarViews;
   currentDate: DateType; // used for latest state of calendar based on Month and Year
   currentYear: number;
@@ -48,8 +48,14 @@ export type CalendarDay = {
   rangeEnd: boolean;
 };
 
+export type CalendarWeek = {
+  name: string;
+  min: string;
+  short: string;
+};
+
 export type CalendarMonth = {
-  number: number;
+  index: number;
   name: string;
   short: string;
   isSelected: boolean;
@@ -91,8 +97,8 @@ export type CalendarComponents = Partial<{
   Month: (month: CalendarMonth) => React.ReactNode;
   /** The component containing the year in the years grid */
   Year: (year: CalendarYear) => React.ReactNode;
-  /** The component containing the weekday name in the header */
-  Weekday: (weekday: string) => React.ReactNode;
+  /** The component containing the weekday in the header */
+  Weekday: (weekday: CalendarWeek) => React.ReactNode;
   /** The previous month/year button icon in the header */
   IconPrev: React.ReactNode;
   /** The next month button/year icon in the header */
@@ -132,8 +138,9 @@ export interface DatePickerBaseProps {
   disableMonthPicker?: boolean;
   disableYearPicker?: boolean;
   components?: CalendarComponents;
-  currentMonth?: number;
-  setCurrentMonth?: (month: number) => void;
-  currentYear?: number;
-  setCurrentYear?: (year: number) => void;
+  /** use to handle month and year selectors */
+  month?: number;
+  year?: number;
+  onMonthChange?: (month: number) => void;
+  onYearChange?: (year: number) => void;
 }

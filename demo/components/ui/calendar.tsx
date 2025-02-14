@@ -45,7 +45,7 @@ function Calendar({
         day_cell: 'p-0.5',
         range_fill: 'bg-accent',
         range_middle_label: 'text-accent-foreground',
-        time_label: 'text-2xl font-medium',
+        time_label: 'text-2xl font-medium text-foreground',
         ...classNames,
       }}
       //weekdaysFormat="short"

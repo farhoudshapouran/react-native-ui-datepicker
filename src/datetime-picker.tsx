@@ -37,6 +37,7 @@ import dayjs from 'dayjs';
 import localeData from 'dayjs/plugin/localeData';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
+import './locales';
 
 dayjs.extend(localeData);
 dayjs.extend(relativeTime);
@@ -60,8 +61,6 @@ export interface DatePickeMultipleProps extends DatePickerBaseProps {
   dates?: DateType[];
   onChange?: MultiChange;
 }
-
-let currentDate = dayjs();
 
 const DateTimePicker = (
   props: DatePickerSingleProps | DatePickerRangeProps | DatePickeMultipleProps
@@ -99,8 +98,10 @@ const DateTimePicker = (
     disableMonthPicker,
     disableYearPicker,
     components = {},
-    currentMonth,
-    setCurrentMonth = () => {},
+    month,
+    year,
+    onMonthChange = () => {},
+    onYearChange = () => {},
   } = props;
 
   dayjs.locale(locale);
@@ -118,25 +119,43 @@ const DateTimePicker = (
     [firstDayOfWeek]
   );
 
-  const currentYear = useMemo(() => {
+  const initialState = useMemo(() => {
+    let initialDate = dayjs();
+
     if (mode === 'single' && date) {
-      currentDate = dayjs(date);
+      initialDate = dayjs(date);
     }
 
     if (mode === 'range' && startDate) {
-      currentDate = dayjs(startDate);
+      initialDate = dayjs(startDate);
     }
 
     if (mode === 'multiple' && dates && dates.length > 0) {
-      currentDate = dayjs(dates[0]);
+      initialDate = dayjs(dates[0]);
     }
 
-    if (minDate && currentDate.isBefore(minDate)) {
-      currentDate = dayjs(minDate);
+    if (minDate && initialDate.isBefore(minDate)) {
+      initialDate = dayjs(minDate);
     }
 
-    return currentDate.year();
-  }, [mode, date, startDate, dates, minDate]);
+    if (month !== undefined && month && month >= 0 && month <= 11) {
+      initialDate = initialDate.month(month);
+    }
+
+    if (year !== undefined && year >= 0) {
+      initialDate = initialDate.year(year);
+    }
+
+    return {
+      date,
+      startDate,
+      endDate,
+      dates,
+      calendarView: initialCalendarView,
+      currentDate: initialDate,
+      currentYear: initialDate.year(),
+    };
+  }, [mode, date, startDate, dates, minDate, month, year]);
 
   const [state, dispatch] = useReducer(
     (prevState: LocalState, action: CalendarAction) => {
@@ -178,15 +197,7 @@ const DateTimePicker = (
           };
       }
     },
-    {
-      date,
-      startDate,
-      endDate,
-      dates,
-      calendarView: initialCalendarView,
-      currentDate,
-      currentYear,
-    }
+    initialState
   );
 
   const stateRef = useRef(state);
@@ -310,35 +321,49 @@ const DateTimePicker = (
     [mode, timePicker, stateRef]
   );
 
+  // set the active displayed month
   const onSelectMonth = useCallback(
-    (month: number) => {
-      const newDate = getDate(stateRef.current.currentDate).month(month - 1);
-      setCurrentMonth(month);
+    (value: number) => {
+      const currentMonth = dayjs(stateRef.current.currentDate).month();
+      const newDate = getDate(stateRef.current.currentDate).month(value);
+
+      // Only call onMonthChange if the month actually changed
+      if (value !== currentMonth) {
+        onMonthChange(value);
+      }
+
       dispatch({
         type: CalendarActionKind.CHANGE_CURRENT_DATE,
         payload: getFormated(newDate),
       });
       setCalendarView('day');
     },
-    [setCalendarView, stateRef, setCurrentMonth]
+    [setCalendarView, onMonthChange]
   );
 
+  // set the active displayed year
   const onSelectYear = useCallback(
-    (year: number) => {
-      const newDate = getDate(stateRef.current.currentDate).year(year);
-      console.log(dayjs(newDate).format('YYYY-MM-DD'));
+    (value: number) => {
+      const currentYear = dayjs(stateRef.current.currentDate).year();
+      const newDate = getDate(stateRef.current.currentDate).year(value);
+
+      // Only call onYearChange if the year actually changed
+      if (value !== currentYear) {
+        onYearChange(value);
+      }
+
       dispatch({
         type: CalendarActionKind.CHANGE_CURRENT_DATE,
         payload: getFormated(newDate),
       });
       setCalendarView('day');
     },
-    [setCalendarView, stateRef, dispatch]
+    [setCalendarView, onYearChange]
   );
 
   const onChangeMonth = useCallback(
-    (month: number) => {
-      const newDate = getDate(stateRef.current.currentDate).add(month, 'month');
+    (value: number) => {
+      const newDate = getDate(stateRef.current.currentDate).add(value, 'month');
       dispatch({
         type: CalendarActionKind.CHANGE_CURRENT_DATE,
         payload: getFormated(newDate),
@@ -348,24 +373,26 @@ const DateTimePicker = (
   );
 
   const onChangeYear = useCallback(
-    (year: number) => {
+    (value: number) => {
       dispatch({
         type: CalendarActionKind.CHANGE_CURRENT_YEAR,
-        payload: year,
+        payload: value,
       });
     },
     [stateRef, dispatch]
   );
 
-  // useEffect(() => {
-  //   setCurrentMonth(getDateMonth(currentDate));
-  // }, [currentDate, setCurrentMonth]);
+  useEffect(() => {
+    if (month !== undefined && month >= 0 && month <= 11) {
+      onSelectMonth(month);
+    }
+  }, [month]);
 
   useEffect(() => {
-    if (currentMonth && currentMonth > 0) {
-      onSelectMonth(currentMonth);
+    if (year !== undefined && year >= 0) {
+      onSelectYear(year);
     }
-  }, [currentMonth]);
+  }, [year]);
 
   const memoizedStyles = useDeepCompareMemo({ ...styles }, [styles]);
 
