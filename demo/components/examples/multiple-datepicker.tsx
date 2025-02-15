@@ -25,6 +25,7 @@ export default function MultipleDatePicker() {
           mode="multiple"
           dates={dates}
           onChange={({ dates }) => setDates(dates)}
+          max={8}
         />
       </View>
     </View>

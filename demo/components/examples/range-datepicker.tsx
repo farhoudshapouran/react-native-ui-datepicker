@@ -29,9 +29,10 @@ export default function RangeDatePicker() {
           startDate={range.startDate}
           endDate={range.endDate}
           onChange={(params) => setRange(params)}
-          max={5}
-          minDate={dayjs().add(-3, 'day')}
-          timezone="Pacific/Kiritimati"
+          min={3}
+          //max={5}
+          //minDate={dayjs().add(-3, 'day')}
+          //timezone="Pacific/Kiritimati"
         />
         <Text>
           Start:{' '}

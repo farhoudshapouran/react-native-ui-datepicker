@@ -36,6 +36,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import duration from 'dayjs/plugin/duration';
 import './locales';
 import { usePrevious } from './hooks/use-previous';
 
@@ -44,6 +45,7 @@ dayjs.extend(relativeTime);
 dayjs.extend(localizedFormat);
 dayjs.extend(utc);
 dayjs.extend(timezone);
+dayjs.extend(duration);
 
 export interface DatePickerSingleProps extends DatePickerBaseProps {
   mode: 'single';
@@ -365,40 +367,63 @@ const DateTimePicker = (
           });
         } else if (mode === 'range') {
           // set time to 00:00:00
-          let sd = removeTime(stateRef.current.startDate);
-          let ed = removeTime(stateRef.current.endDate);
+          let start = removeTime(stateRef.current.startDate);
+          let end = removeTime(stateRef.current.endDate);
           const selected = removeTime(selectedDate);
           let isStart: boolean = true;
           let isReset: boolean = false;
 
           if (
-            dateToUnix(selected) !== dateToUnix(ed) &&
-            dateToUnix(selected) >= dateToUnix(sd) &&
-            dateToUnix(sd) !== dateToUnix(ed)
+            dateToUnix(selected) !== dateToUnix(end) &&
+            dateToUnix(selected) >= dateToUnix(start) &&
+            dateToUnix(start) !== dateToUnix(end)
           ) {
             isStart = false;
-          } else if (sd && dateToUnix(selected) === dateToUnix(sd)) {
+          } else if (start && dateToUnix(selected) === dateToUnix(start)) {
             isReset = true;
           }
 
-          if (sd && ed) {
+          if (start && end) {
             if (
-              dateToUnix(sd) === dateToUnix(ed) &&
-              dateToUnix(selected) > dateToUnix(sd)
+              dateToUnix(start) === dateToUnix(end) &&
+              dateToUnix(selected) > dateToUnix(start)
             ) {
               isStart = false;
             }
 
             if (
-              dateToUnix(selected) > dateToUnix(sd) &&
-              dateToUnix(selected) === dateToUnix(ed)
+              dateToUnix(selected) > dateToUnix(start) &&
+              dateToUnix(selected) === dateToUnix(end)
             ) {
-              ed = undefined;
+              end = undefined;
             }
           }
 
-          if (sd && !ed && dateToUnix(selected) < dateToUnix(sd)) {
-            ed = sd;
+          if (start && !end && dateToUnix(selected) < dateToUnix(start)) {
+            end = start;
+          }
+
+          if (isStart && end && (min || max)) {
+            const numberOfDays = dayjs(end).diff(selected, 'day');
+
+            if ((max && numberOfDays > max) || (min && numberOfDays < min)) {
+              isStart = true;
+              end = undefined;
+            }
+          }
+
+          if (!isStart && start && (min || max)) {
+            const numberOfDays = dayjs(selected).diff(start, 'day');
+
+            if (dateToUnix(selected) === dateToUnix(start)) {
+              isReset = true;
+            } else if (
+              (max && numberOfDays > max) ||
+              (min && numberOfDays < min)
+            ) {
+              isStart = true;
+              end = undefined;
+            }
           }
 
           if (isReset) {
@@ -408,12 +433,12 @@ const DateTimePicker = (
             });
           } else {
             (onChange as RangeChange)({
-              startDate: isStart ? getStartOfDay(selectedDate) : sd,
+              startDate: isStart ? getStartOfDay(selectedDate) : start,
               endDate: !isStart
                 ? getEndOfDay(selectedDate)
-                : ed
-                  ? getEndOfDay(ed)
-                  : ed,
+                : end
+                  ? getEndOfDay(end)
+                  : end,
             });
           }
         } else if (mode === 'multiple') {
@@ -425,6 +450,10 @@ const DateTimePicker = (
           const newDates = exists
             ? safeDates.filter((ed) => !areDatesOnSameDay(ed, newDate))
             : [...safeDates, newDate];
+
+          if (max && newDates.length > max) {
+            return;
+          }
 
           newDates.sort((a, b) => (dayjs(a).isAfter(dayjs(b)) ? 1 : -1));
 
@@ -440,7 +469,7 @@ const DateTimePicker = (
         }
       }
     },
-    [mode, timePicker, stateRef]
+    [mode, timePicker, min, max, stateRef]
   );
 
   // set the active displayed month
