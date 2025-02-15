@@ -13,6 +13,7 @@ type Props = {
 const Selectors = ({ position }: Props) => {
   const {
     mode,
+    currentDate,
     date,
     calendarView,
     setCalendarView,
@@ -43,7 +44,7 @@ const Selectors = ({ position }: Props) => {
             setCalendarView(calendarView === 'time' ? 'day' : 'time')
           }
           accessibilityRole="button"
-          accessibilityLabel={dayjs(date).format('HH:mm')}
+          accessibilityLabel={dayjs(date || currentDate).format('HH:mm')}
         >
           <View
             style={styles?.time_selector}
@@ -53,7 +54,7 @@ const Selectors = ({ position }: Props) => {
               style={styles?.time_selector_label}
               className={classNames?.time_selector_label}
             >
-              {dayjs(date).format('HH:mm')}
+              {dayjs(date || currentDate).format('HH:mm')}
             </Text>
           </View>
         </Pressable>

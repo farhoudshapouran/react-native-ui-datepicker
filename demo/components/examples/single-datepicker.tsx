@@ -15,14 +15,17 @@ export default function SingleDatePicker() {
         mode="single"
         date={date}
         onChange={({ date }) => setDate(date)}
-        month={month}
-        onMonthChange={setMonth}
-        year={year}
-        onYearChange={setYear}
+        // month={month}
+        // onMonthChange={setMonth}
+        // year={year}
+        // onYearChange={setYear}
         timePicker
-        // locale="fa"
+        //locale="fa"
         // weekdaysFormat="full"
         // firstDayOfWeek={5}
+        timezone="Pacific/Kiritimati"
+        minDate={dayjs().add(-3, 'day')}
+        maxDate={dayjs().add(3, 'day')}
       />
       <Button onPress={() => setYear(2026)}>
         <Text className="text-primary-foreground">2026</Text>

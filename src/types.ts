@@ -76,8 +76,8 @@ export type RangeChange = (params: {
 
 export type MultiChange = (params: {
   dates: DateType[];
-  datePressed: DateType;
-  change: 'added' | 'removed';
+  datePressed?: DateType;
+  change: 'added' | 'removed' | 'updated';
 }) => void;
 
 export type ClassNames = Partial<{
@@ -107,11 +107,14 @@ export type CalendarComponents = Partial<{
 
 export interface DatePickerBaseProps {
   mode?: CalendarMode;
-  locale?: string | ILocale; // If ILocale is required, define it somewhere
+  locale?: string | ILocale;
+  timezone?: string;
   date?: DateType;
-  dates?: DateType[];
   startDate?: DateType;
   endDate?: DateType;
+  dates?: DateType[];
+  min?: number;
+  max?: number;
   onChange?: SingleChange | RangeChange | MultiChange;
   startYear?: number;
   endYear?: number;

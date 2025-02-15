@@ -1,13 +1,19 @@
 import React, { memo, useMemo } from 'react';
 import { View, Pressable, StyleSheet, Text } from 'react-native';
-import { ClassNames, CalendarDay, Styles, CalendarComponents } from '../types';
+import {
+  ClassNames,
+  CalendarDay,
+  Styles,
+  CalendarComponents,
+  DateType,
+} from '../types';
 import { CONTAINER_HEIGHT, WEEKDAYS_HEIGHT } from '../enums';
 import { cn } from '../utils';
 import { isEqual } from 'lodash';
 
 interface Props {
   day: CalendarDay;
-  onSelectDate: (date: string) => void;
+  onSelectDate: (date: DateType) => void;
   containerHeight?: number;
   weekdaysHeight?: number;
   styles?: Styles;

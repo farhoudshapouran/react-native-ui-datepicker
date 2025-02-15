@@ -10,13 +10,14 @@ import {
   areDatesOnSameDay,
   isDateBetween,
   getDate,
-  getFormated,
 } from '../utils';
 import Weekdays from './weekdays';
+import { DateType } from 'src/types';
 
 const Days = () => {
   const {
     mode,
+    timezone,
     date,
     startDate,
     endDate,
@@ -42,10 +43,10 @@ const Days = () => {
   const { year, month, hour, minute } = getParsedDate(currentDate);
 
   const handleSelectDate = useCallback(
-    (selectedDate: string) => {
+    (selectedDate: DateType) => {
       const newDate = getDate(selectedDate).hour(hour).minute(minute);
 
-      onSelectDate(getFormated(newDate));
+      onSelectDate(newDate);
     },
     [onSelectDate, hour, minute]
   );
@@ -56,7 +57,8 @@ const Days = () => {
   );
 
   const daysGrid = useMemo(() => {
-    const today = new Date();
+    const today = dayjs().tz(timezone);
+    dayjs.tz.setDefault(timezone);
 
     const {
       fullDaysInMonth,
@@ -178,6 +180,7 @@ const Days = () => {
     });
   }, [
     mode,
+    timezone,
     month,
     year,
     showOutsideDays,

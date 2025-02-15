@@ -6,14 +6,11 @@ import React, {
   useRef,
 } from 'react';
 import {
-  getFormated,
-  getDate,
   dateToUnix,
   getEndOfDay,
   getStartOfDay,
   areDatesOnSameDay,
   removeTime,
-  //getDateMonth,
 } from './utils';
 import { CalendarContext } from './calendar-context';
 import {
@@ -37,11 +34,16 @@ import dayjs from 'dayjs';
 import localeData from 'dayjs/plugin/localeData';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import localizedFormat from 'dayjs/plugin/localizedFormat';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 import './locales';
+import { usePrevious } from './hooks/use-previous';
 
 dayjs.extend(localeData);
 dayjs.extend(relativeTime);
 dayjs.extend(localizedFormat);
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export interface DatePickerSingleProps extends DatePickerBaseProps {
   mode: 'single';
@@ -68,6 +70,7 @@ const DateTimePicker = (
   const {
     mode = 'single',
     locale = 'en',
+    timezone,
     showOutsideDays = false,
     timePicker = false,
     firstDayOfWeek,
@@ -80,6 +83,8 @@ const DateTimePicker = (
     startDate,
     endDate,
     dates,
+    min,
+    max,
     onChange,
     initialView = 'day',
     containerHeight = CONTAINER_HEIGHT,
@@ -105,6 +110,9 @@ const DateTimePicker = (
   } = props;
 
   dayjs.locale(locale);
+  dayjs.tz.setDefault(timezone);
+
+  const prevTimezone = usePrevious(timezone);
 
   const initialCalendarView: CalendarViews = useMemo(
     () => (mode !== 'single' && initialView === 'time' ? 'day' : initialView),
@@ -120,7 +128,7 @@ const DateTimePicker = (
   );
 
   const initialState = useMemo(() => {
-    let initialDate = dayjs();
+    let initialDate = dayjs().tz(timezone);
 
     if (mode === 'single' && date) {
       initialDate = dayjs(date);
@@ -146,16 +154,46 @@ const DateTimePicker = (
       initialDate = initialDate.year(year);
     }
 
+    let _date = (date ? dayjs(date) : date) as DateType;
+
+    if (_date && maxDate && dayjs(_date).isAfter(maxDate)) {
+      _date = dayjs(maxDate);
+    }
+
+    if (_date && minDate && dayjs(_date).isBefore(minDate)) {
+      _date = dayjs(minDate);
+    }
+
+    let start = (startDate ? dayjs(startDate) : startDate) as DateType;
+
+    if (start && maxDate && dayjs(start).isAfter(maxDate)) {
+      start = dayjs(maxDate);
+    }
+
+    if (start && minDate && dayjs(start).isBefore(minDate)) {
+      start = dayjs(minDate);
+    }
+
+    let end = (endDate ? dayjs(endDate) : endDate) as DateType;
+
+    if (end && maxDate && dayjs(end).isAfter(maxDate)) {
+      end = dayjs(maxDate);
+    }
+
+    if (end && minDate && dayjs(end).isBefore(minDate)) {
+      end = dayjs(minDate);
+    }
+
     return {
-      date,
-      startDate,
-      endDate,
+      date: _date,
+      startDate: start,
+      endDate: end,
       dates,
       calendarView: initialCalendarView,
       currentDate: initialDate,
       currentYear: initialDate.year(),
     };
-  }, [mode, date, startDate, dates, minDate, month, year]);
+  }, [mode, date, startDate, dates, minDate, maxDate, month, year, timezone]);
 
   const [state, dispatch] = useReducer(
     (prevState: LocalState, action: CalendarAction) => {
@@ -180,7 +218,6 @@ const DateTimePicker = (
           return {
             ...prevState,
             date: selectedDate,
-            currentDate: date,
           };
         case CalendarActionKind.CHANGE_SELECTED_RANGE:
           const { startDate: start, endDate: end } = action.payload;
@@ -204,26 +241,107 @@ const DateTimePicker = (
   stateRef.current = state;
 
   useEffect(() => {
+    if (prevTimezone !== timezone) {
+      const newDate = dayjs().tz(timezone);
+      dispatch({
+        type: CalendarActionKind.CHANGE_CURRENT_DATE,
+        payload: newDate,
+      });
+    }
+  }, [timezone, prevTimezone]);
+
+  useEffect(() => {
     if (mode === 'single') {
-      const newDate =
-        (date && (timePicker ? date : getStartOfDay(date))) ?? minDate;
+      let _date =
+        (date &&
+          (timePicker
+            ? dayjs.tz(date, timezone)
+            : getStartOfDay(dayjs.tz(date, timezone)))) ??
+        date;
+
+      if (_date && maxDate && dayjs.tz(_date, timezone).isAfter(maxDate)) {
+        _date = dayjs.tz(maxDate, timezone);
+      }
+
+      if (_date && minDate && dayjs.tz(_date, timezone).isBefore(minDate)) {
+        _date = dayjs.tz(minDate, timezone);
+      }
 
       dispatch({
         type: CalendarActionKind.CHANGE_SELECTED_DATE,
-        payload: { date: newDate },
+        payload: { date: _date },
       });
+
+      if (prevTimezone !== timezone) {
+        (onChange as SingleChange)({
+          date: _date,
+        });
+      }
     } else if (mode === 'range') {
+      let start = (
+        startDate ? dayjs.tz(startDate, timezone) : startDate
+      ) as DateType;
+
+      if (start && maxDate && dayjs.tz(start, timezone).isAfter(maxDate)) {
+        start = dayjs.tz(maxDate, timezone);
+      }
+
+      if (start && minDate && dayjs.tz(start, timezone).isBefore(minDate)) {
+        start = dayjs.tz(minDate, timezone);
+      }
+
+      let end = (endDate ? dayjs.tz(endDate, timezone) : endDate) as DateType;
+
+      if (end && maxDate && dayjs.tz(end, timezone).isAfter(maxDate)) {
+        end = dayjs.tz(maxDate, timezone);
+      }
+
+      if (end && minDate && dayjs.tz(end, timezone).isBefore(minDate)) {
+        end = dayjs.tz(minDate, timezone);
+      }
+
       dispatch({
         type: CalendarActionKind.CHANGE_SELECTED_RANGE,
-        payload: { startDate, endDate },
+        payload: {
+          startDate: start,
+          endDate: end,
+        },
       });
+
+      if (prevTimezone !== timezone) {
+        (onChange as RangeChange)({
+          startDate: start,
+          endDate: end,
+        });
+      }
     } else if (mode === 'multiple') {
+      const _dates = dates?.map((date) =>
+        dayjs(date).tz(timezone)
+      ) as DateType[];
+
       dispatch({
         type: CalendarActionKind.CHANGE_SELECTED_MULTIPLE,
-        payload: { dates },
+        payload: { dates: _dates },
       });
+
+      if (prevTimezone !== timezone) {
+        (onChange as MultiChange)({
+          dates: _dates,
+          change: 'updated',
+        });
+      }
     }
-  }, [mode, date, startDate, endDate, dates, minDate, timePicker]);
+  }, [
+    mode,
+    date,
+    startDate,
+    endDate,
+    dates,
+    minDate,
+    maxDate,
+    timePicker,
+    timezone,
+  ]);
 
   const setCalendarView = useCallback((view: CalendarViews) => {
     dispatch({ type: CalendarActionKind.SET_CALENDAR_VIEW, payload: view });
@@ -310,8 +428,12 @@ const DateTimePicker = (
 
           newDates.sort((a, b) => (dayjs(a).isAfter(dayjs(b)) ? 1 : -1));
 
+          const _dates = newDates.map((date) =>
+            dayjs(date).tz(timezone)
+          ) as DateType[];
+
           (onChange as MultiChange)({
-            dates: newDates,
+            dates: _dates,
             datePressed: newDate,
             change: exists ? 'removed' : 'added',
           });
@@ -325,7 +447,7 @@ const DateTimePicker = (
   const onSelectMonth = useCallback(
     (value: number) => {
       const currentMonth = dayjs(stateRef.current.currentDate).month();
-      const newDate = getDate(stateRef.current.currentDate).month(value);
+      const newDate = dayjs(stateRef.current.currentDate).month(value);
 
       // Only call onMonthChange if the month actually changed
       if (value !== currentMonth) {
@@ -334,7 +456,7 @@ const DateTimePicker = (
 
       dispatch({
         type: CalendarActionKind.CHANGE_CURRENT_DATE,
-        payload: getFormated(newDate),
+        payload: newDate,
       });
       setCalendarView('day');
     },
@@ -345,7 +467,7 @@ const DateTimePicker = (
   const onSelectYear = useCallback(
     (value: number) => {
       const currentYear = dayjs(stateRef.current.currentDate).year();
-      const newDate = getDate(stateRef.current.currentDate).year(value);
+      const newDate = dayjs(stateRef.current.currentDate).year(value);
 
       // Only call onYearChange if the year actually changed
       if (value !== currentYear) {
@@ -354,7 +476,7 @@ const DateTimePicker = (
 
       dispatch({
         type: CalendarActionKind.CHANGE_CURRENT_DATE,
-        payload: getFormated(newDate),
+        payload: newDate,
       });
       setCalendarView('day');
     },
@@ -363,10 +485,10 @@ const DateTimePicker = (
 
   const onChangeMonth = useCallback(
     (value: number) => {
-      const newDate = getDate(stateRef.current.currentDate).add(value, 'month');
+      const newDate = dayjs(stateRef.current.currentDate).add(value, 'month');
       dispatch({
         type: CalendarActionKind.CHANGE_CURRENT_DATE,
-        payload: getFormated(newDate),
+        payload: dayjs(newDate),
       });
     },
     [stateRef, dispatch]
@@ -409,12 +531,15 @@ const DateTimePicker = (
 
   const baseContextValue = useMemo(
     () => ({
-      locale,
       mode,
+      locale,
+      timezone,
       showOutsideDays,
       timePicker,
       minDate,
       maxDate,
+      min,
+      max,
       disabledDates,
       firstDayOfWeek: firstDay,
       containerHeight,
@@ -432,12 +557,15 @@ const DateTimePicker = (
       className,
     }),
     [
-      locale,
       mode,
+      locale,
+      timezone,
       showOutsideDays,
       timePicker,
       minDate,
       maxDate,
+      min,
+      max,
       disabledDates,
       firstDay,
       containerHeight,

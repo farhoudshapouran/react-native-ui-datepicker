@@ -11,7 +11,7 @@ import {
 import { useCalendarContext } from '../calendar-context';
 import Wheel from './time-picker/wheel';
 import { CONTAINER_HEIGHT } from '../enums';
-import { getParsedDate, getDate, getFormated } from '../utils';
+import { getParsedDate, getDate } from '../utils';
 
 const createNumberList = (num: number) =>
   Array.from({ length: num }, (_, index) =>
@@ -22,13 +22,18 @@ const hours = createNumberList(24);
 const minutes = createNumberList(60);
 
 const TimePicker = () => {
-  const { date, onSelectDate, styles, classNames } = useCalendarContext();
-  const { hour, minute } = useMemo(() => getParsedDate(date), [date]);
+  const { currentDate, date, onSelectDate, styles, classNames } =
+    useCalendarContext();
+
+  const { hour, minute } = useMemo(
+    () => getParsedDate(date || currentDate),
+    [date, currentDate]
+  );
 
   const handleChangeHour = useCallback(
     (value: number) => {
       const newDate = getDate(date).hour(value);
-      onSelectDate(getFormated(newDate));
+      onSelectDate(newDate);
     },
     [date, onSelectDate]
   );
@@ -36,7 +41,7 @@ const TimePicker = () => {
   const handleChangeMinute = useCallback(
     (value: number) => {
       const newDate = getDate(date).minute(value);
-      onSelectDate(getFormated(newDate));
+      onSelectDate(newDate);
     },
     [date, onSelectDate]
   );

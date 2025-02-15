@@ -48,7 +48,7 @@ export const getWeekdays = (
   locale: string | ILocale,
   firstDayOfWeek: number
 ): CalendarWeek[] => {
-  dayjs().locale(locale);
+  dayjs.locale(locale);
 
   const weekdayNames = dayjs.weekdays();
   const weekdayShortNames = dayjs.weekdaysShort();
@@ -60,12 +60,6 @@ export const getWeekdays = (
     short: weekdayShortNames[index] || '',
   }));
 
-  // let days =
-  //   fomat === 'min'
-  //     ? dayjs.weekdaysMin()
-  //     : fomat === 'short'
-  //       ? dayjs.weekdaysShort()
-  //       : dayjs.weekdays();
   if (firstDayOfWeek > 0) {
     weekdays = [
       ...weekdays.slice(firstDayOfWeek, weekdays.length),
@@ -81,8 +75,6 @@ export const getFormated = (date: DateType) =>
 export const getDateMonth = (date: DateType) => dayjs(date).month();
 
 export const getDateYear = (date: DateType) => dayjs(date).year();
-
-export const getToday = () => dayjs().format(DATE_FORMAT);
 
 /**
  * Check if two dates are on the same day
@@ -148,10 +140,10 @@ export function isDateDisabled(
     disabledDates?: DateType[] | ((date: DateType) => boolean) | undefined;
   }
 ): boolean {
-  if (minDate && date < getDate(minDate)) {
+  if (minDate && date.isBefore(minDate)) {
     return true;
   }
-  if (maxDate && date > getDate(maxDate)) {
+  if (maxDate && date.isAfter(maxDate)) {
     return true;
   }
 
@@ -187,7 +179,7 @@ export const getFormatedDate = (date: DateType, format: string) =>
  *
  * @returns date
  */
-export const getDate = (date: DateType) => dayjs(date, DATE_FORMAT);
+export const getDate = (date: DateType) => dayjs(date);
 
 /**
  * Get year range
@@ -338,7 +330,7 @@ export const getParsedDate = (date: DateType) => {
  * @returns days array based on current date
  */
 export const getMonthDays = (
-  datetime: DateType = dayjs(),
+  datetime: DateType,
   showOutsideDays: boolean,
   minDate: DateType,
   maxDate: DateType,
@@ -349,7 +341,7 @@ export const getMonthDays = (
   daysInCurrentMonth: number,
   daysInNextMonth: number
 ): CalendarDay[] => {
-  const date = getDate(datetime);
+  const date = dayjs(datetime);
 
   const prevDays = showOutsideDays
     ? Array.from({ length: prevMonthOffset }, (_, index) => {
@@ -425,12 +417,12 @@ const generateCalendarDay = (
   dayOfMonth: number,
   firstDayOfWeek: number
 ) => {
-  const startOfWeek = date.startOf('week').add(firstDayOfWeek, 'day');
+  const startOfWeek = dayjs(date).startOf('week').add(firstDayOfWeek, 'day');
 
   return {
     text: number.toString(),
     number,
-    date: getFormatedDate(date, DATE_FORMAT),
+    date: date,
     isDisabled: isDateDisabled(date, { minDate, maxDate, disabledDates }),
     isCurrentMonth,
     dayOfMonth,
