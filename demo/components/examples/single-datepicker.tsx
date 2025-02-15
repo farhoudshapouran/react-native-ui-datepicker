@@ -24,8 +24,8 @@ export default function SingleDatePicker() {
         // weekdaysFormat="full"
         // firstDayOfWeek={5}
         timezone="Pacific/Kiritimati"
-        minDate={dayjs().add(-3, 'day')}
-        maxDate={dayjs().add(3, 'day')}
+        // minDate={dayjs().add(-3, 'day')}
+        // maxDate={dayjs().add(3, 'day')}
       />
       <Button onPress={() => setYear(2026)}>
         <Text className="text-primary-foreground">2026</Text>
