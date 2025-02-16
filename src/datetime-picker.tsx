@@ -72,7 +72,7 @@ const DateTimePicker = (
     mode = 'single',
     locale = 'en',
     numerals = 'latn',
-    timezone,
+    timeZone,
     showOutsideDays = false,
     timePicker = false,
     firstDayOfWeek,
@@ -111,10 +111,10 @@ const DateTimePicker = (
     onYearChange = () => {},
   } = props;
 
-  dayjs.tz.setDefault(timezone);
+  dayjs.tz.setDefault(timeZone);
   dayjs.locale(locale);
 
-  const prevTimezone = usePrevious(timezone);
+  const prevTimezone = usePrevious(timeZone);
 
   const initialCalendarView: CalendarViews = useMemo(
     () => (mode !== 'single' && initialView === 'time' ? 'day' : initialView),
@@ -130,7 +130,7 @@ const DateTimePicker = (
   );
 
   const initialState = useMemo(() => {
-    let initialDate = dayjs().tz(timezone);
+    let initialDate = dayjs().tz(timeZone);
 
     if (mode === 'single' && date) {
       initialDate = dayjs(date);
@@ -195,7 +195,7 @@ const DateTimePicker = (
       currentDate: initialDate,
       currentYear: initialDate.year(),
     };
-  }, [mode, date, startDate, dates, minDate, maxDate, month, year, timezone]);
+  }, [mode, date, startDate, dates, minDate, maxDate, month, year, timeZone]);
 
   const [state, dispatch] = useReducer(
     (prevState: LocalState, action: CalendarAction) => {
@@ -243,30 +243,30 @@ const DateTimePicker = (
   stateRef.current = state;
 
   useEffect(() => {
-    if (prevTimezone !== timezone) {
-      const newDate = dayjs().tz(timezone);
+    if (prevTimezone !== timeZone) {
+      const newDate = dayjs().tz(timeZone);
       dispatch({
         type: CalendarActionKind.CHANGE_CURRENT_DATE,
         payload: newDate,
       });
     }
-  }, [timezone, prevTimezone]);
+  }, [timeZone, prevTimezone]);
 
   useEffect(() => {
     if (mode === 'single') {
       let _date =
         (date &&
           (timePicker
-            ? dayjs.tz(date, timezone)
-            : getStartOfDay(dayjs.tz(date, timezone)))) ??
+            ? dayjs.tz(date, timeZone)
+            : getStartOfDay(dayjs.tz(date, timeZone)))) ??
         date;
 
-      if (_date && maxDate && dayjs.tz(_date, timezone).isAfter(maxDate)) {
-        _date = dayjs.tz(maxDate, timezone);
+      if (_date && maxDate && dayjs.tz(_date, timeZone).isAfter(maxDate)) {
+        _date = dayjs.tz(maxDate, timeZone);
       }
 
-      if (_date && minDate && dayjs.tz(_date, timezone).isBefore(minDate)) {
-        _date = dayjs.tz(minDate, timezone);
+      if (_date && minDate && dayjs.tz(_date, timeZone).isBefore(minDate)) {
+        _date = dayjs.tz(minDate, timeZone);
       }
 
       dispatch({
@@ -274,32 +274,32 @@ const DateTimePicker = (
         payload: { date: _date },
       });
 
-      if (prevTimezone !== timezone) {
+      if (prevTimezone !== timeZone) {
         (onChange as SingleChange)({
           date: _date,
         });
       }
     } else if (mode === 'range') {
       let start = (
-        startDate ? dayjs.tz(startDate, timezone) : startDate
+        startDate ? dayjs.tz(startDate, timeZone) : startDate
       ) as DateType;
 
-      if (start && maxDate && dayjs.tz(start, timezone).isAfter(maxDate)) {
-        start = dayjs.tz(maxDate, timezone);
+      if (start && maxDate && dayjs.tz(start, timeZone).isAfter(maxDate)) {
+        start = dayjs.tz(maxDate, timeZone);
       }
 
-      if (start && minDate && dayjs.tz(start, timezone).isBefore(minDate)) {
-        start = dayjs.tz(minDate, timezone);
+      if (start && minDate && dayjs.tz(start, timeZone).isBefore(minDate)) {
+        start = dayjs.tz(minDate, timeZone);
       }
 
-      let end = (endDate ? dayjs.tz(endDate, timezone) : endDate) as DateType;
+      let end = (endDate ? dayjs.tz(endDate, timeZone) : endDate) as DateType;
 
-      if (end && maxDate && dayjs.tz(end, timezone).isAfter(maxDate)) {
-        end = dayjs.tz(maxDate, timezone);
+      if (end && maxDate && dayjs.tz(end, timeZone).isAfter(maxDate)) {
+        end = dayjs.tz(maxDate, timeZone);
       }
 
-      if (end && minDate && dayjs.tz(end, timezone).isBefore(minDate)) {
-        end = dayjs.tz(minDate, timezone);
+      if (end && minDate && dayjs.tz(end, timeZone).isBefore(minDate)) {
+        end = dayjs.tz(minDate, timeZone);
       }
 
       dispatch({
@@ -310,7 +310,7 @@ const DateTimePicker = (
         },
       });
 
-      if (prevTimezone !== timezone) {
+      if (prevTimezone !== timeZone) {
         (onChange as RangeChange)({
           startDate: start,
           endDate: end,
@@ -318,7 +318,7 @@ const DateTimePicker = (
       }
     } else if (mode === 'multiple') {
       const _dates = dates?.map((date) =>
-        dayjs(date).tz(timezone)
+        dayjs(date).tz(timeZone)
       ) as DateType[];
 
       dispatch({
@@ -326,7 +326,7 @@ const DateTimePicker = (
         payload: { dates: _dates },
       });
 
-      if (prevTimezone !== timezone) {
+      if (prevTimezone !== timeZone) {
         (onChange as MultiChange)({
           dates: _dates,
           change: 'updated',
@@ -342,7 +342,7 @@ const DateTimePicker = (
     minDate,
     maxDate,
     timePicker,
-    timezone,
+    timeZone,
   ]);
 
   const setCalendarView = useCallback((view: CalendarViews) => {
@@ -458,7 +458,7 @@ const DateTimePicker = (
           newDates.sort((a, b) => (dayjs(a).isAfter(dayjs(b)) ? 1 : -1));
 
           const _dates = newDates.map((date) =>
-            dayjs(date).tz(timezone)
+            dayjs(date).tz(timeZone)
           ) as DateType[];
 
           (onChange as MultiChange)({
@@ -563,7 +563,7 @@ const DateTimePicker = (
       mode,
       locale,
       numerals,
-      timezone,
+      timeZone,
       showOutsideDays,
       timePicker,
       minDate,
@@ -590,7 +590,7 @@ const DateTimePicker = (
       mode,
       locale,
       numerals,
-      timezone,
+      timeZone,
       showOutsideDays,
       timePicker,
       minDate,

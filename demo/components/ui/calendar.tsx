@@ -50,7 +50,12 @@ function Calendar({
       }}
       //weekdaysFormat="short"
 
-      // styles={{ ...defaultStyles, root: { width: 330 } }}
+      styles={{
+        ...defaultStyles,
+        today: { borderColor: 'blue', borderWidth: 1 },
+        selected: { backgroundColor: 'blue' },
+        selected_label: { color: 'white' },
+      }}
       // navigationPosition="right"
       // monthCaptionFormat="short"
       // timePicker

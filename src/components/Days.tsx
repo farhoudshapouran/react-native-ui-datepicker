@@ -19,7 +19,7 @@ const Days = () => {
     mode,
     locale,
     numerals = 'latn',
-    timezone,
+    timeZone,
     date,
     startDate,
     endDate,
@@ -58,8 +58,8 @@ const Days = () => {
   );
 
   const daysGrid = useMemo(() => {
-    const today = dayjs().tz(timezone);
-    dayjs.tz.setDefault(timezone);
+    const today = dayjs().tz(timeZone);
+    dayjs.tz.setDefault(timeZone);
 
     const {
       fullDaysInMonth,
@@ -183,7 +183,7 @@ const Days = () => {
   }, [
     mode,
     numerals,
-    timezone,
+    timeZone,
     month,
     year,
     showOutsideDays,

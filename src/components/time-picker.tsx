@@ -37,7 +37,7 @@ const TimePicker = () => {
     onSelectDate,
     styles,
     classNames,
-    timezone,
+    timeZone,
     numerals = 'latn',
   } = useCalendarContext();
 
@@ -51,18 +51,18 @@ const TimePicker = () => {
 
   const handleChangeHour = useCallback(
     (value: number) => {
-      const newDate = dayjs.tz(date, timezone).hour(value);
+      const newDate = dayjs.tz(date, timeZone).hour(value);
       onSelectDate(newDate);
     },
-    [date, onSelectDate, timezone]
+    [date, onSelectDate, timeZone]
   );
 
   const handleChangeMinute = useCallback(
     (value: number) => {
-      const newDate = dayjs.tz(date, timezone).minute(value);
+      const newDate = dayjs.tz(date, timeZone).minute(value);
       onSelectDate(newDate);
     },
-    [date, onSelectDate, timezone]
+    [date, onSelectDate, timeZone]
   );
 
   const timePickerContainerStyle: ViewStyle = useMemo(

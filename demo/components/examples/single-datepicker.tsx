@@ -20,13 +20,13 @@ export default function SingleDatePicker() {
         // year={year}
         // onYearChange={setYear}
         timePicker
-        locale="fa"
+        //locale="fa"
         // weekdaysFormat="full"
         // firstDayOfWeek={5}
         //timezone="Pacific/Kiritimati"
-        minDate={dayjs().add(-5, 'day')}
-        maxDate={dayjs().add(3, 'day')}
-        numerals="arabext"
+        //minDate={dayjs().add(-5, 'day')}
+        //maxDate={dayjs().add(3, 'day')}
+        //numerals=
       />
       <Button onPress={() => setYear(2026)}>
         <Text className="text-primary-foreground">2026</Text>

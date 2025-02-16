@@ -7,6 +7,7 @@ import DateTimePicker, {
   getDefaultClassNames,
   getDefaultStyles,
   CalendarComponents,
+  CalendarMonth,
 } from 'react-native-ui-datepicker';
 import { buttonVariants, buttonTextVariants } from '@/components/ui/button';
 import { cn } from '@/lib/utils';

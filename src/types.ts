@@ -110,7 +110,7 @@ export interface DatePickerBaseProps {
   mode?: CalendarMode;
   locale?: string | ILocale;
   numerals?: Numerals;
-  timezone?: string;
+  timeZone?: string;
   date?: DateType;
   startDate?: DateType;
   endDate?: DateType;
