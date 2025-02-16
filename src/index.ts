@@ -1,5 +1,6 @@
-import DateTimePicker from './datetime-picker';
+import './locales';
 import './polyfill';
+import DateTimePicker from './datetime-picker';
 
 export type {
   DateType,

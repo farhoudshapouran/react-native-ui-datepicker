@@ -37,7 +37,6 @@ import localizedFormat from 'dayjs/plugin/localizedFormat';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import duration from 'dayjs/plugin/duration';
-import './locales';
 import { usePrevious } from './hooks/use-previous';
 
 dayjs.extend(localeData);
@@ -72,6 +71,7 @@ const DateTimePicker = (
   const {
     mode = 'single',
     locale = 'en',
+    numerals = 'latn',
     timezone,
     showOutsideDays = false,
     timePicker = false,
@@ -111,8 +111,8 @@ const DateTimePicker = (
     onYearChange = () => {},
   } = props;
 
-  dayjs.locale(locale);
   dayjs.tz.setDefault(timezone);
+  dayjs.locale(locale);
 
   const prevTimezone = usePrevious(timezone);
 
@@ -562,6 +562,7 @@ const DateTimePicker = (
     () => ({
       mode,
       locale,
+      numerals,
       timezone,
       showOutsideDays,
       timePicker,
@@ -588,6 +589,7 @@ const DateTimePicker = (
     [
       mode,
       locale,
+      numerals,
       timezone,
       showOutsideDays,
       timePicker,

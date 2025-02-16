@@ -3,11 +3,12 @@ import { Platform } from 'react-native';
 import WheelNative from './wheel-native';
 import WheelWeb from './wheel-web';
 import { ClassNames, Styles } from '../../types';
+import { Time } from '../time-picker';
 
 type WheelProps = {
   value: number;
   setValue?: (value: number) => void;
-  items: string[];
+  items: Time[];
   styles?: Styles;
   classNames?: ClassNames;
 };

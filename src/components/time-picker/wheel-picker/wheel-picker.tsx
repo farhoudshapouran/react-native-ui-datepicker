@@ -14,10 +14,11 @@ import {
 } from 'react-native';
 import styles from './wheel-picker.style';
 import WheelPickerItem from './wheel-picker-item';
+import { Time } from '../../time-picker';
 
 interface Props {
   selectedIndex: number;
-  options: string[];
+  options: Time[];
   onChange: (index: number) => void;
   selectedIndicatorStyle?: StyleProp<ViewStyle>;
   itemTextStyle?: TextStyle;
@@ -59,7 +60,7 @@ const WheelPicker: React.FC<Props> = ({
 
   const containerHeight = (1 + visibleRest * 2) * itemHeight;
   const paddedOptions = useMemo(() => {
-    const array: (string | null)[] = [...options];
+    const array: (Time | null)[] = [...options];
     for (let i = 0; i < visibleRest; i++) {
       array.unshift(null);
       array.push(null);
@@ -136,7 +137,7 @@ const WheelPicker: React.FC<Props> = ({
         ]}
         className={selectedIndicatorClassName}
       />
-      <Animated.FlatList<string | null>
+      <Animated.FlatList
         {...flatListProps}
         ref={flatListRef}
         nestedScrollEnabled

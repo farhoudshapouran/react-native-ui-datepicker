@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useCalendarContext } from '../../calendar-context';
-import { getDateYear, getYearRange } from '../../utils';
+import { formatNumber, getDateYear, getYearRange } from '../../utils';
 import dayjs from 'dayjs';
 
 const YearButton = () => {
@@ -14,6 +14,7 @@ const YearButton = () => {
     styles,
     classNames,
     disableYearPicker,
+    numerals = 'latn',
   } = useCalendarContext();
 
   const years = getYearRange(currentYear);
@@ -37,8 +38,11 @@ const YearButton = () => {
           className={classNames?.year_selector_label}
         >
           {calendarView === 'year'
-            ? `${years[0]} - ${years[years.length - 1]}`
-            : dayjs(currentDate).format('YYYY')}
+            ? `${formatNumber(years[0] || 0, numerals)} - ${formatNumber(years[years.length - 1] || 0, numerals)}`
+            : formatNumber(
+                parseInt(dayjs(currentDate).format('YYYY')),
+                numerals
+              )}
         </Text>
       </View>
     </Pressable>

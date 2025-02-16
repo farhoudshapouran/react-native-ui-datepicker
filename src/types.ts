@@ -29,8 +29,8 @@ export type CalendarAction = {
 };
 
 export type CalendarDay = {
-  text: string;
   number: number;
+  text: string;
   date: string;
   isDisabled: boolean;
   isCurrentMonth: boolean;
@@ -63,6 +63,7 @@ export type CalendarMonth = {
 
 export type CalendarYear = {
   number: number;
+  text: string;
   isSelected: boolean;
   isActivated: boolean;
 };
@@ -108,6 +109,7 @@ export type CalendarComponents = Partial<{
 export interface DatePickerBaseProps {
   mode?: CalendarMode;
   locale?: string | ILocale;
+  numerals?: Numerals;
   timezone?: string;
   date?: DateType;
   startDate?: DateType;
@@ -147,3 +149,17 @@ export interface DatePickerBaseProps {
   onMonthChange?: (month: number) => void;
   onYearChange?: (year: number) => void;
 }
+
+export type Numerals =
+  | 'latn'
+  | 'arab'
+  | 'arabext'
+  | 'deva'
+  | 'beng'
+  | 'guru'
+  | 'gujr'
+  | 'orya'
+  | 'tamldec'
+  | 'telu'
+  | 'knda'
+  | 'mlym';

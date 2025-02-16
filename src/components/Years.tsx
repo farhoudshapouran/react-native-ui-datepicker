@@ -1,12 +1,13 @@
 import React, { useCallback, useMemo } from 'react';
 import { View, StyleSheet, Pressable, Text } from 'react-native';
 import { useCalendarContext } from '../calendar-context';
-import { cn, getDateYear, getYearRange } from '../utils';
+import { cn, formatNumber, getDateYear, getYearRange } from '../utils';
 import { CONTAINER_HEIGHT } from '../enums';
 
 const Years = () => {
   const {
     mode,
+    numerals = 'latn',
     currentDate,
     currentYear,
     date,
@@ -65,18 +66,23 @@ const Years = () => {
               accessibilityLabel={year.toString()}
               style={defaultStyles.year}
             >
-              {components.Year({ number: year, isSelected, isActivated })}
+              {components.Year({
+                number: year,
+                text: formatNumber(year, numerals),
+                isSelected,
+                isActivated,
+              })}
             </Pressable>
           ) : (
             <Pressable
               onPress={() => onSelectYear(year)}
               accessibilityRole="button"
-              accessibilityLabel={year.toString()}
+              accessibilityLabel={formatNumber(year, numerals)}
               style={containerStyle}
               className={containerClassName}
             >
               <Text key={year} style={textStyle} className={textClassName}>
-                {year}
+                {formatNumber(year, numerals)}
               </Text>
             </Pressable>
           )}

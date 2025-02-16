@@ -2,11 +2,12 @@ import React, { memo } from 'react';
 import { StyleSheet, Platform } from 'react-native';
 import WheelPicker from './wheel-picker';
 import { ClassNames, Styles } from '../../types';
+import { Time } from '../time-picker';
 
 interface WheelProps {
   value: number;
   setValue?: (value: number) => void;
-  items: string[];
+  items: Time[];
   styles?: Styles;
   classNames?: ClassNames;
 }

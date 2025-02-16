@@ -11,19 +11,38 @@ import {
 import { useCalendarContext } from '../calendar-context';
 import Wheel from './time-picker/wheel';
 import { CONTAINER_HEIGHT } from '../enums';
-import { getParsedDate, getDate } from '../utils';
+import { getParsedDate, formatNumber } from '../utils';
+import { Numerals } from '../types';
+import dayjs from 'dayjs';
 
-const createNumberList = (num: number) =>
-  Array.from({ length: num }, (_, index) =>
-    index < 10 ? `0${index}` : `${index}`
-  );
+export type Time = {
+  value: number;
+  text: string;
+};
 
-const hours = createNumberList(24);
-const minutes = createNumberList(60);
+const createNumberList = (num: number, numerals: Numerals): Time[] => {
+  return Array.from({ length: num }, (_, i) => ({
+    value: i,
+    text:
+      i < 10
+        ? `${formatNumber(0, numerals)}${formatNumber(i, numerals)}`
+        : `${formatNumber(i, numerals)}`,
+  }));
+};
 
 const TimePicker = () => {
-  const { currentDate, date, onSelectDate, styles, classNames } =
-    useCalendarContext();
+  const {
+    currentDate,
+    date,
+    onSelectDate,
+    styles,
+    classNames,
+    timezone,
+    numerals = 'latn',
+  } = useCalendarContext();
+
+  const hours = useMemo(() => createNumberList(24, numerals), [numerals]);
+  const minutes = useMemo(() => createNumberList(60, numerals), [numerals]);
 
   const { hour, minute } = useMemo(
     () => getParsedDate(date || currentDate),
@@ -32,18 +51,18 @@ const TimePicker = () => {
 
   const handleChangeHour = useCallback(
     (value: number) => {
-      const newDate = getDate(date).hour(value);
+      const newDate = dayjs.tz(date, timezone).hour(value);
       onSelectDate(newDate);
     },
-    [date, onSelectDate]
+    [date, onSelectDate, timezone]
   );
 
   const handleChangeMinute = useCallback(
     (value: number) => {
-      const newDate = getDate(date).minute(value);
+      const newDate = dayjs.tz(date, timezone).minute(value);
       onSelectDate(newDate);
     },
-    [date, onSelectDate]
+    [date, onSelectDate, timezone]
   );
 
   const timePickerContainerStyle: ViewStyle = useMemo(

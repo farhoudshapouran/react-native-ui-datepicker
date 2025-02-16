@@ -11,11 +11,12 @@ import { sin } from './animated-math';
 import { CONTAINER_HEIGHT } from '../../enums';
 import { ClassNames, Styles } from '../../types';
 import { isEqual } from 'lodash';
+import { Time } from '../time-picker';
 
 interface WheelProps {
   value: number;
   setValue?: (value: number) => void;
-  items: string[];
+  items: Time[];
   styles?: Styles;
   classNames?: ClassNames;
 }
@@ -38,7 +39,7 @@ const WheelWeb = ({
   const radius = height / 2;
 
   const valueIndex = useMemo(
-    () => items.indexOf(('0' + value).slice(-2)),
+    () => items.findIndex((item) => item.value === value),
     [items, value]
   );
 
@@ -67,12 +68,12 @@ const WheelWeb = ({
             newValueIndex = items.length - 1;
           }
         }
-        const newValue = items[newValueIndex] || '00';
-        if (newValue === ('0' + value).slice(-2)) {
+        const newValue = items[newValueIndex];
+        if (newValue?.value === value) {
           translateY.setOffset(0);
           translateY.setValue(0);
         } else {
-          setValue(parseInt(newValue));
+          setValue(newValue?.value || 0);
         }
       },
     });
@@ -94,18 +95,20 @@ const WheelWeb = ({
       let targetIndex = valueIndex + index - centerIndex;
       if (targetIndex < 0 || targetIndex >= items.length) {
         if (!circular) {
-          return 0;
+          return items[0];
         }
         targetIndex = (targetIndex + items.length) % items.length;
       }
-      return items[targetIndex] || 0;
+      return items[targetIndex] || items[0];
     });
   }, [renderCount, valueIndex, items, circular]);
 
   const animatedAngles = useMemo(() => {
     //translateY.setValue(0);
     translateY.setOffset(0);
-    const currentIndex = displayValues.indexOf(('0' + value).slice(-2));
+    const currentIndex = displayValues.findIndex(
+      (item) => item?.value === value
+    );
     return displayValues && displayValues.length > 0
       ? displayValues.map((_, index) =>
           translateY
@@ -163,11 +166,11 @@ const WheelWeb = ({
                     },
                   ]
                 : [],
-              opacity: displayValue !== ('0' + value).slice(-2) ? 0.3 : 1,
+              opacity: displayValue?.value !== value ? 0.3 : 1,
             }}
           >
             <Text style={styles?.time_label} className={classNames?.time_label}>
-              {displayValue}
+              {displayValue?.text}
             </Text>
           </Animated.View>
         );

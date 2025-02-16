@@ -17,6 +17,8 @@ import { DateType } from 'src/types';
 const Days = () => {
   const {
     mode,
+    locale,
+    numerals = 'latn',
     timezone,
     date,
     startDate,
@@ -31,7 +33,6 @@ const Days = () => {
     firstDayOfWeek,
     containerHeight,
     weekdaysHeight,
-    locale,
     styles,
     classNames,
     weekdaysFormat,
@@ -78,7 +79,8 @@ const Days = () => {
       prevMonthDays,
       prevMonthOffset,
       daysInCurrentMonth,
-      daysInNextMonth
+      daysInNextMonth,
+      numerals
     ).map((day, index) => {
       if (!day) return null;
 
@@ -180,6 +182,7 @@ const Days = () => {
     });
   }, [
     mode,
+    numerals,
     timezone,
     month,
     year,

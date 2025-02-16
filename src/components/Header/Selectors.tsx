@@ -1,9 +1,9 @@
 import React, { memo } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { useCalendarContext } from '../../calendar-context';
 import MonthButton from './month-button';
 import YearButton from './year-button';
-import dayjs from 'dayjs';
+import { TimeButton } from './time-button';
 import { NavigationPosition } from '../../types';
 
 type Props = {
@@ -11,16 +11,7 @@ type Props = {
 };
 
 const Selectors = ({ position }: Props) => {
-  const {
-    mode,
-    currentDate,
-    date,
-    calendarView,
-    setCalendarView,
-    timePicker,
-    styles,
-    classNames,
-  } = useCalendarContext();
+  const { mode, calendarView, timePicker } = useCalendarContext();
 
   return (
     <View
@@ -39,25 +30,7 @@ const Selectors = ({ position }: Props) => {
         <YearButton />
       </View>
       {timePicker && mode === 'single' && calendarView !== 'year' ? (
-        <Pressable
-          onPress={() =>
-            setCalendarView(calendarView === 'time' ? 'day' : 'time')
-          }
-          accessibilityRole="button"
-          accessibilityLabel={dayjs(date || currentDate).format('HH:mm')}
-        >
-          <View
-            style={styles?.time_selector}
-            className={classNames?.time_selector}
-          >
-            <Text
-              style={styles?.time_selector_label}
-              className={classNames?.time_selector_label}
-            >
-              {dayjs(date || currentDate).format('HH:mm')}
-            </Text>
-          </View>
-        </Pressable>
+        <TimeButton />
       ) : null}
     </View>
   );

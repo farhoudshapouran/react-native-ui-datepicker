@@ -4,11 +4,13 @@ import type {
   CalendarDay,
   CalendarMonth,
   CalendarWeek,
+  Numerals,
 } from './types';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { useRef } from 'react';
 import { isEqual } from 'lodash';
+import { numeralSystems } from './numerals';
 
 export const CALENDAR_FORMAT = 'YYYY-MM-DD HH:mm';
 export const DATE_FORMAT = 'YYYY-MM-DD';
@@ -140,10 +142,10 @@ export function isDateDisabled(
     disabledDates?: DateType[] | ((date: DateType) => boolean) | undefined;
   }
 ): boolean {
-  if (minDate && date.isBefore(minDate)) {
+  if (minDate && date.isBefore(dayjs(minDate).startOf('day'))) {
     return true;
   }
-  if (maxDate && date.isAfter(maxDate)) {
+  if (maxDate && date.isAfter(dayjs(maxDate).endOf('day'))) {
     return true;
   }
 
@@ -339,7 +341,8 @@ export const getMonthDays = (
   prevMonthDays: number,
   prevMonthOffset: number,
   daysInCurrentMonth: number,
-  daysInNextMonth: number
+  daysInNextMonth: number,
+  numerals: Numerals
 ): CalendarDay[] => {
   const date = dayjs(datetime);
 
@@ -355,7 +358,8 @@ export const getMonthDays = (
           disabledDates,
           false,
           index + 1,
-          firstDayOfWeek
+          firstDayOfWeek,
+          numerals
         );
       })
     : Array(prevMonthOffset).fill(null);
@@ -371,7 +375,8 @@ export const getMonthDays = (
       disabledDates,
       true,
       prevMonthOffset + day,
-      firstDayOfWeek
+      firstDayOfWeek,
+      numerals
     );
   });
 
@@ -386,7 +391,8 @@ export const getMonthDays = (
       disabledDates,
       false,
       daysInCurrentMonth + prevMonthOffset + day,
-      firstDayOfWeek
+      firstDayOfWeek,
+      numerals
     );
   });
 
@@ -415,12 +421,13 @@ const generateCalendarDay = (
   disabledDates: DateType[] | ((date: DateType) => boolean) | undefined,
   isCurrentMonth: boolean,
   dayOfMonth: number,
-  firstDayOfWeek: number
+  firstDayOfWeek: number,
+  numerals: Numerals
 ) => {
   const startOfWeek = dayjs(date).startOf('week').add(firstDayOfWeek, 'day');
 
   return {
-    text: number.toString(),
+    text: formatNumber(number, numerals),
     number,
     date: date,
     isDisabled: isDateDisabled(date, { minDate, maxDate, disabledDates }),
@@ -456,4 +463,24 @@ export function useDeepCompareMemo<T>(value: T, deps: any[]): T {
   }
 
   return ref.current as T;
+}
+
+function getDigitMap(numerals: Numerals): Record<string, string> {
+  const digitMap: Record<string, string> = {};
+  const numeralDigits = numeralSystems[numerals];
+
+  for (let i = 0; i < 10; i++) {
+    digitMap[i.toString()] = numeralDigits[i]!;
+  }
+
+  return digitMap;
+}
+
+function replaceDigits(input: string, numerals: Numerals): string {
+  const digitMap = getDigitMap(numerals);
+  return input.replace(/\d/g, (digit) => digitMap[digit] || digit);
+}
+
+export function formatNumber(value: number, numerals: Numerals): string {
+  return replaceDigits(value.toString(), numerals);
 }
