@@ -13,7 +13,7 @@
 
 DateTimePicker component for React Native that allows you to create a customizable datetime picker. The component uses extensive set of props that allows you to customizing the calendar based on your own UI design. Please visit [demo](https://farhoudshapouran.github.io/react-native-ui-datepicker/).
 
-## ✨ Features
+## Features
 
 - 📅 Supports different selection modes: single, range, and multiple days.
 - 🌿 Unstyled by default, every component is minimally styled and fully customizable.
@@ -279,20 +279,20 @@ export function Calendar() {
 
 ## List of Numeral Systems
 
-| Name       | Description                                            |
-| ---------- | ------------------------------------------------------ |
-| `latn`     | Western Latin numerals.                                |
-| `arab`     | Standard Arabic numerals.                              |
-| `arabext`  | Extended Arabic numerals, used in North Africa.        |
-| `deva`     | Devanagari numerals, used in Indian languages.         |
-| `beng`     | Bengali numerals, used in Bengali and Assamese.        |
-| `guru`     | Gurmukhi numerals, used in Punjab, India.              |
-| `gujr`     | Gujarati numerals, used in Gujarat, India.             |
-| `orya`     | Odia numerals, used in Odisha, India.                  |
-| `tamldec`  | Tamil numerals, used in Tamil-speaking regions.        |
-| `telu`     | Telugu numerals, used in Andhra Pradesh and Telangana. |
-| `knda`     | Kannada numerals, used in Karnataka, India.            |
-| `mlym`     | Malayalam numerals, used in Kerala, India.             |
+| Name       | Description                                   |
+| ---------- | --------------------------------------------- |
+| `latn`     | Western Latin.                                |
+| `arab`     | Standard Arabic.                              |
+| `arabext`  | Eastern Arabic-Indic (Persian).               |
+| `deva`     | Devanagari, used in Indian languages.         |
+| `beng`     | Bengali, used in Bengali and Assamese.        |
+| `guru`     | Gurmukhi, used in Punjab, India.              |
+| `gujr`     | Gujarati, used in Gujarat, India.             |
+| `orya`     | Odia, used in Odisha, India.                  |
+| `tamldec`  | Tamil, used in Tamil-speaking regions.        |
+| `telu`     | Telugu, used in Andhra Pradesh and Telangana. |
+| `knda`     | Kannada, used in Karnataka, India.            |
+| `mlym`     | Malayalam, used in Kerala, India.             |
 
 
 ## License
