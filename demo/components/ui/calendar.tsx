@@ -52,9 +52,9 @@ function Calendar({
 
       styles={{
         ...defaultStyles,
-        today: { borderColor: 'blue', borderWidth: 1 },
-        selected: { backgroundColor: 'blue' },
-        selected_label: { color: 'white' },
+        // today: { borderColor: 'blue', borderWidth: 1 },
+        // selected: { backgroundColor: 'blue' },
+        // selected_label: { color: 'white' },
       }}
       // navigationPosition="right"
       // monthCaptionFormat="short"

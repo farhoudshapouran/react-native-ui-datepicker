@@ -10,7 +10,6 @@ import {
   ViewProps,
   FlatListProps,
   FlatList,
-  Platform,
 } from 'react-native';
 import styles from './wheel-picker.style';
 import WheelPickerItem from './wheel-picker-item';
@@ -117,7 +116,7 @@ const WheelPicker: React.FC<Props> = ({
   useEffect(() => {
     flatListRef.current?.scrollToIndex({
       index: selectedIndex,
-      animated: Platform.OS === 'ios',
+      animated: false,
     });
   }, [selectedIndex, itemHeight]);
 
@@ -150,7 +149,7 @@ const WheelPicker: React.FC<Props> = ({
         onMomentumScrollEnd={handleMomentumScrollEnd}
         snapToOffsets={offsets}
         decelerationRate={decelerationRate}
-        initialScrollIndex={selectedIndex}
+        //initialScrollIndex={selectedIndex}
         getItemLayout={(_, index) => ({
           length: itemHeight,
           offset: itemHeight * index,

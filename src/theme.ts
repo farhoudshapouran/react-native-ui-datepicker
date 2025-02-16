@@ -120,7 +120,11 @@ export function getDefaultStyles(): Styles {
     },
     [UI.button_next]: {},
     [UI.button_prev]: {},
-    [UI.time_label]: { fontSize: 22, fontWeight: '500' },
+    [UI.time_label]: {
+      fontSize: 22,
+      fontWeight: '500',
+      color: COLORS[theme].foreground,
+    },
     [UI.time_selected_indicator]: {
       backgroundColor: COLORS[theme].muted,
       borderRadius: 5,

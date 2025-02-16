@@ -219,7 +219,6 @@ The time zone can be set using either an [IANA time zone](https://en.wikipedia.o
 ```jsx
 <DateTimePicker timeZone="UTC" /> // Use Coordinated Universal Time
 <DateTimePicker timeZone="Asia/Tokyo" /> //  Use Japan Standard Time (JST)
-<DateTimePicker timeZone="+03:00" /> // Use UTC+3
 ```
 
 ## Localization
@@ -242,7 +241,7 @@ Use the `components` prop to replace the default rendered elements with your own
 
 ## Implementing a Custom Component
 
-Pass the custom components to the components prop. Refer to the list below for available [custom components](#list-of-custom-components).
+Pass the custom components to the `components` prop. Refer to the list below for available [custom components](#list-of-custom-components).
 
 ```jsx
 import DateTimePicker, {
