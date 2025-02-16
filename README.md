@@ -1,12 +1,15 @@
-<div align="center">
-  <img src="https://user-images.githubusercontent.com/7857656/227187674-93012672-495d-4955-b4d3-46c3d016684e.jpg" alt="react-native-ui-datepicker" style="margin-bottom: 15px;">
-
-  [![npm version](https://img.shields.io/npm/v/react-native-ui-datepicker)](https://www.npmjs.com/package/react-native-ui-datepicker)
-[![npm downloads](https://img.shields.io/npm/dm/react-native-ui-datepicker.svg)](https://www.npmjs.com/package/react-native-ui-datepicker)
-[![Github](https://img.shields.io/github/license/farhoudshapouran/react-native-ui-datepicker)](https://github.com/farhoudshapouran/react-native-ui-datepicker)
+<div align="center" style="margin-bottom: 20px;">
+  <img src="https://user-images.githubusercontent.com/7857656/227187674-93012672-495d-4955-b4d3-46c3d016684e.jpg" alt="react-native-ui-datepicker" >
 </div>
 
----
+<div align="center" style="margin-bottom: 20px;">
+
+ [![npm version](https://img.shields.io/npm/v/react-native-ui-datepicker)](https://www.npmjs.com/package/react-native-ui-datepicker)
+[![npm downloads](https://img.shields.io/npm/dm/react-native-ui-datepicker.svg)](https://www.npmjs.com/package/react-native-ui-datepicker)
+[![Github](https://img.shields.io/github/license/farhoudshapouran/react-native-ui-datepicker)](https://github.com/farhoudshapouran/react-native-ui-datepicker)
+
+</div>
+
 DateTimePicker component for React Native that allows you to create a customizable datetime picker. The component uses extensive set of props that allows you to customizing the calendar based on your own UI design. Please visit [demo](https://farhoudshapouran.github.io/react-native-ui-datepicker/).
 
 ## ✨ Features
@@ -235,7 +238,6 @@ Use the `components` prop to replace the default rendered elements with your own
 | --------------- | ------------------------- | -------------------------------------------------------- |
 | `components`    | `CalendarComponents`      | Custom components to replace default calendar elements.  |
 
----
 
 ## Implementing a Custom Component
 
