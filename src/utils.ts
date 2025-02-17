@@ -31,8 +31,10 @@ export const getMonthsArray = (): CalendarMonth[] => {
 
   return monthNames.map((name, index) => ({
     index,
-    name,
-    short: monthShortNames[index] || '',
+    name: {
+      full: name,
+      short: monthShortNames[index] || '',
+    },
     isSelected: false,
   }));
 };
@@ -56,10 +58,13 @@ export const getWeekdays = (
   const weekdayShortNames = dayjs.weekdaysShort();
   const weekdayMinNames = dayjs.weekdaysMin();
 
-  let weekdays = weekdayNames.map((name, index) => ({
-    name,
-    min: weekdayMinNames[index] || '',
-    short: weekdayShortNames[index] || '',
+  let weekdays: CalendarWeek[] = weekdayNames.map((name, index) => ({
+    index,
+    name: {
+      full: name,
+      short: weekdayShortNames[index] || '',
+      min: weekdayMinNames[index] || '',
+    },
   }));
 
   if (firstDayOfWeek > 0) {

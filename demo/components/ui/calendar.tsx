@@ -8,6 +8,7 @@ import DateTimePicker, {
 } from 'react-native-ui-datepicker';
 import Feather from '@expo/vector-icons/Feather';
 import { cssInterop } from 'nativewind';
+import { Text, View } from 'react-native';
 
 cssInterop(Feather, {
   className: {
@@ -49,22 +50,26 @@ function Calendar({
         ...classNames,
       }}
       //weekdaysFormat="short"
-
-      styles={{
-        ...defaultStyles,
-        // today: { borderColor: 'blue', borderWidth: 1 },
-        // selected: { backgroundColor: 'blue' },
-        // selected_label: { color: 'white' },
-      }}
+      // styles={{
+      //   ...defaultStyles,
+      //   // today: { borderColor: 'blue', borderWidth: 1 },
+      //   // selected: { backgroundColor: 'blue' },
+      //   // selected_label: { color: 'white' },
+      // }}
       // navigationPosition="right"
       // monthCaptionFormat="short"
       // timePicker
       components={{
-        ...icons,
+        // ...icons,
         ...components,
+        // Day: (day) => (
+        //   <View>
+        //     <Text>{day.text}</Text>
+        //   </View>
+        // ),
         // Month: (month) => (
         //   <View className="h-full bg-slate-600">
-        //     <Text>{month.name}</Text>
+        //     <Text>{month.name.full}</Text>
         //   </View>
         // ),
         // Year: (year) => (

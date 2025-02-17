@@ -49,15 +49,20 @@ export type CalendarDay = {
 };
 
 export type CalendarWeek = {
-  name: string;
-  min: string;
-  short: string;
+  index: number;
+  name: {
+    full: string;
+    short: string;
+    min: string;
+  };
 };
 
 export type CalendarMonth = {
   index: number;
-  name: string;
-  short: string;
+  name: {
+    full: string;
+    short: string;
+  };
   isSelected: boolean;
 };
 

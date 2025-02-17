@@ -52,11 +52,7 @@ const Weekdays = ({
               style={styles?.weekday_label}
               className={classNames.weekday_label}
             >
-              {weekdaysFormat === 'min'
-                ? weekday.min
-                : weekdaysFormat === 'short'
-                  ? weekday.short
-                  : weekday.name}
+              {weekday.name[weekdaysFormat]}
             </Text>
           )}
         </View>

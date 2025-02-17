@@ -149,14 +149,16 @@ const WheelPicker: React.FC<Props> = ({
         onMomentumScrollEnd={handleMomentumScrollEnd}
         snapToOffsets={offsets}
         decelerationRate={decelerationRate}
-        //initialScrollIndex={selectedIndex}
+        initialScrollIndex={selectedIndex}
         getItemLayout={(_, index) => ({
           length: itemHeight,
           offset: itemHeight * index,
           index,
         })}
         data={paddedOptions}
-        keyExtractor={(_, index) => index.toString()}
+        keyExtractor={(item, index) =>
+          item ? `${item.value}-${item.text}` : `null-${index}`
+        }
         renderItem={({ item: option, index }) => (
           <WheelPickerItem
             key={`option-${index}`}

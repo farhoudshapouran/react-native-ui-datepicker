@@ -8,11 +8,11 @@ const Months = () => {
   const {
     currentDate,
     onSelectMonth,
-    styles,
-    classNames,
-    components,
+    styles = {},
+    classNames = {},
+    components = {},
     containerHeight = CONTAINER_HEIGHT,
-    monthsFormat,
+    monthsFormat = 'full',
   } = useCalendarContext();
 
   const style = useMemo(
@@ -32,27 +32,35 @@ const Months = () => {
       <View style={defaultStyles.months}>
         {getMonthsArray()?.map((item, index) => {
           const isSelected = index === month;
-          const activeItemStyle = isSelected ? styles?.selected_month : {};
 
-          const textStyle = isSelected ? styles?.selected_month_label : {};
+          const itemStyle = StyleSheet.flatten([
+            defaultStyles.month,
+            styles.month,
+            isSelected && styles.selected_month,
+          ]);
+
+          const textStyle = StyleSheet.flatten([
+            styles.month_label,
+            isSelected && styles.selected_month_label,
+          ]);
 
           const containerClassName = cn(
-            isSelected ? classNames?.selected_month : classNames?.month
+            classNames.month,
+            isSelected && classNames.selected_month
           );
 
           const textClassName = cn(
-            isSelected
-              ? classNames?.selected_month_label
-              : classNames?.month_label
+            classNames.month_label,
+            isSelected && classNames.selected_month_label
           );
 
           return (
             <View key={index} style={style.monthCell}>
-              {components?.Month ? (
+              {components.Month ? (
                 <Pressable
                   onPress={() => onSelectMonth(index)}
                   accessibilityRole="button"
-                  accessibilityLabel={item.name}
+                  accessibilityLabel={item.name.full}
                   style={defaultStyles.month}
                 >
                   {components.Month({ ...item, isSelected })}
@@ -61,12 +69,12 @@ const Months = () => {
                 <Pressable
                   onPress={() => onSelectMonth(index)}
                   accessibilityRole="button"
-                  accessibilityLabel={item.name}
-                  style={[defaultStyles.month, styles?.month, activeItemStyle]}
+                  accessibilityLabel={item.name.full}
+                  style={itemStyle}
                   className={containerClassName}
                 >
                   <Text key={index} style={textStyle} className={textClassName}>
-                    {monthsFormat === 'full' ? item.name : item.short}
+                    {item.name[monthsFormat]}
                   </Text>
                 </Pressable>
               )}

@@ -23,7 +23,7 @@ export default function SingleDatePicker() {
         //locale="fa"
         // weekdaysFormat="full"
         // firstDayOfWeek={5}
-        timeZone="Pacific/Kiritimati"
+        //timeZone="Pacific/Kiritimati"
         //minDate={dayjs().add(-5, 'day')}
         //maxDate={dayjs().add(3, 'day')}
         numerals="arabext"

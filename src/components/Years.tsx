@@ -14,7 +14,7 @@ const Years = () => {
     onSelectYear,
     styles = {},
     classNames = {},
-    components,
+    components = {},
     containerHeight = CONTAINER_HEIGHT,
   } = useCalendarContext();
 
@@ -31,35 +31,35 @@ const Years = () => {
     const column = years.map((year) => {
       const isSelected = year === selectedYear;
       const isActivated = year === activeYear;
+
       const containerStyle = StyleSheet.flatten([
         defaultStyles.year,
         styles.year,
-        isActivated && styles?.active_year,
-        mode === 'single' && isSelected && styles?.selected_year,
+        isActivated && styles.active_year,
+        mode === 'single' && isSelected && styles.selected_year,
       ]);
 
       const textStyle = StyleSheet.flatten([
-        isActivated && styles?.active_year_label,
-        mode === 'single' && isSelected && styles?.selected_year_label,
+        styles.year_label,
+        isActivated && styles.active_year_label,
+        mode === 'single' && isSelected && styles.selected_year_label,
       ]);
 
       const containerClassName = cn(
+        classNames.year,
         isActivated && classNames?.active_year,
-        mode === 'single' && isSelected
-          ? classNames?.selected_year
-          : classNames.year
+        mode === 'single' && isSelected && classNames.selected_year
       );
 
       const textClassName = cn(
-        isActivated && classNames?.active_year_label,
-        mode === 'single' && isSelected
-          ? classNames?.selected_year_label
-          : classNames.year_label
+        classNames.year_label,
+        isActivated && classNames.active_year_label,
+        mode === 'single' && isSelected && classNames.selected_year_label
       );
 
       return (
         <View key={year} style={style.yearCell}>
-          {components?.Year ? (
+          {components.Year ? (
             <Pressable
               onPress={() => onSelectYear(year)}
               accessibilityRole="button"
@@ -77,7 +77,7 @@ const Years = () => {
             <Pressable
               onPress={() => onSelectYear(year)}
               accessibilityRole="button"
-              accessibilityLabel={formatNumber(year, numerals)}
+              accessibilityLabel={year.toString()}
               style={containerStyle}
               className={containerClassName}
             >
