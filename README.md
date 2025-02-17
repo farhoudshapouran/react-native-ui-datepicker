@@ -38,14 +38,15 @@ yarn add react-native-ui-datepicker
 
 ## Basic Usage
 
-1.  Import the component and default styles or classNames from  `react-native-ui-datepicker`.
-2.  Choose a selection mode using the `mode` prop. The available modes are: `single`, `range`, and `multiple`.
+1. Import the component and default styles or classNames from  `react-native-ui-datepicker`.
+2. Choose a selection mode using the `mode` prop. The available modes are: `single`, `range`, and `multiple`.
 
 ```jsx
 import { useState } from  'react';
-import DateTimePicker, { DateType } from 'react-native-ui-datepicker';
+import DateTimePicker, { DateType, getDefaultStyles } from 'react-native-ui-datepicker';
 
 export function Calendar() {
+  const defaultStyles = getDefaultStyles();
   const [selected, setSelected] = useState<DateType>();
 
   return (
@@ -53,6 +54,7 @@ export function Calendar() {
       mode="single"
       date={selected}
       onChange={({ date }) =>  setSelected(date)}
+      styles={defaultStyles}
     />
   );
 }
@@ -85,8 +87,7 @@ export function Calendar() {
       mode="single"
       date={selected}
       onChange={({ date }) =>  setSelected(date)}
-      firstDayOfWeek={6} // Set Saturday to be first day of week
-      minDate={today}
+      minDate={today} // Set the minimum selectable date to today
       disabledDates={(date) => [0, 6].includes(dayjs(date).day())} // Disable weekends
     />
   );
@@ -293,6 +294,64 @@ export function Calendar() {
 | `knda`     | Kannada, used in Karnataka, India.            |
 | `mlym`     | Malayalam, used in Kerala, India.             |
 
+## Type Definitions
+
+```typescript
+type DateType = string | number | Dayjs | Date | null | undefined;
+
+type CalendarMode = 'single' | 'range' | 'multiple';
+
+type NavigationPosition = 'around' | 'right' | 'left';
+
+type WeekdayFormat = 'min' | 'short' | 'full';
+
+type MonthFormat = 'short' | 'full';
+
+type CalendarDay = {
+  number: number;
+  text: string;
+  date: string;
+  isDisabled: boolean;
+  isCurrentMonth: boolean;
+  dayOfMonth?: number;
+  isToday: boolean;
+  isSelected: boolean;
+  inRange: boolean;
+  leftCrop: boolean;
+  rightCrop: boolean;
+  isStartOfWeek: boolean;
+  isEndOfWeek: boolean;
+  isCrop: boolean;
+  inMiddle: boolean;
+  rangeStart: boolean;
+  rangeEnd: boolean;
+};
+
+type CalendarWeek = {
+  index: number;
+  name: {
+    full: string;
+    short: string;
+    min: string;
+  };
+};
+
+type CalendarMonth = {
+  index: number;
+  name: {
+    full: string;
+    short: string;
+  };
+  isSelected: boolean;
+};
+
+type CalendarYear = {
+  number: number;
+  text: string;
+  isSelected: boolean;
+  isActivated: boolean;
+};
+```
 
 ## License
 
