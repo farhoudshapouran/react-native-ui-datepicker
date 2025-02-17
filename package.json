@@ -1,6 +1,6 @@
 {
   "name": "react-native-ui-datepicker",
-  "version": "2.0.12",
+  "version": "3.0.0",
   "description": "Customizable date picker for React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -28,7 +28,7 @@
   ],
   "scripts": {
     "test": "jest",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "npx tsc --noEmit",
     "lint": "eslint .",
     "prepack": "bob build",
     "release": "release-it",
@@ -71,6 +71,7 @@
     "@commitlint/config-conventional": "^17.0.2",
     "@evilmartians/lefthook": "^1.2.2",
     "@react-native-community/eslint-config": "^3.0.2",
+    "@react-native/eslint-config": "^0.77.0",
     "@release-it/conventional-changelog": "^5.0.0",
     "@testing-library/jest-native": "^5.4.3",
     "@testing-library/react-native": "^12.3.2",
@@ -81,19 +82,20 @@
     "@types/react-test-renderer": "^18.0.0",
     "commitlint": "^17.0.2",
     "del-cli": "^5.0.0",
-    "eslint": "^8.4.1",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.0.0",
+    "eslint": "^9.20.1",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-react-hooks": "^5.1.0",
     "jest": "^28.1.3",
     "pod-install": "^0.1.0",
-    "prettier": "^2.0.5",
+    "prettier": "^3.4.2",
+    "prettier-plugin-tailwindcss": "^0.6.11",
     "react": "18.2.0",
     "react-native": "0.72.0",
     "react-native-builder-bob": "^0.20.0",
     "react-test-renderer": "18.2.0",
-    "release-it": "^15.4.1",
     "ts-node": "^10.9.1",
-    "typescript": "^4.5.2"
+    "typescript": "^5.7.3"
   },
   "resolutions": {
     "@types/react": "18.2.0",
@@ -101,8 +103,7 @@
   },
   "peerDependencies": {
     "react": "*",
-    "react-native": "*",
-    "react-native-web": "*"
+    "react-native": "*"
   },
   "engines": {
     "node": ">= 18"
@@ -112,27 +113,13 @@
       "@commitlint/config-conventional"
     ]
   },
-  "release-it": {
-    "git": {
-      "commitMessage": "chore: release ${version}",
-      "tagName": "v${version}"
-    },
-    "npm": {
-      "publish": true
-    },
-    "github": {
-      "release": true
-    },
-    "plugins": {
-      "@release-it/conventional-changelog": {
-        "preset": "angular"
-      }
-    }
-  },
   "eslintConfig": {
     "root": true,
     "extends": [
       "@react-native-community",
+      "prettier"
+    ],
+    "plugins": [
       "prettier"
     ],
     "rules": {
@@ -140,9 +127,10 @@
         "error",
         {
           "quoteProps": "consistent",
-          "singleQuote": true,
-          "tabWidth": 2,
           "trailingComma": "es5",
+          "tabWidth": 2,
+          "semi": true,
+          "singleQuote": true,
           "useTabs": false
         }
       ]
@@ -150,15 +138,8 @@
   },
   "eslintIgnore": [
     "node_modules/",
-    "lib/"
+    "/lib/"
   ],
-  "prettier": {
-    "quoteProps": "consistent",
-    "singleQuote": true,
-    "tabWidth": 2,
-    "trailingComma": "es5",
-    "useTabs": false
-  },
   "react-native-builder-bob": {
     "source": "src",
     "output": "lib",
@@ -174,7 +155,9 @@
     ]
   },
   "dependencies": {
+    "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "tailwind-merge": "^3.0.1"
   }
 }

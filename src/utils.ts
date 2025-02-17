@@ -1,5 +1,16 @@
 import dayjs from 'dayjs';
-import type { DateType, IDayObject } from './types';
+import type {
+  DateType,
+  CalendarDay,
+  CalendarMonth,
+  CalendarWeek,
+  Numerals,
+} from './types';
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+import { useRef } from 'react';
+import { isEqual } from 'lodash';
+import { numeralSystems } from './numerals';
 
 export const CALENDAR_FORMAT = 'YYYY-MM-DD HH:mm';
 export const DATE_FORMAT = 'YYYY-MM-DD';
@@ -9,23 +20,60 @@ export const getMonths = () => dayjs.months();
 
 export const getMonthName = (month: number) => dayjs.months()[month];
 
-export const getWeekdays = () => dayjs.weekdays();
+/**
+ * Get months array
+ *
+ * @returns months array
+ */
+export const getMonthsArray = (): CalendarMonth[] => {
+  const monthNames = dayjs.months();
+  const monthShortNames = dayjs.monthsShort();
 
-export const getWeekdaysShort = () => dayjs.weekdaysShort();
+  return monthNames.map((name, index) => ({
+    index,
+    name: {
+      full: name,
+      short: monthShortNames[index] || '',
+    },
+    isSelected: false,
+  }));
+};
 
-export const getWeekdaysMin = (
+/**
+ * Get weekdays
+ *
+ * @param locale - locale
+ * @param firstDayOfWeek - first day of week
+ * @param format - format short, min or full
+ *
+ * @returns weekdays
+ */
+export const getWeekdays = (
   locale: string | ILocale,
   firstDayOfWeek: number
-) => {
-  dayjs().locale(locale);
-  let days = dayjs.weekdaysMin();
+): CalendarWeek[] => {
+  dayjs.locale(locale);
+
+  const weekdayNames = dayjs.weekdays();
+  const weekdayShortNames = dayjs.weekdaysShort();
+  const weekdayMinNames = dayjs.weekdaysMin();
+
+  let weekdays: CalendarWeek[] = weekdayNames.map((name, index) => ({
+    index,
+    name: {
+      full: name,
+      short: weekdayShortNames[index] || '',
+      min: weekdayMinNames[index] || '',
+    },
+  }));
+
   if (firstDayOfWeek > 0) {
-    days = [
-      ...days.slice(firstDayOfWeek, days.length),
-      ...days.slice(0, firstDayOfWeek),
-    ] as dayjs.WeekdayNames;
+    weekdays = [
+      ...weekdays.slice(firstDayOfWeek, weekdays.length),
+      ...weekdays.slice(0, firstDayOfWeek),
+    ] as CalendarWeek[];
   }
-  return days;
+  return weekdays;
 };
 
 export const getFormated = (date: DateType) =>
@@ -35,8 +83,14 @@ export const getDateMonth = (date: DateType) => dayjs(date).month();
 
 export const getDateYear = (date: DateType) => dayjs(date).year();
 
-export const getToday = () => dayjs().format(DATE_FORMAT);
-
+/**
+ * Check if two dates are on the same day
+ *
+ * @param a - date to check
+ * @param b - date to check
+ *
+ * @returns true if dates are on the same day, false otherwise
+ */
 export function areDatesOnSameDay(a: DateType, b: DateType) {
   if (!a || !b) {
     return false;
@@ -48,6 +102,14 @@ export function areDatesOnSameDay(a: DateType, b: DateType) {
   return date_a === date_b;
 }
 
+/**
+ * Check if date is between two dates
+ *
+ * @param date - date to check
+ * @param options - options
+ *
+ * @returns true if date is between two dates, false otherwise
+ */
 export function isDateBetween(
   date: DateType,
   {
@@ -65,6 +127,14 @@ export function isDateBetween(
   return dayjs(date) <= endDate && dayjs(date) >= startDate;
 }
 
+/**
+ * Check if date is disabled
+ *
+ * @param date - date to check
+ * @param options - options
+ *
+ * @returns true if date is disabled, false otherwise
+ */
 export function isDateDisabled(
   date: dayjs.Dayjs,
   {
@@ -77,10 +147,10 @@ export function isDateDisabled(
     disabledDates?: DateType[] | ((date: DateType) => boolean) | undefined;
   }
 ): boolean {
-  if (minDate && date < getDate(minDate)) {
+  if (minDate && date.isBefore(dayjs(minDate).startOf('day'))) {
     return true;
   }
-  if (maxDate && date > getDate(maxDate)) {
+  if (maxDate && date.isAfter(dayjs(maxDate).endOf('day'))) {
     return true;
   }
 
@@ -98,11 +168,33 @@ export function isDateDisabled(
   return false;
 }
 
+/**
+ * Get formated date
+ *
+ * @param date - date to get formated date from
+ * @param format - format to get formated date from
+ *
+ * @returns formated date
+ */
 export const getFormatedDate = (date: DateType, format: string) =>
   dayjs(date).format(format);
 
-export const getDate = (date: DateType) => dayjs(date, DATE_FORMAT);
+/**
+ * Get date
+ *
+ * @param date - date to get
+ *
+ * @returns date
+ */
+export const getDate = (date: DateType) => dayjs(date);
 
+/**
+ * Get year range
+ *
+ * @param year - year to get year range from
+ *
+ * @returns year range
+ */
 export const getYearRange = (year: number) => {
   const endYear = YEAR_PAGE_SIZE * Math.ceil(year / YEAR_PAGE_SIZE);
   let startYear = endYear === year ? endYear : endYear - YEAR_PAGE_SIZE;
@@ -113,9 +205,18 @@ export const getYearRange = (year: number) => {
   return Array.from({ length: YEAR_PAGE_SIZE }, (_, i) => startYear + i);
 };
 
+/**
+ * Get days in month
+ *
+ * @param date - date to get days in month from
+ * @param showOutsideDays - whether to show outside days
+ * @param firstDayOfWeek - first day of week, number 0-6, 0 – Sunday, 6 – Saturday
+ *
+ * @returns days in month
+ */
 export function getDaysInMonth(
   date: DateType,
-  displayFullDays: boolean | undefined,
+  showOutsideDays: boolean | undefined,
   firstDayOfWeek: number
 ) {
   const daysInCurrentMonth = dayjs(date).daysInMonth();
@@ -123,9 +224,9 @@ export function getDaysInMonth(
   const prevMonthDays = dayjs(date).add(-1, 'month').daysInMonth();
   const firstDay = dayjs(date).date(1 - firstDayOfWeek);
   const prevMonthOffset = firstDay.day() % 7;
-  const daysInPrevMonth = displayFullDays ? prevMonthOffset : 0;
+  const daysInPrevMonth = showOutsideDays ? prevMonthOffset : 0;
   const monthDaysOffset = prevMonthOffset + daysInCurrentMonth;
-  const daysInNextMonth = displayFullDays
+  const daysInNextMonth = showOutsideDays
     ? monthDaysOffset > 35
       ? 42 - monthDaysOffset
       : 35 - monthDaysOffset
@@ -143,6 +244,14 @@ export function getDaysInMonth(
   };
 }
 
+/**
+ * Get first day of month
+ *
+ * @param date - date to get first day of month from
+ * @param firstDayOfWeek - first day of week, number 0-6, 0 – Sunday, 6 – Saturday
+ *
+ * @returns first day of month
+ */
 export function getFirstDayOfMonth(
   date: DateType,
   firstDayOfWeek: number
@@ -151,16 +260,48 @@ export function getFirstDayOfMonth(
   return d.date(1 - firstDayOfWeek).day();
 }
 
+/**
+ * Get start of day
+ *
+ * @param date - date to get start of day from
+ *
+ * @returns start of day
+ */
 export function getStartOfDay(date: DateType): DateType {
   return dayjs(date).startOf('day');
 }
 
+/**
+ * Get end of day
+ *
+ * @param date - date to get end of day from
+ *
+ * @returns end of day
+ */
 export function getEndOfDay(date: DateType): DateType {
   return dayjs(date).endOf('day');
 }
 
+/**
+ * Convert date to unix timestamp
+ *
+ * @param date - date to convert
+ *
+ * @returns unix timestamp
+ */
 export function dateToUnix(date: DateType): number {
   return dayjs(date).unix();
+}
+
+/**
+ * Remove time from date
+ *
+ * @param date - date to remove time from
+ *
+ * @returns date with time removed
+ */
+export function removeTime(date: DateType): DateType {
+  return date ? dayjs(date).startOf('day') : undefined;
 }
 
 /**
@@ -183,42 +324,47 @@ export const getParsedDate = (date: DateType) => {
  * Calculate month days array based on current date
  *
  * @param datetime - The current date that selected
- * @param displayFullDays
+ * @param showOutsideDays
  * @param minDate - min selectable date
  * @param maxDate - max selectable date
- * @param disabledDates - array of disabled dates, or a function that returns true for a given date
  * @param firstDayOfWeek - first day of week, number 0-6, 0 – Sunday, 6 – Saturday
+ * @param disabledDates - array of disabled dates, or a function that returns true for a given date
+ * @param prevMonthDays - number of days in the previous month
+ * @param prevMonthOffset - number of days to offset the previous month
+ * @param daysInCurrentMonth - number of days in the current month
+ * @param daysInNextMonth - number of days in the next month
  *
  * @returns days array based on current date
  */
 export const getMonthDays = (
-  datetime: DateType = dayjs(),
-  displayFullDays: boolean,
+  datetime: DateType,
+  showOutsideDays: boolean,
   minDate: DateType,
   maxDate: DateType,
   firstDayOfWeek: number,
-  disabledDates: DateType[] | ((date: DateType) => boolean) | undefined
-): IDayObject[] => {
-  const date = getDate(datetime);
-  const {
-    prevMonthDays,
-    prevMonthOffset,
-    daysInCurrentMonth,
-    daysInNextMonth,
-  } = getDaysInMonth(datetime, displayFullDays, firstDayOfWeek);
+  disabledDates: DateType[] | ((date: DateType) => boolean) | undefined,
+  prevMonthDays: number,
+  prevMonthOffset: number,
+  daysInCurrentMonth: number,
+  daysInNextMonth: number,
+  numerals: Numerals
+): CalendarDay[] => {
+  const date = dayjs(datetime);
 
-  const prevDays = displayFullDays
+  const prevDays = showOutsideDays
     ? Array.from({ length: prevMonthOffset }, (_, index) => {
-        const day = index + (prevMonthDays - prevMonthOffset + 1);
-        const thisDay = date.add(-1, 'month').date(day);
-        return generateDayObject(
-          day,
+        const number = index + (prevMonthDays - prevMonthOffset + 1);
+        const thisDay = date.add(-1, 'month').date(number);
+        return generateCalendarDay(
+          number,
           thisDay,
           minDate,
           maxDate,
           disabledDates,
           false,
-          index + 1
+          index + 1,
+          firstDayOfWeek,
+          numerals
         );
       })
     : Array(prevMonthOffset).fill(null);
@@ -226,28 +372,32 @@ export const getMonthDays = (
   const currentDays = Array.from({ length: daysInCurrentMonth }, (_, index) => {
     const day = index + 1;
     const thisDay = date.date(day);
-    return generateDayObject(
+    return generateCalendarDay(
       day,
       thisDay,
       minDate,
       maxDate,
       disabledDates,
       true,
-      prevMonthOffset + day
+      prevMonthOffset + day,
+      firstDayOfWeek,
+      numerals
     );
   });
 
   const nextDays = Array.from({ length: daysInNextMonth }, (_, index) => {
     const day = index + 1;
     const thisDay = date.add(1, 'month').date(day);
-    return generateDayObject(
+    return generateCalendarDay(
       day,
       thisDay,
       minDate,
       maxDate,
       disabledDates,
       false,
-      daysInCurrentMonth + prevMonthOffset + day
+      daysInCurrentMonth + prevMonthOffset + day,
+      firstDayOfWeek,
+      numerals
     );
   });
 
@@ -257,52 +407,85 @@ export const getMonthDays = (
 /**
  * Generate day object for displaying inside day cell
  *
- * @param day - number of day
+ * @param number - number of day
  * @param date - calculated date based on day, month, and year
  * @param minDate - min selectable date
  * @param maxDate - max selectable date
  * @param disabledDates - array of disabled dates, or a function that returns true for a given date
  * @param isCurrentMonth - define the day is in the current month
+ * @param dayOfMonth - number the day in the current month
+ * @param firstDayOfWeek - first day of week, number 0-6, 0 – Sunday, 6 – Saturday
  *
  * @returns days object based on current date
  */
-const generateDayObject = (
-  day: number,
+const generateCalendarDay = (
+  number: number,
   date: dayjs.Dayjs,
   minDate: DateType,
   maxDate: DateType,
   disabledDates: DateType[] | ((date: DateType) => boolean) | undefined,
   isCurrentMonth: boolean,
-  dayOfMonth: number
+  dayOfMonth: number,
+  firstDayOfWeek: number,
+  numerals: Numerals
 ) => {
+  const startOfWeek = dayjs(date).startOf('week').add(firstDayOfWeek, 'day');
+
   return {
-    text: day.toString(),
-    day: day,
-    date: getFormatedDate(date, DATE_FORMAT),
-    disabled: isDateDisabled(date, { minDate, maxDate, disabledDates }),
+    text: formatNumber(number, numerals),
+    number,
+    date: date,
+    isDisabled: isDateDisabled(date, { minDate, maxDate, disabledDates }),
     isCurrentMonth,
     dayOfMonth,
+    isStartOfWeek: date.isSame(startOfWeek, 'day'),
+    isEndOfWeek: date.day() === (firstDayOfWeek + 6) % 7,
   };
 };
 
-export function addColorAlpha(color: string | undefined, opacity: number) {
-  //if it has an alpha, remove it
-  if (!color) {
-    color = '#000000';
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+/**
+ * Deep compare memo
+ *
+ * @param value - value to compare
+ * @param deps - dependencies
+ *
+ * @returns memoized value
+ */
+export function useDeepCompareMemo<T>(value: T, deps: any[]): T {
+  const ref = useRef<T>();
+  const depsRef = useRef<any[]>();
+
+  if (
+    !depsRef.current ||
+    !deps.every((dep, i) => isEqual(dep, depsRef.current![i]))
+  ) {
+    ref.current = value;
+    depsRef.current = deps;
   }
 
-  if (color.length > 7) {
-    color = color.substring(0, color.length - 2);
+  return ref.current as T;
+}
+
+function getDigitMap(numerals: Numerals): Record<string, string> {
+  const digitMap: Record<string, string> = {};
+  const numeralDigits = numeralSystems[numerals];
+
+  for (let i = 0; i < 10; i++) {
+    digitMap[i.toString()] = numeralDigits[i]!;
   }
 
-  // coerce values so ti is between 0 and 1.
-  const _opacity = Math.round(Math.min(Math.max(opacity, 0), 1) * 255);
-  let opacityHex = _opacity.toString(16).toUpperCase();
+  return digitMap;
+}
 
-  // opacities near 0 need a trailing 0
-  if (opacityHex.length === 1) {
-    opacityHex = '0' + opacityHex;
-  }
+function replaceDigits(input: string, numerals: Numerals): string {
+  const digitMap = getDigitMap(numerals);
+  return input.replace(/\d/g, (digit) => digitMap[digit] || digit);
+}
 
-  return color + opacityHex;
+export function formatNumber(value: number, numerals: Numerals): string {
+  return replaceDigits(value.toString(), numerals);
 }

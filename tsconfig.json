@@ -26,6 +26,6 @@
     "allowJs": true,
     "types": ["react-native", "jest", "node", "@testing-library/jest-native"]
   },
-  "include": ["src"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }

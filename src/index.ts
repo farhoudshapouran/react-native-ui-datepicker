@@ -1,5 +1,16 @@
-import DateTimePicker from './DateTimePicker';
-import type { DateType, ModeType } from './types';
+import './locales';
+import './polyfill';
+import DateTimePicker from './datetime-picker';
 
-export type { DateType, ModeType };
+export type {
+  DateType,
+  CalendarMode,
+  CalendarDay,
+  CalendarWeek,
+  CalendarMonth,
+  CalendarYear,
+  CalendarComponents,
+} from './types';
+export { getDefaultClassNames, getDefaultStyles } from './theme';
+
 export default DateTimePicker;

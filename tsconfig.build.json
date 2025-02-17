@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "exclude": [
+    "demo",
     "example",
     "lib",
     "node_modules",

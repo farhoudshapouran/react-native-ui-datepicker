@@ -1,59 +1,61 @@
-import React, { ReactNode, memo, useMemo } from 'react';
+import React, { ReactNode, useMemo } from 'react';
 import { View, StyleSheet, ViewStyle } from 'react-native';
-import { useCalendarContext } from '../CalendarContext';
+import { useCalendarContext } from '../calendar-context';
 import type { CalendarViews } from '../enums';
-import type { HeaderProps } from '../types';
-import Header from './Header';
-import YearSelector from './YearSelector';
-import MonthSelector from './MonthSelector';
-import DaySelector from './DaySelector';
-import TimeSelector from './TimeSelector';
-import { CALENDAR_HEIGHT } from '../enums';
+import Header from './header';
+import Years from './years';
+import Months from './months';
+import Days from './days';
+import TimePicker from './time-picker';
 
 const CalendarView: Record<CalendarViews, ReactNode> = {
-  year: <YearSelector />,
-  month: <MonthSelector />,
-  day: <DaySelector />,
-  time: <TimeSelector />,
+  year: <Years />,
+  month: <Months />,
+  day: <Days />,
+  time: <TimePicker />,
 };
 
-const styles = StyleSheet.create({
-  container: {
-    width: '100%',
+const defaultStyles = StyleSheet.create({
+  root: {
+    flex: 1,
   },
 });
 
-interface PropTypes extends HeaderProps {
-  height?: number;
-}
+const Calendar = () => {
+  const {
+    hideHeader,
+    calendarView,
+    style = {},
+    className = '',
+    styles = {},
+    classNames = {},
+    containerHeight,
+    navigationPosition,
+  } = useCalendarContext();
 
-const Calendar = ({ buttonPrevIcon, buttonNextIcon, height }: PropTypes) => {
-  const { calendarView, theme } = useCalendarContext();
-
-  const calendarContainerStyle: ViewStyle = useMemo(
+  const containerStyle: ViewStyle = useMemo(
     () => ({
-      height: height || CALENDAR_HEIGHT,
-      alignItems: 'center',
+      height: containerHeight,
     }),
-    [height]
+    [containerHeight]
   );
 
   return (
-    <View style={styles.container} testID="calendar">
-      {/* {mode !== 'time' ? (
+    <View
+      style={[defaultStyles.root, style]}
+      className={className}
+      testID="calendar"
+    >
+      {!hideHeader ? (
         <Header
-          buttonPrevIcon={buttonPrevIcon}
-          buttonNextIcon={buttonNextIcon}
+          navigationPosition={navigationPosition}
+          styles={styles}
+          classNames={classNames}
         />
-      ) : null} */}
-      <Header
-        buttonPrevIcon={buttonPrevIcon}
-        buttonNextIcon={buttonNextIcon}
-        theme={theme}
-      />
-      <View style={calendarContainerStyle}>{CalendarView[calendarView]}</View>
+      ) : null}
+      <View style={containerStyle}>{CalendarView[calendarView]}</View>
     </View>
   );
 };
 
-export default memo(Calendar);
+export default Calendar;

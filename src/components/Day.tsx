@@ -1,174 +1,234 @@
-import React from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native';
-import { CalendarThemeProps, IDayObject } from '../types';
-import { CALENDAR_HEIGHT } from '../enums';
-import { addColorAlpha } from '../utils';
+import React, { memo, useMemo } from 'react';
+import { View, Pressable, StyleSheet, Text } from 'react-native';
+import {
+  ClassNames,
+  CalendarDay,
+  Styles,
+  CalendarComponents,
+  DateType,
+} from '../types';
+import { CONTAINER_HEIGHT, WEEKDAYS_HEIGHT } from '../enums';
+import { cn } from '../utils';
 import { isEqual } from 'lodash';
 
-export const daySize = 46;
-
-interface Props extends Omit<IDayObject, 'day'> {
-  isToday: boolean;
-  isSelected: boolean;
-  onSelectDate: (date: string) => void;
-  theme: CalendarThemeProps;
-  height?: number;
+interface Props {
+  day: CalendarDay;
+  onSelectDate: (date: DateType) => void;
+  containerHeight?: number;
+  weekdaysHeight?: number;
+  styles?: Styles;
+  classNames?: ClassNames;
+  components?: CalendarComponents;
 }
 
-export const EmptyDay = React.memo(({ height }: { height?: number }) => (
-  <View style={styles(height || CALENDAR_HEIGHT).dayCell} />
-));
+export const EmptyDay = React.memo(() => {
+  return <View style={defaultStyles.dayWrapper} />;
+});
 
-function Day({
-  date,
-  text,
-  disabled,
-  isCurrentMonth,
-  isToday,
-  isSelected,
-  inRange,
-  leftCrop,
-  rightCrop,
+const Day = ({
+  day,
   onSelectDate,
-  theme,
-  height,
-}: Props) {
-  const onPress = React.useCallback(
-    () => onSelectDate(date),
-    [onSelectDate, date]
+  containerHeight = CONTAINER_HEIGHT,
+  weekdaysHeight = WEEKDAYS_HEIGHT,
+  styles = {},
+  classNames = {},
+  components = {},
+}: Props) => {
+  const style = useMemo(
+    () => createDefaultStyles(containerHeight, weekdaysHeight),
+    [containerHeight, weekdaysHeight]
   );
 
   const {
-    calendarTextStyle,
-    dayContainerStyle,
-    selectedItemColor = '#0047FF',
-    selectedTextStyle,
-    todayContainerStyle,
-    todayTextStyle,
-    selectedRangeBackgroundColor,
-  } = theme;
-
-  const style = styles(height || CALENDAR_HEIGHT);
-  const rangeBackground =
-    selectedRangeBackgroundColor ?? addColorAlpha(selectedItemColor, 0.15);
-  const isCrop = inRange && (leftCrop || rightCrop) && !(leftCrop && rightCrop);
+    text,
+    date,
+    isDisabled,
+    isCurrentMonth,
+    isToday,
+    isSelected,
+    inRange,
+    leftCrop,
+    rightCrop,
+    isStartOfWeek,
+    isEndOfWeek,
+    isCrop,
+    inMiddle,
+    rangeStart,
+    rangeEnd,
+  } = day;
 
   const containerStyle = StyleSheet.flatten([
-    style.dayContainer,
-    isCurrentMonth || isCrop ? dayContainerStyle : style.disabledDay,
-    isToday && {
-      borderWidth: 2,
-      borderColor: selectedItemColor,
-      ...todayContainerStyle,
-    },
-    isSelected && {
-      borderColor: selectedItemColor,
-      backgroundColor: selectedItemColor,
-    },
-    disabled && style.disabledDay,
+    defaultStyles.dayContainer,
+    styles.day,
+    isToday && styles.today,
+    !isCurrentMonth && styles.outside,
+    isSelected && styles.selected,
+    isDisabled && styles.disabled,
+    inMiddle && styles.range_middle,
+    rangeStart && styles.range_start,
+    rangeEnd && styles.range_end,
   ]);
 
   const textStyle = StyleSheet.flatten([
-    isSelected
-      ? {
-          color: '#fff',
-          ...selectedTextStyle,
-        }
-      : isToday
-      ? {
-          ...calendarTextStyle,
-          color: selectedItemColor,
-          ...todayTextStyle,
-        }
-      : calendarTextStyle,
+    styles.day_label,
+    isToday && styles.today_label,
+    !isCurrentMonth && styles.outside_label,
+    isSelected && styles.selected_label,
+    isDisabled && styles.disabled_label,
+    inMiddle && styles.range_middle_label,
+    rangeStart && styles.range_start_label,
+    rangeEnd && styles.range_end_label,
+  ]);
+
+  const containerClassName = cn(
+    classNames.day,
+    isToday && classNames.today,
+    !isCurrentMonth && classNames.outside,
+    isSelected && classNames.selected,
+    isDisabled && classNames.disabled,
+    inMiddle && classNames.range_middle,
+    rangeStart && classNames.range_start,
+    rangeEnd && classNames.range_end
+  );
+
+  const textClassName = cn(
+    classNames.day_label,
+    isToday && classNames.today_label,
+    !isCurrentMonth && classNames.outside_label,
+    isSelected && classNames.selected_label,
+    isDisabled && classNames.disabled_label,
+    inMiddle && classNames.range_middle_label,
+    rangeStart && classNames.range_start_label,
+    rangeEnd && classNames.range_end_label
+  );
+
+  const RangeFill = useMemo(() => {
+    if (!inRange) return null;
+    if (!isCrop) {
+      return (
+        <View
+          style={[
+            defaultStyles.rangeRoot,
+            styles.range_fill,
+            isEndOfWeek && styles.range_fill_weekend,
+            isStartOfWeek && styles.range_fill_weekstart,
+          ]}
+          className={cn(
+            classNames.range_fill,
+            isEndOfWeek && classNames.range_fill_weekend,
+            isStartOfWeek && classNames.range_fill_weekstart
+          )}
+        />
+      );
+    }
+    return (
+      <>
+        {leftCrop && (
+          <View
+            style={[
+              defaultStyles.rangeRoot,
+              { left: '50%' },
+              styles.range_fill,
+            ]}
+            className={classNames.range_fill}
+          />
+        )}
+        {rightCrop && (
+          <View
+            style={[
+              defaultStyles.rangeRoot,
+              { right: '50%' },
+              styles.range_fill,
+            ]}
+            className={classNames.range_fill}
+          />
+        )}
+      </>
+    );
+  }, [
+    inRange,
+    isCrop,
+    leftCrop,
+    rightCrop,
+    defaultStyles.rangeRoot,
+    styles.range_fill,
+    styles.range_fill_weekstart,
+    styles.range_fill_weekend,
+    classNames.range_fill,
+    classNames.range_fill_weekstart,
+    classNames.range_fill_weekend,
   ]);
 
   return (
-    <View style={style.dayCell}>
-      {inRange && !isCrop && (
-        <View style={[style.rangeRoot, { backgroundColor: rangeBackground }]} />
-      )}
-      {isCrop && (
-        <>
-          {leftCrop && (
-            <View
-              style={[
-                style.rangeRoot,
-                { left: '50%', backgroundColor: rangeBackground },
-              ]}
-            />
-          )}
-          {rightCrop && (
-            <View
-              style={[
-                style.rangeRoot,
-                { right: '50%', backgroundColor: rangeBackground },
-              ]}
-            />
-          )}
-        </>
-      )}
-      <Pressable
-        disabled={disabled}
-        onPress={onPress}
-        style={containerStyle}
-        testID={date}
-        accessibilityRole="button"
-        accessibilityLabel={text}
+    <View style={defaultStyles.dayWrapper}>
+      <View
+        style={[style.dayCell, styles.day_cell]}
+        className={classNames.day_cell}
       >
-        <View style={style.dayTextContainer}>
-          <Text style={textStyle}>{text}</Text>
-        </View>
-      </Pressable>
+        {RangeFill}
+        {components.Day ? (
+          <Pressable
+            disabled={isDisabled}
+            onPress={() => onSelectDate(date)}
+            accessibilityRole="button"
+            accessibilityLabel={text}
+            style={containerStyle}
+          >
+            {components.Day(day)}
+          </Pressable>
+        ) : (
+          <Pressable
+            disabled={isDisabled}
+            onPress={() => onSelectDate(date)}
+            accessibilityRole="button"
+            accessibilityLabel={text}
+            style={containerStyle}
+            className={containerClassName}
+          >
+            <Text style={textStyle} className={textClassName}>
+              {text}
+            </Text>
+          </Pressable>
+        )}
+      </View>
     </View>
   );
-}
+};
 
-const styles = (height: number) =>
+const defaultStyles = StyleSheet.create({
+  dayWrapper: {
+    width: `${100 / 7}%`,
+  },
+  dayContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  rangeWrapper: {
+    flex: 1,
+  },
+  rangeRoot: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+});
+
+const createDefaultStyles = (containerHeight: number, weekdaysHeight: number) =>
   StyleSheet.create({
     dayCell: {
-      position: 'relative',
-      width: '14.25%',
-      height: height / 7,
-    },
-    dayContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      margin: 1.5,
-      borderRadius: 100,
-    },
-    dayTextContainer: {
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    disabledDay: {
-      opacity: 0.3,
-    },
-    rangeRoot: {
-      position: 'absolute',
-      left: 0,
-      right: 0,
-      top: 2,
-      bottom: 2,
+      minHeight: (containerHeight - weekdaysHeight) / 6,
     },
   });
 
-const customComparator = (
-  prevProps: Readonly<Props>,
-  nextProps: Readonly<Props>
-) =>
-  Object.is(prevProps.date, nextProps.date) &&
-  Object.is(prevProps.text, nextProps.text) &&
-  prevProps.disabled === nextProps.disabled &&
-  prevProps.isCurrentMonth === nextProps.isCurrentMonth &&
-  prevProps.isToday === nextProps.isToday &&
-  prevProps.isSelected === nextProps.isSelected &&
-  prevProps.inRange === nextProps.inRange &&
-  prevProps.leftCrop === nextProps.leftCrop &&
-  prevProps.rightCrop === nextProps.rightCrop &&
-  prevProps.onSelectDate === nextProps.onSelectDate &&
-  prevProps.height === nextProps.height &&
-  isEqual(prevProps.theme, nextProps.theme);
+const customComparator = (prev: Readonly<Props>, next: Readonly<Props>) => {
+  const areEqual =
+    isEqual(prev.day, next.day) &&
+    prev.onSelectDate === next.onSelectDate &&
+    prev.containerHeight === next.containerHeight &&
+    isEqual(prev.styles, next.styles) &&
+    isEqual(prev.classNames, next.classNames) &&
+    isEqual(prev.components, next.components);
 
-export default React.memo(Day, customComparator);
+  return areEqual;
+};
+
+export default memo(Day, customComparator);

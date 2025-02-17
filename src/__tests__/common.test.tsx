@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react-native';
-import DateTimePicker from '../DateTimePicker';
+import DateTimePicker from '../datetime-picker';
 
 describe('COMMON TESTS', () => {
   test('should render with default options', () => {

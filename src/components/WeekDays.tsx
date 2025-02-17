@@ -1,45 +1,78 @@
-import React, { memo } from 'react';
+import React, { memo, useMemo } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { getWeekdaysMin } from '../utils';
-import { CalendarThemeProps } from '../types';
+import { getWeekdays } from '../utils';
+import {
+  Styles,
+  ClassNames,
+  WeekdayFormat,
+  CalendarComponents,
+} from '../types';
+import { WEEKDAYS_HEIGHT } from '../enums';
 
-type WeekDaysProps = {
+type WeekdaysProps = {
   locale: string | ILocale;
   firstDayOfWeek: number;
-  theme: CalendarThemeProps;
+  styles?: Styles;
+  classNames?: ClassNames;
+  weekdaysFormat?: WeekdayFormat;
+  weekdaysHeight?: number;
+  components?: CalendarComponents;
 };
 
-const WeekDays = ({ locale, firstDayOfWeek, theme }: WeekDaysProps) => {
+const Weekdays = ({
+  locale,
+  firstDayOfWeek,
+  styles = {},
+  classNames = {},
+  weekdaysFormat = 'min',
+  weekdaysHeight = WEEKDAYS_HEIGHT,
+  components = {},
+}: WeekdaysProps) => {
+  const style = useMemo(
+    () => createDefaultStyles(weekdaysHeight),
+    [weekdaysHeight]
+  );
+
   return (
     <View
-      style={[styles.weekDaysContainer, theme?.weekDaysContainerStyle]}
-      testID="week-days"
+      style={[style.container, styles.weekdays]}
+      className={classNames.weekdays}
+      testID="weekdays"
     >
-      {getWeekdaysMin(locale, firstDayOfWeek)?.map((item, index) => (
-        <View key={index} style={styles.weekDayCell}>
-          <Text style={theme?.weekDaysTextStyle}>{item}</Text>
+      {getWeekdays(locale, firstDayOfWeek)?.map((weekday, index) => (
+        <View
+          key={index}
+          style={[style.weekday, styles.weekday]}
+          className={classNames.weekday}
+        >
+          {components.Weekday ? (
+            components.Weekday(weekday)
+          ) : (
+            <Text
+              style={styles?.weekday_label}
+              className={classNames.weekday_label}
+            >
+              {weekday.name[weekdaysFormat]}
+            </Text>
+          )}
         </View>
       ))}
     </View>
   );
 };
 
-export default memo(WeekDays);
+export default memo(Weekdays);
 
-const styles = StyleSheet.create({
-  weekDaysContainer: {
-    width: '100%',
-    flexDirection: 'row',
-    paddingBottom: 10,
-    paddingTop: 5,
-    marginBottom: 10,
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderColor: '#E5E5E5',
-  },
-  weekDayCell: {
-    width: '14.2%',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const createDefaultStyles = (weekdaysHeight: number) =>
+  StyleSheet.create({
+    container: {
+      height: weekdaysHeight,
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    weekday: {
+      width: `${100 / 7}%`,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  });
