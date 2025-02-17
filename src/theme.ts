@@ -41,7 +41,7 @@ export function getDefaultClassNames(): ClassNames {
     [SelectionState.range_start]: '',
     [SelectionState.range_start_label]: 'text-primary-foreground',
     [SelectionState.selected]:
-      'group rounded-md bg-primary web:hover:bg-primary web:hover:opacity-90 active:opacity-90',
+      'group bg-primary web:hover:bg-primary web:hover:opacity-90 active:opacity-90',
     [SelectionState.selected_label]: 'text-primary-foreground',
 
     [DayFlag.disabled]: '',
@@ -53,11 +53,11 @@ export function getDefaultClassNames(): ClassNames {
     [DayFlag.today_label]: 'text-accent-foreground',
 
     [MonthState.selected_month]:
-      'group rounded-md bg-primary web:hover:opacity-90 active:opacity-90',
+      'group bg-primary web:hover:bg-primary web:hover:opacity-90 active:opacity-90',
     [MonthState.selected_month_label]: 'text-primary-foreground',
 
     [YearState.selected_year]:
-      'group rounded-md bg-primary web:hover:opacity-90 active:opacity-90',
+      'group bg-primary web:hover:bg-primary web:hover:opacity-90 active:opacity-90',
     [YearState.selected_year_label]: 'text-primary-foreground',
     [YearState.active_year]: 'bg-accent',
     [YearState.active_year_label]: 'text-accent-foreground',
@@ -143,7 +143,6 @@ export function getDefaultStyles(): Styles {
       color: COLORS[theme].primaryForeground,
     },
     [SelectionState.selected]: {
-      borderRadius: 5,
       backgroundColor: COLORS[theme].primary,
     },
     [SelectionState.selected_label]: {

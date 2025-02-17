@@ -1,49 +1,28 @@
 import React from 'react';
-import {
-  StyleSheet,
-  View,
-  Text,
-  Pressable,
-  Image,
-  Linking,
-} from 'react-native';
+import { View } from 'react-native';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import { cssInterop } from 'nativewind';
+import { Text } from './ui/text';
+import { Link } from 'expo-router';
+
+cssInterop(AntDesign, {
+  className: {
+    target: 'style',
+  },
+});
 
 export function GithubLink() {
   return (
-    <View style={styles.githubContainer}>
-      <Pressable
-        style={styles.githubLink}
-        onPress={() =>
-          Linking.openURL(
-            'https://github.com/farhoudshapouran/react-native-ui-datepicker'
-          )
-        }
-        accessibilityRole="button"
-        accessibilityLabel="Check repository on GitHub"
+    <View className="py-6">
+      <Link
+        href="https://github.com/farhoudshapouran/react-native-ui-datepicker"
+        target="_blank"
       >
-        <Image
-          source={require('../assets/images/github-logo.png')}
-          style={styles.githubLogo}
-        />
-        <Text style={styles.githubText}>Check repository on GitHub</Text>
-      </Pressable>
+        <View className="flex-row items-center gap-2">
+          <AntDesign name="github" size={20} className="text-foreground" />
+          <Text className="text-sm">Check repository on GitHub</Text>
+        </View>
+      </Link>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  githubContainer: {
-    paddingVertical: 20,
-  },
-  githubLink: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  githubLogo: {
-    width: 22,
-    height: 22,
-  },
-  githubText: {
-    marginLeft: 8,
-  },
-});

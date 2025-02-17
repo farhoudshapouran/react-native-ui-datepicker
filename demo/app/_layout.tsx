@@ -3,30 +3,59 @@ import '@/global.css';
 import React, { useEffect } from 'react';
 import { View, SafeAreaView, ScrollView, Platform } from 'react-native';
 import { ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
 import { Slot } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useColorScheme } from '@/lib/useColorScheme';
-import { Button } from '@/components/ui/button';
-import { Text } from '@/components/ui/text';
-import { NavMenu } from '@/layouts/nav/nav-menu';
-import { GithubLink } from '@/components/github-link';
 import { LIGHT_THEME, DARK_THEME } from '@/lib/constants';
-import { ReactScan } from 'react-scan/native';
 import { Header } from '@/layouts/header';
 import 'react-native-gesture-handler';
 import 'react-native-reanimated';
+import {
+  useFonts,
+  Inter_300Light,
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_600SemiBold,
+  Inter_700Bold,
+} from '@expo-google-fonts/inter';
+import {
+  Archivo_300Light,
+  Archivo_400Regular,
+  Archivo_500Medium,
+  Archivo_600SemiBold,
+  Archivo_700Bold,
+} from '@expo-google-fonts/archivo';
+import {
+  Poppins_300Light,
+  Poppins_400Regular,
+  Poppins_500Medium,
+  Poppins_600SemiBold,
+  Poppins_700Bold,
+} from '@expo-google-fonts/poppins';
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const { isDarkColorScheme } = useColorScheme();
 
   const [fontsLoaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    Inter_300Light,
+    Inter_400Regular,
+    Inter_500Medium,
+    Inter_600SemiBold,
+    Inter_700Bold,
+    Archivo_300Light,
+    Archivo_400Regular,
+    Archivo_500Medium,
+    Archivo_600SemiBold,
+    Archivo_700Bold,
+    Poppins_300Light,
+    Poppins_400Regular,
+    Poppins_500Medium,
+    Poppins_600SemiBold,
+    Poppins_700Bold,
   });
 
   useEffect(() => {
@@ -47,19 +76,7 @@ export default function RootLayout() {
           <Header />
           <ScrollView>
             <View className="mx-auto flex w-full max-w-2xl flex-col items-center gap-8 p-6">
-              <View className="flex w-full flex-col-reverse items-start gap-6 md:flex-row md:justify-between">
-                <View className="gap-1">
-                  <Text className="text-3xl font-semibold">
-                    React Native UI DatePicker
-                  </Text>
-                  <Text className="text-muted-foreground text-lg">
-                    Customizable date picker for React Native
-                  </Text>
-                </View>
-                <Text>123</Text>
-              </View>
               <Slot />
-              <GithubLink />
             </View>
           </ScrollView>
         </SafeAreaView>

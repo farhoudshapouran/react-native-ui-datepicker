@@ -11,6 +11,23 @@ module.exports = {
   presets: [require('nativewind/preset')],
   theme: {
     extend: {
+      fontFamily: {
+        interLight: ['Inter_300Light'],
+        inter: ['Inter_400Regular'],
+        interMedium: ['Inter_500Medium'],
+        interSemiBold: ['Inter_600SemiBold'],
+        interBold: ['Inter_700Bold'],
+        archivoLight: ['Archivo_300Light'],
+        archivo: ['Archivo_400Regular'],
+        archivoMedium: ['Archivo_500Medium'],
+        archivoSemiBold: ['Archivo_600SemiBold'],
+        archivoBold: ['Archivo_700Bold'],
+        poppinsLight: ['Poppins_300Light'],
+        poppins: ['Poppins_400Regular'],
+        poppinsMedium: ['Poppins_500Medium'],
+        poppinsSemiBold: ['Poppins_600SemiBold'],
+        poppinsBold: ['Poppins_700Bold'],
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
@@ -58,6 +75,7 @@ module.exports = {
         hairline: hairlineWidth(),
       },
       borderRadius: {
+        '3xl': 'calc(var(--radius) + 16px)',
         '2xl': 'calc(var(--radius) + 10px)',
         'xl': 'calc(var(--radius) + 4px)',
         'lg': 'var(--radius)',

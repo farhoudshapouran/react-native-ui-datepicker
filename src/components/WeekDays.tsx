@@ -67,7 +67,6 @@ const createDefaultStyles = (weekdaysHeight: number) =>
   StyleSheet.create({
     container: {
       height: weekdaysHeight,
-      width: '100%',
       flexDirection: 'row',
       alignItems: 'center',
     },

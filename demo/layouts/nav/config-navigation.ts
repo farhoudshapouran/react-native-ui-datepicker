@@ -1,6 +1,7 @@
 import { NavItemProps } from './types';
 
 export const navConfig: NavItemProps[] = [
-  { title: 'Default', path: '/' },
-  { title: 'Locales', path: '/locales' },
+  { title: 'Home', path: '/' },
+  { title: 'Examples', path: '/examples' },
+  { title: 'Playground', path: '/playground' },
 ];

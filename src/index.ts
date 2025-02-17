@@ -6,6 +6,7 @@ export type {
   DateType,
   CalendarMode,
   CalendarDay,
+  CalendarWeek,
   CalendarMonth,
   CalendarYear,
   CalendarComponents,

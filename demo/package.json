@@ -18,6 +18,9 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@expo-google-fonts/archivo": "^0.2.3",
+    "@expo-google-fonts/inter": "^0.2.3",
+    "@expo-google-fonts/poppins": "^0.2.3",
     "@expo/vector-icons": "^14.0.2",
     "@react-navigation/bottom-tabs": "^7.2.0",
     "@react-navigation/native": "^7.0.14",
@@ -31,6 +34,7 @@
     "dayjs": "^1.11.13",
     "expo": "~52.0.35",
     "expo-blur": "~14.0.3",
+    "expo-clipboard": "~7.0.1",
     "expo-constants": "~17.0.6",
     "expo-font": "~13.0.3",
     "expo-haptics": "~14.0.1",

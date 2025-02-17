@@ -17,7 +17,7 @@ export const ThemeToggle = () => {
       onPress={toggleColorScheme}
       size="icon"
       variant="ghost"
-      className="bg-background size-9"
+      className="bg-background size-9 rounded-xl"
     >
       <Feather
         name={isDarkColorScheme ? 'sun' : 'moon'}

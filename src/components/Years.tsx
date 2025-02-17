@@ -36,25 +36,25 @@ const Years = () => {
         defaultStyles.year,
         styles.year,
         isActivated && styles.active_year,
-        mode === 'single' && isSelected && styles.selected_year,
+        isSelected && styles.selected_year,
       ]);
 
       const textStyle = StyleSheet.flatten([
         styles.year_label,
         isActivated && styles.active_year_label,
-        mode === 'single' && isSelected && styles.selected_year_label,
+        isSelected && styles.selected_year_label,
       ]);
 
       const containerClassName = cn(
         classNames.year,
-        isActivated && classNames?.active_year,
-        mode === 'single' && isSelected && classNames.selected_year
+        isActivated && classNames.active_year,
+        isSelected && classNames.selected_year
       );
 
       const textClassName = cn(
         classNames.year_label,
         isActivated && classNames.active_year_label,
-        mode === 'single' && isSelected && classNames.selected_year_label
+        isSelected && classNames.selected_year_label
       );
 
       return (

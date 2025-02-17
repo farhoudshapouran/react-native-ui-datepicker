@@ -10,7 +10,6 @@ import {
 import { sin } from './animated-math';
 import { CONTAINER_HEIGHT } from '../../enums';
 import { ClassNames, Styles } from '../../types';
-import { isEqual } from 'lodash';
 import { Time } from '../time-picker';
 
 interface WheelProps {
@@ -147,7 +146,7 @@ const WheelWeb = ({
         const animatedAngle = animatedAngles[index];
         return (
           <Animated.View
-            key={`${displayValue}-${index}`}
+            key={`${displayValue?.text}-${index}`}
             // eslint-disable-next-line react-native/no-inline-styles
             style={{
               position: 'absolute',
@@ -204,11 +203,4 @@ const defaultStyles = StyleSheet.create({
   },
 });
 
-export default memo(WheelWeb, (prevProps, nextProps) => {
-  return (
-    prevProps.value === nextProps.value &&
-    prevProps.setValue === nextProps.setValue &&
-    isEqual(prevProps.classNames, nextProps.classNames) &&
-    isEqual(prevProps.styles, nextProps.styles)
-  );
-});
+export default memo(WheelWeb);
