@@ -220,6 +220,7 @@ const DateTimePicker = (
           return {
             ...prevState,
             date: selectedDate,
+            currentDate: selectedDate,
           };
         case CalendarActionKind.CHANGE_SELECTED_RANGE:
           const { startDate: start, endDate: end } = action.payload;
