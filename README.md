@@ -1,7 +1,5 @@
-<div align="center">
-  <img src="https://user-images.githubusercontent.com/7857656/227187674-93012672-495d-4955-b4d3-46c3d016684e.jpg" alt="react-native-ui-datepicker" >
-</div>
-<br>
+![Cover Image](https://user-images.githubusercontent.com/7857656/227187674-93012672-495d-4955-b4d3-46c3d016684e.jpg)
+
 <div align="center">
 
  [![npm version](https://img.shields.io/npm/v/react-native-ui-datepicker)](https://www.npmjs.com/package/react-native-ui-datepicker)
