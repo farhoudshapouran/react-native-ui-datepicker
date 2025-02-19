@@ -300,8 +300,11 @@ export function dateToUnix(date: DateType): number {
  *
  * @returns date with time removed
  */
-export function removeTime(date: DateType): DateType {
-  return date ? dayjs(date).startOf('day') : undefined;
+export function removeTime(
+  date: DateType,
+  timeZone: string | undefined
+): DateType {
+  return date ? dayjs.tz(date, timeZone).startOf('day') : undefined;
 }
 
 /**

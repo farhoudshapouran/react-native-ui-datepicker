@@ -246,6 +246,7 @@ const DateTimePicker = (
   useEffect(() => {
     if (prevTimezone !== timeZone) {
       const newDate = dayjs().tz(timeZone);
+      console.log('current', newDate.toDate());
       dispatch({
         type: CalendarActionKind.CHANGE_CURRENT_DATE,
         payload: newDate,
@@ -277,7 +278,7 @@ const DateTimePicker = (
 
       if (prevTimezone !== timeZone) {
         (onChange as SingleChange)({
-          date: _date,
+          date: _date ? dayjs(_date).toDate() : _date,
         });
       }
     } else if (mode === 'range') {
@@ -313,8 +314,8 @@ const DateTimePicker = (
 
       if (prevTimezone !== timeZone) {
         (onChange as RangeChange)({
-          startDate: start,
-          endDate: end,
+          startDate: start ? dayjs(start).toDate() : start,
+          endDate: end ? dayjs(end).toDate() : end,
         });
       }
     } else if (mode === 'multiple') {
@@ -329,7 +330,7 @@ const DateTimePicker = (
 
       if (prevTimezone !== timeZone) {
         (onChange as MultiChange)({
-          dates: _dates,
+          dates: _dates.map((item) => dayjs(item).toDate()),
           change: 'updated',
         });
       }
@@ -355,8 +356,8 @@ const DateTimePicker = (
       if (onChange) {
         if (mode === 'single') {
           const newDate = timePicker
-            ? selectedDate
-            : getStartOfDay(selectedDate);
+            ? dayjs.tz(selectedDate, timeZone)
+            : dayjs.tz(getStartOfDay(selectedDate), timeZone);
 
           dispatch({
             type: CalendarActionKind.CHANGE_CURRENT_DATE,
@@ -364,13 +365,13 @@ const DateTimePicker = (
           });
 
           (onChange as SingleChange)({
-            date: newDate,
+            date: newDate ? dayjs(newDate).toDate() : newDate,
           });
         } else if (mode === 'range') {
           // set time to 00:00:00
-          let start = removeTime(stateRef.current.startDate);
-          let end = removeTime(stateRef.current.endDate);
-          const selected = removeTime(selectedDate);
+          let start = removeTime(stateRef.current.startDate, timeZone);
+          let end = removeTime(stateRef.current.endDate, timeZone);
+          const selected = removeTime(selectedDate, timeZone);
           let isStart: boolean = true;
           let isReset: boolean = false;
 
@@ -434,17 +435,21 @@ const DateTimePicker = (
             });
           } else {
             (onChange as RangeChange)({
-              startDate: isStart ? getStartOfDay(selectedDate) : start,
+              startDate: isStart
+                ? dayjs(selected).toDate()
+                : start
+                  ? dayjs.tz(start).toDate()
+                  : start,
               endDate: !isStart
-                ? getEndOfDay(selectedDate)
+                ? dayjs.tz(getEndOfDay(selected), timeZone).toDate()
                 : end
-                  ? getEndOfDay(end)
+                  ? dayjs.tz(getEndOfDay(end), timeZone).toDate()
                   : end,
             });
           }
         } else if (mode === 'multiple') {
           const safeDates = (stateRef.current.dates as DateType[]) || [];
-          const newDate = getStartOfDay(selectedDate);
+          const newDate = dayjs(selectedDate, timeZone).startOf('day');
 
           const exists = safeDates.some((ed) => areDatesOnSameDay(ed, newDate));
 
@@ -463,14 +468,14 @@ const DateTimePicker = (
           ) as DateType[];
 
           (onChange as MultiChange)({
-            dates: _dates,
-            datePressed: newDate,
+            dates: _dates.map((item) => dayjs(item).toDate()),
+            datePressed: newDate ? dayjs(newDate).toDate() : newDate,
             change: exists ? 'removed' : 'added',
           });
         }
       }
     },
-    [mode, timePicker, min, max, stateRef]
+    [mode, timePicker, min, max, timeZone]
   );
 
   // set the active displayed month
