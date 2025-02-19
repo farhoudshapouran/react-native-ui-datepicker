@@ -59,14 +59,14 @@ export interface DatePickerRangeProps extends DatePickerBaseProps {
   onChange?: RangeChange;
 }
 
-export interface DatePickeMultipleProps extends DatePickerBaseProps {
+export interface DatePickerMultipleProps extends DatePickerBaseProps {
   mode: 'multiple';
   dates?: DateType[];
   onChange?: MultiChange;
 }
 
 const DateTimePicker = (
-  props: DatePickerSingleProps | DatePickerRangeProps | DatePickeMultipleProps
+  props: DatePickerSingleProps | DatePickerRangeProps | DatePickerMultipleProps
 ) => {
   const {
     mode = 'single',
