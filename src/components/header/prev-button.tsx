@@ -61,10 +61,7 @@ const PrevButton = ({ style, className }: PrevButtonProps) => {
           <Image
             source={arrow_left}
             tintColor={COLORS[theme].foreground}
-            style={{
-              width: 14,
-              height: 14,
-            }}
+            style={defaultStyles.icon}
           />
         )}
       </View>
@@ -90,5 +87,9 @@ const defaultStyles = StyleSheet.create({
   },
   prev: {
     marginRight: 3,
+  },
+  icon: {
+    width: 14,
+    height: 14,
   },
 });

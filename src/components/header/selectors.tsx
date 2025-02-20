@@ -17,6 +17,7 @@ const Selectors = ({ position }: Props) => {
     <View
       style={[
         defaultStyles.container,
+        // eslint-disable-next-line react-native/no-inline-styles
         position === 'around'
           ? { justifyContent: 'space-evenly' }
           : {

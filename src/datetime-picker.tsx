@@ -195,7 +195,19 @@ const DateTimePicker = (
       currentDate: initialDate,
       currentYear: initialDate.year(),
     };
-  }, [mode, date, startDate, dates, minDate, maxDate, month, year, timeZone]);
+  }, [
+    mode,
+    date,
+    startDate,
+    endDate,
+    dates,
+    minDate,
+    maxDate,
+    month,
+    year,
+    timeZone,
+    initialCalendarView,
+  ]);
 
   const [state, dispatch] = useReducer(
     (prevState: LocalState, action: CalendarAction) => {
@@ -344,6 +356,7 @@ const DateTimePicker = (
     minDate,
     maxDate,
     timePicker,
+    prevTimezone,
     timeZone,
   ]);
 
@@ -536,7 +549,7 @@ const DateTimePicker = (
         payload: value,
       });
     },
-    [stateRef, dispatch]
+    [dispatch]
   );
 
   useEffect(() => {

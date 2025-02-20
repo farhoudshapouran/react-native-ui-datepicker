@@ -68,7 +68,7 @@ function Calendar({
           defaultClassNames.range_start_label,
           'text-primary-foreground opacity-100'
         ),
-        range_fill: 'bg-accent my-0.5',
+        range_fill: 'bg-accent my-1',
         range_fill_weekstart: 'rounded-s-md',
         range_fill_weekend: 'rounded-e-md',
         range_middle_label: 'text-accent-foreground',

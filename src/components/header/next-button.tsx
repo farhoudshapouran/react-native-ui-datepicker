@@ -61,10 +61,7 @@ const NextButton = ({ style, className }: NextButtonProps) => {
           <Image
             source={arrow_right}
             tintColor={COLORS[theme].foreground}
-            style={{
-              width: 14,
-              height: 14,
-            }}
+            style={defaultStyles.icon}
           />
         )}
       </View>
@@ -90,5 +87,9 @@ const defaultStyles = StyleSheet.create({
   },
   next: {
     marginLeft: 3,
+  },
+  icon: {
+    width: 14,
+    height: 14,
   },
 });

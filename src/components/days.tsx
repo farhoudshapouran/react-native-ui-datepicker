@@ -196,6 +196,7 @@ const Days = () => {
     endDate,
     dates,
     multiRangeMode,
+    currentDate,
   ]);
 
   return (

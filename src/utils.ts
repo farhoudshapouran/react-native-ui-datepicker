@@ -212,8 +212,18 @@ export function isMonthDisabled(
     maxDate?: DateType;
   }
 ): boolean {
-  if (minDate && month < getDateMonth(minDate) && getDateYear(date) === getDateYear(minDate)) return true;
-  if (maxDate && month > getDateMonth(maxDate) && getDateYear(date) === getDateYear(maxDate)) return true;
+  if (
+    minDate &&
+    month < getDateMonth(minDate) &&
+    getDateYear(date) === getDateYear(minDate)
+  )
+    return true;
+  if (
+    maxDate &&
+    month > getDateMonth(maxDate) &&
+    getDateYear(date) === getDateYear(maxDate)
+  )
+    return true;
 
   return false;
 }
@@ -406,20 +416,20 @@ export const getMonthDays = (
 
   const prevDays = showOutsideDays
     ? Array.from({ length: prevMonthOffset }, (_, index) => {
-      const number = index + (prevMonthDays - prevMonthOffset + 1);
-      const thisDay = date.add(-1, 'month').date(number);
-      return generateCalendarDay(
-        number,
-        thisDay,
-        minDate,
-        maxDate,
-        disabledDates,
-        false,
-        index + 1,
-        firstDayOfWeek,
-        numerals
-      );
-    })
+        const number = index + (prevMonthDays - prevMonthOffset + 1);
+        const thisDay = date.add(-1, 'month').date(number);
+        return generateCalendarDay(
+          number,
+          thisDay,
+          minDate,
+          maxDate,
+          disabledDates,
+          false,
+          index + 1,
+          firstDayOfWeek,
+          numerals
+        );
+      })
     : Array(prevMonthOffset).fill(null);
 
   const currentDays = Array.from({ length: daysInCurrentMonth }, (_, index) => {

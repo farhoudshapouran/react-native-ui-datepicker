@@ -14,8 +14,8 @@ export default function SingleDatePicker() {
         date={date}
         onChange={({ date }) => setDate(date)}
         timePicker
-      // minDate={new Date()}
-      // maxDate={new Date(new Date().getFullYear(), 11, 31)} // end of the year
+        // minDate={new Date()}
+        // maxDate={new Date(new Date().getFullYear(), 11, 31)} // end of the year
       />
       <DateInput
         value={date ? dayjs(date).format('MMMM DD, YYYY HH:mm') : null}

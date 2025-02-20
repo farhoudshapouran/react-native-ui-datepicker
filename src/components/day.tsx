@@ -127,7 +127,7 @@ const Day = ({
           <View
             style={[
               defaultStyles.rangeRoot,
-              { left: '50%' },
+              defaultStyles.leftCrop,
               styles.range_fill,
             ]}
             className={classNames.range_fill}
@@ -137,7 +137,7 @@ const Day = ({
           <View
             style={[
               defaultStyles.rangeRoot,
-              { right: '50%' },
+              defaultStyles.rightCrop,
               styles.range_fill,
             ]}
             className={classNames.range_fill}
@@ -210,6 +210,8 @@ const defaultStyles = StyleSheet.create({
     right: 0,
     bottom: 0,
   },
+  leftCrop: { left: '50%' },
+  rightCrop: { right: '50%' },
 });
 
 const createDefaultStyles = (containerHeight: number, weekdaysHeight: number) =>

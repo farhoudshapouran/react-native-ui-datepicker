@@ -33,7 +33,7 @@ export const TimeButton = () => {
         : `${formatNumber(minute, numerals)}`;
 
     return `${hourLabel}:${minuteLabel}`;
-  }, [numerals, formatNumber, hour, minute]);
+  }, [numerals, hour, minute]);
 
   return (
     <Pressable
