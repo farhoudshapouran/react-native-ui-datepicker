@@ -1,4 +1,6 @@
-![Cover Image](https://user-images.githubusercontent.com/7857656/227187674-93012672-495d-4955-b4d3-46c3d016684e.jpg)
+<p align="center">
+<img src="/.github/images/rnui-datepicker.png" />
+</p>
 
 <div align="center">
 
