@@ -14,7 +14,7 @@ const Months = () => {
     containerHeight = CONTAINER_HEIGHT,
     monthsFormat = 'full',
     minDate,
-    maxDate
+    maxDate,
   } = useCalendarContext();
 
   const style = useMemo(
@@ -44,13 +44,13 @@ const Months = () => {
             defaultStyles.month,
             styles.month,
             isSelected && styles.selected_month,
-            isDisabled && styles.disabled
+            isDisabled && styles.disabled,
           ]);
 
           const textStyle = StyleSheet.flatten([
             styles.month_label,
             isSelected && styles.selected_month_label,
-            isDisabled && styles.disabled_label
+            isDisabled && styles.disabled_label,
           ]);
 
           const containerClassName = cn(

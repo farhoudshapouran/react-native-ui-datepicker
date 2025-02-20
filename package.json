@@ -80,12 +80,14 @@
     "@types/react": "18.2.0",
     "@types/react-native": "0.72.0",
     "@types/react-test-renderer": "^18.0.0",
+    "@typescript-eslint/parser": "^8.24.1",
     "commitlint": "^17.0.2",
     "del-cli": "^5.0.0",
     "eslint": "^9.20.1",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-react-native": "^5.0.0",
     "jest": "^28.1.3",
     "pod-install": "^0.1.0",
     "prettier": "^3.4.2",
@@ -138,7 +140,11 @@
   },
   "eslintIgnore": [
     "node_modules/",
-    "/lib/"
+    "lib/",
+    "example/",
+    "demo/",
+    "*.config.js",
+    "tsconfig.json"
   ],
   "react-native-builder-bob": {
     "source": "src",

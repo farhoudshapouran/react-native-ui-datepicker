@@ -1,6 +1,13 @@
 import { useColorScheme } from 'react-native';
 import { ClassNames, Styles } from './types';
-import { UI, SelectionState, DayFlag, MonthState, YearState, CalenderFlag } from './ui';
+import {
+  UI,
+  SelectionState,
+  DayFlag,
+  MonthState,
+  YearState,
+  CalenderFlag,
+} from './ui';
 
 export function getDefaultClassNames(): ClassNames {
   const classNames: ClassNames = {
@@ -68,6 +75,7 @@ export function getDefaultClassNames(): ClassNames {
 }
 
 export function getDefaultStyles(): Styles {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const colorScheme = useColorScheme();
   const theme = colorScheme ?? 'light';
 
