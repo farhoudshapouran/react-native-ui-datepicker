@@ -258,7 +258,6 @@ const DateTimePicker = (
   useEffect(() => {
     if (prevTimezone !== timeZone) {
       const newDate = dayjs().tz(timeZone);
-      console.log('current', newDate.toDate());
       dispatch({
         type: CalendarActionKind.CHANGE_CURRENT_DATE,
         payload: newDate,
