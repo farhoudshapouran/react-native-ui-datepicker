@@ -14,7 +14,6 @@ exports[`COMMON TESTS should render with default options 1`] = `
   testID="calendar"
 >
   <View
-    accessibilityRole="header"
     style={
       Array [
         Object {
