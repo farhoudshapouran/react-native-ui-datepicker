@@ -9,15 +9,9 @@ import {
   CalendarComponents,
 } from 'react-native-ui-datepicker';
 import { cn } from '@/lib/utils';
-import dayjs from 'dayjs';
 import Feather from '@expo/vector-icons/Feather';
 import Entypo from '@expo/vector-icons/Entypo';
 import { cssInterop } from 'nativewind';
-import {
-  currentMonthDates,
-  nextMonthDates,
-  previousMonthDates,
-} from '@/lib/generate-dates';
 import { Link } from 'expo-router';
 
 cssInterop(Feather, {
@@ -47,7 +41,7 @@ export default function CustomDatePicker3() {
   const [date, setDate] = useState<DateType>();
 
   return (
-    <View className="gap-4">
+    <View className="flex-1 gap-4">
       <View className="bg-card shadow-muted border-muted mb-4 w-[360px] rounded border px-5 py-4 shadow-xl dark:border-none dark:bg-slate-900 dark:shadow-none">
         <View className="flex-row items-center justify-between">
           <Text className="font-archivoMedium text-muted-foreground text-xl">

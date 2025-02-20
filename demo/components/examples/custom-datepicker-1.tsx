@@ -38,7 +38,7 @@ export default function CustomDatePicker1() {
   const [dates, setDates] = useState<DateType[]>();
 
   return (
-    <View className="gap-4">
+    <View className="flex-1 gap-4">
       <Calendar
         mode="multiple"
         dates={dates}

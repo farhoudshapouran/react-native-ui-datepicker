@@ -33,7 +33,7 @@ export default function CustomDatePicker2() {
   const [date, setDate] = useState<DateType>();
 
   return (
-    <View className="gap-4">
+    <View className="flex-1 gap-4">
       <View className="bg-card shadow-muted border-muted mb-4 w-[360px] rounded-2xl border px-6 pb-6 shadow-xl dark:border-none dark:bg-slate-900 dark:shadow-none">
         <Calendar
           mode="single"
