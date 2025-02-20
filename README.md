@@ -268,31 +268,14 @@ export function Calendar() {
 
 ## List of Custom Components
 
-| Name       | Type                                         | Description                                            |
-| ---------- | -------------------------------------------- | ------------------------------------------------------ |
-| `Day`      | `(day: CalendarDay) => React.ReactNode`      | The component containing the day in the days grid.     |
-| `Month`    | `(month: CalendarMonth) => React.ReactNode`  | The component containing the month in the months grid. |
-| `Year`     | `(year: CalendarYear) => React.ReactNode`    | The component containing the year in the years grid.   |
-| `Weekday`  | `(weekday: CalendarWeek) => React.ReactNode` | The component containing the weekday in the header.    |
-| `IconPrev` | `React.ReactNode`                            | The previous month/year button icon in the header.     |
-| `IconNext` | `React.ReactNode`                            | The next month button/year icon in the header.         |
-
-## List of Numeral Systems
-
-| Name       | Description                                   |
-| ---------- | --------------------------------------------- |
-| `latn`     | Western Latin.                                |
-| `arab`     | Standard Arabic.                              |
-| `arabext`  | Eastern Arabic-Indic (Persian).               |
-| `deva`     | Devanagari, used in Indian languages.         |
-| `beng`     | Bengali, used in Bengali and Assamese.        |
-| `guru`     | Gurmukhi, used in Punjab, India.              |
-| `gujr`     | Gujarati, used in Gujarat, India.             |
-| `orya`     | Odia, used in Odisha, India.                  |
-| `tamldec`  | Tamil, used in Tamil-speaking regions.        |
-| `telu`     | Telugu, used in Andhra Pradesh and Telangana. |
-| `knda`     | Kannada, used in Karnataka, India.            |
-| `mlym`     | Malayalam, used in Kerala, India.             |
+| Name       | Type                                   | Description                                            |
+| ---------- | -------------------------------------- | ------------------------------------------------------ |
+| `Day`      | `(day: CalendarDay) => ReactNode`      | The component containing the day in the days grid.     |
+| `Month`    | `(month: CalendarMonth) => ReactNode`  | The component containing the month in the months grid. |
+| `Year`     | `(year: CalendarYear) => ReactNode`    | The component containing the year in the years grid.   |
+| `Weekday`  | `(weekday: CalendarWeek) => ReactNode` | The component containing the weekday in the header.    |
+| `IconPrev` | `ReactNode`                            | The previous month/year button icon in the header.     |
+| `IconNext` | `ReactNode`                            | The next month button/year icon in the header.         |
 
 ## Type Definitions
 
@@ -352,6 +335,23 @@ type CalendarYear = {
   isActivated: boolean;
 };
 ```
+
+## List of Numeral Systems
+
+| Name       | Description                                   |
+| ---------- | --------------------------------------------- |
+| `latn`     | Western Latin.                                |
+| `arab`     | Standard Arabic.                              |
+| `arabext`  | Eastern Arabic-Indic (Persian).               |
+| `deva`     | Devanagari, used in Indian languages.         |
+| `beng`     | Bengali, used in Bengali and Assamese.        |
+| `guru`     | Gurmukhi, used in Punjab, India.              |
+| `gujr`     | Gujarati, used in Gujarat, India.             |
+| `orya`     | Odia, used in Odisha, India.                  |
+| `tamldec`  | Tamil, used in Tamil-speaking regions.        |
+| `telu`     | Telugu, used in Andhra Pradesh and Telangana. |
+| `knda`     | Kannada, used in Karnataka, India.            |
+| `mlym`     | Malayalam, used in Kerala, India.             |
 
 <p align="center">
 <img src="https://user-images.githubusercontent.com/7857656/227187674-93012672-495d-4955-b4d3-46c3d016684e.jpg" alt="react-native-ui-datepicker" />
