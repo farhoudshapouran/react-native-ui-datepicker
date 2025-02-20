@@ -15,7 +15,6 @@ const Header = ({
     <View
       style={[defaultStyles.headerContainer, styles?.header]}
       className={classNames.header}
-      accessibilityRole="header"
     >
       {navigationPosition === 'left' ? (
         <View style={defaultStyles.container}>
