@@ -74,11 +74,14 @@ export enum SelectionState {
   selected_label = 'selected_label',
 }
 
-export enum DayFlag {
-  /** The day is disabled. */
+export enum CalenderFlag {
+  /** The day/month/year is disabled. */
   disabled = 'disabled',
-  /** The label of the disabled day. */
+  /** The label of the disabled day/month/year. */
   disabled_label = 'disabled_label',
+}
+
+export enum DayFlag {
   /** The day is hidden. */
   hidden = 'hidden',
   /** The day is outside the current month. */

@@ -169,6 +169,56 @@ export function isDateDisabled(
 }
 
 /**
+ * Check if year is disabled
+ *
+ * @param year - year to check
+ * @param options - options
+ *
+ * @returns true if year is disabled, false otherwise
+ */
+export function isYearDisabled(
+  year: number,
+  {
+    minDate,
+    maxDate,
+  }: {
+    minDate?: DateType;
+    maxDate?: DateType;
+  }
+): boolean {
+  if (minDate && year < getDateYear(minDate)) return true;
+  if (maxDate && year > getDateYear(maxDate)) return true;
+
+  return false;
+}
+
+/**
+ * Check if month is disabled
+ *
+ * @param month - month to check
+ * @param date - date to check
+ * @param options - options
+ *
+ * @returns true if month is disabled, false otherwise
+ */
+export function isMonthDisabled(
+  month: number,
+  date: DateType,
+  {
+    minDate,
+    maxDate,
+  }: {
+    minDate?: DateType;
+    maxDate?: DateType;
+  }
+): boolean {
+  if (minDate && month < getDateMonth(minDate) && getDateYear(date) === getDateYear(minDate)) return true;
+  if (maxDate && month > getDateMonth(maxDate) && getDateYear(date) === getDateYear(maxDate)) return true;
+
+  return false;
+}
+
+/**
  * Get formated date
  *
  * @param date - date to get formated date from
@@ -356,20 +406,20 @@ export const getMonthDays = (
 
   const prevDays = showOutsideDays
     ? Array.from({ length: prevMonthOffset }, (_, index) => {
-        const number = index + (prevMonthDays - prevMonthOffset + 1);
-        const thisDay = date.add(-1, 'month').date(number);
-        return generateCalendarDay(
-          number,
-          thisDay,
-          minDate,
-          maxDate,
-          disabledDates,
-          false,
-          index + 1,
-          firstDayOfWeek,
-          numerals
-        );
-      })
+      const number = index + (prevMonthDays - prevMonthOffset + 1);
+      const thisDay = date.add(-1, 'month').date(number);
+      return generateCalendarDay(
+        number,
+        thisDay,
+        minDate,
+        maxDate,
+        disabledDates,
+        false,
+        index + 1,
+        firstDayOfWeek,
+        numerals
+      );
+    })
     : Array(prevMonthOffset).fill(null);
 
   const currentDays = Array.from({ length: daysInCurrentMonth }, (_, index) => {

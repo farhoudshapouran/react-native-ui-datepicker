@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { View, StyleSheet, Pressable, Text } from 'react-native';
 import { useCalendarContext } from '../calendar-context';
-import { cn, formatNumber, getDateYear, getYearRange } from '../utils';
+import { cn, formatNumber, getDateYear, getYearRange, isYearDisabled } from '../utils';
 import { CONTAINER_HEIGHT } from '../enums';
 
 const Years = () => {
@@ -16,6 +16,8 @@ const Years = () => {
     classNames = {},
     components = {},
     containerHeight = CONTAINER_HEIGHT,
+    minDate,
+    maxDate
   } = useCalendarContext();
 
   const style = useMemo(
@@ -32,35 +34,42 @@ const Years = () => {
       const isSelected = year === selectedYear;
       const isActivated = year === activeYear;
 
+      const isDisabled = isYearDisabled(year, { minDate, maxDate });
+
       const containerStyle = StyleSheet.flatten([
         defaultStyles.year,
         styles.year,
         isActivated && styles.active_year,
         isSelected && styles.selected_year,
+        isDisabled && styles.disabled
       ]);
 
       const textStyle = StyleSheet.flatten([
         styles.year_label,
         isActivated && styles.active_year_label,
         isSelected && styles.selected_year_label,
+        isDisabled && styles.disabled_label
       ]);
 
       const containerClassName = cn(
         classNames.year,
         isActivated && classNames.active_year,
-        isSelected && classNames.selected_year
+        isSelected && classNames.selected_year,
+        isDisabled && classNames.disabled
       );
 
       const textClassName = cn(
         classNames.year_label,
         isActivated && classNames.active_year_label,
-        isSelected && classNames.selected_year_label
+        isSelected && classNames.selected_year_label,
+        isDisabled && classNames.disabled_label
       );
 
       return (
         <View key={year} style={style.yearCell}>
           {components.Year ? (
             <Pressable
+              disabled={isDisabled}
               onPress={() => onSelectYear(year)}
               accessibilityRole="button"
               accessibilityLabel={year.toString()}
@@ -75,6 +84,7 @@ const Years = () => {
             </Pressable>
           ) : (
             <Pressable
+              disabled={isDisabled}
               onPress={() => onSelectYear(year)}
               accessibilityRole="button"
               accessibilityLabel={year.toString()}
