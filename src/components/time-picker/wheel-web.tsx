@@ -11,6 +11,7 @@ import { sin } from './animated-math';
 import { CONTAINER_HEIGHT } from '../../enums';
 import { ClassNames, Styles } from '../../types';
 import { Time } from '../time-picker';
+import { isEqual } from 'lodash';
 
 interface WheelProps {
   value: number;
@@ -37,10 +38,9 @@ const WheelWeb = ({
   const height = 140;
   const radius = height / 2;
 
-  const valueIndex = useMemo(
-    () => items.findIndex((item) => item.value === value),
-    [items, value]
-  );
+  const valueIndex = useMemo(() => {
+    return items.findIndex((item) => item.value === value) || 0;
+  }, [items, value]);
 
   const panResponder = useMemo(() => {
     return PanResponder.create({
@@ -92,11 +92,11 @@ const WheelWeb = ({
 
     return Array.from({ length: renderCount }, (_, index) => {
       let targetIndex = valueIndex + index - centerIndex;
-      if (targetIndex < 0 || targetIndex >= items.length) {
-        if (!circular) {
-          return items[0];
-        }
-        targetIndex = (targetIndex + items.length) % items.length;
+      if (circular) {
+        targetIndex =
+          ((targetIndex % items.length) + items.length) % items.length;
+      } else {
+        targetIndex = Math.max(0, Math.min(targetIndex, items.length - 1));
       }
       return items[targetIndex] || items[0];
     });
@@ -199,8 +199,22 @@ const defaultStyles = StyleSheet.create({
   selectedIndicator: {
     position: 'absolute',
     width: '100%',
-    top: '51%',
+    top: '50%',
   },
 });
 
-export default memo(WheelWeb);
+const customComparator = (
+  prev: Readonly<WheelProps>,
+  next: Readonly<WheelProps>
+) => {
+  const areEqual =
+    prev.value === next.value &&
+    prev.setValue === next.setValue &&
+    isEqual(prev.styles, next.styles) &&
+    isEqual(prev.classNames, next.classNames) &&
+    isEqual(prev.items, next.items);
+
+  return areEqual;
+};
+
+export default memo(WheelWeb, customComparator);
