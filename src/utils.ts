@@ -140,10 +140,12 @@ export function isDateDisabled(
   {
     minDate,
     maxDate,
+    enabledDates,
     disabledDates,
   }: {
     minDate?: DateType;
     maxDate?: DateType;
+    enabledDates?: DateType[] | ((date: DateType) => boolean) | undefined;
     disabledDates?: DateType[] | ((date: DateType) => boolean) | undefined;
   }
 ): boolean {
@@ -154,7 +156,16 @@ export function isDateDisabled(
     return true;
   }
 
-  if (disabledDates) {
+  if (enabledDates) {
+    if (Array.isArray(enabledDates)) {
+      const isEnabled = enabledDates.some((enabledDate) =>
+        areDatesOnSameDay(date, enabledDate)
+      );
+      return !isEnabled;
+    } else if (enabledDates instanceof Function) {
+      return !enabledDates(date);
+    }
+  } else if (disabledDates) {
     if (Array.isArray(disabledDates)) {
       const isDisabled = disabledDates.some((disabledDate) =>
         areDatesOnSameDay(date, disabledDate)
@@ -391,6 +402,7 @@ export const getParsedDate = (date: DateType) => {
  * @param minDate - min selectable date
  * @param maxDate - max selectable date
  * @param firstDayOfWeek - first day of week, number 0-6, 0 – Sunday, 6 – Saturday
+ * @param enabledDates - array of enabled dates, or a function that returns true for a given date (takes precedence over disabledDates)
  * @param disabledDates - array of disabled dates, or a function that returns true for a given date
  * @param prevMonthDays - number of days in the previous month
  * @param prevMonthOffset - number of days to offset the previous month
@@ -405,6 +417,7 @@ export const getMonthDays = (
   minDate: DateType,
   maxDate: DateType,
   firstDayOfWeek: number,
+  enabledDates: DateType[] | ((date: DateType) => boolean) | undefined,
   disabledDates: DateType[] | ((date: DateType) => boolean) | undefined,
   prevMonthDays: number,
   prevMonthOffset: number,
@@ -423,6 +436,7 @@ export const getMonthDays = (
           thisDay,
           minDate,
           maxDate,
+          enabledDates,
           disabledDates,
           false,
           index + 1,
@@ -440,6 +454,7 @@ export const getMonthDays = (
       thisDay,
       minDate,
       maxDate,
+      enabledDates,
       disabledDates,
       true,
       prevMonthOffset + day,
@@ -456,6 +471,7 @@ export const getMonthDays = (
       thisDay,
       minDate,
       maxDate,
+      enabledDates,
       disabledDates,
       false,
       daysInCurrentMonth + prevMonthOffset + day,
@@ -474,6 +490,7 @@ export const getMonthDays = (
  * @param date - calculated date based on day, month, and year
  * @param minDate - min selectable date
  * @param maxDate - max selectable date
+ * @param enabledDates - array of enabled dates, or a function that returns true for a given date (takes precedence over disabledDates)
  * @param disabledDates - array of disabled dates, or a function that returns true for a given date
  * @param isCurrentMonth - define the day is in the current month
  * @param dayOfMonth - number the day in the current month
@@ -486,6 +503,7 @@ const generateCalendarDay = (
   date: dayjs.Dayjs,
   minDate: DateType,
   maxDate: DateType,
+  enabledDates: DateType[] | ((date: DateType) => boolean) | undefined,
   disabledDates: DateType[] | ((date: DateType) => boolean) | undefined,
   isCurrentMonth: boolean,
   dayOfMonth: number,
@@ -498,7 +516,12 @@ const generateCalendarDay = (
     text: formatNumber(number, numerals),
     number,
     date: date,
-    isDisabled: isDateDisabled(date, { minDate, maxDate, disabledDates }),
+    isDisabled: isDateDisabled(date, {
+      minDate,
+      maxDate,
+      enabledDates,
+      disabledDates,
+    }),
     isCurrentMonth,
     dayOfMonth,
     isStartOfWeek: date.isSame(startOfWeek, 'day'),

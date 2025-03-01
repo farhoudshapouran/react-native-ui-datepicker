@@ -67,6 +67,7 @@ export function Calendar() {
 | `mode`               | `"single"` \| `"range"` \| `"multiple"`   | Defines the DatePicker mode.                       |
 | `minDate`            | `DateType`                        | Defines the minimum selectable date in the DatePicker.   |
 | `maxDate`            | `DateType`                        | Defines the maximum selectable date in the DatePicker.   |
+| `enabledDates`   | `DateType[]` \| `(date: DateType) => boolean` | Defines an array of enabled dates or a function that returns `true` for enabled dates. It takes precedence over disabledDates. |
 | `disabledDates`      | `DateType[]` \| `(date: DateType) => boolean` | Defines an array of disabled dates or a function that returns `true` for disabled dates.  |
 | `firstDayOfWeek`     | `number`                          | Defines the first day of the week: 0-6 (0 = Sunday, 6 = Saturday). |
 | `initialView`        | `"day"` \| `"month"` \| `"year"` \| `"time"` | Defines the initial view of the DatePicker |
@@ -88,6 +89,7 @@ export function Calendar() {
       date={selected}
       onChange={({ date }) =>  setSelected(date)}
       minDate={today} // Set the minimum selectable date to today
+      enabledDates={(date) => dayjs(date).day() === 1} // Enable only Mondays (takes precedence over disabledDates)
       disabledDates={(date) => [0, 6].includes(dayjs(date).day())} // Disable weekends
     />
   );

@@ -144,6 +144,7 @@ export interface DatePickerBaseProps {
   endYear?: number;
   minDate?: DateType;
   maxDate?: DateType;
+  enabledDates?: DateType[] | ((date: DateType) => boolean);
   disabledDates?: DateType[] | ((date: DateType) => boolean);
   firstDayOfWeek?: number;
   showOutsideDays?: boolean;
