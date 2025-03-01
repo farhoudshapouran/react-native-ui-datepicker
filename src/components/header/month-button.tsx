@@ -13,11 +13,17 @@ const MonthButton = () => {
     classNames,
     disableMonthPicker,
     monthCaptionFormat,
+    monthSelectorAccessibilityLabel,
   } = useCalendarContext();
 
   const currentMonthText = dayjs(currentDate)
     .locale(locale)
     .format(monthCaptionFormat === 'full' ? 'MMMM' : 'MMM');
+
+  const accessibilityLabel =
+    typeof monthSelectorAccessibilityLabel === 'function'
+      ? monthSelectorAccessibilityLabel(currentDate)
+      : monthSelectorAccessibilityLabel || currentMonthText;
 
   return (
     <Pressable
@@ -27,7 +33,7 @@ const MonthButton = () => {
       }
       testID="btn-month"
       accessibilityRole="button"
-      accessibilityLabel={currentMonthText}
+      accessibilityLabel={accessibilityLabel}
     >
       <View
         style={styles?.month_selector}

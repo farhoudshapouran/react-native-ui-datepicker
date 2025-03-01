@@ -143,6 +143,16 @@ export function Calendar() {
 | `disableMonthPicker` | `boolean`                           | Whether to disable the month picker.                      |
 | `disableYearPicker`  | `boolean`                           | Whether to disable the year picker.                       |
 
+## Accessibility
+
+| Name                              | Type                           | Description                                 |
+| --------------------------------- | ------------------------------ | ------------------------------------------- |
+| `yearSelectorAccessibilityLabel`  | `string` \| `(date) => string` | Year selector custom accessibility label.   |
+| `monthSelectorAccessibilityLabel` | `string` \| `(date) => string` | Month selector custom accessibility label.  |
+| `timeSelectorAccessibilityLabel`  | `string` \| `(date) => string` | Time selector custom accessibility label.   |
+| `prevButtonAccessibilityLabel`    | `string`                       | Previous button custom accessibility label. |
+| `nextButtonAccessibilityLabel`    | `string`                       | Next button custom accessibility label.     |
+
 ## Styling
 
 DateTimePicker comes with a minimal style, making it easy to extend and customize according to your needs.

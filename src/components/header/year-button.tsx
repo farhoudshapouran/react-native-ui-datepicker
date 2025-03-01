@@ -15,9 +15,16 @@ const YearButton = () => {
     classNames,
     disableYearPicker,
     numerals = 'latn',
+    yearSelectorAccessibilityLabel,
   } = useCalendarContext();
 
   const years = getYearRange(currentYear);
+
+  const accessibilityLabel =
+    typeof yearSelectorAccessibilityLabel === 'function'
+      ? yearSelectorAccessibilityLabel(currentDate)
+      : yearSelectorAccessibilityLabel || dayjs(currentDate).format('YYYY');
+
   return (
     <Pressable
       disabled={disableYearPicker}
@@ -27,7 +34,7 @@ const YearButton = () => {
       }}
       testID="btn-year"
       accessibilityRole="button"
-      accessibilityLabel={dayjs(currentDate).format('YYYY')}
+      accessibilityLabel={accessibilityLabel}
     >
       <View
         style={[defaultStyles.container, styles?.year_selector]}

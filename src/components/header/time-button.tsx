@@ -14,6 +14,7 @@ export const TimeButton = () => {
     styles,
     classNames,
     numerals = 'latn',
+    timeSelectorAccessibilityLabel,
   } = useCalendarContext();
 
   const { hour, minute } = useMemo(
@@ -35,11 +36,17 @@ export const TimeButton = () => {
     return `${hourLabel}:${minuteLabel}`;
   }, [numerals, hour, minute]);
 
+  const accessibilityLabel =
+    typeof timeSelectorAccessibilityLabel === 'function'
+      ? timeSelectorAccessibilityLabel(date || currentDate)
+      : timeSelectorAccessibilityLabel ||
+        dayjs(date || currentDate).format('HH:mm');
+
   return (
     <Pressable
       onPress={() => setCalendarView(calendarView === 'time' ? 'day' : 'time')}
       accessibilityRole="button"
-      accessibilityLabel={dayjs(date || currentDate).format('HH:mm')}
+      accessibilityLabel={accessibilityLabel}
     >
       <View style={styles?.time_selector} className={classNames?.time_selector}>
         <Text
