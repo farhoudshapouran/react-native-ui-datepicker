@@ -168,6 +168,11 @@ export interface DatePickerBaseProps {
   /** use to handle month and year selectors */
   month?: number;
   year?: number;
+  yearSelectorAccessibilityLabel?: string | ((date: DateType) => string);
+  monthSelectorAccessibilityLabel?: string | ((date: DateType) => string);
+  timeSelectorAccessibilityLabel?: string | ((date: DateType) => string);
+  prevButtonAccessibilityLabel?: string;
+  nextButtonAccessibilityLabel?: string;
   onMonthChange?: (month: number) => void;
   onYearChange?: (year: number) => void;
 }
