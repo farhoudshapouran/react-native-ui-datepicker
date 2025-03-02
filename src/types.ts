@@ -148,6 +148,7 @@ export interface DatePickerBaseProps {
   firstDayOfWeek?: number;
   showOutsideDays?: boolean;
   timePicker?: boolean;
+  use12Hours?: boolean;
   initialView?: CalendarViews;
   containerHeight?: number;
   weekdaysHeight?: number;
@@ -185,3 +186,8 @@ export type Numerals =
   | 'telu'
   | 'knda'
   | 'mlym';
+
+export type PickerOption = {
+  value: number | string;
+  text: string;
+};

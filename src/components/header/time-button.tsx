@@ -14,26 +14,29 @@ export const TimeButton = () => {
     styles,
     classNames,
     numerals = 'latn',
+    use12Hours,
   } = useCalendarContext();
 
-  const { hour, minute } = useMemo(
+  const { hour, hour12, minute, period } = useMemo(
     () => getParsedDate(date || currentDate),
     [date, currentDate]
   );
 
   const labelText = useMemo(() => {
+    const hourValue = use12Hours ? hour12 : hour;
+
     const hourLabel =
-      hour < 10
-        ? `${formatNumber(0, numerals)}${formatNumber(hour, numerals)}`
-        : `${formatNumber(hour, numerals)}`;
+      hourValue < 10
+        ? `${formatNumber(0, numerals)}${formatNumber(hourValue, numerals)}`
+        : `${formatNumber(hourValue, numerals)}`;
 
     const minuteLabel =
       minute < 10
         ? `${formatNumber(0, numerals)}${formatNumber(minute, numerals)}`
         : `${formatNumber(minute, numerals)}`;
 
-    return `${hourLabel}:${minuteLabel}`;
-  }, [numerals, hour, minute]);
+    return `${hourLabel}:${minuteLabel} ${use12Hours ? period : ''}`.trim();
+  }, [numerals, hour, hour12, minute, use12Hours, period]);
 
   return (
     <Pressable

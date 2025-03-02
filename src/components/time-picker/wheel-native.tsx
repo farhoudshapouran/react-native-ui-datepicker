@@ -1,13 +1,12 @@
 import React, { memo } from 'react';
 import { StyleSheet, Platform } from 'react-native';
 import WheelPicker from './wheel-picker';
-import { ClassNames, Styles } from '../../types';
-import { Time } from '../time-picker';
+import { ClassNames, PickerOption, Styles } from '../../types';
 
 interface WheelProps {
-  value: number;
-  setValue?: (value: number) => void;
-  items: Time[];
+  value: number | string;
+  setValue?: (value: any) => void;
+  items: PickerOption[];
   styles?: Styles;
   classNames?: ClassNames;
 }
@@ -21,7 +20,7 @@ const WheelNative = ({
 }: WheelProps) => {
   return (
     <WheelPicker
-      selectedIndex={value}
+      value={value}
       options={items}
       onChange={setValue}
       containerStyle={defaultStyles.container}

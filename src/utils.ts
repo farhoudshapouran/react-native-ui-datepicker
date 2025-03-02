@@ -379,7 +379,9 @@ export const getParsedDate = (date: DateType) => {
     year: dayjs(date).year(),
     month: dayjs(date).month(),
     hour: dayjs(date).hour(),
+    hour12: parseInt(dayjs(date).format('hh')),
     minute: dayjs(date).minute(),
+    period: dayjs(date).format('A'),
   };
 };
 

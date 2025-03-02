@@ -109,6 +109,7 @@ const DateTimePicker = (
     year,
     onMonthChange = () => {},
     onYearChange = () => {},
+    use12Hours,
   } = props;
 
   dayjs.tz.setDefault(timeZone);
@@ -603,6 +604,7 @@ const DateTimePicker = (
       disableYearPicker,
       style,
       className,
+      use12Hours,
     }),
     [
       mode,
@@ -630,6 +632,7 @@ const DateTimePicker = (
       disableYearPicker,
       style,
       className,
+      use12Hours,
     ]
   );
 

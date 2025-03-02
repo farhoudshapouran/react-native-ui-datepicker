@@ -12,21 +12,23 @@ import { useCalendarContext } from '../calendar-context';
 import Wheel from './time-picker/wheel';
 import { CONTAINER_HEIGHT } from '../enums';
 import { getParsedDate, formatNumber } from '../utils';
-import { Numerals } from '../types';
+import { Numerals, PickerOption } from '../types';
 import dayjs from 'dayjs';
+import PeriodPicker from './time-picker/period-picker';
 
-export type Time = {
-  value: number;
-  text: string;
-};
+export type Period = 'AM' | 'PM';
 
-const createNumberList = (num: number, numerals: Numerals): Time[] => {
+const createNumberList = (
+  num: number,
+  numerals: Numerals,
+  startFrom: number = 0
+): PickerOption[] => {
   return Array.from({ length: num }, (_, i) => ({
-    value: i,
+    value: i + startFrom,
     text:
-      i < 10
-        ? `${formatNumber(0, numerals)}${formatNumber(i, numerals)}`
-        : `${formatNumber(i, numerals)}`,
+      i + startFrom < 10
+        ? `${formatNumber(0, numerals)}${formatNumber(i + startFrom, numerals)}`
+        : `${formatNumber(i + startFrom, numerals)}`,
   }));
 };
 
@@ -39,22 +41,33 @@ const TimePicker = () => {
     classNames,
     timeZone,
     numerals = 'latn',
+    use12Hours,
   } = useCalendarContext();
 
-  const hours = useMemo(() => createNumberList(24, numerals), [numerals]);
+  const hours = useMemo(
+    () => createNumberList(use12Hours ? 12 : 24, numerals, use12Hours ? 1 : 0),
+    [numerals, use12Hours]
+  );
+
   const minutes = useMemo(() => createNumberList(60, numerals), [numerals]);
 
-  const { hour, minute } = useMemo(
-    () => getParsedDate(date || currentDate),
-    [date, currentDate]
-  );
+  const { hour, hour12, minute, period } = getParsedDate(date || currentDate);
 
   const handleChangeHour = useCallback(
     (value: number) => {
-      const newDate = dayjs.tz(date, timeZone).hour(value);
+      let hour24 = value;
+
+      if (use12Hours) {
+        if (period === 'PM' && value < 12) {
+          hour24 = value + 12;
+        } else if (period === 'PM' && value === 12) {
+          hour24 = 0;
+        }
+      }
+      const newDate = dayjs.tz(date, timeZone).hour(hour24).minute(minute);
       onSelectDate(newDate);
     },
-    [date, onSelectDate, timeZone]
+    [date, onSelectDate, timeZone, use12Hours, period, minute]
   );
 
   const handleChangeMinute = useCallback(
@@ -64,6 +77,28 @@ const TimePicker = () => {
     },
     [date, onSelectDate, timeZone]
   );
+
+  const handlePeriodChange = useCallback(
+    (newPeriod: Period) => {
+      let newHour = hour12;
+      if (newPeriod === 'PM' && hour12 < 12) {
+        newHour = hour12 + 12;
+      } else if (newPeriod === 'AM' && hour12 === 12) {
+        newHour = 0;
+      } else if (newPeriod === 'AM' && hour >= 12) {
+        newHour = hour12;
+      }
+
+      const newDate = dayjs.tz(date || currentDate, timeZone).hour(newHour);
+      onSelectDate(newDate);
+    },
+    [date, currentDate, onSelectDate, timeZone, hour, hour12]
+  );
+
+  // useEffect(() => {
+  //   const currentPeriod = dayjs(date || currentDate).format('A') as Period;
+  //   setPeriod(currentPeriod);
+  // }, [date, currentDate, setPeriod]);
 
   const timePickerContainerStyle: ViewStyle = useMemo(
     () => ({
@@ -88,7 +123,7 @@ const TimePicker = () => {
       <View style={timePickerContainerStyle}>
         <View style={defaultStyles.wheelContainer}>
           <Wheel
-            value={hour}
+            value={use12Hours ? hour12 : hour}
             items={hours}
             setValue={handleChangeHour}
             styles={styles}
@@ -108,6 +143,16 @@ const TimePicker = () => {
           />
         </View>
       </View>
+      {use12Hours && period ? (
+        <View style={defaultStyles.periodContainer}>
+          <PeriodPicker
+            value={period}
+            setValue={handlePeriodChange}
+            styles={styles}
+            classNames={classNames}
+          />
+        </View>
+      ) : null}
     </ScrollView>
   );
 };
@@ -129,6 +174,9 @@ const defaultStyles = StyleSheet.create({
   },
   timeSeparator: {
     marginHorizontal: 5,
+  },
+  periodContainer: {
+    marginLeft: 10,
   },
 });
 

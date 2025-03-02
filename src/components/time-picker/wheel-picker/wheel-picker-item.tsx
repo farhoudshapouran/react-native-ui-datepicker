@@ -2,13 +2,13 @@ import React from 'react';
 import { StyleProp, TextStyle, Animated, ViewStyle, Text } from 'react-native';
 import styles from './wheel-picker.style';
 import { isEqual } from 'lodash';
-import { Time } from '../../time-picker';
+import { PickerOption } from 'src/types';
 
 interface ItemProps {
   textStyle: StyleProp<TextStyle>;
   textClassName: string;
   style: StyleProp<ViewStyle>;
-  option: Time | null;
+  option: PickerOption | null;
   height: number;
   index: number;
   currentScrollIndex: Animated.AnimatedAddition<number>;
