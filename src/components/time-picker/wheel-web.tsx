@@ -9,19 +9,18 @@ import {
 } from 'react-native';
 import { sin } from './animated-math';
 import { CONTAINER_HEIGHT } from '../../enums';
-import { ClassNames, Styles } from '../../types';
-import { Time } from '../time-picker';
+import { ClassNames, Styles, PickerOption } from '../../types';
 import { isEqual } from 'lodash';
 
 interface WheelProps {
-  value: number;
-  setValue?: (value: number) => void;
-  items: Time[];
+  value: number | string;
+  setValue?: (value: any) => void;
+  items: PickerOption[];
   styles?: Styles;
   classNames?: ClassNames;
 }
 
-const ITEM_HEIGHT = 40;
+const ITEM_HEIGHT = 44;
 
 const WheelWeb = ({
   value,
@@ -71,8 +70,10 @@ const WheelWeb = ({
         if (newValue?.value === value) {
           translateY.setOffset(0);
           translateY.setValue(0);
-        } else {
-          setValue(newValue?.value || 0);
+        } else if (newValue?.value) {
+          setValue(newValue.value);
+        } else if (items[0]?.value) {
+          setValue(items[0].value);
         }
       },
     });

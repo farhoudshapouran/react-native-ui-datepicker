@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
   View,
   StyleSheet,
@@ -7,25 +7,22 @@ import {
   TextStyle,
   ScrollView,
   Text,
-  Pressable,
 } from 'react-native';
 import { useCalendarContext } from '../calendar-context';
 import Wheel from './time-picker/wheel';
 import { CONTAINER_HEIGHT } from '../enums';
 import { getParsedDate, formatNumber } from '../utils';
-import { Numerals } from '../types';
+import { Numerals, PickerOption } from '../types';
 import dayjs from 'dayjs';
+import PeriodPicker from './time-picker/period-picker';
 
-export type Time = {
-  value: number;
-  text: string;
-};
+export type Period = 'AM' | 'PM';
 
 const createNumberList = (
   num: number,
   numerals: Numerals,
   startFrom: number = 0
-): Time[] => {
+): PickerOption[] => {
   return Array.from({ length: num }, (_, i) => ({
     value: i + startFrom,
     text:
@@ -44,42 +41,33 @@ const TimePicker = () => {
     classNames,
     timeZone,
     numerals = 'latn',
+    use12Hours,
   } = useCalendarContext();
 
-  const is12Hour = true;
-
   const hours = useMemo(
-    () => createNumberList(is12Hour ? 12 : 24, numerals, is12Hour ? 1 : 0),
-    [numerals, is12Hour]
+    () => createNumberList(use12Hours ? 12 : 24, numerals, use12Hours ? 1 : 0),
+    [numerals, use12Hours]
   );
+
   const minutes = useMemo(() => createNumberList(60, numerals), [numerals]);
 
-  const { hour: currentHour, minute } = useMemo(
-    () => getParsedDate(date || currentDate),
-    [date, currentDate]
-  );
-
-  // Determine initial AM/PM state based on hour
-  const initialPeriod = currentHour >= 12 ? 'PM' : 'AM';
-
-  // Set up state for AM/PM
-  const [period, setPeriod] = useState(initialPeriod);
+  const { hour, hour12, minute, period } = getParsedDate(date || currentDate);
 
   const handleChangeHour = useCallback(
     (value: number) => {
       let hour24 = value;
 
-      if (is12Hour) {
+      if (use12Hours) {
         if (period === 'PM' && value < 12) {
           hour24 = value + 12;
-        } else if (period === 'AM' && value === 12) {
+        } else if (period === 'PM' && value === 12) {
           hour24 = 0;
         }
       }
-      const newDate = dayjs.tz(date, timeZone).hour(hour24);
+      const newDate = dayjs.tz(date, timeZone).hour(hour24).minute(minute);
       onSelectDate(newDate);
     },
-    [date, onSelectDate, timeZone, is12Hour, period]
+    [date, onSelectDate, timeZone, use12Hours, period, minute]
   );
 
   const handleChangeMinute = useCallback(
@@ -90,28 +78,27 @@ const TimePicker = () => {
     [date, onSelectDate, timeZone]
   );
 
-  // Convert to 12-hour format for wheel display
-  const currentHour12 = currentHour % 12 === 0 ? 12 : currentHour % 12;
-
   const handlePeriodChange = useCallback(
-    (newPeriod: 'AM' | 'PM') => {
-      setPeriod(newPeriod);
-
-      // Convert to 24-hour and update date
-      let newHour = currentHour12;
-      if (newPeriod === 'PM' && currentHour12 < 12) {
-        newHour = currentHour12 + 12;
-      } else if (newPeriod === 'AM' && currentHour12 === 12) {
+    (newPeriod: Period) => {
+      let newHour = hour12;
+      if (newPeriod === 'PM' && hour12 < 12) {
+        newHour = hour12 + 12;
+      } else if (newPeriod === 'AM' && hour12 === 12) {
         newHour = 0;
-      } else if (newPeriod === 'AM' && currentHour >= 12) {
-        newHour = currentHour12;
+      } else if (newPeriod === 'AM' && hour >= 12) {
+        newHour = hour12;
       }
 
       const newDate = dayjs.tz(date || currentDate, timeZone).hour(newHour);
       onSelectDate(newDate);
     },
-    [date, currentDate, onSelectDate, timeZone, currentHour12]
+    [date, currentDate, onSelectDate, timeZone, hour, hour12]
   );
+
+  // useEffect(() => {
+  //   const currentPeriod = dayjs(date || currentDate).format('A') as Period;
+  //   setPeriod(currentPeriod);
+  // }, [date, currentDate, setPeriod]);
 
   const timePickerContainerStyle: ViewStyle = useMemo(
     () => ({
@@ -136,7 +123,7 @@ const TimePicker = () => {
       <View style={timePickerContainerStyle}>
         <View style={defaultStyles.wheelContainer}>
           <Wheel
-            value={currentHour12}
+            value={use12Hours ? hour12 : hour}
             items={hours}
             setValue={handleChangeHour}
             styles={styles}
@@ -156,20 +143,16 @@ const TimePicker = () => {
           />
         </View>
       </View>
-      <View style={defaultStyles.periodContainer}>
-        <Pressable
-          onPress={() => handlePeriodChange(period == 'AM' ? 'PM' : 'AM')}
-        >
-          <View
-            style={[defaultStyles.period, styles?.time_selected_indicator]}
-            className={classNames?.time_selected_indicator}
-          >
-            <Text style={styles?.time_label} className={classNames?.time_label}>
-              {period}
-            </Text>
-          </View>
-        </Pressable>
-      </View>
+      {use12Hours && period ? (
+        <View style={defaultStyles.periodContainer}>
+          <PeriodPicker
+            value={period}
+            setValue={handlePeriodChange}
+            styles={styles}
+            classNames={classNames}
+          />
+        </View>
+      ) : null}
     </ScrollView>
   );
 };
@@ -194,12 +177,6 @@ const defaultStyles = StyleSheet.create({
   },
   periodContainer: {
     marginLeft: 10,
-  },
-  period: {
-    width: 65,
-    height: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });
 

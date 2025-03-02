@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState, memo } from 'react';
 import {
   StyleProp,
   TextStyle,
@@ -10,15 +10,16 @@ import {
   ViewProps,
   FlatListProps,
   FlatList,
+  Platform,
 } from 'react-native';
 import styles from './wheel-picker.style';
 import WheelPickerItem from './wheel-picker-item';
-import { Time } from '../../time-picker';
+import { PickerOption } from '../../../types';
 
 interface Props {
-  selectedIndex: number;
-  options: Time[];
-  onChange: (index: number) => void;
+  value: number | string;
+  options: PickerOption[];
+  onChange: (index: number | string) => void;
   selectedIndicatorStyle?: StyleProp<ViewStyle>;
   itemTextStyle?: TextStyle;
   itemTextClassName?: string;
@@ -36,7 +37,7 @@ interface Props {
 }
 
 const WheelPicker: React.FC<Props> = ({
-  selectedIndex,
+  value,
   options,
   onChange,
   selectedIndicatorStyle = {},
@@ -50,16 +51,19 @@ const WheelPicker: React.FC<Props> = ({
   rotationFunction = (x: number) => 1 - Math.pow(1 / 2, x),
   opacityFunction = (x: number) => Math.pow(1 / 3, x),
   visibleRest = 2,
-  decelerationRate = 'fast',
+  decelerationRate = 'normal',
   containerProps = {},
   flatListProps = {},
 }) => {
+  const momentumStarted = useRef(false);
+  const selectedIndex = options.findIndex((item) => item.value === value);
+
   const flatListRef = useRef<FlatList>(null);
   const [scrollY] = useState(new Animated.Value(selectedIndex * itemHeight));
 
   const containerHeight = (1 + visibleRest * 2) * itemHeight;
   const paddedOptions = useMemo(() => {
-    const array: (Time | null)[] = [...options];
+    const array: (PickerOption | null)[] = [...options];
     for (let i = 0; i < visibleRest; i++) {
       array.unshift(null);
       array.push(null);
@@ -77,26 +81,54 @@ const WheelPicker: React.FC<Props> = ({
     [visibleRest, scrollY, itemHeight]
   );
 
-  const handleMomentumScrollEnd = (
-    event: NativeSyntheticEvent<NativeScrollEvent>
-  ) => {
-    // Due to list bounciness when scrolling to the start or the end of the list
-    // the offset might be negative or over the last item.
-    // We therefore clamp the offset to the supported range.
+  const handleScrollEnd = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const offsetY = Math.min(
       itemHeight * (options.length - 1),
       Math.max(event.nativeEvent.contentOffset.y, 0)
     );
 
-    let index = Math.floor(Math.floor(offsetY) / itemHeight);
-    const last = Math.floor(offsetY % itemHeight);
-    if (last > itemHeight / 2) {
+    let index = Math.floor(offsetY / itemHeight);
+    const remainder = offsetY % itemHeight;
+    if (remainder > itemHeight / 2) {
       index++;
     }
 
     if (index !== selectedIndex) {
-      onChange(index);
+      onChange(options[index]?.value || 0);
     }
+  };
+
+  const handleMomentumScrollBegin = () => {
+    momentumStarted.current = true;
+  };
+
+  const handleMomentumScrollEnd = (
+    event: NativeSyntheticEvent<NativeScrollEvent>
+  ) => {
+    momentumStarted.current = false;
+    handleScrollEnd(event);
+  };
+
+  const handleScrollEndDrag = (
+    event: NativeSyntheticEvent<NativeScrollEvent>
+  ) => {
+    // Capture the offset value immediately
+    const offsetY = event.nativeEvent.contentOffset?.y;
+
+    // We'll start a short timer to see if momentum scroll begins
+    setTimeout(() => {
+      // If momentum scroll hasn't started within the timeout,
+      // then it was a slow scroll that won't trigger momentum
+      if (!momentumStarted.current && offsetY !== undefined) {
+        // Create a synthetic event with just the data we need
+        const syntheticEvent = {
+          nativeEvent: {
+            contentOffset: { y: offsetY },
+          },
+        };
+        handleScrollEnd(syntheticEvent as any);
+      }
+    }, 50);
   };
 
   useEffect(() => {
@@ -116,7 +148,7 @@ const WheelPicker: React.FC<Props> = ({
   useEffect(() => {
     flatListRef.current?.scrollToIndex({
       index: selectedIndex,
-      animated: false,
+      animated: Platform.OS === 'ios',
     });
   }, [selectedIndex, itemHeight]);
 
@@ -146,6 +178,8 @@ const WheelPicker: React.FC<Props> = ({
           [{ nativeEvent: { contentOffset: { y: scrollY } } }],
           { useNativeDriver: true }
         )}
+        onScrollEndDrag={handleScrollEndDrag}
+        onMomentumScrollBegin={handleMomentumScrollBegin}
         onMomentumScrollEnd={handleMomentumScrollEnd}
         snapToOffsets={offsets}
         decelerationRate={decelerationRate}
@@ -157,7 +191,7 @@ const WheelPicker: React.FC<Props> = ({
         })}
         data={paddedOptions}
         keyExtractor={(item, index) =>
-          item ? `${item.value}-${item.text}` : `null-${index}`
+          item ? `${item.value}-${item.text}-${index}` : `null-${index}`
         }
         renderItem={({ item: option, index }) => (
           <WheelPickerItem
@@ -180,4 +214,4 @@ const WheelPicker: React.FC<Props> = ({
   );
 };
 
-export default WheelPicker;
+export default memo(WheelPicker);

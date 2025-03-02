@@ -170,6 +170,7 @@ export interface DatePickerBaseProps {
   year?: number;
   onMonthChange?: (month: number) => void;
   onYearChange?: (year: number) => void;
+  use12Hours?: boolean;
 }
 
 export type Numerals =
@@ -185,3 +186,8 @@ export type Numerals =
   | 'telu'
   | 'knda'
   | 'mlym';
+
+export type PickerOption = {
+  value: number | string;
+  text: string;
+};
