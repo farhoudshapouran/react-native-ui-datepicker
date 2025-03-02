@@ -148,6 +148,7 @@ export interface DatePickerBaseProps {
   firstDayOfWeek?: number;
   showOutsideDays?: boolean;
   timePicker?: boolean;
+  use12Hours?: boolean;
   initialView?: CalendarViews;
   containerHeight?: number;
   weekdaysHeight?: number;
@@ -170,7 +171,6 @@ export interface DatePickerBaseProps {
   year?: number;
   onMonthChange?: (month: number) => void;
   onYearChange?: (year: number) => void;
-  use12Hours?: boolean;
 }
 
 export type Numerals =

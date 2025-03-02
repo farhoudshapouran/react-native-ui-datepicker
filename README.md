@@ -100,11 +100,12 @@ export function Calendar() {
 
 ## Single Mode props
 
-| Name         | Type               | Description                                         |
-| ------------ | ------------------ | --------------------------------------------------- |
-| `date`       | `DateType`         | Specifies the currently selected date.              |
-| `onChange`   | `({date}) => void` | Callback function triggered when the date change.   |
-| `timePicker` | `boolean`          | Whether to enable the time picker.                  |
+| Name         | Type               | Description                                                   |
+| ------------ | ------------------ | ------------------------------------------------------------- |
+| `date`       | `DateType`         | Specifies the currently selected date.                        |
+| `onChange`   | `({date}) => void` | Callback function triggered when the date change.             |
+| `timePicker` | `boolean`          | Whether to enable the time picker.                            |
+| `use12Hours` | `boolean`          | Whether to use a 12-hour format (AM/PM) in the time picker.   |
 
 ## Range Mode props
 
