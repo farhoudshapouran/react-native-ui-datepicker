@@ -3,14 +3,7 @@
 exports[`COMMON TESTS should render with default options 1`] = `
 <View
   className=""
-  style={
-    Array [
-      Object {
-        "flex": 1,
-      },
-      Object {},
-    ]
-  }
+  style={Object {}}
   testID="calendar"
 >
   <View
@@ -437,42 +430,42 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         />
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         />
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         />
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         />
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         />
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -539,7 +532,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -606,7 +599,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -673,7 +666,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -740,7 +733,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -807,7 +800,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -874,7 +867,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -941,7 +934,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -1008,7 +1001,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -1075,7 +1068,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -1142,7 +1135,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -1209,7 +1202,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -1276,7 +1269,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -1343,7 +1336,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -1410,7 +1403,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -1477,7 +1470,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -1544,7 +1537,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -1611,7 +1604,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -1678,7 +1671,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -1745,7 +1738,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -1812,7 +1805,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -1879,7 +1872,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -1946,7 +1939,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -2013,7 +2006,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -2080,7 +2073,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -2147,7 +2140,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -2214,7 +2207,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -2281,7 +2274,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -2348,7 +2341,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -2415,7 +2408,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
@@ -2482,7 +2475,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         <View
           style={
             Object {
-              "width": "14.285714285714286%",
+              "width": "14.271428571428572%",
             }
           }
         >
