@@ -127,7 +127,7 @@ const Days = () => {
 
         // if the selected days in a row, implements range mode style to selected days
         if (multiRangeMode) {
-          const yesterday = dayjs(day.date).add(-1, 'day');
+          const yesterday = dayjs(day.date).subtract(1, 'day');
           const tomorrow = dayjs(day.date).add(1, 'day');
 
           const yesterdaySelected = safeDates.some((d) =>
@@ -137,28 +137,40 @@ const Days = () => {
             areDatesOnSameDay(d, tomorrow)
           );
 
+          // Reset all flags
+          inRange = false;
+          leftCrop = false;
+          rightCrop = false;
+
           if (isSelected) {
-            if (tomorrowSelected && yesterdaySelected) {
+            // Case: both adjacent days are selected - this is a middle day
+            if (yesterdaySelected && tomorrowSelected) {
               inRange = true;
-              isSelected = false;
-            } else if (tomorrowSelected) {
+            }
+            // Case: only tomorrow is selected - this is the start of a range
+            else if (tomorrowSelected) {
               inRange = true;
               leftCrop = true;
-            } else if (yesterdaySelected) {
+            }
+            // Case: only yesterday is selected - this is the end of a range
+            else if (yesterdaySelected) {
               inRange = true;
               rightCrop = true;
             }
 
-            if (isFirstDayOfMonth && !tomorrowSelected) {
-              inRange = false;
-            }
-            if (isLastDayOfMonth && !yesterdaySelected) {
-              inRange = false;
+            // Handle edge cases for first and last days of month
+            // Only apply these special cases when the day is actually part of a range
+            if (inRange) {
+              if (isFirstDayOfMonth && !tomorrowSelected) {
+                inRange = false;
+              }
+              if (isLastDayOfMonth && !yesterdaySelected) {
+                inRange = false;
+              }
             }
           }
-
-          isCrop =
-            inRange && (leftCrop || rightCrop) && !(leftCrop && rightCrop);
+          // Set derived flags based on the core flags
+          isCrop = inRange && (leftCrop || rightCrop);
           inMiddle = inRange && !leftCrop && !rightCrop;
           rangeStart = inRange && leftCrop;
           rangeEnd = inRange && rightCrop;

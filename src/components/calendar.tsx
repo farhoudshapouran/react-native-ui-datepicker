@@ -1,5 +1,5 @@
 import React, { ReactNode, useMemo } from 'react';
-import { View, StyleSheet, ViewStyle } from 'react-native';
+import { View, ViewStyle } from 'react-native';
 import { useCalendarContext } from '../calendar-context';
 import type { CalendarViews } from '../enums';
 import Header from './header';
@@ -14,12 +14,6 @@ const CalendarView: Record<CalendarViews, ReactNode> = {
   day: <Days />,
   time: <TimePicker />,
 };
-
-const defaultStyles = StyleSheet.create({
-  root: {
-    flex: 1,
-  },
-});
 
 const Calendar = () => {
   const {
@@ -41,11 +35,7 @@ const Calendar = () => {
   );
 
   return (
-    <View
-      style={[defaultStyles.root, style]}
-      className={className}
-      testID="calendar"
-    >
+    <View style={style} className={className} testID="calendar">
       {!hideHeader ? (
         <Header
           navigationPosition={navigationPosition}
