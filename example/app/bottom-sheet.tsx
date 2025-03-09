@@ -10,11 +10,11 @@ import DateTimePicker, {
   DateType,
   CalendarDay,
   CalendarComponents,
-  getDefaultStyles,
+  useDefaultStyles,
 } from 'react-native-ui-datepicker';
 
 export default function BottomSheetScreen() {
-  const defaultStyles = getDefaultStyles();
+  const defaultStyles = useDefaultStyles();
   const [date, setDate] = useState<DateType>();
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
   const [dates, setDates] = useState<DateType[]>();

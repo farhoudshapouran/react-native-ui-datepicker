@@ -83,10 +83,10 @@ exports[`COMMON TESTS should render with default options 1`] = `
             style={
               Object {
                 "height": 14,
+                "tintColor": "hsl(240 10% 3.9%)",
                 "width": 14,
               }
             }
-            tintColor="hsl(240 10% 3.9%)"
           />
         </View>
       </View>
@@ -261,10 +261,10 @@ exports[`COMMON TESTS should render with default options 1`] = `
             style={
               Object {
                 "height": 14,
+                "tintColor": "hsl(240 10% 3.9%)",
                 "width": 14,
               }
             }
-            tintColor="hsl(240 10% 3.9%)"
           />
         </View>
       </View>

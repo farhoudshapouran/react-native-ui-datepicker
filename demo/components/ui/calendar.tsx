@@ -3,7 +3,7 @@ import DateTimePicker, {
   DateType,
   CalendarDay,
   CalendarComponents,
-  getDefaultClassNames,
+  useDefaultClassNames,
 } from 'react-native-ui-datepicker';
 import Feather from '@expo/vector-icons/Feather';
 import { cssInterop } from 'nativewind';
@@ -33,7 +33,7 @@ function Calendar({
   components,
   ...props
 }: React.ComponentProps<typeof DateTimePicker>) {
-  const defaultClassNames = getDefaultClassNames();
+  const defaultClassNames = useDefaultClassNames();
 
   return (
     <DateTimePicker

@@ -1,6 +1,7 @@
-import React, { memo, useCallback } from 'react';
+import React, { memo, useCallback, useMemo } from 'react';
 import {
   Image,
+  ImageStyle,
   Pressable,
   StyleSheet,
   useColorScheme,
@@ -17,10 +18,17 @@ const arrow_left = require('../../assets/images/arrow_left.png');
 
 type PrevButtonProps = {
   style?: Styles[UI.button_prev];
+  imageStyle?: Styles[UI.button_prev_image];
   className?: ClassNames[UI.button_prev];
+  imageClassName?: ClassNames[UI.button_prev_image];
 };
 
-const PrevButton = ({ style, className }: PrevButtonProps) => {
+const PrevButton = ({
+  style,
+  imageStyle,
+  className,
+  imageClassName,
+}: PrevButtonProps) => {
   const {
     currentYear,
     calendarView,
@@ -45,6 +53,15 @@ const PrevButton = ({ style, className }: PrevButtonProps) => {
     }
   }, [calendarView, currentYear, onChangeMonth, onChangeYear]);
 
+  const iconStyle: ImageStyle = useMemo(
+    () => ({
+      ...defaultStyles.icon,
+      tintColor: COLORS[theme].foreground,
+      ...(imageStyle as ImageStyle),
+    }),
+    [imageStyle, theme]
+  );
+
   return (
     <Pressable
       disabled={calendarView === 'time'}
@@ -60,8 +77,8 @@ const PrevButton = ({ style, className }: PrevButtonProps) => {
         {components.IconPrev || (
           <Image
             source={arrow_left}
-            tintColor={COLORS[theme].foreground}
-            style={defaultStyles.icon}
+            style={iconStyle}
+            className={imageClassName}
           />
         )}
       </View>
@@ -74,7 +91,10 @@ const customComparator = (
   next: Readonly<PrevButtonProps>
 ) => {
   const areEqual =
-    prev.className === next.className && isEqual(prev.style, next.style);
+    prev.className === next.className &&
+    isEqual(prev.style, next.style) &&
+    isEqual(prev.imageStyle, next.imageStyle) &&
+    isEqual(prev.imageClassName, next.imageClassName);
 
   return areEqual;
 };

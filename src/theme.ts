@@ -9,7 +9,7 @@ import {
   CalenderFlag,
 } from './ui';
 
-export function getDefaultClassNames(): ClassNames {
+export function useDefaultClassNames(): ClassNames {
   const classNames: ClassNames = {
     [UI.days]: '',
     [UI.day_cell]: 'p-0.5',
@@ -37,7 +37,9 @@ export function getDefaultClassNames(): ClassNames {
     [UI.weekday]: '',
     [UI.weekday_label]: 'text-sm uppercase text-muted-foreground',
     [UI.button_next]: '',
+    [UI.button_next_image]: '',
     [UI.button_prev]: '',
+    [UI.button_prev_image]: '',
     [UI.time_label]: 'text-foreground text-2xl font-medium',
     [UI.time_selected_indicator]: 'bg-muted rounded-lg',
 
@@ -74,10 +76,9 @@ export function getDefaultClassNames(): ClassNames {
   return classNames;
 }
 
-export function getDefaultStyles(): Styles {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+export function useDefaultStyles(scheme?: 'dark' | 'light'): Styles {
   const colorScheme = useColorScheme();
-  const theme = colorScheme ?? 'light';
+  const theme = scheme || (colorScheme ?? 'light');
 
   const styles: Styles = {
     [UI.days]: {},
@@ -128,7 +129,9 @@ export function getDefaultStyles(): Styles {
       color: COLORS[theme].mutedForeground,
     },
     [UI.button_next]: {},
+    [UI.button_next_image]: {},
     [UI.button_prev]: {},
+    [UI.button_prev_image]: {},
     [UI.time_label]: {
       fontSize: 22,
       fontWeight: '500',

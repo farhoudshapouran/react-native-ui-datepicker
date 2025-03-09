@@ -8,3 +8,8 @@ export type HeaderProps = {
   styles?: Styles;
   classNames?: ClassNames;
 };
+
+export type NavigationProps = {
+  styles?: Styles;
+  classNames?: ClassNames;
+};

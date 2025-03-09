@@ -11,6 +11,6 @@ export type {
   CalendarYear,
   CalendarComponents,
 } from './types';
-export { getDefaultClassNames, getDefaultStyles } from './theme';
+export { useDefaultClassNames, useDefaultStyles } from './theme';
 
 export default DateTimePicker;
