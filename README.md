@@ -43,10 +43,10 @@ yarn add react-native-ui-datepicker
 
 ```jsx
 import { useState } from  'react';
-import DateTimePicker, { DateType, getDefaultStyles } from 'react-native-ui-datepicker';
+import DateTimePicker, { DateType, useDefaultStyles } from 'react-native-ui-datepicker';
 
 export function Calendar() {
-  const defaultStyles = getDefaultStyles();
+  const defaultStyles = useDefaultStyles();
   const [selected, setSelected] = useState<DateType>();
 
   return (
@@ -164,10 +164,10 @@ Use the `styles` prop to apply custom styles instead of the default ones.
 These styles are mapped to the values of the [UI Theme](https://github.com/farhoudshapouran/react-native-ui-datepicker/blob/main/src/ui.ts) enums.
 
 ```jsx
-import DateTimePicker, { getDefaultStyles } from 'react-native-ui-datepicker';
+import DateTimePicker, { useDefaultStyles } from 'react-native-ui-datepicker';
 
 export function Calendar() {
-  const defaultStyles = getDefaultStyles();
+  const defaultStyles = useDefaultStyles();
 
   return (
     <DateTimePicker
@@ -190,10 +190,10 @@ Use the `classNames` prop to apply custom class names instead of the default one
 These class names are mapped to the values of the [UI Theme](https://github.com/farhoudshapouran/react-native-ui-datepicker/blob/main/src/ui.ts) enums.
 
 ```jsx
-import DateTimePicker, { getDefaultClassNames } from 'react-native-ui-datepicker';
+import DateTimePicker, { useDefaultClassNames } from 'react-native-ui-datepicker';
 
 export function Calendar() {
-  const defaultClassNames = getDefaultClassNames();
+  const defaultClassNames = useDefaultClassNames();
 
   return (
     <DateTimePicker

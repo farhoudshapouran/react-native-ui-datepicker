@@ -9,7 +9,7 @@ import {
   CalenderFlag,
 } from './ui';
 
-export function getDefaultClassNames(): ClassNames {
+export function useDefaultClassNames(): ClassNames {
   const classNames: ClassNames = {
     [UI.days]: '',
     [UI.day_cell]: 'p-0.5',
@@ -74,7 +74,7 @@ export function getDefaultClassNames(): ClassNames {
   return classNames;
 }
 
-export function getDefaultStyles(): Styles {
+export function useDefaultStyles(): Styles {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const colorScheme = useColorScheme();
   const theme = colorScheme ?? 'light';
