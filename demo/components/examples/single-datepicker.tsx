@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 import { DateInput } from '../date-input';
 
 export default function SingleDatePicker() {
-  const [date, setDate] = useState<DateType>();
+  const [date, setDate] = useState<DateType>(undefined);
 
   return (
     <View className="flex-1 gap-4">
