@@ -74,10 +74,9 @@ export function useDefaultClassNames(): ClassNames {
   return classNames;
 }
 
-export function useDefaultStyles(): Styles {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+export function useDefaultStyles(scheme?: 'dark' | 'light'): Styles {
   const colorScheme = useColorScheme();
-  const theme = colorScheme ?? 'light';
+  const theme = scheme || (colorScheme ?? 'light');
 
   const styles: Styles = {
     [UI.days]: {},
