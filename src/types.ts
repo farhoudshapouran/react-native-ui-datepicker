@@ -1,6 +1,6 @@
 import type { Dayjs } from 'dayjs';
 import type { CalendarActionKind, CalendarViews } from './enums';
-import type { TextStyle, ViewStyle } from 'react-native';
+import type { ImageStyle, TextStyle, ViewStyle } from 'react-native';
 import {
   UI,
   SelectionState,
@@ -110,7 +110,7 @@ export type Styles = Partial<{
     | DayFlag
     | MonthState
     | YearState
-    | CalenderFlag]: ViewStyle | TextStyle;
+    | CalenderFlag]: ViewStyle | TextStyle | ImageStyle;
 }>;
 
 export type CalendarComponents = Partial<{

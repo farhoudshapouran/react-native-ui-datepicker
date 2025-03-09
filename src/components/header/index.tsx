@@ -1,65 +1,10 @@
 import React, { memo } from 'react';
 import { View, StyleSheet } from 'react-native';
-import type { HeaderProps } from './types';
+import type { HeaderProps, NavigationProps } from './types';
 import PrevButton from './prev-button';
 import NextButton from './next-button';
 import Selectors from './selectors';
 import { isEqual } from 'lodash';
-
-const Header = ({
-  navigationPosition,
-  styles = {},
-  classNames = {},
-}: HeaderProps) => {
-  return (
-    <View
-      style={[defaultStyles.headerContainer, styles?.header]}
-      className={classNames.header}
-    >
-      {navigationPosition === 'left' ? (
-        <View style={defaultStyles.container}>
-          <View style={defaultStyles.navigation}>
-            <PrevButton
-              style={styles.button_prev}
-              className={classNames.button_prev}
-            />
-            <NextButton
-              style={styles.button_next}
-              className={classNames.button_next}
-            />
-          </View>
-          <Selectors position="left" />
-        </View>
-      ) : navigationPosition === 'right' ? (
-        <View style={defaultStyles.container}>
-          <Selectors position="right" />
-          <View style={defaultStyles.navigation}>
-            <PrevButton
-              style={styles.button_prev}
-              className={classNames.button_prev}
-            />
-            <NextButton
-              style={styles.button_next}
-              className={classNames.button_next}
-            />
-          </View>
-        </View>
-      ) : (
-        <View style={defaultStyles.container}>
-          <PrevButton
-            style={styles.button_prev}
-            className={classNames.button_prev}
-          />
-          <Selectors position="around" />
-          <NextButton
-            style={styles.button_next}
-            className={classNames.button_next}
-          />
-        </View>
-      )}
-    </View>
-  );
-};
 
 const defaultStyles = StyleSheet.create({
   headerContainer: {
@@ -76,6 +21,66 @@ const defaultStyles = StyleSheet.create({
     flexDirection: 'row',
   },
 });
+
+const NavigationButtons = ({ styles, classNames }: NavigationProps) => (
+  <View style={defaultStyles.navigation}>
+    <PrevButton
+      style={styles?.button_prev}
+      imageStyle={styles?.button_prev_image}
+      className={classNames?.button_prev}
+      imageClassName={classNames?.button_prev_image}
+    />
+    <NextButton
+      style={styles?.button_next}
+      imageStyle={styles?.button_next_image}
+      className={classNames?.button_next}
+      imageClassName={classNames?.button_next_image}
+    />
+  </View>
+);
+
+const Header = ({
+  navigationPosition = 'around',
+  styles = {},
+  classNames = {},
+}: HeaderProps) => {
+  return (
+    <View
+      style={[defaultStyles.headerContainer, styles?.header]}
+      className={classNames?.header}
+    >
+      <View style={defaultStyles.container}>
+        {navigationPosition === 'left' ? (
+          <>
+            <NavigationButtons styles={styles} classNames={classNames} />
+            <Selectors position="left" />
+          </>
+        ) : navigationPosition === 'right' ? (
+          <>
+            <Selectors position="right" />
+            <NavigationButtons styles={styles} classNames={classNames} />
+          </>
+        ) : (
+          <>
+            <PrevButton
+              style={styles?.button_prev}
+              imageStyle={styles?.button_prev_image}
+              className={classNames?.button_prev}
+              imageClassName={classNames?.button_prev_image}
+            />
+            <Selectors position="around" />
+            <NextButton
+              style={styles?.button_next}
+              imageStyle={styles?.button_next_image}
+              className={classNames?.button_next}
+              imageClassName={classNames?.button_next_image}
+            />
+          </>
+        )}
+      </View>
+    </View>
+  );
+};
 
 const customComparator = (
   prev: Readonly<HeaderProps>,

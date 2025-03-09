@@ -49,6 +49,10 @@ export enum UI {
   button_next = 'button_next',
   /** The previous button in the header. */
   button_prev = 'button_prev',
+  /** The next button image in the header. */
+  button_next_image = 'button_next_image',
+  /** The previous button image in the header. */
+  button_prev_image = 'button_prev_image',
   /** The label of the hour and minutes. */
   time_label = 'time_label',
   /** The indicator of the selected hour and minutes. */

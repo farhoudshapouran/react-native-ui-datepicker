@@ -37,7 +37,9 @@ export function useDefaultClassNames(): ClassNames {
     [UI.weekday]: '',
     [UI.weekday_label]: 'text-sm uppercase text-muted-foreground',
     [UI.button_next]: '',
+    [UI.button_next_image]: '',
     [UI.button_prev]: '',
+    [UI.button_prev_image]: '',
     [UI.time_label]: 'text-foreground text-2xl font-medium',
     [UI.time_selected_indicator]: 'bg-muted rounded-lg',
 
@@ -127,7 +129,9 @@ export function useDefaultStyles(scheme?: 'dark' | 'light'): Styles {
       color: COLORS[theme].mutedForeground,
     },
     [UI.button_next]: {},
+    [UI.button_next_image]: {},
     [UI.button_prev]: {},
+    [UI.button_prev_image]: {},
     [UI.time_label]: {
       fontSize: 22,
       fontWeight: '500',
