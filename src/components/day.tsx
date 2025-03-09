@@ -197,7 +197,7 @@ const Day = ({
 
 const defaultStyles = StyleSheet.create({
   dayWrapper: {
-    width: `${99 / 7}%`,
+    width: `${99.9 / 7}%`,
   },
   dayContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   rangeWrapper: {
