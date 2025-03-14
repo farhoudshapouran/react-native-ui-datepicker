@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import React, { memo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { ClassNames, Styles } from '../../types';
 import { isEqual } from 'lodash';
