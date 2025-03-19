@@ -21,7 +21,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
         Object {
           "alignItems": "center",
           "flexDirection": "row",
-          "gap": 10,
+          "gap": 20,
           "justifyContent": "space-between",
           "padding": 5,
         }
@@ -68,6 +68,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
                 "padding": 4,
               },
               Object {
+                "marginLeft": 0,
                 "marginRight": 3,
               },
               undefined,
@@ -84,6 +85,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               Object {
                 "height": 14,
                 "tintColor": "hsl(240 10% 3.9%)",
+                "transform": Array [
+                  Object {
+                    "rotate": "0deg",
+                  },
+                ],
                 "width": 14,
               }
             }
@@ -247,6 +253,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
               },
               Object {
                 "marginLeft": 3,
+                "marginRight": 0,
               },
               undefined,
             ]
@@ -262,6 +269,11 @@ exports[`COMMON TESTS should render with default options 1`] = `
               Object {
                 "height": 14,
                 "tintColor": "hsl(240 10% 3.9%)",
+                "transform": Array [
+                  Object {
+                    "rotate": "0deg",
+                  },
+                ],
                 "width": 14,
               }
             }
@@ -305,7 +317,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
               Object {
                 "alignItems": "center",
                 "justifyContent": "center",
-                "width": "14.285714285714286%",
+                "width": "14.271428571428572%",
               },
               undefined,
             ]
@@ -321,7 +333,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
               Object {
                 "alignItems": "center",
                 "justifyContent": "center",
-                "width": "14.285714285714286%",
+                "width": "14.271428571428572%",
               },
               undefined,
             ]
@@ -337,7 +349,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
               Object {
                 "alignItems": "center",
                 "justifyContent": "center",
-                "width": "14.285714285714286%",
+                "width": "14.271428571428572%",
               },
               undefined,
             ]
@@ -353,7 +365,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
               Object {
                 "alignItems": "center",
                 "justifyContent": "center",
-                "width": "14.285714285714286%",
+                "width": "14.271428571428572%",
               },
               undefined,
             ]
@@ -369,7 +381,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
               Object {
                 "alignItems": "center",
                 "justifyContent": "center",
-                "width": "14.285714285714286%",
+                "width": "14.271428571428572%",
               },
               undefined,
             ]
@@ -385,7 +397,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
               Object {
                 "alignItems": "center",
                 "justifyContent": "center",
-                "width": "14.285714285714286%",
+                "width": "14.271428571428572%",
               },
               undefined,
             ]
@@ -401,7 +413,7 @@ exports[`COMMON TESTS should render with default options 1`] = `
               Object {
                 "alignItems": "center",
                 "justifyContent": "center",
-                "width": "14.285714285714286%",
+                "width": "14.271428571428572%",
               },
               undefined,
             ]
