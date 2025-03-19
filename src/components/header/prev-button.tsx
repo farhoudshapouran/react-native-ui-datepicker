@@ -35,10 +35,12 @@ const PrevButton = ({
     onChangeMonth,
     onChangeYear,
     components = {},
+    isRTL,
   } = useCalendarContext();
 
   const colorScheme = useColorScheme();
   const theme = colorScheme ?? 'light';
+  const defaultStyles = useMemo(() => createDefaultStyles(isRTL), [isRTL]);
 
   const onPress = useCallback(() => {
     switch (calendarView) {
@@ -59,7 +61,7 @@ const PrevButton = ({
       tintColor: COLORS[theme].foreground,
       ...(imageStyle as ImageStyle),
     }),
-    [imageStyle, theme]
+    [imageStyle, theme, defaultStyles.icon]
   );
 
   return (
@@ -101,15 +103,18 @@ const customComparator = (
 
 export default memo(PrevButton, customComparator);
 
-const defaultStyles = StyleSheet.create({
-  iconContainer: {
-    padding: 4,
-  },
-  prev: {
-    marginRight: 3,
-  },
-  icon: {
-    width: 14,
-    height: 14,
-  },
-});
+const createDefaultStyles = (isRTL: boolean) =>
+  StyleSheet.create({
+    iconContainer: {
+      padding: 4,
+    },
+    prev: {
+      marginRight: isRTL ? 0 : 3,
+      marginLeft: isRTL ? 3 : 0,
+    },
+    icon: {
+      width: 14,
+      height: 14,
+      transform: [{ rotate: isRTL ? '180deg' : '0deg' }],
+    },
+  });

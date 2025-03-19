@@ -5,6 +5,7 @@ import type {
   CalendarMonth,
   CalendarWeek,
   Numerals,
+  CalendarType,
 } from './types';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -15,6 +16,43 @@ import { numeralSystems } from './numerals';
 export const CALENDAR_FORMAT = 'YYYY-MM-DD HH:mm';
 export const DATE_FORMAT = 'YYYY-MM-DD';
 export const YEAR_PAGE_SIZE = 12;
+export const VALID_JALALI_LOCALES = new Set(['fa', 'en']);
+export const JALALI_MONTHS = {
+  en: [
+    'Farvardin',
+    'Ordibehesht',
+    'Khordad',
+    'Tir',
+    'Mordad',
+    'Shahrivar',
+    'Mehr',
+    'Aban',
+    'Azar',
+    'Dey',
+    'Bahman',
+    'Esfand',
+  ],
+  fa: [
+    'فروردین',
+    'اردیبهشت',
+    'خرداد',
+    'تیر',
+    'مرداد',
+    'شهریور',
+    'مهر',
+    'آبان',
+    'آذر',
+    'دی',
+    'بهمن',
+    'اسفند',
+  ],
+};
+
+export const isValidJalaliLocale = (locale: string): boolean =>
+  VALID_JALALI_LOCALES.has(locale);
+
+export const getJalaliMonths = (locale: string) =>
+  JALALI_MONTHS[locale as 'fa' | 'en'] || JALALI_MONTHS.en;
 
 export const getMonths = () => dayjs.months();
 
@@ -25,9 +63,17 @@ export const getMonthName = (month: number) => dayjs.months()[month];
  *
  * @returns months array
  */
-export const getMonthsArray = (): CalendarMonth[] => {
-  const monthNames = dayjs.months();
-  const monthShortNames = dayjs.monthsShort();
+export const getMonthsArray = ({
+  calendar,
+  locale,
+}: {
+  calendar: CalendarType;
+  locale: string;
+}): CalendarMonth[] => {
+  const monthNames =
+    calendar === 'jalali' ? getJalaliMonths(locale) : dayjs.months();
+  const monthShortNames =
+    calendar === 'jalali' ? getJalaliMonths(locale) : dayjs.monthsShort();
 
   return monthNames.map((name, index) => ({
     index,
@@ -49,7 +95,7 @@ export const getMonthsArray = (): CalendarMonth[] => {
  * @returns weekdays
  */
 export const getWeekdays = (
-  locale: string | ILocale,
+  locale: string,
   firstDayOfWeek: number
 ): CalendarWeek[] => {
   dayjs.locale(locale);

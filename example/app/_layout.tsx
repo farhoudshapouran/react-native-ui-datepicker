@@ -11,9 +11,12 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { I18nManager } from 'react-native';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+
+//I18nManager.forceRTL(true);
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();

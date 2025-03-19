@@ -14,6 +14,7 @@ const YearButton = () => {
     styles,
     classNames,
     disableYearPicker,
+    calendar = 'gregory',
     numerals = 'latn',
   } = useCalendarContext();
 
@@ -27,7 +28,7 @@ const YearButton = () => {
       }}
       testID="btn-year"
       accessibilityRole="button"
-      accessibilityLabel={dayjs(currentDate).format('YYYY')}
+      accessibilityLabel={dayjs(currentDate).calendar(calendar).format('YYYY')}
     >
       <View
         style={[defaultStyles.container, styles?.year_selector]}
@@ -40,7 +41,7 @@ const YearButton = () => {
           {calendarView === 'year'
             ? `${formatNumber(years[0] || 0, numerals)} - ${formatNumber(years[years.length - 1] || 0, numerals)}`
             : formatNumber(
-                parseInt(dayjs(currentDate).format('YYYY')),
+                parseInt(dayjs(currentDate).calendar(calendar).format('YYYY')),
                 numerals
               )}
         </Text>

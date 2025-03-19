@@ -10,13 +10,14 @@ import {
 import { WEEKDAYS_HEIGHT } from '../enums';
 
 type WeekdaysProps = {
-  locale: string | ILocale;
+  locale: string;
   firstDayOfWeek: number;
   styles?: Styles;
   classNames?: ClassNames;
   weekdaysFormat?: WeekdayFormat;
   weekdaysHeight?: number;
   components?: CalendarComponents;
+  isRTL: boolean;
 };
 
 const Weekdays = ({
@@ -27,10 +28,11 @@ const Weekdays = ({
   weekdaysFormat = 'min',
   weekdaysHeight = WEEKDAYS_HEIGHT,
   components = {},
+  isRTL,
 }: WeekdaysProps) => {
   const style = useMemo(
-    () => createDefaultStyles(weekdaysHeight),
-    [weekdaysHeight]
+    () => createDefaultStyles(weekdaysHeight, isRTL),
+    [weekdaysHeight, isRTL]
   );
 
   return (
@@ -63,15 +65,15 @@ const Weekdays = ({
 
 export default memo(Weekdays);
 
-const createDefaultStyles = (weekdaysHeight: number) =>
+const createDefaultStyles = (weekdaysHeight: number, isRTL: boolean) =>
   StyleSheet.create({
     container: {
       height: weekdaysHeight,
-      flexDirection: 'row',
+      flexDirection: isRTL ? 'row-reverse' : 'row',
       alignItems: 'center',
     },
     weekday: {
-      width: `${100 / 7}%`,
+      width: `${99.9 / 7}%`,
       alignItems: 'center',
       justifyContent: 'center',
     },

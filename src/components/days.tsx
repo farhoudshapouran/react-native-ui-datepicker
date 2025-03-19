@@ -17,6 +17,7 @@ import { DateType } from 'src/types';
 const Days = () => {
   const {
     mode,
+    calendar,
     locale,
     numerals = 'latn',
     timeZone,
@@ -40,7 +41,10 @@ const Days = () => {
     multiRangeMode,
     hideWeekdays,
     components,
+    isRTL,
   } = useCalendarContext();
+
+  const style = useMemo(() => createDefaultStyles(isRTL), [isRTL]);
 
   const { year, month, hour, minute } = getParsedDate(currentDate);
 
@@ -54,8 +58,8 @@ const Days = () => {
   );
 
   const containerStyle = useMemo(
-    () => [defaultStyles.daysContainer, styles?.days],
-    [styles?.days]
+    () => [style.daysContainer, styles?.days],
+    [style.daysContainer, styles?.days]
   );
 
   const daysGrid = useMemo(() => {
@@ -196,6 +200,7 @@ const Days = () => {
     });
   }, [
     mode,
+    calendar,
     numerals,
     timeZone,
     month,
@@ -215,7 +220,7 @@ const Days = () => {
   ]);
 
   return (
-    <View style={defaultStyles.container} testID="day-selector">
+    <View style={style.container} testID="day-selector">
       {!hideWeekdays ? (
         <Weekdays
           locale={locale}
@@ -225,6 +230,7 @@ const Days = () => {
           weekdaysFormat={weekdaysFormat}
           weekdaysHeight={weekdaysHeight}
           components={components}
+          isRTL={isRTL}
         />
       ) : null}
       <View style={containerStyle} className={classNames?.days} testID="days">
@@ -249,18 +255,19 @@ const Days = () => {
   );
 };
 
-const defaultStyles = StyleSheet.create({
-  container: {
-    width: '100%',
-    height: '100%',
-  },
-  daysContainer: {
-    width: '100%',
-    height: '100%',
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-    alignContent: 'flex-start',
-  },
-});
+const createDefaultStyles = (isRTL: boolean) =>
+  StyleSheet.create({
+    container: {
+      width: '100%',
+      height: '100%',
+    },
+    daysContainer: {
+      width: '100%',
+      height: '100%',
+      flexWrap: 'wrap',
+      flexDirection: isRTL ? 'row-reverse' : 'row',
+      alignContent: 'flex-start',
+    },
+  });
 
 export default Days;
