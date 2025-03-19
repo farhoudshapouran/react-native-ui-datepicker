@@ -47,8 +47,7 @@ export default function BottomSheetScreen() {
               multiRangeMode
               showOutsideDays
               timePicker
-              calendar="jalali"
-              //timeZone="Asia/Tokyo"
+              //calendar="jalali"
               //locale="en"
               //numerals="arabext"
             />
