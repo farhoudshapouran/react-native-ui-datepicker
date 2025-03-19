@@ -65,6 +65,7 @@ export function Calendar() {
 | Name               | Type                              | Description                                        |
 | ------------------ | --------------------------------- | -------------------------------------------------- |
 | `mode`               | `"single"` \| `"range"` \| `"multiple"`   | Defines the DatePicker mode.                       |
+| `calendar`               | `"gregory"` \| `"jalali"`  | Defines the calendar type of DatePicker.                      |
 | `minDate`            | `DateType`                        | Defines the minimum selectable date in the DatePicker.   |
 | `maxDate`            | `DateType`                        | Defines the maximum selectable date in the DatePicker.   |
 | `enabledDates`   | `DateType[]` \| `(date: DateType) => boolean` | Defines an array of enabled dates or a function that returns `true` for enabled dates. It takes precedence over disabledDates. |
