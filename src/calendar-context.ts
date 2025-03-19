@@ -3,12 +3,13 @@ import { CalendarViews } from './enums';
 import type { DateType, DatePickerBaseProps } from './types';
 
 export interface CalendarContextType extends DatePickerBaseProps {
-  locale: string | ILocale;
+  locale: string;
   showOutsideDays: boolean;
   firstDayOfWeek: number;
   calendarView: CalendarViews;
   currentDate: DateType; // used for latest state of calendar based on Month and Year
   currentYear: number;
+  isRTL: boolean;
   setCalendarView: (value: CalendarViews) => void;
   onSelectDate: (date: DateType) => void;
   onSelectMonth: (month: number) => void;

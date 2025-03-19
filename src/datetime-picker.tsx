@@ -5,6 +5,7 @@ import React, {
   useReducer,
   useRef,
 } from 'react';
+import { I18nManager } from 'react-native';
 import {
   dateToUnix,
   getEndOfDay,
@@ -38,6 +39,7 @@ import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import duration from 'dayjs/plugin/duration';
 import { usePrevious } from './hooks/use-previous';
+import jalaliday from 'jalali-plugin-dayjs';
 
 dayjs.extend(localeData);
 dayjs.extend(relativeTime);
@@ -45,6 +47,7 @@ dayjs.extend(localizedFormat);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(duration);
+dayjs.extend(jalaliday);
 
 export interface DatePickerSingleProps extends DatePickerBaseProps {
   mode: 'single';
@@ -70,6 +73,7 @@ const DateTimePicker = (
 ) => {
   const {
     mode = 'single',
+    calendar = 'gregory',
     locale = 'en',
     numerals = 'latn',
     timeZone,
@@ -114,6 +118,7 @@ const DateTimePicker = (
   } = props;
 
   dayjs.tz.setDefault(timeZone);
+  dayjs.calendar(calendar);
   dayjs.locale(locale);
 
   const prevTimezone = usePrevious(timeZone);
@@ -131,7 +136,7 @@ const DateTimePicker = (
     [firstDayOfWeek]
   );
 
-  const initialState = useMemo(() => {
+  const initialState: LocalState = useMemo(() => {
     let initialDate = dayjs().tz(timeZone);
 
     if (mode === 'single' && date) {
@@ -196,9 +201,11 @@ const DateTimePicker = (
       calendarView: initialCalendarView,
       currentDate: initialDate,
       currentYear: initialDate.year(),
+      isRTL: calendar === 'jalali' || I18nManager.isRTL,
     };
   }, [
     mode,
+    calendar,
     date,
     startDate,
     endDate,
@@ -249,6 +256,15 @@ const DateTimePicker = (
             ...prevState,
             dates: selectedDates,
           };
+        case CalendarActionKind.SET_IS_RTL:
+          return {
+            ...prevState,
+            isRTL: action.payload,
+          };
+        case CalendarActionKind.RESET_STATE:
+          return action.payload;
+        default:
+          return prevState;
       }
     },
     initialState
@@ -256,6 +272,15 @@ const DateTimePicker = (
 
   const stateRef = useRef(state);
   stateRef.current = state;
+
+  useEffect(() => {
+    const newState = {
+      ...initialState,
+      isRTL: calendar === 'jalali' || I18nManager.isRTL,
+    };
+
+    dispatch({ type: CalendarActionKind.RESET_STATE, payload: newState });
+  }, [calendar]);
 
   useEffect(() => {
     if (prevTimezone !== timeZone) {
@@ -359,6 +384,7 @@ const DateTimePicker = (
     timePicker,
     prevTimezone,
     timeZone,
+    calendar,
   ]);
 
   const setCalendarView = useCallback((view: CalendarViews) => {
@@ -581,6 +607,7 @@ const DateTimePicker = (
   const baseContextValue = useMemo(
     () => ({
       mode,
+      calendar,
       locale,
       numerals,
       timeZone,
@@ -610,6 +637,7 @@ const DateTimePicker = (
     }),
     [
       mode,
+      calendar,
       locale,
       numerals,
       timeZone,

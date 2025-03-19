@@ -7,9 +7,11 @@ export type HeaderProps = {
   navigationPosition?: NavigationPosition;
   styles?: Styles;
   classNames?: ClassNames;
+  isRTL: boolean;
 };
 
 export type NavigationProps = {
   styles?: Styles;
   classNames?: ClassNames;
+  isRTL: boolean;
 };

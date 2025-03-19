@@ -13,6 +13,7 @@ import { CONTAINER_HEIGHT } from '../enums';
 const Years = () => {
   const {
     mode,
+    calendar = 'gregory',
     numerals = 'latn',
     currentDate,
     currentYear,
@@ -24,11 +25,12 @@ const Years = () => {
     containerHeight = CONTAINER_HEIGHT,
     minDate,
     maxDate,
+    isRTL,
   } = useCalendarContext();
 
   const style = useMemo(
-    () => createDefaultStyles(containerHeight),
-    [containerHeight]
+    () => createDefaultStyles(containerHeight, isRTL),
+    [containerHeight, isRTL]
   );
 
   const selectedYear = getDateYear(date);
@@ -43,7 +45,7 @@ const Years = () => {
       const isDisabled = isYearDisabled(year, { minDate, maxDate });
 
       const containerStyle = StyleSheet.flatten([
-        defaultStyles.year,
+        style.year,
         styles.year,
         isActivated && styles.active_year,
         isSelected && styles.selected_year,
@@ -79,7 +81,7 @@ const Years = () => {
               onPress={() => onSelectYear(year)}
               accessibilityRole="button"
               accessibilityLabel={year.toString()}
-              style={defaultStyles.year}
+              style={style.year}
             >
               {components.Year({
                 number: year,
@@ -118,41 +120,37 @@ const Years = () => {
     minDate,
     maxDate,
     numerals,
+    style.year,
     style.yearCell,
+    calendar,
   ]);
 
   return (
-    <View
-      style={[defaultStyles.container, styles.years]}
-      testID="year-selector"
-    >
-      <View style={defaultStyles.years}>{generateCells()}</View>
+    <View style={[style.container, styles.years]} testID="year-selector">
+      <View style={style.years}>{generateCells()}</View>
     </View>
   );
 };
 
-const defaultStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  years: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  year: {
-    flex: 1,
-    margin: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
-const createDefaultStyles = (containerHeight: number) =>
+const createDefaultStyles = (containerHeight: number, isRTL: boolean) =>
   StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    years: {
+      flexDirection: isRTL ? 'row-reverse' : 'row',
+      flexWrap: 'wrap',
+    },
+    year: {
+      flex: 1,
+      margin: 2,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
     yearCell: {
-      width: `${100 / 3}%`,
+      width: `${99.9 / 3}%`,
       height: containerHeight / 6,
     },
   });

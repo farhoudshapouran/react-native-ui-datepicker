@@ -12,6 +12,8 @@ import {
 
 export type DateType = string | number | Dayjs | Date | null | undefined;
 
+export type CalendarType = 'gregory' | 'jalali';
+
 export type CalendarMode = 'single' | 'range' | 'multiple';
 
 export type NavigationPosition = 'around' | 'right' | 'left';
@@ -28,6 +30,7 @@ export type LocalState = {
   calendarView: CalendarViews;
   currentDate: DateType; // used for latest state of calendar based on Month and Year
   currentYear: number;
+  isRTL: boolean; // used for jalali or i18n RTL detection
 };
 
 export type CalendarAction = {
@@ -130,7 +133,8 @@ export type CalendarComponents = Partial<{
 
 export interface DatePickerBaseProps {
   mode?: CalendarMode;
-  locale?: string | ILocale;
+  calendar?: CalendarType;
+  locale?: string;
   numerals?: Numerals;
   timeZone?: string;
   date?: DateType;

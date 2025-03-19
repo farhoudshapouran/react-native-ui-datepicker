@@ -2,11 +2,11 @@ import React, { useCallback, useMemo } from 'react';
 import {
   View,
   StyleSheet,
-  I18nManager,
   ViewStyle,
   TextStyle,
   ScrollView,
   Text,
+  I18nManager,
 } from 'react-native';
 import { useCalendarContext } from '../calendar-context';
 import Wheel from './time-picker/wheel';
@@ -95,17 +95,12 @@ const TimePicker = () => {
     [date, currentDate, onSelectDate, timeZone, hour, hour12]
   );
 
-  // useEffect(() => {
-  //   const currentPeriod = dayjs(date || currentDate).format('A') as Period;
-  //   setPeriod(currentPeriod);
-  // }, [date, currentDate, setPeriod]);
-
   const timePickerContainerStyle: ViewStyle = useMemo(
     () => ({
       ...defaultStyles.timePickerContainer,
-      flexDirection: I18nManager.getConstants().isRTL ? 'row-reverse' : 'row',
+      flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row',
     }),
-    []
+    [I18nManager.isRTL]
   );
 
   const timePickerTextStyle: TextStyle = useMemo(

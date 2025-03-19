@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from 'react';
-import { Button, StyleSheet, Text } from 'react-native';
+import { Button, StyleSheet } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import {
   BottomSheetModal,
@@ -8,8 +8,6 @@ import {
 } from '@gorhom/bottom-sheet';
 import DateTimePicker, {
   DateType,
-  CalendarDay,
-  CalendarComponents,
   useDefaultStyles,
 } from 'react-native-ui-datepicker';
 
@@ -26,9 +24,10 @@ export default function BottomSheetScreen() {
   const handlePresentModalPress = useCallback(() => {
     bottomSheetModalRef.current?.present();
   }, []);
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log('handleSheetChanges', index);
-  }, []);
+
+  // const handleSheetChanges = useCallback((index: number) => {
+  //   console.log('handleSheetChanges', index);
+  // }, []);
 
   return (
     <GestureHandlerRootView style={styles.container}>
@@ -36,16 +35,22 @@ export default function BottomSheetScreen() {
         <Button onPress={handlePresentModalPress} title="Present Modal" />
         <BottomSheetModal
           ref={bottomSheetModalRef}
-          onChange={handleSheetChanges}
+          //onChange={handleSheetChanges}
         >
           <BottomSheetView style={styles.contentContainer}>
             <DateTimePicker
               styles={defaultStyles}
-              mode="multiple"
-              dates={dates}
-              onChange={({ dates }) => setDates(dates)}
-              firstDayOfWeek={1}
+              mode="single"
+              date={date}
+              onChange={(params) => setDate(params.date)}
+              firstDayOfWeek={6}
               multiRangeMode
+              showOutsideDays
+              timePicker
+              calendar="jalali"
+              //timeZone="Asia/Tokyo"
+              //locale="en"
+              //numerals="arabext"
             />
           </BottomSheetView>
         </BottomSheetModal>
@@ -57,6 +62,8 @@ export default function BottomSheetScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   contentContainer: {
     flex: 1,

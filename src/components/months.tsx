@@ -15,24 +15,24 @@ const Months = () => {
     monthsFormat = 'full',
     minDate,
     maxDate,
+    calendar = 'gregory',
+    locale,
+    isRTL,
   } = useCalendarContext();
 
   const style = useMemo(
-    () => createDefaultStyles(containerHeight),
-    [containerHeight]
+    () => createDefaultStyles(containerHeight, isRTL),
+    [containerHeight, isRTL]
   );
 
   const { month } = getParsedDate(currentDate);
 
-  const containerStyle = StyleSheet.flatten([
-    defaultStyles.container,
-    styles?.months,
-  ]);
+  const containerStyle = StyleSheet.flatten([style.container, styles?.months]);
 
   return (
     <View style={containerStyle} testID="month-selector">
-      <View style={defaultStyles.months}>
-        {getMonthsArray()?.map((item, index) => {
+      <View style={style.months}>
+        {getMonthsArray({ calendar, locale }).map((item, index) => {
           const isSelected = index === month;
 
           const isDisabled = isMonthDisabled(index, currentDate, {
@@ -41,7 +41,7 @@ const Months = () => {
           });
 
           const itemStyle = StyleSheet.flatten([
-            defaultStyles.month,
+            style.month,
             styles.month,
             isSelected && styles.selected_month,
             isDisabled && styles.disabled,
@@ -73,7 +73,7 @@ const Months = () => {
                   onPress={() => onSelectMonth(index)}
                   accessibilityRole="button"
                   accessibilityLabel={item.name.full}
-                  style={defaultStyles.month}
+                  style={style.month}
                 >
                   {components.Month({ ...item, isSelected })}
                 </Pressable>
@@ -99,28 +99,25 @@ const Months = () => {
   );
 };
 
-const defaultStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  months: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-  month: {
-    flex: 1,
-    margin: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
-const createDefaultStyles = (containerHeight: number) =>
+const createDefaultStyles = (containerHeight: number, isRTL: boolean) =>
   StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    months: {
+      flexDirection: isRTL ? 'row-reverse' : 'row',
+      flexWrap: 'wrap',
+    },
+    month: {
+      flex: 1,
+      margin: 2,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
     monthCell: {
-      width: `${100 / 3}%`,
+      width: `${99.9 / 3}%`,
       height: containerHeight / 6,
     },
   });
