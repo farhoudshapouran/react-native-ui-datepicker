@@ -1,6 +1,6 @@
 {
   "name": "react-native-ui-datepicker",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "Customizable date picker for React Native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -9,7 +9,8 @@
   "source": "src/index",
   "exports": {
     "import": "./lib/module/index.js",
-    "require": "./lib/commonjs/index.js"
+    "require": "./lib/commonjs/index.js",
+    "types": "./lib/typescript/index.d.ts"
   },
   "files": [
     "src",
