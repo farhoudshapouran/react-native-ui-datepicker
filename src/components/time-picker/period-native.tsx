@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import React, { memo } from 'react';
 import WheelPicker from './wheel-picker';
 import { ClassNames, PickerOption, Styles } from '../../types';
 import { isEqual } from 'lodash';
