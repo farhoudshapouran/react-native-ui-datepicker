@@ -11,7 +11,7 @@ import { useCalendarContext } from '../../calendar-context';
 import { YEAR_PAGE_SIZE } from '../../utils';
 import { ClassNames, Styles } from '../../types';
 import { UI } from '../../ui';
-import { isEqual } from 'lodash';
+import { deepEqual } from '../../utils';
 import { COLORS } from '../../theme';
 
 const arrow_left = require('../../assets/images/arrow_left.png');
@@ -94,9 +94,9 @@ const customComparator = (
 ) => {
   const areEqual =
     prev.className === next.className &&
-    isEqual(prev.style, next.style) &&
-    isEqual(prev.imageStyle, next.imageStyle) &&
-    isEqual(prev.imageClassName, next.imageClassName);
+    deepEqual(prev.style, next.style) &&
+    deepEqual(prev.imageStyle, next.imageStyle) &&
+    deepEqual(prev.imageClassName, next.imageClassName);
 
   return areEqual;
 };

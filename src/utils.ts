@@ -10,7 +10,6 @@ import type {
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { useRef } from 'react';
-import { isEqual } from 'lodash';
 import { numeralSystems } from './numerals';
 
 export const CALENDAR_FORMAT = 'YYYY-MM-DD HH:mm';
@@ -577,6 +576,43 @@ const generateCalendarDay = (
   };
 };
 
+/**
+ * Deep equality comparison for plain objects, arrays, dates, and primitives.
+ * Used as a lightweight replacement for lodash.isEqual in React.memo comparators.
+ */
+export function deepEqual(a: unknown, b: unknown): boolean {
+  if (Object.is(a, b)) return true;
+  if (a == null || b == null) return false;
+  if (typeof a !== typeof b) return false;
+
+  if (a instanceof Date && b instanceof Date) {
+    return a.getTime() === b.getTime();
+  }
+
+  if (typeof a !== 'object') return false;
+
+  const arrA = Array.isArray(a);
+  const arrB = Array.isArray(b);
+  if (arrA !== arrB) return false;
+
+  if (arrA && arrB) {
+    if (a.length !== (b as unknown[]).length) return false;
+    return a.every((val, i) => deepEqual(val, (b as unknown[])[i]));
+  }
+
+  const objA = a as Record<string, unknown>;
+  const objB = b as Record<string, unknown>;
+  const keysA = Object.keys(objA);
+  const keysB = Object.keys(objB);
+  if (keysA.length !== keysB.length) return false;
+
+  return keysA.every(
+    (key) =>
+      Object.prototype.hasOwnProperty.call(objB, key) &&
+      deepEqual(objA[key], objB[key])
+  );
+}
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -595,7 +631,7 @@ export function useDeepCompareMemo<T>(value: T, deps: any[]): T {
 
   if (
     !depsRef.current ||
-    !deps.every((dep, i) => isEqual(dep, depsRef.current![i]))
+    !deps.every((dep, i) => deepEqual(dep, depsRef.current![i]))
   ) {
     ref.current = value;
     depsRef.current = deps;

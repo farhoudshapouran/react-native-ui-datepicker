@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import WheelPicker from './wheel-picker';
 import { ClassNames, PickerOption, Styles } from '../../types';
-import { isEqual } from 'lodash';
+import { deepEqual } from '../../utils';
 
 interface PeriodProps {
   value: string;
@@ -44,8 +44,8 @@ const customComparator = (
   const areEqual =
     prev.value === next.value &&
     prev.setValue === next.setValue &&
-    isEqual(prev.styles, next.styles) &&
-    isEqual(prev.classNames, next.classNames);
+    deepEqual(prev.styles, next.styles) &&
+    deepEqual(prev.classNames, next.classNames);
 
   return areEqual;
 };

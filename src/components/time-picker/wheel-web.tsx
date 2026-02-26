@@ -10,7 +10,7 @@ import {
 import { sin } from './animated-math';
 import { CONTAINER_HEIGHT } from '../../enums';
 import { ClassNames, Styles, PickerOption } from '../../types';
-import { isEqual } from 'lodash';
+import { deepEqual } from '../../utils';
 
 interface WheelProps {
   value: number | string;
@@ -211,9 +211,9 @@ const customComparator = (
   const areEqual =
     prev.value === next.value &&
     prev.setValue === next.setValue &&
-    isEqual(prev.styles, next.styles) &&
-    isEqual(prev.classNames, next.classNames) &&
-    isEqual(prev.items, next.items);
+    deepEqual(prev.styles, next.styles) &&
+    deepEqual(prev.classNames, next.classNames) &&
+    deepEqual(prev.items, next.items);
 
   return areEqual;
 };

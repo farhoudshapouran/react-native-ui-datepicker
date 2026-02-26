@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleProp, TextStyle, Animated, ViewStyle, Text } from 'react-native';
 import styles from './wheel-picker.style';
-import { isEqual } from 'lodash';
+import { deepEqual } from '../../../utils';
 import { PickerOption } from 'src/types';
 
 interface ItemProps {
@@ -142,7 +142,7 @@ const customComparator = (
 ) => {
   return (
     prevProps.textClassName === nextProps.textClassName &&
-    isEqual(prevProps.textStyle, nextProps.textStyle)
+    deepEqual(prevProps.textStyle, nextProps.textStyle)
   );
 };
 
