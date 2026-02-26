@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { ClassNames, Styles } from '../../types';
-import { isEqual } from 'lodash';
+import { deepEqual } from '../../utils';
 
 interface PeriodProps {
   value: string;
@@ -46,8 +46,8 @@ const customComparator = (
   const areEqual =
     prev.value === next.value &&
     prev.setValue === next.setValue &&
-    isEqual(prev.styles, next.styles) &&
-    isEqual(prev.classNames, next.classNames);
+    deepEqual(prev.styles, next.styles) &&
+    deepEqual(prev.classNames, next.classNames);
 
   return areEqual;
 };

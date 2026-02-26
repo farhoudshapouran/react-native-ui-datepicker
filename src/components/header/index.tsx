@@ -4,7 +4,7 @@ import type { HeaderProps, NavigationProps } from './types';
 import PrevButton from './prev-button';
 import NextButton from './next-button';
 import Selectors from './selectors';
-import { isEqual } from 'lodash';
+import { deepEqual } from '../../utils';
 
 const createDefaultStyles = (isRTL: boolean) =>
   StyleSheet.create({
@@ -107,8 +107,8 @@ const customComparator = (
     prev.NextIcon === next.NextIcon &&
     prev.navigationPosition === next.navigationPosition &&
     prev.isRTL === next.isRTL &&
-    isEqual(prev.styles, next.styles) &&
-    isEqual(prev.classNames, next.classNames);
+    deepEqual(prev.styles, next.styles) &&
+    deepEqual(prev.classNames, next.classNames);
 
   return areEqual;
 };

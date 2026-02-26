@@ -81,7 +81,6 @@
     "@testing-library/jest-native": "^5.4.3",
     "@testing-library/react-native": "^12.3.2",
     "@types/jest": "^29.5.14",
-    "@types/lodash": "^4.14.202",
     "@types/react": "18.2.0",
     "@types/react-native": "0.72.0",
     "@types/react-test-renderer": "^18.0.0",
@@ -169,7 +168,6 @@
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
     "jalali-plugin-dayjs": "^1.1.4",
-    "lodash": "^4.17.21",
     "tailwind-merge": "^3.0.1"
   }
 }

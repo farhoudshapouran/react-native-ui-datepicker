@@ -8,8 +8,7 @@ import {
   DateType,
 } from '../types';
 import { CONTAINER_HEIGHT, WEEKDAYS_HEIGHT } from '../enums';
-import { cn } from '../utils';
-import { isEqual } from 'lodash';
+import { cn, deepEqual } from '../utils';
 
 interface Props {
   day: CalendarDay;
@@ -223,12 +222,12 @@ const createDefaultStyles = (containerHeight: number, weekdaysHeight: number) =>
 
 const customComparator = (prev: Readonly<Props>, next: Readonly<Props>) => {
   const areEqual =
-    isEqual(prev.day, next.day) &&
+    deepEqual(prev.day, next.day) &&
     prev.onSelectDate === next.onSelectDate &&
     prev.containerHeight === next.containerHeight &&
-    isEqual(prev.styles, next.styles) &&
-    isEqual(prev.classNames, next.classNames) &&
-    isEqual(prev.components, next.components);
+    deepEqual(prev.styles, next.styles) &&
+    deepEqual(prev.classNames, next.classNames) &&
+    deepEqual(prev.components, next.components);
 
   return areEqual;
 };
