@@ -1,13 +1,13 @@
 import type { Dayjs } from 'dayjs';
-import type { CalendarActionKind, CalendarViews } from './enums';
 import type { ImageStyle, TextStyle, ViewStyle } from 'react-native';
+import type { CalendarActionKind, CalendarViews } from './enums';
 import {
-  UI,
-  SelectionState,
+  CalenderFlag,
   DayFlag,
   MonthState,
+  SelectionState,
+  UI,
   YearState,
-  CalenderFlag,
 } from './ui';
 
 export type DateType = string | number | Dayjs | Date | null | undefined;
@@ -143,6 +143,8 @@ export interface DatePickerBaseProps {
   dates?: DateType[];
   min?: number;
   max?: number;
+  prevButtonAccessibilityLabel?: string;
+  nextButtonAccessibilityLabel?: string;
   onChange?: SingleChange | RangeChange | MultiChange;
   startYear?: number;
   endYear?: number;

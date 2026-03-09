@@ -1,18 +1,18 @@
+import { isEqual } from 'lodash';
 import React, { memo, useCallback, useMemo } from 'react';
 import {
-  Image,
-  ImageStyle,
-  Pressable,
-  StyleSheet,
-  useColorScheme,
-  View,
+    Image,
+    ImageStyle,
+    Pressable,
+    StyleSheet,
+    useColorScheme,
+    View,
 } from 'react-native';
 import { useCalendarContext } from '../../calendar-context';
-import { YEAR_PAGE_SIZE } from '../../utils';
+import { COLORS } from '../../theme';
 import { ClassNames, Styles } from '../../types';
 import { UI } from '../../ui';
-import { isEqual } from 'lodash';
-import { COLORS } from '../../theme';
+import { YEAR_PAGE_SIZE } from '../../utils';
 
 const arrow_left = require('../../assets/images/arrow_left.png');
 
@@ -36,6 +36,7 @@ const PrevButton = ({
     onChangeYear,
     components = {},
     isRTL,
+    prevButtonAccessibilityLabel = 'Prev',
   } = useCalendarContext();
 
   const colorScheme = useColorScheme();
@@ -70,7 +71,7 @@ const PrevButton = ({
       onPress={onPress}
       testID="btn-prev"
       accessibilityRole="button"
-      accessibilityLabel="Prev"
+      accessibilityLabel={prevButtonAccessibilityLabel}
     >
       <View
         style={[defaultStyles.iconContainer, defaultStyles.prev, style]}

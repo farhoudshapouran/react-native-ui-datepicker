@@ -1,45 +1,45 @@
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+import localeData from 'dayjs/plugin/localeData';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
+import jalaliday from 'jalali-plugin-dayjs';
 import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useReducer,
-  useRef,
+    useCallback,
+    useEffect,
+    useMemo,
+    useReducer,
+    useRef,
 } from 'react';
 import { I18nManager } from 'react-native';
-import {
-  dateToUnix,
-  getEndOfDay,
-  getStartOfDay,
-  areDatesOnSameDay,
-  removeTime,
-} from './utils';
 import { CalendarContext } from './calendar-context';
-import {
-  CalendarViews,
-  CalendarActionKind,
-  CONTAINER_HEIGHT,
-  WEEKDAYS_HEIGHT,
-} from './enums';
-import type {
-  DateType,
-  CalendarAction,
-  LocalState,
-  DatePickerBaseProps,
-  SingleChange,
-  RangeChange,
-  MultiChange,
-} from './types';
 import Calendar from './components/calendar';
-import { useDeepCompareMemo } from './utils';
-import dayjs from 'dayjs';
-import localeData from 'dayjs/plugin/localeData';
-import relativeTime from 'dayjs/plugin/relativeTime';
-import localizedFormat from 'dayjs/plugin/localizedFormat';
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
-import duration from 'dayjs/plugin/duration';
+import {
+    CalendarActionKind,
+    CalendarViews,
+    CONTAINER_HEIGHT,
+    WEEKDAYS_HEIGHT,
+} from './enums';
 import { usePrevious } from './hooks/use-previous';
-import jalaliday from 'jalali-plugin-dayjs';
+import type {
+    CalendarAction,
+    DatePickerBaseProps,
+    DateType,
+    LocalState,
+    MultiChange,
+    RangeChange,
+    SingleChange,
+} from './types';
+import {
+    areDatesOnSameDay,
+    dateToUnix,
+    getEndOfDay,
+    getStartOfDay,
+    removeTime,
+    useDeepCompareMemo,
+} from './utils';
 
 dayjs.extend(localeData);
 dayjs.extend(relativeTime);
@@ -115,6 +115,8 @@ const DateTimePicker = (
     onMonthChange = () => {},
     onYearChange = () => {},
     use12Hours,
+    prevButtonAccessibilityLabel,
+    nextButtonAccessibilityLabel,
   } = props;
 
   dayjs.tz.setDefault(timeZone);
@@ -639,6 +641,8 @@ const DateTimePicker = (
       style,
       className,
       use12Hours,
+      prevButtonAccessibilityLabel,
+      nextButtonAccessibilityLabel,
     }),
     [
       mode,
@@ -669,6 +673,8 @@ const DateTimePicker = (
       style,
       className,
       use12Hours,
+      prevButtonAccessibilityLabel,
+      nextButtonAccessibilityLabel,
     ]
   );
 
