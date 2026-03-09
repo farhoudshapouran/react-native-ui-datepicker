@@ -115,6 +115,8 @@ const DateTimePicker = (
     onMonthChange = () => {},
     onYearChange = () => {},
     use12Hours,
+    prevButtonAccessibilityLabel,
+    nextButtonAccessibilityLabel,
   } = props;
 
   dayjs.tz.setDefault(timeZone);
@@ -639,6 +641,8 @@ const DateTimePicker = (
       style,
       className,
       use12Hours,
+      prevButtonAccessibilityLabel,
+      nextButtonAccessibilityLabel,
     }),
     [
       mode,
@@ -669,6 +673,8 @@ const DateTimePicker = (
       style,
       className,
       use12Hours,
+      prevButtonAccessibilityLabel,
+      nextButtonAccessibilityLabel,
     ]
   );
 

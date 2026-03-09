@@ -143,6 +143,8 @@ export interface DatePickerBaseProps {
   dates?: DateType[];
   min?: number;
   max?: number;
+  prevButtonAccessibilityLabel?: string;
+  nextButtonAccessibilityLabel?: string;
   onChange?: SingleChange | RangeChange | MultiChange;
   startYear?: number;
   endYear?: number;

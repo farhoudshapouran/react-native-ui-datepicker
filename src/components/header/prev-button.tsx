@@ -36,6 +36,7 @@ const PrevButton = ({
     onChangeYear,
     components = {},
     isRTL,
+    prevButtonAccessibilityLabel = 'Prev',
   } = useCalendarContext();
 
   const colorScheme = useColorScheme();
@@ -70,7 +71,7 @@ const PrevButton = ({
       onPress={onPress}
       testID="btn-prev"
       accessibilityRole="button"
-      accessibilityLabel="Prev"
+      accessibilityLabel={prevButtonAccessibilityLabel}
     >
       <View
         style={[defaultStyles.iconContainer, defaultStyles.prev, style]}
