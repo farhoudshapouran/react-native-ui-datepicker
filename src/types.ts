@@ -166,6 +166,7 @@ export interface DatePickerBaseProps {
   monthsFormat?: MonthFormat;
   monthCaptionFormat?: MonthFormat;
   multiRangeMode?: boolean;
+  multiMonth?: boolean;
   hideHeader?: boolean;
   hideWeekdays?: boolean;
   disableMonthPicker?: boolean;

@@ -5,7 +5,7 @@ import React, {
   useReducer,
   useRef,
 } from 'react';
-import { I18nManager } from 'react-native';
+import { I18nManager, ScrollView, View, Text, StyleSheet } from 'react-native';
 import {
   dateToUnix,
   getEndOfDay,
@@ -105,6 +105,7 @@ const DateTimePicker = (
     monthsFormat = 'full',
     monthCaptionFormat = 'full',
     multiRangeMode,
+    multiMonth,
     hideHeader,
     hideWeekdays,
     disableMonthPicker,
@@ -243,6 +244,11 @@ const DateTimePicker = (
             date: selectedDate,
             currentDate: selectedDate,
           };
+        case CalendarActionKind.CHANGE_DATE_ONLY:
+          return {
+            ...prevState,
+            date: action.payload,
+          };
         case CalendarActionKind.CHANGE_SELECTED_RANGE:
           const { startDate: start, endDate: end } = action.payload;
           return {
@@ -309,10 +315,11 @@ const DateTimePicker = (
         _date = dayjs.tz(minDate, timeZone);
       }
 
-      dispatch({
-        type: CalendarActionKind.CHANGE_SELECTED_DATE,
-        payload: { date: _date },
-      });
+      dispatch(
+        month !== undefined
+          ? { type: CalendarActionKind.CHANGE_DATE_ONLY, payload: _date }
+          : { type: CalendarActionKind.CHANGE_SELECTED_DATE, payload: { date: _date } }
+      );
 
       if (prevTimezone !== timeZone) {
         (onChange as SingleChange)({
@@ -711,11 +718,54 @@ const DateTimePicker = (
     ]
   );
 
+  if (multiMonth) {
+    const from = minDate ? dayjs(minDate) : dayjs();
+    const to = maxDate ? dayjs(maxDate) : dayjs().add(11, 'month');
+    const count = to.diff(from, 'month') + 1;
+
+    const months = Array.from({ length: count }, (_, i) => {
+      const d = from.add(i, 'month');
+      return {
+        key: `${d.year()}-${d.month()}`,
+        year: d.year(),
+        month: d.month(),
+        label: d.format('MMMM YYYY'),
+      };
+    });
+
+    return (
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {months.map(({ key, year: y, month: m, label }, index) => (
+          <View key={key}>
+            <Text style={multiMonthStyles.label}>{label}</Text>
+            <DateTimePicker
+              {...props}
+              multiMonth={false}
+              month={m}
+              year={y}
+              hideHeader
+              hideWeekdays={index !== 0}
+            />
+          </View>
+        ))}
+      </ScrollView>
+    );
+  }
+
   return (
     <CalendarContext.Provider value={memoizedValue}>
       <Calendar />
     </CalendarContext.Provider>
   );
 };
+
+const multiMonthStyles = StyleSheet.create({
+  label: {
+    fontSize: 16,
+    fontWeight: '600',
+    textAlign: 'center',
+    paddingVertical: 12,
+  },
+});
 
 export default DateTimePicker;

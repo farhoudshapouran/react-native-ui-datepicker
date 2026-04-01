@@ -12,5 +12,4 @@ export type {
   CalendarComponents,
 } from './types';
 export { useDefaultClassNames, useDefaultStyles } from './theme';
-
 export default DateTimePicker;
