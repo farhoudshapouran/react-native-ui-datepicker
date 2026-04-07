@@ -478,12 +478,12 @@ const DateTimePicker = (
               startDate: isStart
                 ? dayjs(selected).toDate()
                 : start
-                  ? dayjs.tz(start).toDate()
+                  ? dayjs(start).toDate()
                   : start,
               endDate: !isStart
-                ? dayjs.tz(getEndOfDay(selected), timeZone).toDate()
+                ? dayjs(getEndOfDay(selected)).toDate()
                 : end
-                  ? dayjs.tz(getEndOfDay(end), timeZone).toDate()
+                  ? dayjs(getEndOfDay(end)).toDate()
                   : end,
             });
           }
