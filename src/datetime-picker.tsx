@@ -41,6 +41,9 @@ import duration from 'dayjs/plugin/duration';
 import { usePrevious } from './hooks/use-previous';
 import jalaliday from 'jalali-plugin-dayjs';
 
+import calendar from 'dayjs/plugin/calendar';
+dayjs.extend(calendar);
+
 dayjs.extend(localeData);
 dayjs.extend(relativeTime);
 dayjs.extend(localizedFormat);
