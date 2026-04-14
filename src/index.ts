@@ -12,6 +12,9 @@ export type {
   CalendarComponents,
   DatePickerBaseProps,
 } from './types';
+
 export { useDefaultClassNames, useDefaultStyles } from './theme';
+
+import { DateTimePickerProps } from './datetime-picker';
 
 export default DateTimePicker;
