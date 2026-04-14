@@ -170,7 +170,11 @@ export function isDateBetween(
     return false;
   }
 
-  return dayjs(date) <= endDate && dayjs(date) >= startDate;
+  const current = dayjs(date).valueOf();
+  const start = dayjs(startDate).valueOf();
+  const end = dayjs(endDate).valueOf();
+
+  return current >= start && current <= end;
 }
 
 /**
@@ -407,6 +411,10 @@ export function getEndOfDay(date: DateType): DateType {
  * @returns unix timestamp
  */
 export function dateToUnix(date: DateType): number {
+  if (!date) {
+    return Number.NaN;
+  }
+
   return dayjs(date).unix();
 }
 
@@ -421,7 +429,12 @@ export function removeTime(
   date: DateType,
   timeZone: string | undefined
 ): DateType {
-  return date ? dayjs.tz(date, timeZone).startOf('day') : undefined;
+  if (!date) {
+    return undefined;
+  }
+
+  const base = dayjs(date);
+  return timeZone ? base.tz(timeZone).startOf('day') : base.startOf('day');
 }
 
 /**

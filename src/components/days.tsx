@@ -117,8 +117,10 @@ const Days = () => {
         if (
           (isFirstDayOfMonth && selectedEndDay) ||
           (isLastDayOfMonth && selectedStartDay) ||
-          dayjs(startDate).format('DDMMYYYY') ===
-            dayjs(endDate).format('DDMMYYYY')
+          (startDate &&
+            endDate &&
+            dayjs(startDate).format('DDMMYYYY') ===
+              dayjs(endDate).format('DDMMYYYY'))
         ) {
           inRange = false;
         }
