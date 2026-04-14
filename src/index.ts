@@ -10,7 +10,7 @@ export type {
   CalendarMonth,
   CalendarYear,
   CalendarComponents,
-  DatePickerBaseProps
+  DatePickerBaseProps,
 } from './types';
 export { useDefaultClassNames, useDefaultStyles } from './theme';
 

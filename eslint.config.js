@@ -4,7 +4,6 @@ const reactNative = require('eslint-plugin-react-native');
 
 module.exports = [
   {
-    files: ['src/**/*.{js,jsx,ts,tsx}'],
     ignores: [
       'node_modules/',
       'lib/',
@@ -13,6 +12,9 @@ module.exports = [
       '*.config.js',
       'tsconfig.json',
     ],
+  },
+  {
+    files: ['src/**/*.{js,jsx,ts,tsx}'],
     plugins: {
       prettier,
       'react-hooks': reactHooks,
