@@ -38,7 +38,10 @@ const WheelWeb = ({
   const radius = height / 2;
 
   const valueIndex = useMemo(() => {
-    return items.findIndex((item) => item.value === value) || 0;
+    const idx = items.findIndex(
+      (item) => Number(item?.value) === Number(value)
+    );
+    return idx >= 0 ? idx : 0;
   }, [items, value]);
 
   const panResponder = useMemo(() => {
@@ -67,13 +70,13 @@ const WheelWeb = ({
           }
         }
         const newValue = items[newValueIndex];
-        if (newValue?.value === value) {
+        if (Number(newValue?.value) === Number(value)) {
           translateY.setOffset(0);
           translateY.setValue(0);
-        } else if (newValue?.value) {
-          setValue(newValue.value);
-        } else if (items[0]?.value) {
-          setValue(items[0].value);
+        } else if (newValue?.value != null) {
+          setValue(Number(newValue.value));
+        } else if (items[0]?.value != null) {
+          setValue(Number(items[0].value));
         }
       },
     });
@@ -107,7 +110,7 @@ const WheelWeb = ({
     //translateY.setValue(0);
     translateY.setOffset(0);
     const currentIndex = displayValues.findIndex(
-      (item) => item?.value === value
+      (item) => Number(item?.value) === Number(value)
     );
     return displayValues && displayValues.length > 0
       ? displayValues.map((_, index) =>
@@ -166,7 +169,7 @@ const WheelWeb = ({
                     },
                   ]
                 : [],
-              opacity: displayValue?.value !== value ? 0.3 : 1,
+              opacity: Number(displayValue?.value) !== Number(value) ? 0.3 : 1,
             }}
           >
             <Text style={styles?.time_label} className={classNames?.time_label}>
