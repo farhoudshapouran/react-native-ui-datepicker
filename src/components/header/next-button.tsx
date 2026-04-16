@@ -36,6 +36,7 @@ const NextButton = ({
     calendarView,
     components = {},
     isRTL,
+    nextButtonAccessibilityLabel = 'Next',
   } = useCalendarContext();
 
   const colorScheme = useColorScheme();
@@ -70,7 +71,7 @@ const NextButton = ({
       onPress={onPress}
       testID="btn-next"
       accessibilityRole="button"
-      accessibilityLabel="Next"
+      accessibilityLabel={nextButtonAccessibilityLabel}
     >
       <View
         style={[defaultStyles.iconContainer, defaultStyles.next, style]}
