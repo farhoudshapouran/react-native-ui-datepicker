@@ -16,6 +16,7 @@ DateTimePicker component for React Native that allows you to create a customizab
 ## Features
 
 - 📅 Supports different selection modes: single, range, and multiple days.
+- 🗓️ Multi-month scrollable view for range selection across months.
 - 🌿 Unstyled by default, every component is minimally styled and fully customizable.
 - 🛠️ Extensive set of props for fine-tuned calendar customization.
 - 🎨 Fully compatible with [NativeWind](https://www.nativewind.dev/).
@@ -74,6 +75,7 @@ export function Calendar() {
 | `initialView`        | `"day"` \| `"month"` \| `"year"` \| `"time"` | Defines the initial view of the DatePicker |
 | `month`              | `number`                              | Defines the currently selected month.     |
 | `year`              | `number`                              | Defines the currently selected year.      |
+| `multiMonth`         | `boolean`                             | Whether to display all months between `minDate` and `maxDate` in a scrollable list. |
 | `onMonthChange`      | `(month: number) => void`             | Callback function triggered when the current month changes.   |
 | `onYearChange`       | `(year: number) => void`              | Callback function triggered when the current year changes.    |
 
@@ -119,6 +121,42 @@ export function Calendar() {
 | `onChange`  | `({startDate, endDate}) => void` | Callback function triggered when the start and end change. |
 | `min`       | `number`                         | Defines the minimum allowed nights.                        |
 | `max`       | `number`                         | Defines the maximum allowed nights.                        |
+
+## Multi-Month View
+
+Enable the `multiMonth` prop to display all months between `minDate` and `maxDate` in a vertically scrollable list. This is ideal for range selection across multiple months, similar to booking or travel date pickers.
+
+- If `minDate` is not provided, the list starts from the current month.
+- If `maxDate` is not provided, the list shows 12 months from the start.
+- All existing props (`styles`, `classNames`, `locale`, `min`, `max`, etc.) continue to work as expected.
+
+```jsx
+import { useState } from 'react';
+import DateTimePicker, { DateType, useDefaultStyles } from 'react-native-ui-datepicker';
+import dayjs from 'dayjs';
+
+export function RangePicker() {
+  const defaultStyles = useDefaultStyles();
+  const [startDate, setStartDate] = useState<DateType>();
+  const [endDate, setEndDate] = useState<DateType>();
+
+  return (
+    <DateTimePicker
+      mode="range"
+      multiMonth
+      styles={defaultStyles}
+      startDate={startDate}
+      endDate={endDate}
+      onChange={({ startDate, endDate }) => {
+        setStartDate(startDate);
+        setEndDate(endDate);
+      }}
+      minDate={dayjs()}
+      maxDate={dayjs().add(1, 'year')}
+    />
+  );
+}
+```
 
 ## Multiple Mode props
 
