@@ -1,0 +1,58 @@
+name: Node.js Package
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  publish-gpr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 20
+          registry-url: https://npm.pkg.github.com/
+          scope: '@rapid-recovery-agency-inc'
+      - name: Authenticate to GitHub Packages
+        run: |
+          echo "@rapid-recovery-agency-inc:registry=https://npm.pkg.github.com" >> .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> .npmrc
+      - name: Get package name from package.json
+        id: get_package_name
+        run: |
+          PACKAGE_NAME=$(node -p "require('./package.json').name")
+          echo "package_name=$PACKAGE_NAME" >> "$GITHUB_OUTPUT"
+      - name: Get latest published version from GitHub Package Registry
+        id: get_latest_version
+        run: |
+          PACKAGE_NAME="${{ steps.get_package_name.outputs.package_name }}"
+          echo "Attempting to get latest version for: $PACKAGE_NAME"
+          # Use npm view to get the latest published version from the configured registry
+          # Adding || true to prevent workflow failure if package not found (though it should exist)
+          LATEST_VERSION=$(npm view "$PACKAGE_NAME" version || echo "not_found")
+
+          if [ "$LATEST_VERSION" = "not_found" ]; then
+            echo "::warning::Package '$PACKAGE_NAME' not found in GitHub Package Registry or npm view failed."
+            echo "latest_version=" >> "$GITHUB_OUTPUT" # Set to empty if not found
+          else
+            echo "Latest published version: $LATEST_VERSION"
+            echo "latest_version=$LATEST_VERSION" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Update package.json
+        id: update_version
+        run: |
+          LATEST_VERSION="${{ steps.get_latest_version.outputs.latest_version }}"
+          npm version "$LATEST_VERSION" --no-git-tag-version --allow-same-version
+          npm version minor --no-git-tag-version
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+      - name: Publish package
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

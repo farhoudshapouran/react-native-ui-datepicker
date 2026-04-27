@@ -1,0 +1,22 @@
+name: Label Sync
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+  pull_request_review:
+    types: [submitted]
+
+
+permissions: 
+  issues: write
+  pull-requests: write
+  contents: read
+  actions: read
+
+jobs:
+  add-label-on-pull-request-and-review:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run change-requested label action
+        uses: rapid-recovery-agency-inc/change-requested-label-action@main

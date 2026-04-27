@@ -1,0 +1,111 @@
+name: PR Check and Pre-release Workflow
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    
+jobs:
+  pr-checks:
+    name: Format, Lint, Build, Test
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the repository code
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # Step 2: Set up Node.js environment
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+
+      - name: Configure GitHub Packages Auth
+        run: |
+          echo "@rapid-recovery-agency-inc:registry=https://npm.pkg.github.com" > ~/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> ~/.npmrc
+
+      # Step 3: Install project dependencies
+      - name: Install dependencies
+        run: |
+          npm install --legacy-peer-deps
+      
+      - name: Lint code
+        run: npm run lint
+
+      # Step 4: Run typecheck
+      - name: Run typecheck
+        run: npm run typecheck
+      
+      #Step 5: Run format check
+      - name: Run format check
+        run: npm run format:check
+
+      # Step 6: Verify every new component has a Storybook story
+      - name: Check Storybook stories
+        run: |
+          npm run check:stories
+
+      # Step 7: Verify every new component is exported in the index file
+      - name: Check exports
+        run: |
+          npm run check:exports
+
+      # Step 8: Run the Storybook build
+      - name: Run Storybook build
+        run: npm run build-storybook
+
+      # Step 9: Run tests
+      - name: Run tests
+        run: npm test
+
+      - name: Check for tests in PR
+        uses: rapid-recovery-agency-inc/check-for-tests-action@main
+
+      # Step 10: set version
+      - name: Set pre-release version
+        id: set_version
+        run: |
+          PR_NUMBER=${{ github.event.pull_request.number }}
+          COMMIT_SHA=${{ github.event.pull_request.head.sha }}
+          BASE_VERSION=$(node -p "require('./package.json').version")
+          NEW_VERSION="${BASE_VERSION}-pr${PR_NUMBER}-${COMMIT_SHA:0:7}"
+          npm version --no-git-tag-version "$NEW_VERSION"
+          echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+      
+      # Step 11: Build
+      - name: Build
+        run: npm run build
+
+      # Step 12: Publish pre-release
+      - name: Publish pre-release
+        run: npm publish --tag prerelease
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Step 13: Find Comment
+      - name: Find Comment
+        uses: peter-evans/find-comment@v3
+        id: fc
+        with:
+          issue-number: ${{ github.event.pull_request.number }}
+          comment-author: "github-actions[bot]"
+          body-includes: Published pre-release version
+
+      # Step 14: Comment on PR with published version
+      - name: Comment on PR with published version
+        uses: peter-evans/create-or-update-comment@v4
+        with:
+          comment-id: ${{ steps.fc.outputs.comment-id }}
+          issue-number: ${{ github.event.pull_request.number }}
+          body: |
+            <!-- web-ui-kit-prerelease -->
+            📦 Published pre-release version: `${{ env.new_version }}`
+            Install with:
+            ```
+            npm install @rapid-recovery-agency-inc/sloth-datepicker-mobile@${{ env.new_version }}
+            ```
+          edit-mode: replace
