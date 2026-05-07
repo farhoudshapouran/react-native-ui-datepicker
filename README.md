@@ -234,6 +234,21 @@ DateTimePicker offers multiple options to customize the calendar for different l
 | ------------ | ------------------------------------ | ------------------------------------------------------------ |
 | `locale`     | `string`                             | Defines the locale of the DateTimePicker. Default is `en`    |
 | `numerals`   | [Numerals](#list-of-numeral-systems) | Specifies the numeral system to use (e.g., Arabic, Persian). |
+| `formatYearLabel` | `(year: number, context: YearLabelFormatterContext) => string` | Formats the displayed label for a single year. |
+| `formatYearRangeLabel` | `(range: YearRange, context: YearLabelFormatterContext) => string` | Formats the displayed label for the year range in the header. |
+
+### Custom year labels
+
+Use `formatYearLabel` and `formatYearRangeLabel` to customize how years are displayed in the year grid and header without changing the underlying calendar behavior.
+
+```jsx
+<DateTimePicker
+  formatYearLabel={(year) => `Y-${year}`}
+  formatYearRangeLabel={({ startYear, endYear }) =>
+    `Y-${startYear} - Y-${endYear}`
+  }
+/>
+```
 
 ## Custom Components
 
@@ -337,6 +352,17 @@ type CalendarYear = {
   text: string;
   isSelected: boolean;
   isActivated: boolean;
+};
+
+type YearRange = {
+  startYear: number;
+  endYear: number;
+};
+
+type YearLabelFormatterContext = {
+  locale?: string;
+  numerals?: Numerals;
+  calendar?: CalendarType;
 };
 ```
 

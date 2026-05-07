@@ -83,6 +83,17 @@ export type CalendarYear = {
   isActivated: boolean;
 };
 
+export type YearRange = {
+  startYear: number;
+  endYear: number;
+};
+
+export type YearLabelFormatterContext = {
+  locale?: string;
+  numerals?: Numerals;
+  calendar?: CalendarType;
+};
+
 export type SingleChange = (params: { date: DateType }) => void;
 
 export type RangeChange = (params: {
@@ -170,6 +181,14 @@ export interface DatePickerBaseProps {
   hideWeekdays?: boolean;
   disableMonthPicker?: boolean;
   disableYearPicker?: boolean;
+  formatYearLabel?: (
+    year: number,
+    context: YearLabelFormatterContext
+  ) => string;
+  formatYearRangeLabel?: (
+    range: YearRange,
+    context: YearLabelFormatterContext
+  ) => string;
   components?: CalendarComponents;
   /** use to handle month and year selectors */
   month?: number;

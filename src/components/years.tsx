@@ -14,6 +14,7 @@ const Years = () => {
   const {
     mode,
     calendar = 'gregory',
+    locale,
     numerals = 'latn',
     currentDate,
     currentYear,
@@ -26,6 +27,7 @@ const Years = () => {
     minDate,
     maxDate,
     isRTL,
+    formatYearLabel,
   } = useCalendarContext();
 
   const style = useMemo(
@@ -41,6 +43,9 @@ const Years = () => {
     const column = years.map((year) => {
       const isSelected = year === selectedYear;
       const isActivated = year === activeYear;
+      const yearText = formatYearLabel
+        ? formatYearLabel(year, { locale, numerals, calendar })
+        : formatNumber(year, numerals);
 
       const isDisabled = isYearDisabled(year, { minDate, maxDate });
 
@@ -80,12 +85,12 @@ const Years = () => {
               disabled={isDisabled}
               onPress={() => onSelectYear(year)}
               accessibilityRole="button"
-              accessibilityLabel={year.toString()}
+              accessibilityLabel={yearText}
               style={style.year}
             >
               {components.Year({
                 number: year,
-                text: formatNumber(year, numerals),
+                text: yearText,
                 isSelected,
                 isActivated,
               })}
@@ -95,12 +100,12 @@ const Years = () => {
               disabled={isDisabled}
               onPress={() => onSelectYear(year)}
               accessibilityRole="button"
-              accessibilityLabel={year.toString()}
+              accessibilityLabel={yearText}
               style={containerStyle}
               className={containerClassName}
             >
               <Text key={year} style={textStyle} className={textClassName}>
-                {formatNumber(year, numerals)}
+                {yearText}
               </Text>
             </Pressable>
           )}
@@ -119,7 +124,9 @@ const Years = () => {
     components?.Year,
     minDate,
     maxDate,
+    locale,
     numerals,
+    formatYearLabel,
     style.year,
     style.yearCell,
     calendar,

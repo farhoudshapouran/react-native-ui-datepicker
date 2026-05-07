@@ -15,10 +15,26 @@ const YearButton = () => {
     classNames,
     disableYearPicker,
     calendar = 'gregory',
+    locale,
     numerals = 'latn',
+    formatYearLabel,
+    formatYearRangeLabel,
   } = useCalendarContext();
 
   const years = getYearRange(currentYear);
+  const currentYearValue = parseInt(dayjs(currentDate).calendar(calendar).format('YYYY'));
+  const currentYearLabel = formatYearLabel
+    ? formatYearLabel(currentYearValue, { locale, numerals, calendar })
+    : formatNumber(currentYearValue, numerals);
+  const rangeLabel = formatYearRangeLabel
+    ? formatYearRangeLabel(
+        {
+          startYear: years[0] || 0,
+          endYear: years[years.length - 1] || 0,
+        },
+        { locale, numerals, calendar }
+      )
+    : `${formatNumber(years[0] || 0, numerals)} - ${formatNumber(years[years.length - 1] || 0, numerals)}`;
   return (
     <Pressable
       disabled={disableYearPicker}
@@ -28,7 +44,7 @@ const YearButton = () => {
       }}
       testID="btn-year"
       accessibilityRole="button"
-      accessibilityLabel={dayjs(currentDate).calendar(calendar).format('YYYY')}
+      accessibilityLabel={currentYearLabel}
     >
       <View
         style={[defaultStyles.container, styles?.year_selector]}
@@ -38,12 +54,7 @@ const YearButton = () => {
           style={styles?.year_selector_label}
           className={classNames?.year_selector_label}
         >
-          {calendarView === 'year'
-            ? `${formatNumber(years[0] || 0, numerals)} - ${formatNumber(years[years.length - 1] || 0, numerals)}`
-            : formatNumber(
-                parseInt(dayjs(currentDate).calendar(calendar).format('YYYY')),
-                numerals
-              )}
+          {calendarView === 'year' ? rangeLabel : currentYearLabel}
         </Text>
       </View>
     </Pressable>
