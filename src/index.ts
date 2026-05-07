@@ -9,6 +9,8 @@ export type {
   CalendarWeek,
   CalendarMonth,
   CalendarYear,
+  YearRange,
+  YearLabelFormatterContext,
   CalendarComponents,
   DatePickerBaseProps,
 } from './types';
