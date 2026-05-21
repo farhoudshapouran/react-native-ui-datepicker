@@ -41,5 +41,7 @@ import 'dayjs/locale/sv'; // Swedish
 import 'dayjs/locale/th'; // Thai
 import 'dayjs/locale/tr'; // Turkish
 import 'dayjs/locale/uk'; // Ukrainian
+import 'dayjs/locale/uz-latn'; // Uzbek Latin
+import 'dayjs/locale/uz'; // Uzbek
 import 'dayjs/locale/vi'; // Vietnamese
 import 'dayjs/locale/zh'; // Chinese
