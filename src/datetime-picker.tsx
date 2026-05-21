@@ -169,7 +169,7 @@ const DateTimePicker = (
       initialDate = dayjs(minDate);
     }
 
-    if (month !== undefined && month && month >= 0 && month <= 11) {
+    if (typeof month === 'number' && month >= 0 && month <= 11) {
       initialDate = initialDate.month(month);
     }
 
