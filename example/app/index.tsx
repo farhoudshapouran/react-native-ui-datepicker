@@ -1,26 +1,23 @@
-import { HelloWave } from '@/components/HelloWave';
 import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 import { Link } from 'expo-router';
 import { ScrollView, StyleSheet } from 'react-native';
 
 export default function MainPage() {
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={styles.list}>
       <Link href="/bottom-sheet">
         <ThemedText>Bottom Sheet</ThemedText>
+      </Link>
+      <Link href="/multi-month">
+        <ThemedText>Multi Month Range Picker</ThemedText>
       </Link>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  contentContainer: {
-    flex: 1,
-    paddingHorizontal: 30,
-    height: 400,
+  list: {
+    padding: 20,
+    gap: 16,
   },
 });

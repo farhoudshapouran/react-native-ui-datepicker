@@ -15,5 +15,4 @@ export type {
   DatePickerBaseProps,
 } from './types';
 export { useDefaultClassNames, useDefaultStyles } from './theme';
-
 export default DateTimePicker;
