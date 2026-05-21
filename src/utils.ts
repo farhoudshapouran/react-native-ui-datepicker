@@ -6,6 +6,7 @@ import type {
   CalendarWeek,
   Numerals,
   CalendarType,
+  DateDisabledContext,
 } from './types';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -181,6 +182,38 @@ export function isDateBetween(
   const end = dayjs(endDate).valueOf();
 
   return current >= start && current <= end;
+}
+
+function isDateDisabledFast(
+  date: dayjs.Dayjs,
+  dateKey: string,
+  context: DateDisabledContext
+): boolean {
+  if (context.minDateKey && dateKey < context.minDateKey) {
+    return true;
+  }
+
+  if (context.maxDateKey && dateKey > context.maxDateKey) {
+    return true;
+  }
+
+  if (context.enabledDateKeys) {
+    return !context.enabledDateKeys.has(dateKey);
+  }
+
+  if (context.enabledDateFn) {
+    return !context.enabledDateFn(date);
+  }
+
+  if (context.disabledDateKeys) {
+    return context.disabledDateKeys.has(dateKey);
+  }
+
+  if (context.disabledDateFn) {
+    return context.disabledDateFn(date);
+  }
+
+  return false;
 }
 
 /**
@@ -504,6 +537,14 @@ export const getMonthDays = (
   numerals: Numerals,
   timeZone?: string
 ): CalendarDay[] => {
+  const disabledContext = createDateDisabledContext({
+    minDate,
+    maxDate,
+    enabledDates,
+    disabledDates,
+    timeZone,
+  });
+
   const date = timeZone ? dayjs(datetime).tz(timeZone) : dayjs(datetime);
   const prevMonth = date.add(-1, 'month');
   const nextMonth = date.add(1, 'month');
@@ -516,55 +557,42 @@ export const getMonthDays = (
         return generateCalendarDay(
           number,
           thisDay,
-          minDate,
-          maxDate,
-          enabledDates,
-          disabledDates,
+          disabledContext,
           false,
           index + 1,
           firstDayOfWeek,
-          numerals,
-          timeZone
+          numerals
         );
       })
     : Array(prevMonthOffset).fill(null);
 
-
   const currentDays = Array.from({ length: daysInCurrentMonth }, (_, index) => {
-    const day = index + 1;
-    const thisDay = createCalendarDate(date, day, timeZone);
+    const number = index + 1;
+    const thisDay = createCalendarDate(date, number, timeZone);
 
     return generateCalendarDay(
-      day,
+      number,
       thisDay,
-      minDate,
-      maxDate,
-      enabledDates,
-      disabledDates,
+      disabledContext,
       true,
-      prevMonthOffset + day,
+      prevMonthOffset + number,
       firstDayOfWeek,
-      numerals,
-      timeZone
+      numerals
     );
   });
 
   const nextDays = Array.from({ length: daysInNextMonth }, (_, index) => {
-    const day = index + 1;
-    const thisDay = createCalendarDate(nextMonth, day, timeZone);
+    const number = index + 1;
+    const thisDay = createCalendarDate(nextMonth, number, timeZone);
 
     return generateCalendarDay(
-      day,
+      number,
       thisDay,
-      minDate,
-      maxDate,
-      enabledDates,
-      disabledDates,
+      disabledContext,
       false,
-      daysInCurrentMonth + prevMonthOffset + day,
+      daysInCurrentMonth + prevMonthOffset + number,
       firstDayOfWeek,
-      numerals,
-      timeZone
+      numerals
     );
   });
 
@@ -589,35 +617,26 @@ export const getMonthDays = (
 const generateCalendarDay = (
   number: number,
   date: dayjs.Dayjs,
-  minDate: DateType,
-  maxDate: DateType,
-  enabledDates: DateType[] | ((date: DateType) => boolean) | undefined,
-  disabledDates: DateType[] | ((date: DateType) => boolean) | undefined,
+  disabledContext: DateDisabledContext,
   isCurrentMonth: boolean,
   dayOfMonth: number,
   firstDayOfWeek: number,
-  numerals: Numerals,
-  timeZone?: string,
+  numerals: Numerals
 ) => {
-  const startOfWeek = timeZone
-    ? dayjs(date).startOf('week').add(firstDayOfWeek, 'day').tz(timeZone)
-    : dayjs(date).startOf('week').add(firstDayOfWeek, 'day');
+  const dayOfWeek = date.day();
+  const dateKey = date.format('YYYYMMDD');
 
   return {
     text: formatNumber(number, numerals),
     number,
-    date: date,
-    isDisabled: isDateDisabled(date, {
-      minDate,
-      maxDate,
-      enabledDates,
-      disabledDates,
-      timeZone,
-    }),
+    date: date.toISOString(),
+    dayjsDate: date,
+    dateKey,
+    isDisabled: isDateDisabledFast(date, dateKey, disabledContext),
     isCurrentMonth,
     dayOfMonth,
-    isStartOfWeek: date.isSame(startOfWeek, 'day'),
-    isEndOfWeek: date.day() === (firstDayOfWeek + 6) % 7,
+    isStartOfWeek: dayOfWeek === firstDayOfWeek,
+    isEndOfWeek: dayOfWeek === (firstDayOfWeek + 6) % 7,
   };
 };
 
@@ -666,4 +685,43 @@ function replaceDigits(input: string, numerals: Numerals): string {
 
 export function formatNumber(value: number, numerals: Numerals): string {
   return replaceDigits(value.toString(), numerals);
+}
+
+export function createDateDisabledContext({
+  minDate,
+  maxDate,
+  enabledDates,
+  disabledDates,
+  timeZone,
+}: {
+  minDate?: DateType;
+  maxDate?: DateType;
+  enabledDates?: DateType[] | ((date: DateType) => boolean);
+  disabledDates?: DateType[] | ((date: DateType) => boolean);
+  timeZone?: string;
+}): DateDisabledContext {
+  return {
+    minDateKey: minDate ? toDateKey(minDate, timeZone) : undefined,
+    maxDateKey: maxDate ? toDateKey(maxDate, timeZone) : undefined,
+
+    enabledDateKeys: Array.isArray(enabledDates)
+      ? new Set(enabledDates.map((date) => toDateKey(date, timeZone)))
+      : undefined,
+
+    disabledDateKeys: Array.isArray(disabledDates)
+      ? new Set(disabledDates.map((date) => toDateKey(date, timeZone)))
+      : undefined,
+
+    enabledDateFn:
+      typeof enabledDates === 'function' ? enabledDates : undefined,
+
+    disabledDateFn:
+      typeof disabledDates === 'function' ? disabledDates : undefined,
+  };
+}
+
+function toDateKey(date: DateType, timeZone?: string) {
+  return timeZone
+    ? dayjs(date).tz(timeZone).format('YYYYMMDD')
+    : dayjs(date).format('YYYYMMDD');
 }

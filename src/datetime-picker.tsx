@@ -115,9 +115,11 @@ const DateTimePicker = (
     use12Hours,
   } = props;
 
-  dayjs.tz.setDefault(timeZone);
-  dayjs.calendar(calendar);
-  dayjs.locale(locale);
+  useEffect(() => {
+    dayjs.tz.setDefault(timeZone);
+    dayjs.calendar(calendar);
+    dayjs.locale(locale);
+  }, [timeZone, calendar, locale]);
 
   const prevTimezone = usePrevious(timeZone);
 
@@ -153,7 +155,7 @@ const DateTimePicker = (
       initialDate = dayjs(minDate);
     }
 
-    if (month !== undefined && month && month >= 0 && month <= 11) {
+    if (month !== undefined && month >= 0 && month <= 11) {
       initialDate = initialDate.month(month);
     }
 
@@ -396,9 +398,11 @@ const DateTimePicker = (
     (selectedDate: DateType) => {
       if (onChange) {
         if (mode === 'single') {
-          const newDate = (
-            timeZone ? dayjs(selectedDate).tz(timeZone) : dayjs(selectedDate)
-          ).startOf('day');
+          const newDate = dayjs.isDayjs(selectedDate)
+            ? selectedDate.startOf('day')
+            : timeZone
+              ? dayjs(selectedDate).tz(timeZone).startOf('day')
+              : dayjs(selectedDate).startOf('day');
 
           dispatch({
             type: CalendarActionKind.CHANGE_CURRENT_DATE,

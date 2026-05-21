@@ -7,7 +7,6 @@ import {
   getParsedDate,
   getMonthDays,
   getDaysInMonth,
-  areDatesOnSameDay,
   isDateBetween,
   getDate,
 } from '../utils';
@@ -49,9 +48,11 @@ const Days = () => {
 
   const handleSelectDate = useCallback(
     (selectedDate: DateType) => {
-      const newDate = (
-        timeZone ? dayjs(selectedDate).tz(timeZone) : getDate(selectedDate)
-      ).startOf('day');
+      const newDate = dayjs.isDayjs(selectedDate)
+        ? selectedDate.startOf('day')
+        : timeZone
+          ? dayjs(selectedDate).tz(timeZone).startOf('day')
+          : getDate(selectedDate).startOf('day');
 
       onSelectDate(newDate);
     },
@@ -64,8 +65,27 @@ const Days = () => {
   );
 
   const daysGrid = useMemo(() => {
-    const today = dayjs().tz(timeZone);
-    dayjs.tz.setDefault(timeZone);
+    const todayKey = dayjs().tz(timeZone).format('YYYYMMDD');
+
+    const startDateKey = startDate
+      ? dayjs(startDate).tz(timeZone).format('YYYYMMDD')
+      : null;
+
+    const endDateKey = endDate
+      ? dayjs(endDate).tz(timeZone).format('YYYYMMDD')
+      : null;
+
+    const selectedDateKey = date
+      ? dayjs(date).tz(timeZone).format('YYYYMMDD')
+      : null;
+
+    const selectedDateKeys = new Set(
+      dates
+        ? (dates as DateType[]).map((d) =>
+            dayjs(d).tz(timeZone).format('YYYYMMDD')
+          )
+        : []
+    );
 
     const {
       fullDaysInMonth,
@@ -92,11 +112,15 @@ const Days = () => {
     ).map((day, index) => {
       if (!day) return null;
 
+      const dayKey =
+        day.dateKey ?? dayjs(day.date).tz(timeZone).format('YYYYMMDD');
+
       let leftCrop = day.dayOfMonth === 1;
       let rightCrop = day.dayOfMonth === fullDaysInMonth;
+
       const isFirstDayOfMonth = day.dayOfMonth === 1;
       const isLastDayOfMonth = day.dayOfMonth === fullDaysInMonth;
-      const isToday = areDatesOnSameDay(day.date, today, timeZone);
+      const isToday = dayKey === todayKey;
 
       let inRange = false;
       let isSelected = false;
@@ -107,93 +131,80 @@ const Days = () => {
 
       if (mode === 'range') {
         rightCrop = false;
-        const selectedStartDay = areDatesOnSameDay(
-          day.date,
-          startDate,
-          timeZone
-        );
-        const selectedEndDay = areDatesOnSameDay(day.date, endDate, timeZone);
+
+        const selectedStartDay = dayKey === startDateKey;
+        const selectedEndDay = dayKey === endDateKey;
+
         isSelected = selectedStartDay || selectedEndDay;
-        inRange = isDateBetween(day.date, { startDate, endDate });
+
+        inRange = isDateBetween(day.dayjsDate ?? day.date, {
+          startDate,
+          endDate,
+        });
 
         if (selectedStartDay) leftCrop = true;
         if (selectedEndDay) rightCrop = true;
+
         if (index % 7 === 0 && !selectedStartDay) leftCrop = false;
         if (index % 7 === 6 && !selectedEndDay) rightCrop = false;
 
         if (
           (isFirstDayOfMonth && selectedEndDay) ||
           (isLastDayOfMonth && selectedStartDay) ||
-          (startDate &&
-            endDate &&
-            dayjs(startDate).format('DDMMYYYY') ===
-              dayjs(endDate).format('DDMMYYYY'))
+          (startDateKey && endDateKey && startDateKey === endDateKey)
         ) {
           inRange = false;
         }
 
         isCrop = inRange && (leftCrop || rightCrop) && !(leftCrop && rightCrop);
+
         inMiddle = inRange && !leftCrop && !rightCrop;
         rangeStart = inRange && leftCrop;
         rangeEnd = inRange && rightCrop;
       } else if (mode === 'multiple') {
-        const safeDates = dates || [];
-        isSelected = safeDates.some((d) =>
-          areDatesOnSameDay(day.date, d, timeZone)
-        );
+        isSelected = selectedDateKeys.has(dayKey);
 
-        // if the selected days in a row, implements range mode style to selected days
         if (multiRangeMode) {
-          const yesterday = dayjs(day.date).subtract(1, 'day').tz(timeZone);
-          const tomorrow = dayjs(day.date).add(1, 'day').tz(timeZone);
+          const dayDate = day.dayjsDate ?? dayjs(day.date).tz(timeZone);
+          const yesterdayKey = dayDate.subtract(1, 'day').format('YYYYMMDD');
+          const tomorrowKey = dayDate.add(1, 'day').format('YYYYMMDD');
 
-          const yesterdaySelected = safeDates.some((d) =>
-            areDatesOnSameDay(d, yesterday, timeZone)
-          );
-          const tomorrowSelected = safeDates.some((d) =>
-            areDatesOnSameDay(d, tomorrow, timeZone)
-          );
+          const yesterdaySelected = selectedDateKeys.has(yesterdayKey);
+          const tomorrowSelected = selectedDateKeys.has(tomorrowKey);
 
-          // Reset all flags
           inRange = false;
           leftCrop = false;
           rightCrop = false;
 
           if (isSelected) {
-            // Case: both adjacent days are selected - this is a middle day
             if (yesterdaySelected && tomorrowSelected) {
               inRange = true;
-            }
-            // Case: only tomorrow is selected - this is the start of a range
-            else if (tomorrowSelected) {
+            } else if (tomorrowSelected) {
               inRange = true;
               leftCrop = true;
-            }
-            // Case: only yesterday is selected - this is the end of a range
-            else if (yesterdaySelected) {
+            } else if (yesterdaySelected) {
               inRange = true;
               rightCrop = true;
             }
 
-            // Handle edge cases for first and last days of month
-            // Only apply these special cases when the day is actually part of a range
             if (inRange) {
               if (isFirstDayOfMonth && !tomorrowSelected) {
                 inRange = false;
               }
+
               if (isLastDayOfMonth && !yesterdaySelected) {
                 inRange = false;
               }
             }
           }
-          // Set derived flags based on the core flags
+
           isCrop = inRange && (leftCrop || rightCrop);
           inMiddle = inRange && !leftCrop && !rightCrop;
           rangeStart = inRange && leftCrop;
           rangeEnd = inRange && rightCrop;
         }
       } else if (mode === 'single') {
-        isSelected = areDatesOnSameDay(day.date, date, timeZone);
+        isSelected = dayKey === selectedDateKey;
       }
 
       return {

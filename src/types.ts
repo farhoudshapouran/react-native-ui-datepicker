@@ -1,4 +1,4 @@
-import type { Dayjs } from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import type { CalendarActionKind, CalendarViews } from './enums';
 import type { ImageStyle, TextStyle, ViewStyle } from 'react-native';
 import {
@@ -56,6 +56,9 @@ export type CalendarDay = {
   inMiddle: boolean;
   rangeStart: boolean;
   rangeEnd: boolean;
+
+  dayjsDate?: dayjs.Dayjs;
+  dateKey?: string;
 };
 
 export type CalendarWeek = {
@@ -195,4 +198,13 @@ export type Numerals =
 export type PickerOption = {
   value: number | string;
   text: string;
+};
+
+export type DateDisabledContext = {
+  minDateKey?: string;
+  maxDateKey?: string;
+  enabledDateKeys?: Set<string>;
+  disabledDateKeys?: Set<string>;
+  enabledDateFn?: (date: DateType) => boolean;
+  disabledDateFn?: (date: DateType) => boolean;
 };
