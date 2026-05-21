@@ -1,4 +1,11 @@
-import React, { useEffect, useMemo, useRef, useState, memo } from 'react';
+import React, {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  memo,
+  useCallback,
+} from 'react';
 import {
   StyleProp,
   TextStyle,
@@ -36,6 +43,10 @@ interface Props {
   flatListProps?: Omit<FlatListProps<string | null>, 'data' | 'renderItem'>;
 }
 
+const REPEAT = 7; // numTimes to repeat [0..23] options (for infinite effect)
+const MID_BLOCK = Math.floor(REPEAT / 2);
+const wrap = (i: number, len: number) => (len ? ((i % len) + len) % len : 0); // wrap index into [0,len-1] so scrolling past end maps to start (and vice versa).
+
 const WheelPicker: React.FC<Props> = ({
   value,
   options,
@@ -55,102 +66,154 @@ const WheelPicker: React.FC<Props> = ({
   containerProps = {},
   flatListProps = {},
 }) => {
+  // ----- stable refs/state (always called in the same order) -----
   const momentumStarted = useRef(false);
-  const selectedIndex = options.findIndex((item) => item.value === value);
-
   const flatListRef = useRef<FlatList>(null);
-  const [scrollY] = useState(new Animated.Value(selectedIndex * itemHeight));
+  const internalChangeRef = useRef(false); // set when user scroll triggers onChange
+  const isInitRef = useRef(true); // ignore first settle
+  const currentTopIndexRef = useRef<number | null>(null); // last settled TOP row index in repeated list
+  const [scrollY] = useState(new Animated.Value(0)); // set real offset after mount
+
+  // ----- derive safe inputs (no throws; keep hooks unconditional) -----
+  const baseLen = options?.length ?? 0;
+  const hasOptions = baseLen > 0;
+
+  // If value not found, fall back to index 0. (Do not throw during render.)
+  const baseSelectedIndexUnsafe = hasOptions
+    ? options.findIndex((it) => it.value === value)
+    : 0;
+  const baseSelectedIndex =
+    baseSelectedIndexUnsafe >= 0 ? baseSelectedIndexUnsafe : 0;
+
+  // Repeated core + padding (nulls at top/bottom), independent of value lookups
+  const paddedOptions = useMemo(() => {
+    const core: (PickerOption | null)[] = [];
+    if (hasOptions) {
+      for (let b = 0; b < REPEAT; b++) core.push(...options);
+    }
+    // even if empty, still add padding to avoid hook-order issues
+    for (let i = 0; i < visibleRest; i++) {
+      core.unshift(null);
+      core.push(null);
+    }
+    return core;
+  }, [options, visibleRest, hasOptions]);
 
   const containerHeight = (1 + visibleRest * 2) * itemHeight;
-  const paddedOptions = useMemo(() => {
-    const array: (PickerOption | null)[] = [...options];
-    for (let i = 0; i < visibleRest; i++) {
-      array.unshift(null);
-      array.push(null);
-    }
-    return array;
-  }, [options, visibleRest]);
 
+  // Offsets: one per padded row
   const offsets = useMemo(
     () => [...Array(paddedOptions.length)].map((_, i) => i * itemHeight),
     [paddedOptions, itemHeight]
   );
 
+  // TOP row index to start on (middle block gives headroom both ways)
+  const initialTopIndex = hasOptions
+    ? MID_BLOCK * baseLen + baseSelectedIndex
+    : 0;
+  const initialOffset = initialTopIndex * itemHeight;
+
+  // Items expect padded index transforms; keep original formula
   const currentScrollIndex = useMemo(
     () => Animated.add(Animated.divide(scrollY, itemHeight), visibleRest),
     [visibleRest, scrollY, itemHeight]
   );
 
+  // Finish initialization after we position via offset (avoid queue errors; no throws)
+  useEffect(() => {
+    // seed the offset only once, on mount or when options shape changes
+    requestAnimationFrame(() => {
+      flatListRef.current?.scrollToOffset({
+        offset: initialOffset,
+        animated: false,
+      });
+      currentTopIndexRef.current = initialTopIndex;
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          isInitRef.current = false;
+        }, 0);
+      });
+    });
+  }, [initialOffset, initialTopIndex, baseLen]);
+
+  // Stable helper: nearest matching TOP index in repeated data
+  const nearestTopIndex = useCallback(
+    (baseIdx: number, currentTopIdx: number) => {
+      if (!hasOptions) return 0;
+      let best = MID_BLOCK * baseLen + baseIdx;
+      let bestDist = Number.POSITIVE_INFINITY;
+      for (let b = 0; b < REPEAT; b++) {
+        const idx = b * baseLen + baseIdx; // TOP index in block b
+        const dist = Math.abs(idx - currentTopIdx);
+        if (dist < bestDist) {
+          best = idx;
+          bestDist = dist;
+        }
+      }
+      return best;
+    },
+    [baseLen, hasOptions]
+  );
+
+  // End-of-scroll → compute TOP index → map to base via modulo (no -visibleRest)
   const handleScrollEnd = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
-    const offsetY = Math.min(
-      itemHeight * (options.length - 1),
-      Math.max(event.nativeEvent.contentOffset.y, 0)
-    );
+    if (isInitRef.current || !hasOptions) return;
 
-    let index = Math.floor(offsetY / itemHeight);
-    const remainder = offsetY % itemHeight;
-    if (remainder > itemHeight / 2) {
-      index++;
-    }
+    const y = Math.max(0, event.nativeEvent.contentOffset.y);
+    let topIdx = Math.floor(y / itemHeight);
+    const rem = y % itemHeight;
+    if (rem > itemHeight / 2) topIdx++;
 
-    if (index !== selectedIndex) {
-      onChange(options[index]?.value || 0);
+    currentTopIndexRef.current = topIdx;
+
+    const baseIdx = wrap(topIdx, baseLen);
+    if (baseIdx !== baseSelectedIndex) {
+      internalChangeRef.current = true;
+      onChange(options[baseIdx]!.value);
     }
   };
 
   const handleMomentumScrollBegin = () => {
     momentumStarted.current = true;
   };
-
   const handleMomentumScrollEnd = (
-    event: NativeSyntheticEvent<NativeScrollEvent>
+    e: NativeSyntheticEvent<NativeScrollEvent>
   ) => {
     momentumStarted.current = false;
-    handleScrollEnd(event);
+    handleScrollEnd(e);
   };
-
-  const handleScrollEndDrag = (
-    event: NativeSyntheticEvent<NativeScrollEvent>
-  ) => {
-    // Capture the offset value immediately
-    const offsetY = event.nativeEvent.contentOffset?.y;
-
-    // We'll start a short timer to see if momentum scroll begins
+  const handleScrollEndDrag = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const y = e.nativeEvent.contentOffset?.y;
     setTimeout(() => {
-      // If momentum scroll hasn't started within the timeout,
-      // then it was a slow scroll that won't trigger momentum
-      if (!momentumStarted.current && offsetY !== undefined) {
-        // Create a synthetic event with just the data we need
-        const syntheticEvent = {
-          nativeEvent: {
-            contentOffset: { y: offsetY },
-          },
-        };
-        handleScrollEnd(syntheticEvent as any);
+      if (!momentumStarted.current && y !== undefined) {
+        handleScrollEnd({ nativeEvent: { contentOffset: { y } } } as any);
       }
     }, 50);
   };
 
+  // External value change → jump (via OFFSET) to nearest matching TOP index
   useEffect(() => {
-    if (selectedIndex < 0 || selectedIndex >= options.length) {
-      throw new Error(
-        `Selected index ${selectedIndex} is out of bounds [0, ${
-          options.length - 1
-        }]`
-      );
-    }
-  }, [selectedIndex, options]);
+    if (!hasOptions) return;
 
-  /**
-   * If selectedIndex is changed from outside (not via onChange) we need to scroll to the specified index.
-   * This ensures that what the user sees as selected in the picker always corresponds to the value state.
-   */
-  useEffect(() => {
-    flatListRef.current?.scrollToIndex({
-      index: selectedIndex,
+    if (internalChangeRef.current) {
+      internalChangeRef.current = false; // user scroll; keep wheel where it is
+      return;
+    }
+    const curTop = currentTopIndexRef.current ?? initialTopIndex;
+    const targetTop = nearestTopIndex(baseSelectedIndex, curTop);
+    const targetOffset = targetTop * itemHeight;
+
+    flatListRef.current?.scrollToOffset({
+      offset: targetOffset,
       animated: Platform.OS === 'ios',
     });
-  }, [selectedIndex, itemHeight]);
+  }, [
+    baseSelectedIndex,
+    itemHeight,
+    initialTopIndex,
+    nearestTopIndex,
+    hasOptions,
+  ]);
 
   return (
     <View
@@ -161,10 +224,7 @@ const WheelPicker: React.FC<Props> = ({
         style={[
           styles.selectedIndicator,
           selectedIndicatorStyle,
-          {
-            transform: [{ translateY: -itemHeight / 2 }],
-            height: itemHeight,
-          },
+          { transform: [{ translateY: -itemHeight / 2 }], height: itemHeight },
         ]}
         className={selectedIndicatorClassName}
       />
@@ -183,7 +243,7 @@ const WheelPicker: React.FC<Props> = ({
         onMomentumScrollEnd={handleMomentumScrollEnd}
         snapToOffsets={offsets}
         decelerationRate={decelerationRate}
-        initialScrollIndex={selectedIndex}
+        // no initialScrollIndex; we seed via scrollToOffset to avoid queue errors
         getItemLayout={(_, index) => ({
           length: itemHeight,
           offset: itemHeight * index,
