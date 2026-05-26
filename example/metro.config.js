@@ -1,21 +1,33 @@
-const { getDefaultConfig } = require('expo/metro-config');
 const path = require('path');
+const { getDefaultConfig } = require('@expo/metro-config');
 
-const projectRoot = __dirname;
-const libraryRoot = path.resolve(projectRoot, '..');
+const root = path.resolve(__dirname, '..');
+const exampleNodeModules = path.join(__dirname, 'node_modules');
 
-const config = getDefaultConfig(projectRoot);
+const defaultConfig = getDefaultConfig(__dirname);
+const extraNodeModules = new Proxy(
+  {
+    'react-native-ui-datepicker': root,
+  },
+  {
+    get: (target, name) => {
+      if (typeof name !== 'string') return undefined;
+      return target[name] || path.join(exampleNodeModules, name);
+    },
+  }
+);
 
-if (config.resolver) {
-  // 1. Watch all files within the Repository
-  config.watchFolders = [libraryRoot];
-  // 2. Let Metro know where to resolve packages, and in what order
-  config.resolver.nodeModulesPaths = [
-    path.resolve(projectRoot, 'node_modules'),
-    path.resolve(libraryRoot, 'node_modules'),
-  ];
-  // 3. Force Metro to resolve (sub)dependencies only from the `nodeModulesPaths`
-  config.resolver.disableHierarchicalLookup = true;
-}
+module.exports = {
+  ...defaultConfig,
 
-module.exports = config;
+  projectRoot: __dirname,
+  watchFolders: [root],
+
+  resolver: {
+    ...defaultConfig.resolver,
+    // Always resolve dependencies from example first to avoid duplicate React trees
+    nodeModulesPaths: [exampleNodeModules],
+    disableHierarchicalLookup: true,
+    extraNodeModules,
+  },
+};
