@@ -12,9 +12,14 @@ module.exports = function (api) {
         {
           extensions: ['.tsx', '.ts', '.js', '.json'],
           alias: {
+            '@': __dirname,
             // For development, we want to alias the library to the source
             [pak.name]: path.join(__dirname, '..', pak.source),
-            'react-native-ui-datepicker': path.join(__dirname, '..', pak.source),
+            'react-native-ui-datepicker': path.join(
+              __dirname,
+              '..',
+              pak.source
+            ),
           },
         },
       ],
