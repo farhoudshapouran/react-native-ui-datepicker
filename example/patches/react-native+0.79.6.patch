@@ -1,0 +1,13 @@
+diff --git a/node_modules/react-native/gradle/libs.versions.toml b/node_modules/react-native/gradle/libs.versions.toml
+index 43c8bb3..5bc2c09 100644
+--- a/node_modules/react-native/gradle/libs.versions.toml
++++ b/node_modules/react-native/gradle/libs.versions.toml
+@@ -4,7 +4,7 @@ minSdk = "24"
+ targetSdk = "35"
+ compileSdk = "35"
+ buildTools = "35.0.0"
+-ndkVersion = "27.1.12297006"
++ndkVersion = "28.0.13004108"
+ # Dependencies versions
+ agp = "8.8.2"
+ androidx-annotation = "1.6.0"
