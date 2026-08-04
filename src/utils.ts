@@ -170,9 +170,15 @@ export function isDateBetween(
     return false;
   }
 
-  const current = dayjs(date).valueOf();
-  const start = dayjs(startDate).valueOf();
-  const end = dayjs(endDate).valueOf();
+  // Compare at day granularity: this is only ever asked about calendar day
+  // cells (days.tsx), and those inherit currentDate's time of day while the
+  // range endpoints are stored at start of day — a raw timestamp comparison
+  // drops the end day from the range whenever the cell's time is later than
+  // midnight. Day granularity also matches areDatesOnSameDay, which already
+  // decides the endpoints.
+  const current = dayjs(date).startOf('day').valueOf();
+  const start = dayjs(startDate).startOf('day').valueOf();
+  const end = dayjs(endDate).startOf('day').valueOf();
 
   return current >= start && current <= end;
 }
