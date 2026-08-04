@@ -169,7 +169,7 @@ const DateTimePicker = (
       initialDate = dayjs(minDate);
     }
 
-    if (month !== undefined && month && month >= 0 && month <= 11) {
+    if (month !== undefined && month >= 0 && month <= 11) {
       initialDate = initialDate.month(month);
     }
 
@@ -603,17 +603,39 @@ const DateTimePicker = (
     [dispatch]
   );
 
+  // The month/year props are applied in ONE effect with ONE dispatch. Two
+  // separate effects each build an absolute date from stateRef.current, which
+  // is stale for whichever effect runs second in the same flush — when both
+  // props change together (e.g. navigating across a year boundary), the last
+  // dispatch wins with a date that has only one of the two changes applied.
   useEffect(() => {
-    if (month !== undefined && month >= 0 && month <= 11) {
-      onSelectMonth(month);
+    const hasMonth = month !== undefined && month >= 0 && month <= 11;
+    const hasYear = year !== undefined && year >= 0;
+    if (!hasMonth && !hasYear) {
+      return;
     }
-  }, [month]);
-
-  useEffect(() => {
-    if (year !== undefined && year >= 0) {
-      onSelectYear(year);
+    // Pin the day-of-month first so applying month/year from the 29th-31st
+    // can never overflow into the following month.
+    let newDate = dayjs(stateRef.current.currentDate).date(1);
+    if (hasYear) {
+      if (year !== newDate.year()) {
+        onYearChange(year!);
+      }
+      newDate = newDate.year(year!);
     }
-  }, [year]);
+    if (hasMonth) {
+      if (month !== newDate.month()) {
+        onMonthChange(month!);
+      }
+      newDate = newDate.month(month!);
+    }
+    dispatch({
+      type: CalendarActionKind.CHANGE_CURRENT_DATE,
+      payload: newDate,
+    });
+    setCalendarView('day');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [month, year]);
 
   const memoizedStyles = useDeepCompareMemo({ ...styles }, [styles]);
 
