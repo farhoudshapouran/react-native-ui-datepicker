@@ -11,9 +11,8 @@ import {
 import { useCalendarContext } from '../calendar-context';
 import Wheel from './time-picker/wheel';
 import { CONTAINER_HEIGHT } from '../enums';
-import { getParsedDate, formatNumber } from '../utils';
+import { getParsedDate, formatNumber, parseInTimeZone } from '../utils';
 import { Numerals, PickerOption } from '../types';
-import dayjs from 'dayjs';
 import PeriodPicker from './time-picker/period-picker';
 
 export type Period = 'AM' | 'PM';
@@ -64,7 +63,9 @@ const TimePicker = () => {
           hour24 = 0;
         }
       }
-      const newDate = dayjs.tz(date, timeZone).hour(hour24).minute(minute);
+      const newDate = parseInTimeZone(date, timeZone)
+        .hour(hour24)
+        .minute(minute);
       onSelectDate(newDate);
     },
     [date, onSelectDate, timeZone, use12Hours, period, minute]
@@ -72,7 +73,7 @@ const TimePicker = () => {
 
   const handleChangeMinute = useCallback(
     (value: number) => {
-      const newDate = dayjs.tz(date, timeZone).minute(value);
+      const newDate = parseInTimeZone(date, timeZone).minute(value);
       onSelectDate(newDate);
     },
     [date, onSelectDate, timeZone]
@@ -89,7 +90,9 @@ const TimePicker = () => {
         newHour = hour12;
       }
 
-      const newDate = dayjs.tz(date || currentDate, timeZone).hour(newHour);
+      const newDate = parseInTimeZone(date || currentDate, timeZone).hour(
+        newHour
+      );
       onSelectDate(newDate);
     },
     [date, currentDate, onSelectDate, timeZone, hour, hour12]

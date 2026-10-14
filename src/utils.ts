@@ -438,6 +438,36 @@ export function removeTime(
 }
 
 /**
+ * Parse date in the given time zone, or in local time when no time zone is set
+ *
+ * @param date - date to parse
+ * @param timeZone - IANA time zone, local time when undefined
+ *
+ * @returns parsed date
+ */
+export function parseInTimeZone(
+  date: DateType,
+  timeZone: string | undefined
+): dayjs.Dayjs {
+  return timeZone ? dayjs.tz(date, timeZone) : dayjs(date);
+}
+
+/**
+ * Convert date to the given time zone, or keep it in local time when no time zone is set
+ *
+ * @param date - date to convert, now when undefined
+ * @param timeZone - IANA time zone, local time when undefined
+ *
+ * @returns converted date
+ */
+export function convertToTimeZone(
+  date: DateType,
+  timeZone: string | undefined
+): dayjs.Dayjs {
+  return timeZone ? dayjs(date).tz(timeZone) : dayjs(date);
+}
+
+/**
  * Get detailed date object
  *
  * @param date Get detailed date object

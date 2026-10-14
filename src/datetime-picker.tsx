@@ -12,6 +12,8 @@ import {
   getStartOfDay,
   areDatesOnSameDay,
   removeTime,
+  parseInTimeZone,
+  convertToTimeZone,
 } from './utils';
 import { CalendarContext } from './calendar-context';
 import {
@@ -151,7 +153,7 @@ const DateTimePicker = (
   );
 
   const initialState: LocalState = useMemo(() => {
-    let initialDate = dayjs().tz(timeZone);
+    let initialDate = convertToTimeZone(undefined, timeZone);
 
     if (mode === 'single' && date) {
       initialDate = dayjs(date);
@@ -298,7 +300,7 @@ const DateTimePicker = (
 
   useEffect(() => {
     if (prevTimezone !== timeZone) {
-      const newDate = dayjs().tz(timeZone);
+      const newDate = convertToTimeZone(undefined, timeZone);
       dispatch({
         type: CalendarActionKind.CHANGE_CURRENT_DATE,
         payload: newDate,
@@ -311,16 +313,24 @@ const DateTimePicker = (
       let _date =
         (date &&
           (timePicker
-            ? dayjs.tz(date, timeZone)
-            : getStartOfDay(dayjs.tz(date, timeZone)))) ??
+            ? parseInTimeZone(date, timeZone)
+            : getStartOfDay(parseInTimeZone(date, timeZone)))) ??
         date;
 
-      if (_date && maxDate && dayjs.tz(_date, timeZone).isAfter(maxDate)) {
-        _date = dayjs.tz(maxDate, timeZone);
+      if (
+        _date &&
+        maxDate &&
+        parseInTimeZone(_date, timeZone).isAfter(maxDate)
+      ) {
+        _date = parseInTimeZone(maxDate, timeZone);
       }
 
-      if (_date && minDate && dayjs.tz(_date, timeZone).isBefore(minDate)) {
-        _date = dayjs.tz(minDate, timeZone);
+      if (
+        _date &&
+        minDate &&
+        parseInTimeZone(_date, timeZone).isBefore(minDate)
+      ) {
+        _date = parseInTimeZone(minDate, timeZone);
       }
 
       dispatch({
@@ -335,25 +345,35 @@ const DateTimePicker = (
       }
     } else if (mode === 'range') {
       let start = (
-        startDate ? dayjs.tz(startDate, timeZone) : startDate
+        startDate ? parseInTimeZone(startDate, timeZone) : startDate
       ) as DateType;
 
-      if (start && maxDate && dayjs.tz(start, timeZone).isAfter(maxDate)) {
-        start = dayjs.tz(maxDate, timeZone);
+      if (
+        start &&
+        maxDate &&
+        parseInTimeZone(start, timeZone).isAfter(maxDate)
+      ) {
+        start = parseInTimeZone(maxDate, timeZone);
       }
 
-      if (start && minDate && dayjs.tz(start, timeZone).isBefore(minDate)) {
-        start = dayjs.tz(minDate, timeZone);
+      if (
+        start &&
+        minDate &&
+        parseInTimeZone(start, timeZone).isBefore(minDate)
+      ) {
+        start = parseInTimeZone(minDate, timeZone);
       }
 
-      let end = (endDate ? dayjs.tz(endDate, timeZone) : endDate) as DateType;
+      let end = (
+        endDate ? parseInTimeZone(endDate, timeZone) : endDate
+      ) as DateType;
 
-      if (end && maxDate && dayjs.tz(end, timeZone).isAfter(maxDate)) {
-        end = dayjs.tz(maxDate, timeZone);
+      if (end && maxDate && parseInTimeZone(end, timeZone).isAfter(maxDate)) {
+        end = parseInTimeZone(maxDate, timeZone);
       }
 
-      if (end && minDate && dayjs.tz(end, timeZone).isBefore(minDate)) {
-        end = dayjs.tz(minDate, timeZone);
+      if (end && minDate && parseInTimeZone(end, timeZone).isBefore(minDate)) {
+        end = parseInTimeZone(minDate, timeZone);
       }
 
       dispatch({
@@ -372,7 +392,7 @@ const DateTimePicker = (
       }
     } else if (mode === 'multiple') {
       const _dates = dates?.map((date) =>
-        dayjs(date).tz(timeZone)
+        convertToTimeZone(date, timeZone)
       ) as DateType[];
 
       dispatch({
@@ -411,8 +431,8 @@ const DateTimePicker = (
       if (onChange) {
         if (mode === 'single') {
           const newDate = timePicker
-            ? dayjs.tz(selectedDate, timeZone)
-            : dayjs.tz(getStartOfDay(selectedDate), timeZone);
+            ? parseInTimeZone(selectedDate, timeZone)
+            : parseInTimeZone(getStartOfDay(selectedDate), timeZone);
 
           dispatch({
             type: CalendarActionKind.CHANGE_CURRENT_DATE,
@@ -528,7 +548,7 @@ const DateTimePicker = (
           newDates.sort((a, b) => (dayjs(a).isAfter(dayjs(b)) ? 1 : -1));
 
           const _dates = newDates.map((date) =>
-            dayjs(date).tz(timeZone)
+            convertToTimeZone(date, timeZone)
           ) as DateType[];
 
           (onChange as MultiChange)({

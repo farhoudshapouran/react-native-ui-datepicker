@@ -10,6 +10,7 @@ import {
   areDatesOnSameDay,
   isDateBetween,
   getDate,
+  convertToTimeZone,
 } from '../utils';
 import Weekdays from './weekdays';
 import { DateType } from 'src/types';
@@ -63,7 +64,7 @@ const Days = () => {
   );
 
   const daysGrid = useMemo(() => {
-    const today = dayjs().tz(timeZone);
+    const today = convertToTimeZone(undefined, timeZone);
     dayjs.tz.setDefault(timeZone);
 
     const {
